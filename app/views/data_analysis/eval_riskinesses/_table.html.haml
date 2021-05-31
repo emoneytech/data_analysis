@@ -1,0 +1,40 @@
+%table.table.table-striped.table-bordered.table-hover.margin-none{id: 'table_eval_riskinesses'}
+  %thead
+    %tr
+      %th.col-md-1.text-center= Anagrafica.human_attribute_name(:id)
+      %th= EvalRiskiness.human_attribute_name(:user)
+      %th= EvalRiskiness.human_attribute_name(:number_of_movements)
+      %th.col-md-1.text-center= Anagrafica.human_attribute_name(:vendor)
+      %th.col-md-1.text-center= Anagrafica.human_attribute_name(:tipo)
+      %th.col-md-1.text-center= EvalRiskiness.human_attribute_name(:eval_month)
+      %th.col-md-1.text-center= EvalRiskiness.human_attribute_name(:eval_score)
+      %th.col-md-1.text-center= EvalRiskiness.human_attribute_name(:trend)
+      %th.col-md-1{nowrap: true}
+  %tbody
+    - eval_riskinesses.each do |item|
+      %tr
+        %td.col-md-1.text-center= link_to item.eval_evaluable.try(:id), "https://management.emoneyplc.biz/Mod_Anagrafica.aspx?op=upd&IdUtente=#{item.eval_evaluable.try(:id)}", target: '_blank'
+        %td
+          = link_to item.eval_evaluable.try(:full_name), [:data_analysis, item.eval_evaluable]
+        %td= item.number_of_movements
+        %td.col-md-1.text-center= item.eval_evaluable.try(:vendor)
+        %td.col-md-1.text-center= item.eval_evaluable.try(:tipo).try(:name)
+        %td.col-md-1.text-center{nowrap: true}= item.eval_month
+        %td.col-md-1.text-center= item.eval_score
+        %td.col-md-1.text-center= trend_helper(item.trend)
+        %td.col-md-1.text-center{nowrap: true}
+          = link_to fa_icon('eye'), data_analysis_anagrafica_risk_movements_path(item.eval_evaluable), class: "btn btn-xs btn-danger", data:{toggle: "tooltip"}, title: Anagrafica.human_attribute_name(:risk_movements)
+          -# if GruppiAnagrafica.where("codice_fiscale like ?", item.eval_evaluable.codice_fiscale).count >= 1
+            =# link_to "G", [:data_analysis, Anagrafica, f: "#{item.eval_evaluable.codice_fiscale}"], class: "btn btn-warning btn-xs", data:{toggle: "tooltip"}, title: Anagrafica.human_attribute_name(:group)
+
+:javascript
+  $(function () {
+    $('#table_eval_riskinesses').DataTable({
+      "paging": false,
+      "info": false,
+      "responsive": true,
+      "lengthChange": true,
+      "autoWidth": true,
+      "buttons": ["copy", "csv", "excel", "pdf", "colvis"]
+    }).buttons().container().appendTo('#table_eval_riskinesses_wrapper .col-md-6:eq(0)');
+  })

@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  anagrafica_id: 
+  eval_year: 1
+  eval_month: 1
+  eval_days: 
+
+two:
+  anagrafica_id: 
+  eval_year: 1
+  eval_month: 1
+  eval_days: 

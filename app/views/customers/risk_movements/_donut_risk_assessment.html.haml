@@ -1,0 +1,11 @@
+.card.card-danger
+  .card-header
+    %h3.card-title
+      %i.fa.fa-chart-bar
+      = t(:recursive_movements, default: "Recursive movements")
+      = " - #{tuple_to_html(current_tuple)}"
+  .card-body
+    - if danger_movements.any?
+      = pie_chart anagrafica.danger_movements_to_html(current_tuple), donut: true
+    - else
+      .well= t(:no_recursive_movements, default: "No recursive movement in the selected period")

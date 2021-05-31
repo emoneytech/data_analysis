@@ -1,0 +1,13 @@
+.row
+  .col-md-12
+    .card
+      .card-header
+        %h3.card-title
+          %i.fa.fa-search
+          = t(:filters, default: "Filters")
+      .card-body
+        = simple_form_for :filter, method: :get, remote: false do |f|
+          = f.input :q, label: 'Full Name', html_input: {value: params[:q]}
+          = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-success'
+
+#anagrafiche_items.row= render "anagrafiche"

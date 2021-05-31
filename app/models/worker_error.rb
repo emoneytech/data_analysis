@@ -1,0 +1,2 @@
+class WorkerError < RiskRecord
+end

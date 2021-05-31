@@ -1,0 +1,13 @@
+.row
+  .col-md-12
+    = simple_form_for [:data_analysis, @anagrafica, @note] do |f|
+      .box.box-primary
+        .box-header.with-border
+          %h3.box-title
+            = fa_icon(@note.class.fa_icon)
+            = t(:add_resource, resource: @note.model_name.human)
+        .box-body
+          = render 'form', f: f
+        .box-footer.text-right.clearfix
+          = link_to t(:cancel), data_analysis_anagrafica_notes_path(@anagrafica), class: "btn btn-default", remote: true
+          = f.submit class: "btn btn-success"

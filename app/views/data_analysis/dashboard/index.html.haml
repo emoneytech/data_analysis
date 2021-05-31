@@ -1,0 +1,27 @@
+- content_for :javascript_in_head do
+  = javascript_pack_tag 'plugins/datatables', 'data-turbolinks-track': 'reload'
+  = javascript_pack_tag 'plugins/duallistbox', 'data-turbolinks-track': 'reload'
+  = javascript_pack_tag 'plugins/daterangepicker', 'data-turbolinks-track': 'reload'
+
+.row
+  .col-md-8
+    .card.card-danger
+      .card-header
+        %h3.card-title
+          %i.fa.fa-chart-bar
+          = t(:listing_resource, resource: RiskMovement.model_name.human(:count => 2))
+      .card-body
+        = line_chart RiskMovement.where("movement_amount > ?", "1".to_f).by_year.group(:table_name).group_by_month(:movement_created_at).count# , height: "600px"
+  .col-md-4
+    .card.card-primary
+      .card-header
+        %h3.card-title
+          %i.fa.fa-search
+          = t(:filters, default: "Filters")
+      .card-body
+        = simple_form_for :filter, method: :get, remote: true do |f|
+          = f.input :q, label: Anagrafica.human_attribute_name(:full_name), required: false, input_html: {value: @current_full_name}
+          = f.input :tipo, label: Anagrafica.human_attribute_name(:tipo), as: :select, collection: Tipo.alive.collect {|tipo| [ tipo.name, tipo.id ] }, required: false, input_html: {value: @current_type}
+          = f.submit "#{t(:search)}", class: "btn btn-primary"
+
+#eval_riskinesses_items.row= render "data_analysis/eval_riskinesses/eval_riskinesses"

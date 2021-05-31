@@ -1,0 +1,32 @@
+%table.table.table-striped.table-bordered.table-hover
+  %thead
+    %tr
+      %th= RiskMovement.human_attribute_name(:movement)
+      %th= RiskMovement.human_attribute_name(:service)
+      %th= RiskMovement.human_attribute_name(:user)
+      %th= RiskMovement.human_attribute_name(:product)
+      %th= RiskMovement.human_attribute_name(:product_name)
+      %th= RiskMovement.human_attribute_name(:table_code)
+      %th= RiskMovement.human_attribute_name(:table_name)
+      %th= RiskMovement.human_attribute_name(:amount)
+      %th= RiskMovement.human_attribute_name(:beneficiary)
+      %th= RiskMovement.human_attribute_name(:base_risk)
+      %th= RiskMovement.human_attribute_name(:movement_created_at)
+      %th
+  %tbody
+    - risk_movements.each do |item|
+      %tr
+        %td= item.movement_id
+        %td= item.service_id
+        %td= item.user_id
+        %td= item.product_id
+        %td= item.product_name
+        %td= item.table_code
+        %td= item.table_name
+        %td= humanized_money_with_symbol item.movement_amount
+        %td= blur_number(item.beneficiary)
+        %td= item.product_base_risk
+        %td=l item.movement_created_at, format: :compact
+        - if can? :manage, RiskMovement
+          %td.text-center
+            = link_to fa_icon("eye"), [:customers, @anagrafica, item], class: "btn btn-xs btn-primary", data: {toggle: "tooltip", title: t(:show_resource, resource: item.model_name.human)}

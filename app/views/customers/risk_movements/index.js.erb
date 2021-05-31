@@ -1,0 +1,13 @@
+$("span.current_tuple").html("<%= " - #{tuple_to_html(@current_tuple)}" %>");
+$("#day_report").html("<%=j render "day_report", current_tuple: @current_tuple, all_risk_movements: @all_risk_movements, anagrafica: @anagrafica %>");
+$("#donut_risk_assessment").html("<%=j render "donut_risk_assessment", current_tuple: @current_tuple, anagrafica: @anagrafica, danger_movements: @danger_movements  %>");
+$("#summary_risk_assessment").html("<%=j render "summary_risk_assessment", current_tuple: @current_tuple, anagrafica: @anagrafica %>");
+$("#column_risk_assessment").html("<%=j render "column_risk_assessment", current_tuple: @current_tuple, all_risk_movements: @all_risk_movements %>");
+$("#line_risk_assessment").html("<%=j render "line_risk_assessment", current_tuple: @current_tuple, all_risk_movements: @all_risk_movements %>");
+$("#risk_movements_items").html("<%=j render "risk_movements", current_tuple: @current_tuple, risk_movements: @risk_movements %>");
+
+Chartkick . eachChart ( function ( chart ) { chart.redraw; })
+$('#inner-content-div').slimScroll({
+  height: '700px'
+});
+$("#general_load_time").html("<%= "Load time: #{Time.now-@start_time} seconds" %>");

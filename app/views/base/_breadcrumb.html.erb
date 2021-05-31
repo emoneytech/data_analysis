@@ -1,0 +1,9 @@
+<ol class="breadcrumb text-sm">
+  <%- @breadcrumbs_on_rails.each do |crumb| %>
+    <%- unless @breadcrumbs_on_rails.last === crumb %>
+      <li class="breadcrumb-item"><%= link_to crumb.name, crumb.path %></li>
+    <%- else %>
+      <li class="breadcrumb-item active"><%= crumb.name %></li>
+    <%- end %>
+  <%- end %>
+</ol>

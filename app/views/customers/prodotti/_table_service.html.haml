@@ -1,0 +1,39 @@
+%table.table.table-striped.table-bordered.table-hover{id: 'table_servizi'}
+  %thead
+    %tr
+      %th= Servizio.human_attribute_name(:servizio)
+      %th= Servizio.human_attribute_name(:status)
+      %th= Servizio.human_attribute_name(:importo)
+      %th= Servizio.human_attribute_name(:datainserimento)
+      %th= Servizio.human_attribute_name(:beneficiary)
+      %th= Movimentoconto.human_attribute_name(:causale)
+      %th.action
+  %tbody
+    - servizi.each do |item|
+      %tr
+        %td= item.idservizio
+        %td= item.status
+        %td= "#{item.importo}"
+        %td= item.datainserimento
+        %td
+          =item.get_beneficiary[:beneficiary]
+          %br
+          =item.get_beneficiary[:beneficiary_iban]
+          %br
+          =item.get_beneficiary[:beneficiary_other]
+        %td=item.get_principal_movement.try(:causale)
+        - if can? :manage, Servizio
+          %td.text-center
+            = link_to customers_anagrafica_servizio_path(@anagrafica,item), class: "btn btn-xs btn-primary" do
+              %i.fa.fa-eye
+:javascript
+  $(function () {
+    $('#table_servizi').DataTable({
+      "paging": false,
+      "info": false,
+      "responsive": true,
+      "lengthChange": true,
+      "autoWidth": true,
+      "buttons": ["copy", "csv", "excel", "pdf", "colvis"]
+    }).buttons().container().appendTo('#table_servizi_wrapper .col-md-6:eq(0)');
+  })

@@ -1,0 +1,22 @@
+%table.table.table-striped.table-bordered.table-hover{id: 'table_movements'}
+  %thead
+    %tr
+      %th= EvaluatedRisk.human_attribute_name(:id)
+      %th= EvaluatedRisk.human_attribute_name(:service_id)
+      %th= EvaluatedRisk.human_attribute_name(:product_name)
+      %th= EvaluatedRisk.human_attribute_name(:beneficiary)
+      %th= EvaluatedRisk.human_attribute_name(:risk_factor)
+      %th= EvaluatedRisk.human_attribute_name(:amount)
+      %th.action
+  %tbody
+    - evaluated_movements.each do |item|
+      %tr
+        %td= item.id
+        %td= item.service_id
+        %td= item.product_name
+        %td= item.beneficiary
+        %td= item.risk_factor
+        %td= item.amount
+        %td.text-center
+          = link_to customers_anagrafica_evaluated_movement_path(@anagrafica,item), class: "btn btn-xs btn-primary" do
+            %i.fa.fa-eye

@@ -1,0 +1,20 @@
+%table.table.table-striped.table-bordered.table-hover{id: 'table_movements'}
+  %thead
+    %tr
+      %th= EvaluatedRisk.human_attribute_name(:id)
+      %th= EvaluatedRisk.human_attribute_name(:eval_year)
+      %th= EvaluatedRisk.human_attribute_name(:eval_month)
+      %th= EvaluatedRisk.human_attribute_name(:last_evaluated_risk)
+      %th= EvaluatedRisk.human_attribute_name(:nr_movements)
+      %th.action
+  %tbody
+    - evaluated_risks.each do |item|
+      %tr
+        %td= item.id
+        %td= item.eval_year
+        %td= item.eval_month
+        %td= item.last_evaluated_risk
+        %td= item.nr_movements
+        %td.text-center
+          = link_to customers_anagrafica_evaluated_risk_path(@anagrafica,item), class: "btn btn-xs btn-primary" do
+            %i.fa.fa-eye

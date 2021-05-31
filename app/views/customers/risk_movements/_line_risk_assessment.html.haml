@@ -1,0 +1,14 @@
+.card.card-primary
+  .card-header
+    %h3.card-title
+      %i.fa.fa-chart-line
+      = RiskMovement.model_name.human(:count => 2)
+      = " - #{tuple_to_html(current_tuple)}"
+  .separator
+  .card-body
+    - if all_risk_movements.any?
+      = line_chart all_risk_movements.group(:product_name).group_by_day(:movement_created_at).count
+    - else
+      .well= t(:no_recursive_movements, default: "No recursive movement in the selected period")
+
+

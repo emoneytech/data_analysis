@@ -1,0 +1,13 @@
+.col-md-12
+  .card
+    .card-header
+      %h3.card-title
+        %i.fa.fa-exchange-alt
+        = "#{Movimentoconto.model_name.human(:count => 2)} - "
+        = "ID: #{@anagrafica.IdUtente} - #{@anagrafica.full_name}"
+    .card-body
+      = render "table", movimenticonti: @movimenticonti
+    .card-footer.clearfix
+      .row
+        .col-md-12
+          = paginate @movimenticonti, theme: 'twitter-bootstrap-4', nav_class: "float-right", pagination_class: 'm-0', total_pages: @cached_total_pages

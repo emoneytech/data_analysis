@@ -1,0 +1,22 @@
+%dl.row
+  %dt.col-8= Anagrafica.human_attribute_name(:risk_base)
+  %dd.col-4.text-right= anagrafica.base_risk.to_f
+  %dt.col-8= Anagrafica.human_attribute_name(:days_of_activity)
+  %dd.col-4.text-right= anagrafica.days_of_activity(current_tuple)
+  %dt.col-8= Anagrafica.human_attribute_name(:risk_base_previous_month)
+  %dd.col-4.text-right= anagrafica.risk_base(current_tuple)
+  %dt.col-8= Anagrafica.human_attribute_name(:current_tuple)
+  %dd.col-4.text-right= current_tuple
+  %dt.col-8= Anagrafica.human_attribute_name(:eval_score)
+  %dd.col-4.text-right= anagrafica.eval_score(current_tuple)
+  - if can? :manage, Anagrafica
+    %dt.col-8= Anagrafica.human_attribute_name(:time_lapse_factor)
+    %dd.col-4.text-right
+      = anagrafica.time_lapse_factor.time_lapse_factor
+      - if anagrafica.time_lapse_factor.time_lapse_factor_audits.any?
+        = link_to fa_icon('history'), data_analysis_anagrafica_anagrafica_time_lapse_factor_time_lapse_factor_audits_path(anagrafica, anagrafica.time_lapse_factor)
+  - if GruppiAnagrafica.where("codice_fiscale like ?", anagrafica.codice_fiscale).count >= 1
+    %dt.col-8= Anagrafica.human_attribute_name(:group)
+    %dd.col-4.text-right= link_to Anagrafica.human_attribute_name(:group), [:data_analysis, Anagrafica, f: "#{anagrafica.codice_fiscale}"], class: "btn btn-warning btn-xs", data:{toggle: "tooltip"}, title: Anagrafica.human_attribute_name(:group)
+
+

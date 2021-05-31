@@ -1,0 +1,42 @@
+%table.table.table-striped.table-bordered.table-hover{id: 'table_movements'}
+  %thead
+    %tr
+      %th= Movimentoconto.human_attribute_name(:id)
+      %th= Movimentoconto.human_attribute_name(:servizio)
+      %th= Movimentoconto.human_attribute_name(:tipo_transazione)
+      %th.text-center= Movimentoconto.human_attribute_name(:causale)
+      %th= Movimentoconto.human_attribute_name(:dare)
+      %th= Movimentoconto.human_attribute_name(:avere)
+      %th= Movimentoconto.human_attribute_name(:importo)
+      %th= Movimentoconto.human_attribute_name(:data_movimento)
+      %th= Movimentoconto.human_attribute_name(:causale)
+      %th= Movimentoconto.human_attribute_name(:idCausale)
+      %th.action
+  %tbody
+    - movimenticonti.each do |item|
+      %tr
+        %td= item.idmovimenticonti
+        %td= link_to item.idtransazione, [:data_analysis, item.servizio] if item.servizio
+        %td= item.tipotransazione
+        %td= item.causale
+        %td= item.dare
+        %td= item.avere
+        %td= item.importo
+        %td= item.datamovimento
+        %td= item.causale
+        %td= item.idcausale
+        - if can? :manage, Movimentoconto
+          %td.text-center
+            = link_to customers_anagrafica_movimentoconto_path(@anagrafica,item), class: "btn btn-xs btn-primary" do
+              %i.fa.fa-eye
+:javascript
+  $(function () {
+    $('#table_movements').DataTable({
+      "paging": false,
+      "info": false,
+      "responsive": true,
+      "lengthChange": true,
+      "autoWidth": true,
+      "buttons": ["copy", "csv", "excel", "pdf", "colvis"]
+    }).buttons().container().appendTo('#table_movements_wrapper .col-md-6:eq(0)');
+  })

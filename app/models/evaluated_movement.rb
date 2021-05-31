@@ -1,0 +1,177 @@
+# == Schema Information
+#
+# Table name: evaluated_movements
+#
+#  id                  :bigint           not null, primary key
+#  customer_id         :integer          not null
+#  customer_full_name  :string(255)
+#  service_id          :integer          not null
+#  service_status      :string(255)
+#  service_updated_at  :datetime
+#  movement_id         :integer          not null
+#  movement_created_at :datetime         not null
+#  product_net_id      :integer
+#  product_id          :integer
+#  product_name        :string(255)
+#  product_base_risk   :float(24)
+#  beneficiary         :string(255)
+#  beneficiary_iban    :string(255)
+#  beneficiary_other   :string(255)
+#  risk_factor         :float(24)
+#  risk_description    :string(255)
+#  amount_cents        :integer          default(0), not null
+#  amount_currency     :string(255)      default("EUR"), not null
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#
+class EvaluatedMovement < ApplicationRecord
+  monetize :amount_cents
+
+  belongs_to :customer,
+             class_name: 'Anagrafica',
+             foreign_key: 'customer_id',
+             primary_key: 'IdUtente'
+  belongs_to :service,
+             class_name: 'Servizio',
+             foreign_key: 'service_id',
+             primary_key: 'idservizio'
+  belongs_to :movement,
+             class_name: 'Movimentoconto',
+             foreign_key: 'movement_id',
+             primary_key: 'idMovimentiConti'
+
+  def self.last_service_id
+    select(:service_id).order(service_id: :desc).first.try(:service_id) || 0
+  end
+
+  def previous
+    EvaluatedMovement.where("customer_id = ? AND movement_created_at < ? ", self.customer_id, self.movement_created_at).order(movement_created_at: :desc).first
+  end
+  
+  def next
+    EvaluatedMovement.where("customer_id = ? AND movement_created_at > ?", self.customer_id, self.movement_created_at).order(movement_created_at: :asc).first
+  end
+
+  def set_properties(service,
+    default_product_base_risk = Configurable.default_product_base_risk.to_f,
+    max_base_risk = Configurable.max_base_risk.to_f,
+    factor_for_amount = Configurable.factor_for_amount.to_f,
+    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
+  )
+    self.set_service(service)
+    self.set_movement(service)
+    self.set_beneficiary(service)
+    self.set_customer(service.anagrafica)
+    self.set_product_base_risk(service.product, default_product_base_risk)
+    self.set_evaluated_risk_factor(service.anagrafica, factor_for_amount, divisor_amount_for_factor)
+  end
+
+  def set_service(service)
+    self.service_id = service.id
+    self.service_status = service.status
+    self.service_updated_at = service.lastupdate
+    self.product_id = service.prodotto
+    self.product_name = service.nomeprodotto
+    self.amount = service.importo.to_f
+  end
+
+  def set_movement(service)
+    movement = service.movimenticonti.where(Point: service.anagrafica.id).where(contodiprovenienza: service.anagrafica.conti.pluck(:Pan)).first
+    return unless movement
+    self.movement_id = movement.id
+    self.movement_created_at = movement.dataMovimento
+  end
+
+  def set_beneficiary(service)
+    self.beneficiary = 'Beneficiary not identifiable'
+    return unless service.product.try(:nometabella)
+    case service.product.nometabella
+    when 'ricarichecarta'
+      self.beneficiary = "#{service.anagrafica.full_name}"
+      if service.nomeprodotto === 'Transfer Own MasterCard'
+        self.beneficiary_iban = "#{service.ricaricacarta.numerocrip}"
+        self.beneficiary_other = "#{service.nomeprodotto}"
+      else
+        self.beneficiary_other =
+          "check for #{service.prodotto}: #{service.nomeprodotto}"
+      end
+    when 'bonifici'
+      if service.bonifico
+        self.beneficiary = "#{service.bonifico.destinatario}"
+        self.beneficiary_iban = "#{service.bonifico.ibandest}"
+        self.beneficiary_other =
+          "#{service.bonifico.Paese}, #{service.bonifico.dloc}, #{service.bonifico.dindirizzo}"
+      end
+    when 'assegnovirtuale'
+      self.beneficiary = "#{service.assegnovirtuale.beneficiary_name}"
+    when 'incassoAssegno'
+      self.beneficiary = "#{service.incassoassegno.beneficiary_name}"
+      self.beneficiary_iban = "#{service.incassoassegno.beneficiary_iban}"
+      self.beneficiary_other = "#{service.incassoassegno.beneficiary_other}"
+    else
+      self.beneficiary = 'Beneficiary not identifiable'
+    end
+  end
+
+  def set_customer(anagrafica)
+    self.customer_id = anagrafica.id
+    self.customer_full_name = anagrafica.full_name
+  end
+
+  def set_product_base_risk(
+    product,
+    default_product_base_risk = Configurable.default_product_base_risk.to_f)
+    self.product_base_risk =
+      product.try(:base_risk) ? product.base_risk : default_product_base_risk
+  end
+
+  def set_evaluated_risk_factor(anagrafica,
+                                factor_for_amount = Configurable.factor_for_amount.to_f,
+                                divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f)
+
+    recursive = self.count_recursive(30)
+    unless recursive > 0
+      self.risk_factor =
+        (
+          (
+            (
+              (
+                ((self.product_base_risk.percentage_of(1)) - 100) *
+                  self.product_base_risk
+              ) *
+                (
+                  factor_for_amount *
+                    ((self.amount_cents / 100).to_f / divisor_amount_for_factor)
+                )
+            ) + 100
+          ) / 100
+        ).to_f
+      self.risk_description = "Operation factor: #{self.risk_factor}"
+    else
+      self.risk_factor =
+        (
+          (
+            (
+              (((self.product_base_risk.percentage_of(1)) - 100) * recursive) *
+                (
+                  factor_for_amount *
+                    ((self.amount_cents / 100).to_f / divisor_amount_for_factor)
+                )
+            ) + 100
+          ) / 100
+        ).to_f
+      self.risk_description =
+        "Repeated: #{recursive} - Factor: #{self.risk_factor}"
+    end
+  end
+
+  def count_recursive(days=7)
+    start_date = self.movement_created_at.to_date - days.days
+    end_date = self.movement_created_at.to_date
+    EvaluatedMovement.where(customer_id: self.customer_id)
+    .where("evaluated_movements.beneficiary = ? OR evaluated_movements.beneficiary_iban = ?", self.beneficiary, self.beneficiary_iban)
+    .where("evaluated_movements.movement_created_at BETWEEN '#{start_date.to_date.beginning_of_day}' 
+            AND '#{end_date}'").count
+  end
+
+end

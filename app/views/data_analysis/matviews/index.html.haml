@@ -1,0 +1,22 @@
+- content_for :javascript_in_head do
+  = javascript_pack_tag 'plugins/datatables', 'data-turbolinks-track': 'reload'
+  = javascript_pack_tag 'plugins/duallistbox', 'data-turbolinks-track': 'reload'
+  = javascript_pack_tag 'plugins/daterangepicker', 'data-turbolinks-track': 'reload'
+
+= render 'data_analysis/filters/filters'
+.row
+  .col-md-12
+    .card
+      .card-title
+      .card-header
+        %h3.card-title
+          %i.fa.fa-calendar
+          = "#{@start_date} - #{@end_date}"
+      .card-body
+        %pre
+          %code= params
+        %pre
+          %code= @sql
+        %pre
+          %code= Anagrafica.order(idutente: :desc).limit(100).to_sql
+  

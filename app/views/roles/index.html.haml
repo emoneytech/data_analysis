@@ -1,0 +1,27 @@
+.row
+  .col-md-12
+    .box.box-primary
+      .box-header
+        %h3.box-title
+          %i.fa.fa-key
+          = t(:listing_resource, resource: Role.model_name.human(:count => 2))
+      .separator
+      .box-body
+        %table.table.table-striped.table-bordered.table-hover.margin-none
+          %thead
+            %tr
+              %th= Role.human_attribute_name(:name)
+              %th= Role.human_attribute_name(:presentation)
+              %th= Role.human_attribute_name(:level)
+              %th
+          %tbody
+            - @roles.each do |role|
+              %tr
+                %td= link_to role.name, role
+                %td= role.presentation
+                %td= role.level
+                %td
+                  - if can? :manage, Role
+                    = link_to fa_icon("edit"), [:edit, role], class: "btn btn-xs btn-warning" if can? :edit, role
+      .panel-footer.text-right
+        = link_to(t(:add_resource, resource: Role.model_name.human), new_role_path, class: "btn btn-success") if can? :create, Role

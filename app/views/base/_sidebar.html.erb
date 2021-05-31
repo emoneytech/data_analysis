@@ -1,0 +1,108 @@
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <a href="<%= root_path %>" class="brand-link">
+      <span class="brand-text font-weight-light">eDataAnalysis 2.0</span>
+    </a>
+    <div class="sidebar">
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <%- if can? :admin, :dashboard %>
+            <li class="nav-item">
+              <a href="<%= data_analysis_dashboard_index_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'dashboard' %>">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                  Dashboard
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<%= data_analysis_movimenticonti_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'movimenticonti' %>">
+                <i class="nav-icon fas fa-exchange-alt"></i>
+                <p>
+                  <%= Movimentoconto.model_name.human(count: 2) %>
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<%= data_analysis_servizi_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'servizi' %>">
+                <i class="nav-icon fas fa-microchip"></i>
+                <p>
+                  <%= Servizio.model_name.human(count: 2) %>
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<%= data_analysis_matviews_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'matviews' %>">
+                <i class="nav-icon fas fa-database"></i>
+                <p>
+                  <%= t(:mativiews, default: "Materialized Views") %>
+                </p>
+              </a>
+            </li>
+          <%- end %>
+
+          <%- if can? :admin, :dashboard %>
+            <li class="nav-item <%= ' menu-open menu-is-opening' if %w(roles users list_types sync configurables).include?(controller_name)%>">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fa fa-cogs"></i>
+                <p>
+                  <%= t(:settings, default: "Settings") %>
+                  <i class="right fas <%= %w(roles users list_types sync configurables).include?(controller_name) ? 'fa-angle-down' : 'fa-angle-left' %>"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <%- if can? :read, :sync %>
+                  <li class="nav-item">
+                    <a href="<%= users_path %>" class="nav-link <%= ' active' if controller_name == 'users' %>">
+                      <i class="nav-icon fas fa-users"></i>
+                      <p>
+                        <%= User.model_name.human(count: 2) %>
+                      </p>
+                    </a>
+                  </li>
+                <%- end %>
+                <%- if can? :read, User %>
+                  <li class="nav-item">
+                    <a href="<%= data_analysis_sync_index_path %>" class="nav-link <%= ' active' if controller_name == 'sync' %>">
+                      <i class="nav-icon fas fa-stopwatch"></i>
+                      <p>
+                        <%= t(:sync, default: "Sync") %>
+                      </p>
+                    </a>
+                  </li>
+                <%- end %>
+                <%- if can? :read, Role %>
+                  <li class="nav-item">
+                    <a href="<%= roles_path %>" class="nav-link <%= ' active' if controller_name == 'roles' %>">
+                      <i class="nav-icon fas fa-key"></i>
+                      <p>
+                        <%= Role.model_name.human(count: 2) %>
+                      </p>
+                    </a>
+                  </li>
+                <%- end %>
+                <%- if current_user.has_role?('admin') %>
+                  <li class="nav-item">
+                    <a href="<%= sidekiq_web_path %>" class="nav-link">
+                      <i class="nav-icon fas fa-clock"></i>
+                      <p>
+                        <%= t(:async_processor, default: "Async Processor") %>
+                      </p>
+                    </a>
+                  </li>
+                <%- end %>
+              </ul>
+            </li>
+          <%- end %>
+          <li class="nav-item">
+            <a href="<%= customers_anagrafiche_path %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'anagrafiche' %>">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                <%= Anagrafica.model_name.human(count: 2) %>
+              </p>
+            </a>
+          </li>
+          <%= render 'base/customer_menu', customer: @anagrafica if @module_name === 'Customers' && @anagrafica %>
+        </ul>
+      </nav>
+    </div>
+  </aside>

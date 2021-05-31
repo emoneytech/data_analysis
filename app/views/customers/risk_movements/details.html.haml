@@ -1,0 +1,55 @@
+- start_date = Date.new(@current_tuple[0],@current_tuple[1]).at_beginning_of_month < @anagrafica.data_creazione.to_date ? @anagrafica.data_creazione.to_date : Date.new(@current_tuple[0],@current_tuple[1]).at_beginning_of_month
+- end_date = Date.new(@current_tuple[0],@current_tuple[1]).at_end_of_month
+- end_date = Date.today if end_date > Date.today
+- risk_at_begin = @anagrafica.risk_base(@current_tuple)
+- danger_movements_to_html = @anagrafica.danger_movements_to_html(@current_tuple)
+- danger_movement_ids = @anagrafica.danger_movement_ids(@current_tuple)
+- risk_for_month = {}
+.row
+  .col-md-12
+    .card.card-primary
+      .card-header
+        %h3.card-title
+          %i.fa.fa-exclamation-triangle
+          Calendario attività
+          = " - #{tuple_to_html(@current_tuple)}"
+      .card-body
+        #inner-content-div
+          %dl.row
+            - start_date.upto end_date do |day|
+              %dt.col-md-4.text-right= l(day, format: :compact)
+              %dd.col-md-8
+                - current_day_movements = @all_risk_movements.for_day(day)
+                - if current_day_movements.any?
+                  - current_day_movements.each do |rm|
+                    = "#{rm.try(:product_name)} - "
+                    = humanized_money_with_symbol Money.new(rm.try(:movement_amount) * 100, "EUR")
+                    - factor_for_amount = Configurable.factor_for_amount.to_f
+                    - divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
+                    - unless danger_movement_ids.include?(rm.id)
+                      - current_factor = ((((((rm.product_base_risk.percentage_of(1)) - 100) * rm.product_base_risk) * (factor_for_amount * (rm.movement_amount/divisor_amount_for_factor))) + 100) / 100).to_f
+                      / / rm.product_base_risk * (factor_for_amount * (rm.movement_amount/divisor_amount_for_factor))) + 100) / 100).to_f
+                      - risk_at_begin = (risk_at_begin * current_factor).to_f
+                      - risk_at_begin = 20.0 if risk_at_begin > 20.0
+                      %span.text-warning= " - Evaluate risk: #{risk_at_begin} - Factor: #{current_factor}"
+                    - else
+                      - this_factor = danger_movements_to_html["#{rm.product_name}"]
+                      - # current_factor = ((((((rm.product_base_risk.percentage_of(1)) - 100) * this_factor) * 1.5) + 100) / 100).to_f
+
+                      - current_factor = ((((((rm.product_base_risk.percentage_of(1)) - 100) * this_factor) * (factor_for_amount * (rm.movement_amount/divisor_amount_for_factor))) + 100) / 100).to_f
+                      = "Calcola per duplicati - Nr: #{this_factor} - Factor: #{current_factor}"
+                      %br
+                      -# risk_at_begin = (risk_at_begin * current_factor).to_f
+                      = "Evaluate risk: #{risk_at_begin}"
+                      - risk_at_begin = 20.0 if risk_at_begin > 20.0
+                      %span.text-danger= " - Current risk: #{(risk_at_begin * current_factor).to_f}"
+                    %br
+
+                - risk_at_begin = (risk_at_begin * @anagrafica.time_lapse_factor.time_lapse_factor).to_f
+                = "Evaluate risk: #{risk_at_begin}"
+                - risk_at_begin = @anagrafica.base_risk.to_f if risk_at_begin < @anagrafica.base_risk.to_f
+                %span.text-success= " - Current risk: #{risk_at_begin}"
+              - risk_for_month[day] = risk_at_begin
+
+      .panel-footer.text-right= "Load time: #{Time.now-@start_time} seconds"
+    #risk_movements_items.row= render "risk_movements", current_tuple: @current_tuple, risk_movements: @risk_movements

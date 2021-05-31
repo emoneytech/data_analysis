@@ -1,0 +1,20 @@
+.row
+  .col-md-12
+    .box.box-primary
+      .box-header
+        %h3.box-title
+          = fa_icon @note.class.fa_icon
+          #{Note.model_name.human}
+        .spacer
+      .box-body
+        %dl.dl-horizontal
+          %dt= Note.human_attribute_name(:user)
+          %dd= @note.user.try(:full_name)
+          %dt= Note.human_attribute_name(:created_at)
+          %dd= @note.created_at
+          %dt= Note.human_attribute_name(:subject)
+          %dd= @note.subject
+          %dt= Note.human_attribute_name(:body)
+          %dd= @note.body
+      .box-footer.text-right.clearfix
+        = link_to t(:cancel), data_analysis_anagrafica_notes_path(@anagrafica), class: "btn btn-default", remote: true

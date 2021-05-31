@@ -1,0 +1,82 @@
+---
+it:
+  devise:
+    confirmations:
+      confirmed: Il tuo indirizzo email è stato confermato con successo
+      send_instructions: Riceverai una email con le istruzioni per attivare il tuo
+        indirizzo email in pochi minuti
+      send_paranoid_instructions: Se il tuo indirizzo email esiste nel nostro database
+        riceverai una email con le istruzioni per confermare il tuo indirizzo email
+        in pochi minuti
+    failure:
+      already_authenticated: Sei gia registrato
+      inactive: Il tuo account non è ancora stato attivato
+      invalid: "%{authentication_keys} o password non valida"
+      locked: Il tuo account è stato bloccato
+      last_attempt: Hai un solo tentativo prima che il tuo account venga bloccato
+      not_found_in_database: "%{authentication_keys} o password non valida"
+      timeout: La tua sessione è terminata. effettuare nuovamente il log-in per continuare
+      unauthenticated: è necessario effetturare il log-in o la registrazione per continuare
+      unconfirmed: è necessario confermare il proprio indirizzo email prima di continuare
+    mailer:
+      confirmation_instructions:
+        subject: Istruzioni di confermare
+      reset_password_instructions:
+        subject: Istruzioni reset password
+      unlock_instructions:
+        subject: Istruzioni sblocco
+      password_change:
+        subject: Password modificata
+    omniauth_callbacks:
+      failure: Non è stato possibile effettuare l'autenticazione da %{kind} a causa
+        di "%{reason}
+      success: Autenticato con successo da %{kind} account
+    passwords:
+      no_token: è possibile accedere a questa pagina solo tramite la email di reset
+        password Se vieni dalla email di reset password, per piacere assicurati di
+        aver usato l'intero Url
+      send_instructions: Riceverai una email con le istruzioni su come reimpostare
+        la tua password in pochi minuti
+      send_paranoid_instructions: Se il tuo indirizzo email è registrato nei nostri
+        database, riceverai il link di recupero password al tuo indirizzo email in
+        pochi minuti
+      updated: La tua password è stata modificata con successo. Ora sei registrato.
+      updated_not_active: La tua password è stata modificata con successo
+    registrations:
+      destroyed: Arrivederci! Il tuo account è stato cancellato con successo. Speriamo
+        di rivederti presto
+      signed_up: Benvenuto! Ti sei registrato con successo
+      signed_up_but_inactive: Ti sei registrato con successo. Tuttavia, non possiamo
+        farti accedere perche il tuo account non è ancora stato attivato
+      signed_up_but_locked: Ti sei registrato con successo. Tuttavia, non possiamo
+        farti accedere perche il tuo account risutla bloccato
+      signed_up_but_unconfirmed: Un messaggio di conferma è stato inviato al tuo indirizzo
+        email. Per piacere segui il link per attivare il tuo account
+      update_needs_confirmation: Hai aggiornato le tue informazioni con successo,
+        ma abbiamo bisogno di verificare il tuo indirizzo email.Per favore controlla
+        il tuo indirizzo email e segui il link per confermare il tuo nuovo indirizzo
+        email
+      updated: Il tuo account è stato aggiornato con successo
+    sessions:
+      signed_in: Log-in effettuato con successo
+      signed_out: Log-out effettuato con successo
+      already_signed_out: Log-out effettuato con successo
+    unlocks:
+      send_instructions: Riceverai una email con le istruzioniper sbloccare il tuo
+        account in pochi minuti
+      send_paranoid_instructions: Se il tuo account esiste,riceverai una email con
+        le istruzioni per sbloccarlo in pochi minuti
+      unlocked: Il tuo account è stato sbloccato con success. Effettua il log-in per
+        continuare
+  errors:
+    messages:
+      already_confirmed: è gia stato confermato, per favore prova ad effettuare il
+        log-in
+      confirmation_period_expired: deve essere confermato entro %{period}, effettua
+        nuovamente la richiesta
+      expired: non è più valido, effettua nuovamente la richiesta
+      not_found: non trovato
+      not_locked: non risulta bloccato
+      not_saved:
+        one: 1 errore impedisce a questa/o %{resource} di essere salvata/o
+        other: "%{count} errori impediscono a queste %{resource} di essere salvate"

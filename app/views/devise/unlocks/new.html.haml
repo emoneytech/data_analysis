@@ -1,0 +1,11 @@
+%p.login-box-msg Resend unlock instructions
+= render "devise/shared/error_messages", resource: resource
+= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f|
+  .input-group.mb-3
+    = f.email_field :email, autocomplete: "email", class: 'form-control', placeholder: 'Email'
+    .input-group-append
+      .input-group-text
+        %span.fas.fa-envelope
+  .actions
+    = f.submit "Resend unlock instructions", class: 'btn btn-primary btn-block'
+.mt-2= render "devise/shared/links"

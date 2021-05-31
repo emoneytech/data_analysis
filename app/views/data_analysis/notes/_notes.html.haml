@@ -1,0 +1,13 @@
+.row
+  .col-md-12
+    .card.card-primary
+      .card-header
+        %h3.card-title
+          %i.fa{class: "fa-#{notes.fa_icon}"}
+          = t(:listing_resource, resource: Note.model_name.human(:count => 2))
+        .card-tools.pull-right= link_to(t(:new_resource, resource: Note.model_name.human), [:new, :data_analysis, anagrafica, :note], class: "btn btn-success btn-xs", remote: true) if can? :create, notes
+
+      .separator
+      .card-body
+        = render 'data_analysis/notes/table', notes: notes
+      

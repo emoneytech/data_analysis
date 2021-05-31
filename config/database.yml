@@ -1,0 +1,36 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: 10
+  reconnect: true
+  wait_timeout: 900
+  timeout: 10000
+  host: <%= ENV.fetch("MYSQL_HOST") %>
+  username: <%= ENV.fetch("MYSQL_USER") %>
+  password: <%= ENV.fetch("MYSQL_PASSWORD") %>
+
+development:
+  risk:
+    <<: *default
+    database: risk_production
+    migrations_paths: db/risk_migrate
+  core:
+    <<: *default
+    database: dbconti_prod
+
+test:
+  risk:
+    <<: *default
+    database: risk_test
+  core:
+    <<: *default
+    database: dbconti_prod
+
+production:
+  risk:
+    <<: *default
+    migrations_paths: db/risk_migrate
+    database: risk_production
+  core:
+    <<: *default
+    database: dbconti_prod

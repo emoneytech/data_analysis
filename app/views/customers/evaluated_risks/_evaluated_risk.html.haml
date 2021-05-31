@@ -1,0 +1,33 @@
+.card.card-primary
+  .card-header
+    %h3.card-title
+      %i.fas.fa-exclamation-triangle
+      #{@anagrafica.full_name} - 
+      = t(:listing_resource, resource: EvalRiskiness.model_name.human(:count => 2))
+      \- #{Date::MONTHNAMES[evaluated_risk.eval_month]} #{evaluated_risk.eval_year}
+  .card-body
+    %dl.row
+      %dt.col-md-4.text-right= EvaluatedRisk.human_attribute_name(:nr_movements)
+      %dd.col-md-8= evaluated_risk.nr_movements
+      %dt.col-md-4.text-right= EvaluatedRisk.human_attribute_name(:last_evaluated_risk)
+      %dd.col-md-8= evaluated_risk.last_evaluated_risk
+      %dt.col-md-4.text-right= EvaluatedRisk.human_attribute_name(:eval_days)
+      %dd.col-md-8
+        %table.table.table-striped.table-bordered.table-hover.text-center
+          %thead
+            %tr
+              %th= EvaluatedRisk.human_attribute_name(:eval_day)
+              - evaluated_risk.eval_days[evaluated_risk.eval_days.keys.first].keys.each do |key2|
+                %th= EvaluatedRisk.human_attribute_name(key2)
+          - evaluated_risk.eval_days.keys.each do |key|
+            %tr
+              %td= "#{key}"
+              - evaluated_risk.eval_days[key].keys.each do |key2|
+                %td= "#{evaluated_risk.eval_days[key][key2]}"
+  .card-footer
+    .row
+      .col-md-6
+        = link_to 'Prev', customers_anagrafica_evaluated_risk_path(@anagrafica, @prev) unless @prev.blank?
+      .col-md-6.text-right
+        = link_to 'Next', customers_anagrafica_evaluated_risk_path(@anagrafica, @next) unless @next.blank?
+

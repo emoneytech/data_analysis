@@ -1,0 +1,31 @@
+- details_operations = eval("#{@eval_riskiness.details_operations}")
+
+.row
+  .col-md-12
+    .card.card-primary
+      .card-header
+        %h3.card-title
+          %i.fa.fa-calendar-check
+          = t(:activity_calendar, default: "Activity Calendar")
+          = " - #{tuple_to_html(current_tuple)}"
+      .card-body
+        #inner-content-div
+          %dl.row
+            - if details_operations
+              - details_operations.keys.each do |k|
+                %dt.col-4= l(k.to_date, format: :compact)
+                %dd.col-8.text-right= raw details_operations["#{k}"]
+
+      .card-footer
+        .row
+          .col-md-8= "#{t(:load_time, default: "Load time")}: #{(Time.now-@start_time).round(5)} #{t(:seconds, default: "Seconds")}"
+          .col-md-4.text-right= link_to t(:details, default: "Details"), details_customers_anagrafica_risk_movements_path(@anagrafica, t: @current_tuple), class: "btn btn-sm btn-success"
+
+  .col-md-12
+    .card.card-primary
+      .card-header
+        %h3.card-title
+          %i.fa.fa-chart-line
+          = t(:risk_for_month, default: "Risk for month")
+          = "#{tuple_to_html(current_tuple)}"
+      .card-body= line_chart details_operations

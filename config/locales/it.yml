@@ -1,0 +1,325 @@
+---
+it:
+  date:
+    month_names:
+      [~, Gennaio, Febbraio, Marzo, Aprile, Maggio, Giugno, Luglio, Agosto, Settembre, Ottobre, Novembre, Dicembre]
+    abbr_month_names:
+      [~, Gen, Feb, Mar, Apr, Mag, Giu, Lug, Ago, Set, Ott, Nov, Dic]
+    formats:
+      compact: "%d %b %Y"
+  time:
+    formats:
+      compact: "%d %b %y - %H:%M"
+  activerecord:
+    errors:
+      models:
+        payment:
+          attributes:
+            fiscal_code:
+              fiscal_code_cannot_be_calculate: Il Codice Fiscale non può essere calcolato.
+              fiscal_code_not_valid: Il Codice Fiscale inserito non risulta esatto.
+    models:
+      anagrafica:
+        one: Anagrafica
+        other: Anagrafiche
+      bank_account:
+        one: Conto Banca
+        other: Conti banca
+      bank_cheque:
+        one: Assegno Elettronico
+        other: Assegni Elettronici
+      bank_cheque_cheque_method_merchants:
+        one: Metodo di pagamento Assegno Elettronico
+        other: Metodi di pagamento Assegni Elettronici
+      bank_cheque_number:
+        one: Numero Assegno
+        other: Numeri Assegni
+      bank_cheque_process:
+        one: Processo Assegno
+        other: Processi Assegni
+      base_riskiness:
+        one: Rischio base
+        other: Rischi base
+      book_address:
+        one: Beneficiario
+        other: Beneficiari
+      cheque_method_merchant:
+        one: Metodo di pagamento
+        other: Metodi di pagamento
+      configurable:
+        one: Impostazione di base
+        other: Impostazioni di base
+      eval_riskiness:
+        zero: Rischi calcolati
+        one: Rischio calcolato
+        other: Rischi calcolati
+      gruppo:
+        one: Gruppo operazioni
+        other: Gruppi operazioni
+      note:
+        one: Nota
+        other: Note
+      payment:
+        one: Pagamento Assegno
+        other: Pagamenti Assegni
+      payment_method:
+        one: Metodo di Pagamento
+        other: Metodi di Pagamento
+      prodotto:
+        one: Prodotto
+        other: Prodotti
+      risk_movement:
+        one: Movimenti a rischio
+        other: Movimenti a rischio
+      role:
+        one: Ruolo
+        other: Ruoli
+      setting:
+        one: Impostazione
+        other: Impostazioni
+      user:
+        one: Utente
+        other: Utenti
+      movimentoconto:
+        one: Movimento
+        other: Movimenti
+    attributes:
+      address:
+        address1: Indirizzo
+        address2: Indirizzo 2
+        country: Paese
+        country_id: Paese
+        first_name: Nome
+        last_name: Cognome
+        state_name: Stato/Regione
+        city: Città
+        phone: Telefono
+        alternative_phone: Telefono riserva
+        zipcode: CAP
+      anagrafica:
+        base_risk: Rischio onBoarding
+        current_tuple: Mese in esame
+        days_of_activity: Giorni di esercizio
+        eval_score: Rischio calcolato
+        full_name: Nome completo
+        base_risk: Rischio di partenza
+        risk_movements: Movimenti a rischio
+        type: Tipologia conto
+        time_lapse_factor: Fattore di decrescita
+        risk_base_previous_month: Rischio Mese Prec.
+      bank_account:
+        number: Numero Conto
+        user: Utente
+      bank_cheque:
+        amount: Importo
+        beneficiary: Beneficiario
+        cheque_method_merchants: Metodi di incasso
+        created_at: Creato il
+        fee_account: Conto Fee
+        fee_out: Costo commissione
+        main_account: Conto sorgente
+        number: Numero assegno
+        update_at: Modificato il
+        state: Stato
+        valid_until: Valido fino al
+        secure_code: Codice di Sicurezza
+      book_address:
+        first_name: Nome
+        last_name: Cognome
+        full_name: Nome e Cognome
+        external_id: Id esterno
+        is_company: È una società?
+        company_name: Nome Società
+      cheque_method_merchant:
+        active: Attivo
+        name: Nome
+        merchant: Utente
+        presentation: Presentazione
+        fee_in: Fee incasso
+        fee_in_cents: Fee incasso (centesimi)
+        fee_out: Fee emissione
+        fee_out_cents: Fee emissione (centesimi)
+        min_amount: Importo minimo
+        max_amount: Importo massimo
+        minimum_validity: Validità minima
+        maximum_validity: Validità massima
+        preferred: Predefinito
+      configurable:
+        name: Nome
+        value: Valore
+      eval_riskiness:
+        eval_month: Mese
+        eval_score: Punteggio
+        number_of_movements: Numero di movimenti
+        user: Utente
+      payment:
+        amount: Importo
+        created_at: Creato il
+        number: Numero assegno
+        payment_method_id: Metodo di incasso
+        payment_method: Metodo di incasso
+        first_name: Nome
+        last_name: Cognome
+        birthdate: Data di nascita
+        birthplace: Luogo di Nascita
+        address: Indirizzo
+        address2: Indirizzo 2
+        city: Città
+        card_number: Numero Carta
+        fiscal_code: Codice Fiscale
+        company_name: Nome Società
+        vat: P.IVA
+        gender: Sesso
+        country: Paese dove sei nato
+        country_id: Paese dove sei nato
+        state_name: Stato/Regione
+        bank: Nome Banca
+        bank_account: Numero di Conto
+        iban: Codice IBAN
+        swift: Codice SWIFT
+        updated_at: Aggiornato il
+      payment_method:
+        account_fields_required: Campi Conto Em@ney richiesti
+        active: Attivo
+        amount: Importo
+        bank_fields_required: Campi Bancari richiesti
+        birth_fields_required: Campi Anagrafica richiesti
+        card_fields_required: Campi Carta di Debito/Credito richiesti
+        created_at: Creato il
+        data_fields_required: Campi Residenza richiesti
+        fee_in: Fee incasso
+        fee_in_cents: Fee incasso (centesimi)
+        fee_out: Fee emissione
+        fee_out_cents: Fee emissione (centesimi)
+        for_companies: Per le Società
+        max_amount: Importo massimo
+        maximum_validity: Validità massima
+        min_amount: Importo minimo
+        minimum_validity: Validità minima
+        name: Nome
+        position: Posizione
+        presentation: Presentazione
+        updated_at: Aggiornato il
+        shared: Condiviso
+        show_only_note: Visualizza solo le note
+      risk_movement:
+        amount: Importo
+        base_risk: Rischio di base
+        beneficiary: Beneficiario
+        movement: Movimento
+        movement_amount: Importo movimento
+        movement_id: Movimento
+        movement_created_at: Data movimento
+        product: Prodotto
+        product_base_risk: Rischio base del prodotto
+        product_id: Prodotto
+        product_net_id: Id prodotto (rete)
+        product_name: Nome prodotto
+        service: Servizio
+        service_id: Servizio
+        service_updated_at: Aggiornamento servizio
+        service_status: Stati servizio
+        table_code: Codice tabella
+        table_name: Nome tabella
+        user: Utente
+        risk_base_previous_month: Rischio Mese Prec.
+      role:
+        name: Nome
+        presentation: Visualizzazione
+        description: Descrizione
+        level: Livello
+      user:
+        role: Ruolo
+        internal: Riferimento interno
+        full_name: Nome e Cognome
+        payment_methods: Metodi di Pagamento
+  signin_to_start: Accedi per avviare la sessione
+  add_resource: "Aggiungi %{resource}"
+  delete_resource: "Elimina %{resource}"
+  edit_resource: "Modifica %{resource}"
+  listing_resource: "Elenco %{resource}"
+  new_resource: "Nuovo %{resource}"
+  show_resource: "Visualizza %{resource}"
+  update_resource: "Aggiorna %{resource}"
+  details: Dettagli
+  load_time: Tempo di caricamento
+  seconds: secondi
+  cancel: Annulla
+  listing: Elenco
+  recalculate_risk: Ricalcola il rischio
+  recursive_movements: Movimenti ricorsivi
+  no_recursive_movements: Non ci sono movimenti ricorsivi nel periodo selezionato.
+  risk_for_month: Rischio per il mese
+  cannot_be_sent: L'assegno non può essere inviato.
+  cheque_number: Numero assegno
+  secure_code: Codice di sicurezza
+  first_name: Nome
+  last_name: Cognome
+  search: Ricerca
+  settings: Impostazioni
+  resend_secure_code: Reinvia codice di sicurezza
+  all: Tutti
+  draft: Bozza
+  pending: Sospeso
+  sent: Inviato
+  receipt: Ricevuto
+  canceled: Annullato
+  paid: Pagato
+  returned: Stornato
+  private: Privato
+  privates: Privati
+  company: Società
+  companies: Società
+  copyright: Tutti i diritti sono riservati.
+  cancel_echeque: Annulla Assegno
+  number_of_months: Numero di mesi
+  default_country_cannot_be_deleted: Il Paese predefinito non può essere eliminato
+  safe_sent: Invio differito (15 min)
+  sent_now: Invio immediato
+  company_name: Nome Società
+  fiscal_code_cannot_be_calculate_for_incomplete_data: Il codice fiscale non può essere calcolato. Dati insufficienti.
+  fiscal_code_cannot_be_calculate: Il codice fiscale non può essere calcolato.
+  male: Maschio
+  female: Femmina
+  emoney_electronic_bank_cheque_system: Em@ney plc - Sistema di Gestione Assegni Elettronici
+  month: Mese
+  months: Mesi
+  filter: Filtro
+  filters: Filtri
+  fee_amount: Importo transazione
+  fee_in_is_over_bank_cheque_amount: L'importo del costo della transazione supera l'ammontare dell'assegno. Seleziona un diverso metodo di incasso.
+  bank_cheque_paid: L'assegno elettronico è stato correttamente pagato.
+  bank_cheque_was_paid: "Questo assegno elettronico risulta pagato il %{paid_at}. Si prega di ricontrollare l'indirizzo URL."
+  fill_form: "Compila tutti i campi del modulo per riscuotere l'assegno elettronico."
+  pay_echeque: Riscuoti Assegno Elettronico
+  forgot_password: "Password dimenticata?"
+  remember_me: "Resta collegato"
+  sign_in: Accedi
+  reset_password: "Reimposta la password"
+  password_instruction: Riceverai le istruzioni per la reimpostazione della password sul Tuo indirizzo di posta elettronica.
+  cannot_delete_book_address_with_bank_cheques: "Non puoi eliminare un beneficiario che ha ricevuto Assegni Elettronici."
+  beneficiary_was_succefully_created: 'Beneficiario creato correttamente.'
+  beneficiary_was_succefully_updated: 'Beneficiario aggiornato correttamente.'
+  beneficiary_was_succefully_destroyed: 'Beneficiario eliminato correttamente.'
+  electronic_cheque_was_succefully_created: 'Assegno Elettronico creato correttamente.'
+  electronic_cheque_was_succefully_updated: 'Assegno Elettronico aggiornato correttamente.'
+  cancellation_request: "Chiedi l'annullamento"
+  bank_cheque:
+    not_found: Assegno Elettronico non trovato. Tutti i campi sono richiesti. Ricontrolla il modulo per incassare il Tuo assegno.
+    wrong_code: Codice Errato. Ricontrolla il campo 'Codice di sicurezza'.
+    amount_must_be_between: "L'importo deve essere compreso fra %{min} e %{max}"
+    amount_not_available: Non ci sono fondi a sufficienza sul conto selezionato.
+  hint:
+    account_fields_required: "Account Em@ney, Account Em@ney Point"
+    birth_fields_required: "Codice Fiscale, Data di nascita, Luogo di nascita"
+    bank_fields_required: "Bank, Iban, Swift"
+    card_fields_required: "Numero di Carta di Debito/Credito, Numero carta PostePay"
+    data_fields_required: "Indirizzo, Città"
+    for_companies: Metodo ammesso per le società
+  async_processor: Processore asincrono
+  resource_was_succefully_created: 'Risorsa creata correttamente.'
+  growing: In crescita
+  down: In diminuzione
+  stable: Stabile
+  activity_calendar: "Calendario Attività"
+  

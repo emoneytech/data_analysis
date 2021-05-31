@@ -1,0 +1,14 @@
+.card.card-primary
+  .card-header
+    %h3.card-title
+      %i.fa.fa-chart-line
+      = t(:listing_resource, resource: RiskMovement.model_name.human(:count => 2))
+      = " - #{tuple_to_html(current_tuple)}"
+  .card-body
+    - if all_risk_movements.any?
+      = column_chart all_risk_movements.group(:product_name).count, stacked: true
+    - else
+      .well= t(:no_recursive_movements, default: "No recursive movement in the selected period")
+
+
+

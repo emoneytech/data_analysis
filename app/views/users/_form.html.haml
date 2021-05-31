@@ -1,0 +1,10 @@
+= f.input :role_id, as: :select2, collection: Role.all
+= f.input :nickname
+.separator
+= f.input :first_name
+= f.input :last_name
+= f.input :email, required: true
+= f.input :password
+.separator
+= f.input :password_confirmation
+

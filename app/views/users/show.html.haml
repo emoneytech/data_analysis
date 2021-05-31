@@ -1,0 +1,17 @@
+.row
+  .col-md-12
+    .box.box-primary
+      .box-header
+        %h3.box-title
+          %i.fa.fa-user
+          #{User.model_name.human} #{@user.full_name}
+        .spacer
+      .box-body
+        %dl.dl-horizontal
+          %dt= User.human_attribute_name(:full_name)
+          %dd= @user.full_name
+          %dt= User.human_attribute_name(:email)
+          %dd= @user.email
+      .box-footer.clearfix
+        - if can? :manage, @user
+          = link_to t(:edit_resource, resource: User.model_name.human), edit_user_path(@user), class: "btn btn-success"

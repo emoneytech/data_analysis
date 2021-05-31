@@ -1,0 +1,270 @@
+---
+en:
+  date:
+    formats:
+      compact: "%b %d"
+  time:
+    formats:
+      compact: "%d %b %I:%M %p"
+  add_resource: "Add %{resource}"
+  delete_resource: "Delete %{resource}"
+  edit_resource: "Edit %{resource}"
+  listing_resource: "Listing %{resource}"
+  new_resource: "New %{resource}"
+  update_resource: "Update %{resource}"
+  show_resource: Show %{resource}
+  hint:
+    birth_fields_required: "Fiscal code, Birth Date, Birth Place"
+    data_fields_required: "Address, City"
+    account_fields_required: "Em@ney Bank Account, Em@ney Point Account"
+    bank_fields_required: Bank, Iban, Swift
+    card_fields_required: Credit/Debit Card Number, PostePay Card Number
+    for_companies: 
+  activerecord:
+    errors:
+      models:
+        payment:
+          attributes:
+            fiscal_code:
+              fiscal_code_cannot_be_calculate: 
+              fiscal_code_not_valid: 
+    models:
+      anagrafica:
+        one: Customer
+        other: Customers
+      base_riskiness:
+        one: Rischio base
+        other: Rischi base
+      configurable:
+        one: Setting
+        other: Settings
+      eval_riskiness:
+        zero: Calculated risks
+        one: Calculated risk
+        other: Calculated risks
+      gruppo:
+        one: Group
+        other: Group
+      note:
+        one: Note
+        other: Notes
+      prodotto:
+        one: Product
+        other: Products
+      risk_movement:
+        one: Risk Movement
+        other: Risk Movement
+      role:
+        one: Role
+        other: Roles
+      setting:
+        one: Setting
+        other: Settings
+      tipo:
+        one: Typology
+        other: Typologies
+      user:
+        one: User
+        other: Users
+      movimentoconto:
+        one: Movement
+        other: Movements
+    attributes:
+      address:
+        address1: Address
+        address2: Address
+        country: Country
+        country_id: Country
+        first_name: First name
+        last_name: Last name
+        state_name: State / Region
+        city: City
+        phone: Phone number
+        alternative_phone: Alternative phone number
+        zipcode: Zipcode
+      anagrafica:
+        days_of_activity: Days of Activity
+        risk_movements: Risk movements
+        type: Typlology
+        time_lapse_factor: Decrease Factor
+        base_risk: onBoarding Risk
+        current_tuple: Month under review
+        eval_score: Calculated risk
+        risk_base_previous_month: Risk Prev Month
+        full_name: Full Name
+        tipo: Typology
+      bank_account:
+        number: Account number
+        user: User
+      bank_cheque:
+        amount: Amount
+        beneficiary: Beneficiary
+        cheque_method_merchants: Methods of collection
+        created_at: Created at
+        fee_account: Fee account
+        fee_out: Commission fee
+        main_account: Account source
+        number: Cheque number
+        update_at: Update at
+        state: Status
+        valid_until: Valid until
+        secure_code: Secure code
+      book_address:
+        first_name: First name
+        last_name: Last name
+        full_name: Full name
+        external_id: External id
+        is_company: Is A Company?
+        company_name: Company name
+      cheque_method_merchant:
+        active: Active
+        name: Name
+        merchant: User
+        presentation: Prestation
+        fee_in: Fee recessed
+        fee_in_cents: Fee recessed (cents)
+        fee_out: Fee issue
+        fee_out_cents: Fee issue (cents)
+        min_amount: Minimum amount
+        max_amount: Maximum amount
+        minimum_validity: Minimum validity
+        maximum_validity: Maximum validity
+        preferred: Default
+      eval_riskiness:
+        user: Customer
+        number_of_movements: Movements number
+        eval_month: Month
+        eval_score: Score
+      payment:
+        number: Cheque number
+        payment_method_id: Method recessed
+        payment_method: Method recessed
+        first_name: First name
+        last_name: Last name
+        birthdate: Birth date
+        birthplace: Birth place
+        address: Address
+        address2: Address 2
+        city: City
+        card_number: Card number
+        fiscal_code: Fiscal code
+        company_name: Company name
+        vat: VAT
+        gender: Gender
+        country: Country where you were born
+        country_id: Country where you were born
+        state_name: State/Region
+        bank: Bank
+        bank_account: Bank account
+        iban: IBAN code
+        swift: SWIFT code
+        amount: 
+        created_at: 
+        updated_at: 
+      payment_method:
+        account_fields_required:  Em@ney Account Required fields
+        active: Active
+        bank_fields_required: Bank Field Required
+        birth_fields_required: Personal Data Fields Required
+        card_fields_required: Fields of Debit/Credit Card Required
+        data_fields_required: Residence Required Fields
+        fee_in: Fee in
+        fee_in_cents: Fee in (cents)
+        fee_out: Fee out
+        fee_out_cents: Fee out (cents)
+        for_companies: For companies
+        max_amount: Maximum amount
+        maximum_validity: Maximum validity
+        min_amount: Minimum amount
+        minimum_validity: Minimum validity
+        name: Name
+        position: Position
+        presentation: Presentation
+        shared: Shared
+        show_only_note: Show only notes
+        amount: amount
+        created_at: Create At
+        updated_at: Updated At
+      risk_movement:
+        risk_base_previous_month: Risk Prev Month
+        movement: Movement
+        service: Service
+        user: User
+        product: Product
+        product_name: Product Name
+        table_code: Table Code
+        table_name: Table Name
+        amount: Amount
+        beneficiary: Beneficiary
+        base_risk: onBoarding Risk
+        movement_created_at: Movement Data
+      user:
+        role: Role
+        internal: Internal Reference
+        full_name: Full name
+        payment_methods: Payment methods
+  cancel: Cancel
+  listing: Listing
+  cannot_be_sent: The Electronic Cheque can not be sent.
+  cheque_number: Cheque number
+  secure_code: Secure code
+  first_name: First name
+  last_name: Last name
+  search: Search
+  resend_secure_code: Resend secure code
+  all: All
+  draft: Draft
+  pending: Pending
+  sent: Sent
+  receipt: Received
+  canceled: Canceled
+  paid: Paid
+  returned: Returned
+  private: Private
+  privates: Privates
+  company: Company
+  companies: Companies
+  cancel_echeque: Cancel Cheque
+  number_of_months: Number of months
+  default_country_cannot_be_deleted: The default country can not be eliminated
+  safe_sent: Delayed sent (15 min)
+  sent_now: Immediate sent
+  company_name: Company Name
+  fiscal_code_cannot_be_calculate_for_incomplete_data: The fiscal code can not be calculated. Insufficient data.
+  fiscal_code_cannot_be_calculate: Fiscal code can not be calculated
+  male: Male
+  female: Female
+  emoney_electronic_bank_cheque_system: Em@ney plc - Electronic Cheques Management System
+  month: Month
+  months: Months
+  fee_amount: Fee amount
+  fee_in_is_over_bank_cheque_amount: The amount of the purchase price exceeds the amount of the cheque. Select a different method of collection.
+  bank_cheque_paid: The electronic cheque was properly paid.
+  bank_cheque_was_paid: "This electronic transfer is paid paid_at %{paid_at}. Please recheck the URL."
+  fill_form: Fill in all the form fields to collect the electronic cheque.
+  pay_echeque: Redeem Electronic Cheque
+  copyright: All rights reserved.
+  forgot_password: "Forgot Password?"
+  remember_me: "Remember me"
+  sign_in: Sign in
+  reset_password: Reset Password
+  password_instruction: We'll send password reset instructions.
+  cannot_delete_book_address_with_bank_cheques: "Cannot delete beneficiary with bank cheques."
+  beneficiary_was_succefully_created: 'Beneficiary was successfully created.'
+  beneficiary_was_succefully_updated: 'Beneficiary was successfully updated.'
+  beneficiary_was_succefully_destroyed: 'Beneficiary was successfully destroyed.'
+  electronic_cheque_was_succefully_created: 'Electronic Cheque was successfully created.'
+  electronic_cheque_was_succefully_updated: 'Electronic Cheque was successfully updated.'
+  cancellation_request: Cancellation request
+  filters: Filters
+  bank_cheque:
+    not_found: Electronic cheque not found. All fields are required. Recheck the form to cash Your cheque.
+    wrong_code: Wrong code. Recheck the field 'Security code'.
+    amount_must_be_between: "The amount must be between %{min} and %{max}"
+    amount_not_available: There are enough funds on selected account.
+  recursive_movements: Recursive movements
+  resource_was_succefully_created: 'Resource was successfully created.'
+  activity_calendar: "Activity Calendar"
+  risk_for_month: "Risk for month"
+  no_recursive_movements: "No recursive movement in the selected period"
+  settings: Settings

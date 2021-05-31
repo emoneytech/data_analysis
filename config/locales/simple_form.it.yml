@@ -1,0 +1,10 @@
+---
+it:
+  simple_form:
+    'yes': Sì
+    'no': 'No'
+    required:
+      text: richiesto
+      mark: "*"
+    error_notification:
+      default_message: 'Si prega di ricontrollare i seguenti errori:'

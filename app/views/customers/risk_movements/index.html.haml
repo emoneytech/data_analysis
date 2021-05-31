@@ -1,0 +1,42 @@
+.row
+  .col-md-6
+    .card.card-danger
+      .card-header
+        %h3.card-title
+          %i.fa.fa-user
+          %strong= @anagrafica.full_name
+      .card-body
+        = select_tag "tuple_activities", options_for_select(@anagrafica.eval_riskinesses.collect{ |u| ["#{tuple_to_html(eval u.eval_month)} (#{u.number_of_movements})", u.id] }, "#{@eval_riskiness.try(:id)}"), class: "select2"
+        %hr
+        #summary_risk_assessment= render "summary_risk_assessment", current_tuple: @current_tuple, anagrafica: @anagrafica
+      .card-footer.text-right
+        = link_to t(:recalculate_risk, default: "Recalculate risk"), recalculate_risk_data_analysis_anagrafica_risk_movements_path(@anagrafica), method: :post, class: "btn btn-danger", remote: true
+    #notes= render 'data_analysis/notes/notes', anagrafica: @anagrafica, notes: @anagrafica.notes
+
+
+    #donut_risk_assessment= render "donut_risk_assessment", current_tuple: @current_tuple, anagrafica: @anagrafica, danger_movements: @danger_movements
+    #column_risk_assessment= render "column_risk_assessment", current_tuple: @current_tuple, all_risk_movements: @all_risk_movements
+    #line_risk_assessment= render "line_risk_assessment", current_tuple: @current_tuple, all_risk_movements: @all_risk_movements
+
+  #day_report.col-md-6= render "day_report", current_tuple: @current_tuple, all_risk_movements: @all_risk_movements, anagrafica: @anagrafica
+
+
+#risk_movements_items.row= render "risk_movements", current_tuple: @current_tuple, risk_movements: @risk_movements
+
+
+:javascript
+  document.addEventListener("turbolinks:load", () => {
+    $('#tuple_activities').on("select2:select", function(e) {
+      var tuple = $(this).val();
+      $.ajax({
+        url: "#{customers_anagrafica_risk_movements_path(@anagrafica, format: :js)}",
+        type: "GET",
+        data: {
+            t: tuple
+          }
+      })
+    })
+    $('#inner-content-div').slimScroll({
+        height: '700px'
+    })
+  })

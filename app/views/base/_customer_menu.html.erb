@@ -1,0 +1,75 @@
+<li class="nav-item <%= ' menu-open menu-is-opening' if @module_name === 'Customers' %>">
+  <a href="<%= customers_anagrafica_path(customer.id) %>" class="nav-link">
+    <i class="nav-icon fa fa-user"></i>
+    <p>
+      <%= customer.full_name %>
+      <i class="right fas <%= @module_name === 'Customers' && customer ? 'fa-angle-down' : 'fa-angle-left' %>"></i>
+    </p>
+  </a>
+  <ul class="nav nav-treeview">
+    <li class="nav-item">
+      <a href="<%= customers_anagrafica_path(customer) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'anagrafiche' %>">
+        <i class="nav-icon fas fa-users"></i>
+        <p>
+          Show
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="<%= customers_anagrafica_movimenticonti_path(customer) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'movimenticonti' %>">
+        <i class="nav-icon fa fa-exchange-alt"></i>
+        <p>
+          <%= Movimentoconto.model_name.human(:count => 2) %>
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="<%= customers_anagrafica_servizi_path(customer) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'servizi' %>">
+        <i class="nav-icon fa fa-microchip"></i>
+        <p>
+          <%= Servizio.model_name.human(:count => 2) %>
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="<%= customers_anagrafica_risk_movements_path(customer) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'risk_movements' %>">
+        <i class="nav-icon fa fa-exclamation-triangle"></i>
+        <p>
+          <%= RiskMovement.model_name.human(:count => 2) %>
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="<%= customers_anagrafica_prodotti_path(customer) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'prodotti' %>">
+        <i class="nav-icon fa fa-box"></i>
+        <p>
+          <%= Prodotto.model_name.human(:count => 2) %>
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="<%= customers_anagrafica_eval_riskinesses_path(customer) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'eval_riskinesses' %>">
+        <i class="nav-icon fa fa-box"></i>
+        <p>
+          <%= EvalRiskiness.model_name.human(:count => 2) %>
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="<%= customers_anagrafica_evaluated_risks_path(customer) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'evaluated_risks' %>">
+        <i class="nav-icon fa fa-box"></i>
+        <p>
+          <%= EvaluatedRisk.model_name.human(:count => 2) %>
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="<%= customers_anagrafica_evaluated_movements_path(customer) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'evaluated_movements' %>">
+        <i class="nav-icon fa fa-box"></i>
+        <p>
+          <%= EvaluatedMovement.model_name.human(:count => 2) %>
+        </p>
+      </a>
+    </li>
+  </ul>
+</li>

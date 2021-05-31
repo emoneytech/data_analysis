@@ -1,0 +1,10 @@
+.row
+  - @syncable.each do |item|
+    .col-md-4.col-sm-6.col-12
+      .info-box.bg-info
+        .info-box-content
+          %span.info-box-text
+            = "#{item}"
+          %span.info-box-number
+            = "Last id: #{item.classify.constantize.last_id}"
+            = "Last Update: #{item.classify.constantize.last_update}" 

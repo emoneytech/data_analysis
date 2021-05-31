@@ -1,0 +1,18 @@
+.col-md-12
+  .card
+    .card-header
+      %h3.card-title
+        %i.fas.fa-microchip
+        = "#{Anagrafica.model_name.human}: #{@anagrafica.full_name} - "
+        = "#{Prodotto.model_name.human}: #{@prodotto.nome} - "
+        = Servizio.model_name.human(:count => 2)
+    .card-body
+      = render "table_service", servizi: @servizi
+    .card-footer.clearfix
+      .row
+        .col-md-12
+          = paginate @servizi, theme: 'twitter-bootstrap-4', nav_class: "float-right", pagination_class: 'm-0', total_pages: @cached_total_pages
+
+.row
+  #anagrafiche_item.col-md-12
+    = render "prodotto", prodotto: @prodotto

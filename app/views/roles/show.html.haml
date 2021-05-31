@@ -1,0 +1,15 @@
+.row
+  .col-md-12
+    .box.box-primary
+      .box-header
+        %h3.box-title= raw "#{fa_icon('key')} #{Role.model_name.human}: #{@role.presentation}"
+        .box-tools.pull-right= edit_link(@role)
+      .separator
+      .box-body
+        %dl.dl-horizontal
+          %dt= Role.human_attribute_name(:name)
+          %dd= @role.name
+          %dt= Role.human_attribute_name(:presentation)
+          %dd= @role.presentation
+          %dt= Role.human_attribute_name(:description)
+          %dd= @role.description

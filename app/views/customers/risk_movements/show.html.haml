@@ -1,0 +1,13 @@
+.row
+  .col-md-12
+    .card.card-danger
+      .card-header
+        %h3.card-title
+          %i.fa.fa-exclamation-triangle
+          #{RiskMovement.model_name.human} #{@risk_movement.id}
+      .card-body
+        %dl.row
+          - for attribute in @risk_movement.attributes.keys
+            %dt.col-md-4.text-right= RiskMovement.human_attribute_name(attribute)
+            %dd.col-md-8= blur_number @risk_movement.attributes[attribute].to_s
+

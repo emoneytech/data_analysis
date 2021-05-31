@@ -1,0 +1,26 @@
+%p.login-box-msg Sign in to start your session
+- flash.each do |key, value|
+  %div{class: "#{flash_class(key)}"}
+    %a{href:"#", class:"close", data: {dismiss: "alert"}}> &times;
+    = value
+
+= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+  .input-group.mb-3
+    = f.email_field :email, autocomplete: "email", class: 'form-control', placeholder: 'Email'
+    .input-group-append
+      .input-group-text
+        %span.fas.fa-envelope
+  .input-group.mb-3
+    = f.password_field :password, class: 'form-control', placeholder: 'Password'
+    .input-group-append
+      .input-group-text
+        %span.fas.fa-lock
+  .row
+    .col-8
+      - if devise_mapping.rememberable?
+        .field
+          = f.check_box :remember_me
+          = f.label :remember_me
+    .col-4.actions
+      = f.submit "Log in", class: 'btn btn-primary btn-block'
+= render "devise/shared/links"
