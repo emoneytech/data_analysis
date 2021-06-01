@@ -61,6 +61,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'mysql2', '>= 0.4.4'
+gem 'composite_primary_keys', '=13.0.0'
 gem 'sidekiq'
 gem 'sidekiq-status'
 gem 'sidekiq-scheduler'

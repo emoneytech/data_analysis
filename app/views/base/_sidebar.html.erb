@@ -102,6 +102,12 @@
             </a>
           </li>
           <%= render 'base/customer_menu', customer: @anagrafica if @module_name === 'Customers' && @anagrafica %>
+          <li class="nav-item">
+            <%= link_to destroy_user_session_path, :method=>'delete', class: 'nav-link' do %>
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>Logout</p>
+            <%- end %>
+          </li>
         </ul>
       </nav>
     </div>

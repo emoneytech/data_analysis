@@ -27,6 +27,7 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'Mandato', 'Mandati'
   inflect.irregular 'Movimentoconto', 'Movimenticonti'
   inflect.irregular 'Prodotto', 'Prodotti'
+  inflect.irregular 'Rischio', 'Rischi'
   inflect.irregular 'Tipo', 'Tipi'
   inflect.irregular 'Ricaricacarta', 'Ricarichecarta'
   inflect.irregular 'Servizio', 'Servizi'

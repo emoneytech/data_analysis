@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'data_analysis/dashboard2#index'
+  root 'data_analysis/dashboard#index'
   devise_for :users
 
   namespace :customers do
@@ -40,7 +40,7 @@ Rails.application.routes.draw do
       end
       resources :notes
     end
-
+    resources :rischi
     resources :sync, only: :index
     resources :eval_riskinesses
     resources :matviews

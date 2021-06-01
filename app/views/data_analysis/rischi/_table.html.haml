@@ -1,0 +1,41 @@
+%table.table.table-striped.table-bordered.table-hover{id: 'table_rischi'}
+  %thead
+    %tr
+      %th= Anagrafica.human_attribute_name(:anagrafica)
+      %th= Anagrafica.human_attribute_name(:full_name)
+      %th= Anagrafica.human_attribute_name(:created)
+      %th= Anagrafica.human_attribute_name(:rischio)
+      %th.action
+  %tbody
+    - rischi.each do |rischio|
+      %tr
+        %td= rischio.IdUtente
+        %td=# rischio.anagrafica.full_name
+        %td= rischio.Data
+        %td= rischio.Rischio
+        - if can? :manage, Anagrafica
+          %td.text-center
+            = link_to customers_anagrafica_path(rischio.anagrafica), class: "btn btn-xs btn-primary" do
+              %i.fa.fa-eye
+            = link_to customers_anagrafica_movimenticonti_path(rischio.anagrafica), class: "btn btn-xs btn-success" do
+              %i.fa.fa-exchange-alt
+            = link_to customers_anagrafica_servizi_path(rischio.anagrafica), class: "btn btn-xs btn-warning" do
+              %i.fa.fa-microchip
+            = link_to customers_anagrafica_risk_movements_path(rischio.anagrafica), class: "btn btn-xs btn-danger" do
+              %i.fa.fa-exclamation-triangle
+            = link_to customers_anagrafica_prodotti_path(rischio.anagrafica), class: "btn btn-xs bg-lightblue" do
+              %i.fa.fa-box
+            = link_to customers_anagrafica_eval_riskinesses_path(rischio.anagrafica), class: "btn btn-xs bg-maroon" do
+              %i.fa.fa-calendar
+
+:javascript
+  $(function () {
+    $('#table_rischi').DataTable({
+      "paging": false,
+      "info": false,
+      "responsive": true,
+      "lengthChange": true,
+      "autoWidth": true,
+      "buttons": ["copy", "csv", "excel", "pdf", "colvis"]
+    }).buttons().container().appendTo('#table_rischi_wrapper .col-md-6:eq(0)');
+  })

@@ -218,8 +218,10 @@ class Anagrafica < ApplicationCoreRecord
   has_many :evaluated_movements, -> { order(movement_created_at: :asc)}, foreign_key: :customer_id
 
   has_many :evaluated_risks, primary_key: 'IdUtente', foreign_key: :anagrafica_id
+  has_many :rischi, primary_key: 'IdUtente', foreign_key: :IdUtente, class_name: 'Rischio'
+  has_one :rischio_corrente, ->{ order(Data: :desc)}, primary_key: 'IdUtente', foreign_key: :IdUtente, class_name: 'Rischio'
 
-  
+  # scope :for_evaluation, -> { includes(:rischio_corrente).references(:rischio_corrente).order('rischio.Rischio desc')}
   def full_name
      company ? "#{company}" : "#{self.nome} #{self.cognome}"
   end
