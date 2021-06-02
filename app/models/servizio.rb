@@ -56,6 +56,7 @@ class Servizio < ApplicationCoreRecord
   has_one :bonifico, foreign_key: "idservizio", class_name: "Bonifico"
   has_one :assegnovirtuale, foreign_key: "Idservizio", class_name: "Assegnovirtuale"
   has_one :incassoassegno, foreign_key: "idservizio", class_name: "IncassoAssegno"
+  has_one :ricarica, foreign_key: "idservizio", class_name: "Ricarica"
 
 
   has_one :evaluated_movement, foreign_key: :service_id, primary_key: 'idservizio'
@@ -67,7 +68,7 @@ class Servizio < ApplicationCoreRecord
   scope :with_all_for_day, ->(days_begin, point) {
     with_amount.active_status.joins(:product, :anagrafica)
     .preload( :product, {anagrafica: :conti}, :movimenticonti,
-              :ricaricacarta, :bonifico, :assegnovirtuale, :incassoassegno )
+              :ricarica, :ricaricacarta, :bonifico, :assegnovirtuale, :incassoassegno )
     .includes(:movimenticonti)
     .where('movimenticonti.Point = ?', point)
     .references(:movimenticonti)
@@ -78,6 +79,7 @@ class Servizio < ApplicationCoreRecord
        -> { joins(:product, :anagrafica, :movimenticonti)
             .preload(
               :product, {anagrafica: :conti}, :movimenticonti,
+                  :ricarica,
                   :ricaricacarta,
                   :bonifico,
                   :assegnovirtuale,
@@ -395,5 +397,4 @@ class Servizio < ApplicationCoreRecord
       date_begin = date_begin.advance(months: 1)
     end
   end
-
 end

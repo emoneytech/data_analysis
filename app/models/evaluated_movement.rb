@@ -99,6 +99,12 @@ class EvaluatedMovement < ApplicationRecord
     self.beneficiary = 'Beneficiary not identifiable'
     return unless service.product.try(:nometabella)
     case service.product.nometabella
+    when 'Ricariche'
+      if service.ricarica
+        self.beneficiary = "#{service.ricarica.numerotelefono}"
+        self.beneficiary_iban = ""
+        self.beneficiary_other = "#{service.ricarica.action}"
+      end
     when 'ricarichecarta'
       self.beneficiary = "#{service.anagrafica.full_name}"
       if service.nomeprodotto === 'Transfer Own MasterCard'

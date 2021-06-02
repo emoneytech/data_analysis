@@ -7,7 +7,7 @@ class CreateEvaluatedMovementWorker
   def perform(service_id, point)
 
     service = Servizio.joins(:product,:anagrafica)
-                .preload(:product,{anagrafica: :conti},:movimenticonti,:ricaricacarta,:bonifico,:assegnovirtuale,:incassoassegno)
+                .preload(:product,{anagrafica: :conti},:movimenticonti,:ricarica,:ricaricacarta,:bonifico,:assegnovirtuale,:incassoassegno)
                 .includes(:movimenticonti)
                 .where('movimenticonti.Point = ?', point)
                 .references(:movimenticonti)
