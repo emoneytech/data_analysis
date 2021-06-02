@@ -320,6 +320,40 @@ class Servizio < ApplicationCoreRecord
   end
 
   def self.create_evaluated_movements(year = 2016)
+    if year.to_i == 2014
+      date =  Servizio.select(:datainserimento).order(datainserimento: :asc).first.datainserimento.to_date
+    else
+      date = Date.new(year,1,1).to_date
+    end
+    date_begin = date.to_date.beginning_of_month
+    stop = date.at_end_of_year.to_date
+    while (date_begin <= stop)
+      days_begin = date_begin.beginning_of_month < date ? date : date_begin.beginning_of_month
+      days_stop = days_begin.at_end_of_month > stop ? stop : days_begin.at_end_of_month 
+      while (days_begin <= days_stop)
+        Servizio.select(
+          :idservizio, :point
+        ).where(
+          "servizi.datainserimento BETWEEN '#{days_begin.beginning_of_day}'
+          AND '#{days_begin.end_of_day}'"
+        ).order(
+          datainserimento: :asc
+        ).each_slice(100) do |services|
+          services.each do |s|
+            worker_id = CreateEvaluatedMovementWorker.perform_async(
+              s.idservizio,
+              s.point
+            )
+          end
+        end
+        days_begin = days_begin.advance(days: 1)
+      end
+      puts "- #{days_begin.to_s}"
+      date_begin = date_begin.advance(months: 1)
+    end
+  end
+
+  def self.update_evaluated_movements(year = 2016)
     default_product_base_risk = Configurable.default_product_base_risk.to_f
     max_base_risk = Configurable.max_base_risk.to_f
     factor_for_amount = Configurable.factor_for_amount.to_f
@@ -344,7 +378,7 @@ class Servizio < ApplicationCoreRecord
           datainserimento: :asc
         ).each_slice(100) do |services|
           services.each do |s|
-            worker_id = CreateEvaluatedMovementWorker.perform_async(
+            worker_id = UpdateEvaluatedMovementWorker.perform_async(
               s.idservizio,
               s.point,
               default_product_base_risk,

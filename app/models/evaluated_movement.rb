@@ -26,6 +26,7 @@
 #
 class EvaluatedMovement < ApplicationRecord
   monetize :amount_cents
+  serialize :recursion, JSON
 
   belongs_to :customer,
              class_name: 'Anagrafica',
@@ -58,12 +59,24 @@ class EvaluatedMovement < ApplicationRecord
     factor_for_amount = Configurable.factor_for_amount.to_f,
     divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
   )
+    self.set_customer(service.anagrafica)
     self.set_service(service)
     self.set_movement(service)
     self.set_beneficiary(service)
-    self.set_customer(service.anagrafica)
     self.set_product_base_risk(service.product, default_product_base_risk)
     self.set_evaluated_risk_factor(service.anagrafica, factor_for_amount, divisor_amount_for_factor)
+  end
+
+  def build_for_service(service)
+    self.set_customer(service.anagrafica)
+    self.set_service(service)
+    self.set_movement(service)
+    self.set_beneficiary(service)
+  end
+
+  def set_customer(anagrafica)
+    self.customer_id = anagrafica.id
+    self.customer_full_name = anagrafica.full_name
   end
 
   def set_service(service)
@@ -113,11 +126,6 @@ class EvaluatedMovement < ApplicationRecord
     end
   end
 
-  def set_customer(anagrafica)
-    self.customer_id = anagrafica.id
-    self.customer_full_name = anagrafica.full_name
-  end
-
   def set_product_base_risk(
     product,
     default_product_base_risk = Configurable.default_product_base_risk.to_f)
@@ -165,13 +173,39 @@ class EvaluatedMovement < ApplicationRecord
     end
   end
 
-  def count_recursive(days=7)
+  def count_recursive_for_customer(days=7)
     start_date = self.movement_created_at.to_date - days.days
     end_date = self.movement_created_at.to_date
     EvaluatedMovement.where(customer_id: self.customer_id)
     .where("evaluated_movements.beneficiary = ? OR evaluated_movements.beneficiary_iban = ?", self.beneficiary, self.beneficiary_iban)
     .where("evaluated_movements.movement_created_at BETWEEN '#{start_date.to_date.beginning_of_day}' 
             AND '#{end_date}'").count
+  end
+
+  def count_recursive(days=7)
+    start_date = self.movement_created_at.to_date - days.days
+    end_date = self.movement_created_at.to_date
+    EvaluatedMovement.where(
+      "evaluated_movements.beneficiary = ? 
+        OR evaluated_movements.beneficiary_iban = ?", self.beneficiary, self.beneficiary_iban
+    ).where(
+      "evaluated_movements.movement_created_at 
+        BETWEEN '#{start_date.to_date.beginning_of_day}' 
+        AND '#{end_date}'"
+    ).count
+  end
+
+  def set_recursion
+    self.recursion = {
+      "customer_id": {
+        "day_7": count_recursive_for_customer(days=7),
+        "day_30": count_recursive_for_customer(days=30)
+      },
+      "all": {
+        "day_7": count_recursive(days=7),
+        "day_30": count_recursive(days=30)
+      }
+    }
   end
 
 end

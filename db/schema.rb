@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_29_085742) do
+ActiveRecord::Schema.define(version: 2021_06_02_074401) do
 
   create_table "active_admin_comments", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(version: 2021_05_29_085742) do
     t.string "amount_currency", default: "EUR", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "recursion"
     t.index ["customer_id"], name: "index_evaluated_movements_on_customer_id"
     t.index ["movement_id"], name: "index_evaluated_movements_on_movement_id"
     t.index ["service_id"], name: "index_evaluated_movements_on_service_id"
