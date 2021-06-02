@@ -1,4 +1,6 @@
 require 'sidekiq/web'
+require 'sidekiq-status'
+require 'sidekiq-status/web'
 Sidekiq::Web.app_url = "/data_analysis/dashboard"
 
 sidekiq_config = { url: ENV['JOB_WORKER_URL'] }
