@@ -1,7 +1,7 @@
 class CreateEvaluatedMovementWorker
   include Sidekiq::Worker
   # sidekiq_options queue: 'critical', retry: false, backtrace: true
-  sidekiq_options queue: 'critical', retry: 0, dead: true
+  sidekiq_options queue: 'critical'
 
   def perform(service_id, point)
 
