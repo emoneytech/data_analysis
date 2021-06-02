@@ -1,7 +1,7 @@
 class CreateEvaluatedMovementWorker
   include Sidekiq::Worker
   # sidekiq_options queue: 'critical', retry: false, backtrace: true
-  sidekiq_options queue: 'critical', retry: 3
+  sidekiq_options queue: 'critical', retry: 0, dead: true
 
   def perform(service_id, point, default_product_base_risk,
               max_base_risk, factor_for_amount, divisor_amount_for_factor)

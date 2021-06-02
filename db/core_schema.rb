@@ -309,6 +309,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer "Segnalazioni", default: 0
     t.integer "Compliance", default: 0
     t.integer "Cbar", default: 0
+    t.integer "Escalation", default: 0
   end
 
   create_table "aml_cronologia_questionario", primary_key: "idaml_cronologia_questionario", id: :integer, charset: "latin1", force: :cascade do |t|
@@ -1839,6 +1840,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.bigint "IdUtente", null: false
     t.decimal "Rischio", precision: 10, scale: 2, default: "0.0"
     t.datetime "Data", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["Data", "Rischio"], name: "rischio_and_data_index"
+    t.index ["Rischio"], name: "Rischio"
   end
 
   create_table "saldicog", primary_key: "idsaldicog", id: :integer, charset: "latin1", force: :cascade do |t|
@@ -1920,6 +1923,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.bigint "provenienza"
     t.bigint "idcausale"
     t.string "point_operator", default: "\"\""
+    t.index ["datainserimento"], name: "datainserimento"
     t.index ["importo"], name: "importo"
     t.index ["operatore"], name: "operatore"
     t.index ["point"], name: "point"

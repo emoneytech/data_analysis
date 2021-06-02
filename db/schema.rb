@@ -193,6 +193,7 @@ ActiveRecord::Schema.define(version: 2021_05_29_085742) do
 
   create_table "worker_errors", charset: "latin1", force: :cascade do |t|
     t.string "name"
+    t.string "error"
     t.string "params"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
