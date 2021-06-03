@@ -6,9 +6,8 @@ class CreateEvaluatedMovementWorker
 
   def perform(service_id, point)
 
-    service = Servizio.joins(:product,:anagrafica)
+    service = Servizio.joins(:product,:anagrafica,:movimenticonti)
                 .preload(:product,{anagrafica: :conti},:movimenticonti,:ricarica,:ricaricacarta,:bonifico,:assegnovirtuale,:incassoassegno)
-                .includes(:movimenticonti)
                 .where('movimenticonti.Point = ?', point)
                 .references(:movimenticonti)
                 .where(point: point,idservizio: service_id)
@@ -19,3 +18,6 @@ class CreateEvaluatedMovementWorker
     em.save
   end
 end
+service = Servizio.where(point: point,idservizio: service_id).first
+
+# service = Servizio.joins(:product,:anagrafica,:movimenticonti).preload(:product,{anagrafica: :conti},:movimenticonti,:ricarica,:ricaricacarta,:bonifico,:assegnovirtuale,:incassoassegno).where('movimenticonti.Point = ?', point).references(:movimenticonti).where(point: point,idservizio: service_id).uniq.first

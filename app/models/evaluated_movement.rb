@@ -122,7 +122,12 @@ class EvaluatedMovement < ApplicationRecord
           "#{service.bonifico.Paese}, #{service.bonifico.dloc}, #{service.bonifico.dindirizzo}"
       end
     when 'assegnovirtuale'
-      self.beneficiary = "#{service.assegnovirtuale.beneficiary_name}"
+      if self.prodotto.to_s == "1614"
+        movement = service.movimenticonti.where(Point: service.anagrafica.id).where(contodiprovenienza: service.anagrafica.conti.pluck(:Pan)).first
+        self.beneficiary = "#{movement.Causale}"
+      else
+        self.beneficiary = "#{service.assegnovirtuale.beneficiary_name}"
+      end
     when 'incassoAssegno'
       self.beneficiary = "#{service.incassoassegno.beneficiary_name}"
       self.beneficiary_iban = "#{service.incassoassegno.beneficiary_iban}"
