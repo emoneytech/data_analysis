@@ -35,5 +35,6 @@ module AiRiskMonitor
     # way to use them through Active Job. We just need to tell it to use Sidekiq.
     config.active_job.queue_adapter = :sidekiq
     config.time_zone = "Europe/Malta"
+    config.active_record.default_timezone = :local
   end
 end
