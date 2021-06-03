@@ -1,13 +1,12 @@
 .row
   .col-md-12
-    .box.box-primary
-      .box-header
-        %h3.box-title
+    .card.card-primary
+      .card-header
+        %h3.card-title
           %i.fa.fa-key
           = t(:listing_resource, resource: Role.model_name.human(:count => 2))
-      .separator
-      .box-body
-        %table.table.table-striped.table-bordered.table-hover.margin-none
+      .card-body
+        %table.table.table-striped.table-bordered.table-hover.margin-none.data-table
           %thead
             %tr
               %th= Role.human_attribute_name(:name)
@@ -23,5 +22,5 @@
                 %td
                   - if can? :manage, Role
                     = link_to fa_icon("edit"), [:edit, role], class: "btn btn-xs btn-warning" if can? :edit, role
-      .panel-footer.text-right
+      .card-footer.text-right
         = link_to(t(:add_resource, resource: Role.model_name.human), new_role_path, class: "btn btn-success") if can? :create, Role

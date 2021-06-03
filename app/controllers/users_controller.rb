@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   load_and_authorize_resource except: :create
-  add_breadcrumb User.model_name.human(count: 2), :manager_users_path
+  add_breadcrumb User.model_name.human(count: 2), :users
 
   def index
     if params[:filter]

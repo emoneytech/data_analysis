@@ -4,7 +4,7 @@ class ManagerController < ApplicationController
 
   include ApplicationHelper
   load_and_authorize_resource
-  add_breadcrumb helpers.raw("#{helpers.fa_icon('dashboard')} Dashboard"), :manager_dashboard_index_path
+  add_breadcrumb helpers.raw("#{helpers.fa_icon('tachometer-alt')} Dashboard"), :data_analysis_dashboard_index
 
 protected
   def start_time

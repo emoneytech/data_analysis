@@ -1,4 +1,4 @@
-%table.table.table-striped.table-bordered.table-hover{id: 'table_servizi'}
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_servizi'}
   %thead
     %tr
       %th= Servizio.human_attribute_name(:servizio)
@@ -24,7 +24,7 @@
             = link_to customers_anagrafica_servizio_path(@anagrafica,item), class: "btn btn-xs btn-primary" do
               %i.fa.fa-eye
 :javascript
-  $(function () {
+  document.addEventListener("turbolinks:load", () => {
     $('#table_servizi').DataTable({
       "paging": false,
       "info": false,

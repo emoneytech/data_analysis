@@ -12,10 +12,10 @@
     },
     "manager": {
       "js": [
-        "/public/assets/js/manager-136fa4a626c93d7f0269.js"
+        "/public/assets/js/manager-3bf7e5dddab8b3f7739e.js"
       ],
       "js.map": [
-        "/public/assets/js/manager-136fa4a626c93d7f0269.js.map"
+        "/public/assets/js/manager-3bf7e5dddab8b3f7739e.js.map"
       ]
     },
     "plugins/datatables": {
@@ -51,8 +51,8 @@
       ]
     }
   },
-  "manager.js": "/public/assets/js/manager-136fa4a626c93d7f0269.js",
-  "manager.js.map": "/public/assets/js/manager-136fa4a626c93d7f0269.js.map",
+  "manager.js": "/public/assets/js/manager-3bf7e5dddab8b3f7739e.js",
+  "manager.js.map": "/public/assets/js/manager-3bf7e5dddab8b3f7739e.js.map",
   "plugins/datatables.js": "/public/assets/js/plugins/datatables-77f19dcd2783dbd0dcc6.js",
   "plugins/datatables.js.map": "/public/assets/js/plugins/datatables-77f19dcd2783dbd0dcc6.js.map",
   "plugins/daterangepicker.js": "/public/assets/js/plugins/daterangepicker-29b69de54919013fff97.js",

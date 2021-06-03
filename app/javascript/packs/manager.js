@@ -17,9 +17,17 @@ import "../plugins/index.js"
 
 require("jquery")
 require('select2')
+require('./plugins/datatables.js')
+require('./plugins/duallistbox.js')
+require('./plugins/daterangepicker.js')
 require('./plugins/jquery.slimscroll.min.js')
+
 import "select2/dist/css/select2.min.css"
 import "select2-bootstrap4-theme/dist/select2-bootstrap4.min.css"
+
+import "admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css"
+import "admin-lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"
+import "admin-lte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css"
 
 document.addEventListener("turbolinks:load", () => {
   $('[data-toggle="tooltip"]').tooltip()

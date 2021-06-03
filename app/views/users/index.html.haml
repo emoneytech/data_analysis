@@ -5,36 +5,36 @@
         = link_to t(:all), users_path, class: "btn btn-default#{' active' unless @current_role }"
         - Role.active.each do |role|
           = link_to t(role.presentation, default: role.presentation).capitalize, users_path(filter: {role: role.name} ), class: "btn btn-default#{' active' if @current_role == role.name.to_s }"
-.spacer
 
 .row
   .col-md-12
-    .box.box-primary
-      .box-header
-        %h3.box-title
-          %i.fa.fa-group
+    .card.card-primary
+      .card-header
+        %h3.card-title
+          %i.fa.fa-users
           = t(:listing_resource, resource: User.model_name.human(:count => 2))
         = link_to(t(:new_resource, resource: User.model_name.human), new_user_path(@user), class: "btn btn-success btn-sm pull-right") if can? :create, User
-      %table.table.table-striped.table-bordered.table-hover.margin-none
-        %thead
-          %tr
-            %th= User.human_attribute_name(:full_name)
-            - if can? :manage, User
-              %th= User.human_attribute_name(:nickname)
-              %th= User.human_attribute_name(:role)
-            %th.col-md-1{nowrap: true}
-        %tbody
-          - @users.each do |user|
+      .card-body
+        %table.table.table-striped.table-bordered.table-hover.margin-none.data-table
+          %thead
             %tr
-              %td= link_to user.full_name, user_path(user)
+              %th= User.human_attribute_name(:full_name)
               - if can? :manage, User
-                %td= user.nickname
-                %td= user.role
-              - if can? :manage, User
-                %td.col-md-1{nowrap: true}
-                  = edit_link(user)
-                  = delete_link(user)
-      .box-footer.clearfix
+                %th= User.human_attribute_name(:nickname)
+                %th= User.human_attribute_name(:role)
+              %th.col-md-1{nowrap: true}
+          %tbody
+            - @users.each do |user|
+              %tr
+                %td= link_to user.full_name, user_path(user)
+                - if can? :manage, User
+                  %td= user.nickname
+                  %td= user.role
+                - if can? :manage, User
+                  %td.col-md-1{nowrap: true}
+                    = edit_link(user)
+                    = delete_link(user)
+      .card-footer.clearfix
         .row
           .col-md-6
             = page_entries_info @users

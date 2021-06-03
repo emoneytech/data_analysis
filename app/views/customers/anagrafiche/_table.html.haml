@@ -1,4 +1,4 @@
-%table.table.table-striped.table-bordered.table-hover{id: 'table_anagrafiche'}
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_anagrafiche'}
   %thead
     %tr
       %th= Anagrafica.human_attribute_name(:anagrafica)
@@ -29,7 +29,7 @@
               %i.fa.fa-calendar
 
 :javascript
-  $(function () {
+  document.addEventListener("turbolinks:load", () => {
     $('#table_anagrafiche').DataTable({
       "paging": false,
       "info": false,

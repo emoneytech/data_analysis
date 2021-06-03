@@ -1,4 +1,4 @@
-%table.table.table-striped.table-bordered.table-hover{id: 'table_movements'}
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_movements'}
   %thead
     %tr
       %th= Movimentoconto.human_attribute_name(:id)
@@ -34,13 +34,14 @@
             = link_to data_analysis_movimentoconto_path(item), class: "btn btn-xs btn-primary" do
               %i.fa.fa-eye
 :javascript
-  $(function () {
+  document.addEventListener("turbolinks:load", () => {
     $('#table_movements').DataTable({
       "paging": false,
       "info": false,
       "responsive": true,
       "lengthChange": true,
-      "autoWidth": true,
+      "ordering": true,
+      "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "colvis"]
     }).buttons().container().appendTo('#table_movements_wrapper .col-md-6:eq(0)');
   })

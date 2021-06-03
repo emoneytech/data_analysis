@@ -1,4 +1,4 @@
-%table.table.table-striped.table-bordered.table-hover{id: 'table_movements'}
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_movements'}
   %thead
     %tr
       %th= Movimentoconto.human_attribute_name(:id)
@@ -30,7 +30,7 @@
             = link_to customers_anagrafica_movimentoconto_path(@anagrafica,item), class: "btn btn-xs btn-primary" do
               %i.fa.fa-eye
 :javascript
-  $(function () {
+  document.addEventListener("turbolinks:load", () => {
     $('#table_movements').DataTable({
       "paging": false,
       "info": false,

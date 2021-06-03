@@ -1,4 +1,4 @@
-%table.table.table-striped.table-bordered.table-hover.margin-none{id: 'table_eval_riskinesses'}
+%table.table.table-striped.table-bordered.table-hover.margin-none.data-table{id: 'table_eval_riskinesses'}
   %thead
     %tr
       %th.col-md-1.text-center= Anagrafica.human_attribute_name(:id)
@@ -28,7 +28,7 @@
             =# link_to "G", [:data_analysis, Anagrafica, f: "#{item.eval_evaluable.codice_fiscale}"], class: "btn btn-warning btn-xs", data:{toggle: "tooltip"}, title: Anagrafica.human_attribute_name(:group)
 
 :javascript
-  $(function () {
+  document.addEventListener("turbolinks:load", () => {
     $('#table_eval_riskinesses').DataTable({
       "paging": false,
       "info": false,

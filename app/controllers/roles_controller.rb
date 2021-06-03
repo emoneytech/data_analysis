@@ -1,6 +1,6 @@
 class RolesController < ManagerController
   before_action :set_role, only: [:show, :edit, :update, :destroy]
-  add_breadcrumb Role.model_name.human(count: 2), :manager_roles_path
+  add_breadcrumb Role.model_name.human(count: 2), :data_analysis_roles_path
   # GET /roles
   # GET /roles.json
   def index

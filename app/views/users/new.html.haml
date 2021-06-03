@@ -1,15 +1,15 @@
 .row
   .col-md-12
-    = simple_form_for [:manager, @user] do |f|
-      .box.box-primary
-        .box-header
-          %h3.box-title
+    = simple_form_for @user do |f|
+      .card.card-primary
+        .card-header
+          %h3.card-title
             %i.fa.fa-user
             = t(:add_resource, resource: User.model_name.human)
           .spacer
-        .box-body
+        .card-body
           = render 'form', f: f
-        .box-footer.clearfix
+        .card-footer.clearfix
           = link_to t(:cancel, default: "Cancel"), users_path, class: "btn btn-warning"
           = f.submit class: "btn btn-success"
 
