@@ -42,6 +42,8 @@ class EvaluatedMovement < ApplicationRecord
              foreign_key: 'movement_id',
              primary_key: 'idMovimentiConti'
 
+  # before_save :set_recursion
+
   def self.last_service_id
     select(:service_id).order(service_id: :desc).first.try(:service_id) || 0
   end

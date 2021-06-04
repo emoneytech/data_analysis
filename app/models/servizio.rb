@@ -321,7 +321,7 @@ class Servizio < ApplicationCoreRecord
     }
   end
 
-  def self.create_evaluated_movements(year = 2016, default_product_base_risk = Configurable.default_product_base_risk.to_f)
+  def self.create_evaluated_movements(year = 2014, default_product_base_risk = Configurable.default_product_base_risk.to_f)
     if year.to_i == 2014
       date =  Servizio.select(:datainserimento).order(datainserimento: :asc).first.datainserimento.to_date
     else
@@ -335,6 +335,9 @@ class Servizio < ApplicationCoreRecord
       while (days_begin <= days_stop)
         Servizio.select(
           :idservizio, :point
+        ).where(
+          "servizi.nomeprodotto != ? 
+            AND servizi.nomeprodotto != ?", 'Sms', 'Token'
         ).where(
           "servizi.datainserimento BETWEEN '#{days_begin.beginning_of_day}'
           AND '#{days_begin.end_of_day}'"
