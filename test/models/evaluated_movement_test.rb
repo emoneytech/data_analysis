@@ -23,6 +23,7 @@
 #  amount_currency     :string(255)      default("EUR"), not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  recursion           :text(65535)
 #
 require "test_helper"
 

@@ -321,7 +321,7 @@ class Servizio < ApplicationCoreRecord
     }
   end
 
-  def self.create_evaluated_movements(year = 2016)
+  def self.create_evaluated_movements(year = 2016, default_product_base_risk = Configurable.default_product_base_risk.to_f)
     if year.to_i == 2014
       date =  Servizio.select(:datainserimento).order(datainserimento: :asc).first.datainserimento.to_date
     else
@@ -344,7 +344,8 @@ class Servizio < ApplicationCoreRecord
           services.each do |s|
             worker_id = CreateEvaluatedMovementWorker.perform_async(
               s.idservizio,
-              s.point
+              s.point,
+              default_product_base_risk
             )
           end
         end

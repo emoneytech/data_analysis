@@ -23,6 +23,7 @@
 #  amount_currency     :string(255)      default("EUR"), not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  recursion           :text(65535)
 #
 class EvaluatedMovement < ApplicationRecord
   monetize :amount_cents
@@ -49,8 +50,16 @@ class EvaluatedMovement < ApplicationRecord
     EvaluatedMovement.where("customer_id = ? AND movement_created_at < ? ", self.customer_id, self.movement_created_at).order(movement_created_at: :desc).first
   end
   
+  def all_previous
+    EvaluatedMovement.where("movement_created_at < ? ", self.movement_created_at).order(movement_created_at: :desc).first
+  end
+
   def next
     EvaluatedMovement.where("customer_id = ? AND movement_created_at > ?", self.customer_id, self.movement_created_at).order(movement_created_at: :asc).first
+  end
+
+  def all_next
+    EvaluatedMovement.where("movement_created_at > ?", self.movement_created_at).order(movement_created_at: :asc).first
   end
 
   def set_properties(service,

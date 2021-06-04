@@ -27,22 +27,10 @@ Rails.application.routes.draw do
   namespace :data_analysis do
     resources :dashboard, only: :index
     resources :dashboard2, only: :index
-    resources :anagrafiche do
-      resources :risk_movements, only: [:show, :index] do
-        collection do
-          post :recalculate_risk
-          get :details
-        end
-      end
-      resources :conti
-      resources :anagrafica_time_lapse_factors do 
-        resources :time_lapse_factor_audits
-      end
-      resources :notes
-    end
     resources :rischi
     resources :sync, only: :index
     resources :eval_riskinesses
+    resources :evaluated_movements
     resources :matviews
     resources :movimenticonti
     resources :servizi do

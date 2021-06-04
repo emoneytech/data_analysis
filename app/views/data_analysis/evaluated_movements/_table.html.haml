@@ -1,0 +1,24 @@
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_movements'}
+  %thead
+    %tr
+      %th= EvaluatedRisk.human_attribute_name(:id)
+      %th= EvaluatedRisk.human_attribute_name(:service_id)
+      %th= EvaluatedRisk.human_attribute_name(:product_name)
+      %th= EvaluatedRisk.human_attribute_name(:beneficiary)
+      %th= EvaluatedRisk.human_attribute_name(:product_base_risk)
+      %th= EvaluatedRisk.human_attribute_name(:recursion)
+      %th= EvaluatedRisk.human_attribute_name(:amount)
+      %th.action
+  %tbody
+    - evaluated_movements.each do |item|
+      %tr
+        %td= item.id
+        %td= item.service_id
+        %td= item.product_name
+        %td= item.beneficiary
+        %td= item.product_base_risk
+        %td= item.recursion
+        %td= item.amount
+        %td.text-center
+          = link_to [:data_analysis, item], class: "btn btn-xs btn-primary" do
+            %i.fa.fa-eye

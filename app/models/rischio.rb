@@ -2,9 +2,9 @@
 #
 # Table name: rischio
 #
-#  IdUtente :bigint           not null
+#  IdUtente :bigint           not null, primary key
 #  Rischio  :decimal(10, 2)   default(0.0)
-#  Data     :datetime         not null
+#  Data     :datetime         not null, primary key
 #
 class Rischio < ApplicationCoreRecord
 

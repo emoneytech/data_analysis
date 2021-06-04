@@ -15,7 +15,7 @@
       %tr
         %td.col-md-1.text-center= link_to item.eval_evaluable.try(:id), "https://management.emoneyplc.biz/Mod_Anagrafica.aspx?op=upd&IdUtente=#{item.eval_evaluable.try(:id)}", target: '_blank'
         %td
-          = link_to item.eval_evaluable.try(:full_name), [:data_analysis, item.eval_evaluable]
+          = link_to item.eval_evaluable.try(:full_name), [:customers, item.eval_evaluable]
         %td= item.number_of_movements
         %td.col-md-1.text-center= item.eval_evaluable.try(:vendor)
         %td.col-md-1.text-center= item.eval_evaluable.try(:tipo).try(:name)
@@ -23,7 +23,7 @@
         %td.col-md-1.text-center= item.eval_score
         %td.col-md-1.text-center= trend_helper(item.trend)
         %td.col-md-1.text-center{nowrap: true}
-          = link_to fa_icon('eye'), data_analysis_anagrafica_risk_movements_path(item.eval_evaluable), class: "btn btn-xs btn-danger", data:{toggle: "tooltip"}, title: Anagrafica.human_attribute_name(:risk_movements)
+          = link_to fa_icon('eye'), customers_anagrafica_risk_movements_path(item.eval_evaluable), class: "btn btn-xs btn-danger", data:{toggle: "tooltip"}, title: Anagrafica.human_attribute_name(:risk_movements)
           -# if GruppiAnagrafica.where("codice_fiscale like ?", item.eval_evaluable.codice_fiscale).count >= 1
             =# link_to "G", [:data_analysis, Anagrafica, f: "#{item.eval_evaluable.codice_fiscale}"], class: "btn btn-warning btn-xs", data:{toggle: "tooltip"}, title: Anagrafica.human_attribute_name(:group)
 

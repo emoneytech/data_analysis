@@ -5,6 +5,6 @@ class CreateEvaluatedPerYearWorker
   sidekiq_options queue: 'default'
 
   def perform(year)
-    Servizio.create_evaluated_movements(year.to_i)
+    Servizio.create_evaluated_movements(year.to_i, Configurable.default_product_base_risk.to_f)
   end
 end

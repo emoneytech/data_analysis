@@ -4,7 +4,7 @@ class CreateEvaluatedMovementWorker
   # sidekiq_options queue: 'critical', retry: false, backtrace: true
   sidekiq_options queue: 'critical'
 
-  def perform(service_id, point)
+  def perform(service_id, point, default_product_base_risk = Configurable.default_product_base_risk.to_f)
 
     service = Servizio.joins(:product,:anagrafica,:movimenticonti)
                 .preload(:product,{anagrafica: :conti},:movimenticonti,:ricarica,:ricaricacarta,:bonifico,:assegnovirtuale,:incassoassegno)
@@ -15,6 +15,7 @@ class CreateEvaluatedMovementWorker
     return unless service
     em = EvaluatedMovement.where(service_id: service.id).first_or_initialize
     em.build_for_service(service)
+    em.set_product_base_risk(service.product, default_product_base_risk)
     em.save
   end
 end
