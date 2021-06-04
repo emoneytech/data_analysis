@@ -125,6 +125,8 @@ class EvaluatedMovement < ApplicationRecord
       if service.prodotto.to_s == "1614" || service.prodotto.to_s == "1612"
         movement = service.movimenticonti.where(Point: service.anagrafica.id).where(contodiprovenienza: service.anagrafica.conti.pluck(:Pan)).first
         self.beneficiary = "#{movement.Causale}"
+      elsif service.prodotto.to_s == "200618" || service.prodotto.to_s == "200619" || service.prodotto.to_s == "200620"
+        self.beneficiary = "Beneficiary not identifiable"
       else
         self.beneficiary = "#{service.assegnovirtuale.beneficiary_name}"
       end
