@@ -7,5 +7,6 @@ class SetRecursionToEvaluatedMovementWorker
   def perform(evaluated_movement_id)
     em = EvaluatedMovement.find evaluated_movement_id
     em.set_recursion
+    em.save
   end
 end
