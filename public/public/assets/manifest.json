@@ -12,18 +12,26 @@
     },
     "manager": {
       "js": [
-        "/public/assets/js/manager-6d632008aa791d87547b.js"
+        "/public/assets/js/manager-c8a2624ebc08fa772fc5.js"
       ],
       "js.map": [
-        "/public/assets/js/manager-6d632008aa791d87547b.js.map"
+        "/public/assets/js/manager-c8a2624ebc08fa772fc5.js.map"
       ]
     },
     "plugins/datatables": {
       "js": [
-        "/public/assets/js/plugins/datatables-72aec71e97e19346c0e4.js"
+        "/public/assets/js/plugins/datatables-f755660092726b5eb1a0.js"
       ],
       "js.map": [
-        "/public/assets/js/plugins/datatables-72aec71e97e19346c0e4.js.map"
+        "/public/assets/js/plugins/datatables-f755660092726b5eb1a0.js.map"
+      ]
+    },
+    "plugins/datatabses2": {
+      "js": [
+        "/public/assets/js/plugins/datatabses2-0021455df8ca05072920.js"
+      ],
+      "js.map": [
+        "/public/assets/js/plugins/datatabses2-0021455df8ca05072920.js.map"
       ]
     },
     "plugins/daterangepicker": {
@@ -51,10 +59,12 @@
       ]
     }
   },
-  "manager.js": "/public/assets/js/manager-6d632008aa791d87547b.js",
-  "manager.js.map": "/public/assets/js/manager-6d632008aa791d87547b.js.map",
-  "plugins/datatables.js": "/public/assets/js/plugins/datatables-72aec71e97e19346c0e4.js",
-  "plugins/datatables.js.map": "/public/assets/js/plugins/datatables-72aec71e97e19346c0e4.js.map",
+  "manager.js": "/public/assets/js/manager-c8a2624ebc08fa772fc5.js",
+  "manager.js.map": "/public/assets/js/manager-c8a2624ebc08fa772fc5.js.map",
+  "plugins/datatables.js": "/public/assets/js/plugins/datatables-f755660092726b5eb1a0.js",
+  "plugins/datatables.js.map": "/public/assets/js/plugins/datatables-f755660092726b5eb1a0.js.map",
+  "plugins/datatabses2.js": "/public/assets/js/plugins/datatabses2-0021455df8ca05072920.js",
+  "plugins/datatabses2.js.map": "/public/assets/js/plugins/datatabses2-0021455df8ca05072920.js.map",
   "plugins/daterangepicker.js": "/public/assets/js/plugins/daterangepicker-29b69de54919013fff97.js",
   "plugins/daterangepicker.js.map": "/public/assets/js/plugins/daterangepicker-29b69de54919013fff97.js.map",
   "plugins/duallistbox.js": "/public/assets/js/plugins/duallistbox-db3dbb1b9eb726d36663.js",

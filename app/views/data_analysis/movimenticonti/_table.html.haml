@@ -1,3 +1,6 @@
+- content_for :javascript_in_head do
+  = javascript_pack_tag 'plugins/datatables', 'data-turbolinks-track': 'reload'
+
 %table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_movements'}
   %thead
     %tr
@@ -26,7 +29,7 @@
         %td= item.importo
         %td= item.datamovimento
         %td= item.point
-        %td= link_to item.anagrafica.full_name, [:data_analysis, item.anagrafica] if item.anagrafica
+        %td= link_to item.anagrafica.full_name, [:customers, item.anagrafica] if item.anagrafica
         %td= item.causale
         %td= item.idcausale
         - if can? :manage, Movimentoconto
@@ -39,8 +42,7 @@
       "paging": false,
       "info": false,
       "responsive": true,
-      "lengthChange": true,
-      "ordering": true,
+      "lengthChange": false,
       "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "colvis"]
     }).buttons().container().appendTo('#table_movements_wrapper .col-md-6:eq(0)');

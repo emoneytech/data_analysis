@@ -1,3 +1,5 @@
+- content_for :javascript_in_head do
+  = javascript_pack_tag 'plugins/datatables', 'data-turbolinks-track': 'reload'
 %table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_servizi'}
   %thead
     %tr
@@ -29,8 +31,8 @@
       "paging": false,
       "info": false,
       "responsive": true,
-      "lengthChange": true,
-      "autoWidth": true,
+      "lengthChange": false,
+      "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "colvis"]
     }).buttons().container().appendTo('#table_servizi_wrapper .col-md-6:eq(0)');
   })

@@ -1,19 +1,26 @@
+- content_for :javascript_in_head do
+  = javascript_pack_tag 'plugins/datatables', 'data-turbolinks-track': 'reload'
+
 %table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_movements'}
   %thead
     %tr
-      %th= EvaluatedRisk.human_attribute_name(:id)
-      %th= EvaluatedRisk.human_attribute_name(:service_id)
-      %th= EvaluatedRisk.human_attribute_name(:product_name)
-      %th= EvaluatedRisk.human_attribute_name(:beneficiary)
-      %th= EvaluatedRisk.human_attribute_name(:product_base_risk)
-      %th= EvaluatedRisk.human_attribute_name(:recursion)
-      %th= EvaluatedRisk.human_attribute_name(:amount)
+      %th= EvaluatedMovement.human_attribute_name(:id)
+      %th= EvaluatedMovement.human_attribute_name(:service_id)
+      %th= EvaluatedMovement.human_attribute_name(:movement_created_at)
+      %th= EvaluatedMovement.human_attribute_name(:customer_full_name)
+      %th= EvaluatedMovement.human_attribute_name(:product_name)
+      %th= EvaluatedMovement.human_attribute_name(:beneficiary)
+      %th= EvaluatedMovement.human_attribute_name(:product_base_risk)
+      %th= EvaluatedMovement.human_attribute_name(:recursion)
+      %th= EvaluatedMovement.human_attribute_name(:amount)
       %th.action
   %tbody
     - evaluated_movements.each do |item|
       %tr
         %td= item.id
         %td= item.service_id
+        %td= item.movement_created_at
+        %td= item.customer_full_name
         %td= item.product_name
         %td= item.beneficiary
         %td= item.product_base_risk
@@ -22,3 +29,14 @@
         %td.text-center
           = link_to [:data_analysis, item], class: "btn btn-xs btn-primary" do
             %i.fa.fa-eye
+:javascript
+  document.addEventListener("turbolinks:load", () => {
+    $('#table_movements').DataTable({
+      "paging": false,
+      "info": false,
+      "lengthChange": false,
+      "autoWidth": false,
+      "responsive": true,
+      "buttons": ["copy", "csv", "excel", "pdf", "colvis"]
+    }).buttons().container().appendTo('#table_movements_wrapper .col-md-6:eq(0)');
+  })
