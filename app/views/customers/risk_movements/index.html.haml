@@ -10,7 +10,7 @@
         %hr
         #summary_risk_assessment= render "summary_risk_assessment", current_tuple: @current_tuple, anagrafica: @anagrafica
       .card-footer.text-right
-        = link_to t(:recalculate_risk, default: "Recalculate risk"), recalculate_risk_data_analysis_anagrafica_risk_movements_path(@anagrafica), method: :post, class: "btn btn-danger", remote: true
+        = link_to t(:recalculate_risk, default: "Recalculate risk"), recalculate_risk_customers_anagrafica_risk_movements_path(@anagrafica), method: :post, class: "btn btn-danger", remote: true
     #notes= render 'data_analysis/notes/notes', anagrafica: @anagrafica, notes: @anagrafica.notes
 
 

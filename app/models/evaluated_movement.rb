@@ -42,6 +42,8 @@ class EvaluatedMovement < ApplicationRecord
              foreign_key: 'movement_id',
              primary_key: 'idMovimentiConti'
 
+  # attr reader
+  attr_reader :recursion_customer_7, :recursion_customer_30, :recursion_all_7, :recursion_all_30
   # before_save :set_recursion
 
   def self.last_service_id
@@ -68,8 +70,8 @@ class EvaluatedMovement < ApplicationRecord
     default_product_base_risk = Configurable.default_product_base_risk.to_f,
     max_base_risk = Configurable.max_base_risk.to_f,
     factor_for_amount = Configurable.factor_for_amount.to_f,
-    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
-  )
+    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f)
+
     self.set_customer(service.anagrafica)
     self.set_service(service)
     self.set_movement(service)
@@ -230,6 +232,19 @@ class EvaluatedMovement < ApplicationRecord
         "day_30": count_recursive(days=30)
       }
     }
+  end
+
+  def recursion_customer_7
+    self.recursion["customer_id"]["day_7"]
+  end
+  def recursion_customer_30
+    self.recursion["customer_id"]["day_30"]
+  end
+  def recursion_all_7
+    self.recursion["all"]["day_7"]
+  end
+  def recursion_all_30
+    self.recursion["all"]["day_30"]
   end
 
 end
