@@ -53,7 +53,7 @@ document.addEventListener("turbolinks:load", () => {
           "autoWidth": false,
           "responsive": true,
           "buttons": ["copy", "csv", "excel", "pdf", "colvis"]
-        }).buttons().container().appendTo('#table_movements_wrapper .col-md-6:eq(0)')
+        }).buttons().container().appendTo('.dataTables_wrapper .col-md-6:eq(0)')
       })
       )
   }
@@ -61,7 +61,6 @@ document.addEventListener("turbolinks:load", () => {
 
 document.addEventListener("turbolinks:before-cache", () => {
   while (tables.length !== 0) {
-    console.log(tables.pop())
-    // tables.pop().destroy;
+    tables.pop().remove();
   }
 })

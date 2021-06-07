@@ -1,0 +1,64 @@
+{
+  "application.js": "/public/assets/js/application-703dcb98a379ca646b8e.js",
+  "application.js.map": "/public/assets/js/application-703dcb98a379ca646b8e.js.map",
+  "entrypoints": {
+    "application": {
+      "js": [
+        "/public/assets/js/application-703dcb98a379ca646b8e.js"
+      ],
+      "js.map": [
+        "/public/assets/js/application-703dcb98a379ca646b8e.js.map"
+      ]
+    },
+    "manager": {
+      "js": [
+        "/public/assets/js/manager-fa79af366211f4c22308.js"
+      ],
+      "js.map": [
+        "/public/assets/js/manager-fa79af366211f4c22308.js.map"
+      ]
+    },
+    "plugins/datatables": {
+      "js": [
+        "/public/assets/js/plugins/datatables-7f1b7678cbb1a3b7b4e2.js"
+      ],
+      "js.map": [
+        "/public/assets/js/plugins/datatables-7f1b7678cbb1a3b7b4e2.js.map"
+      ]
+    },
+    "plugins/daterangepicker": {
+      "js": [
+        "/public/assets/js/plugins/daterangepicker-29b69de54919013fff97.js"
+      ],
+      "js.map": [
+        "/public/assets/js/plugins/daterangepicker-29b69de54919013fff97.js.map"
+      ]
+    },
+    "plugins/duallistbox": {
+      "js": [
+        "/public/assets/js/plugins/duallistbox-db3dbb1b9eb726d36663.js"
+      ],
+      "js.map": [
+        "/public/assets/js/plugins/duallistbox-db3dbb1b9eb726d36663.js.map"
+      ]
+    },
+    "plugins/jquery": {
+      "js": [
+        "/public/assets/js/plugins/jquery-d5b90afeaccfdc5ad0e2.js"
+      ],
+      "js.map": [
+        "/public/assets/js/plugins/jquery-d5b90afeaccfdc5ad0e2.js.map"
+      ]
+    }
+  },
+  "manager.js": "/public/assets/js/manager-fa79af366211f4c22308.js",
+  "manager.js.map": "/public/assets/js/manager-fa79af366211f4c22308.js.map",
+  "plugins/datatables.js": "/public/assets/js/plugins/datatables-7f1b7678cbb1a3b7b4e2.js",
+  "plugins/datatables.js.map": "/public/assets/js/plugins/datatables-7f1b7678cbb1a3b7b4e2.js.map",
+  "plugins/daterangepicker.js": "/public/assets/js/plugins/daterangepicker-29b69de54919013fff97.js",
+  "plugins/daterangepicker.js.map": "/public/assets/js/plugins/daterangepicker-29b69de54919013fff97.js.map",
+  "plugins/duallistbox.js": "/public/assets/js/plugins/duallistbox-db3dbb1b9eb726d36663.js",
+  "plugins/duallistbox.js.map": "/public/assets/js/plugins/duallistbox-db3dbb1b9eb726d36663.js.map",
+  "plugins/jquery.js": "/public/assets/js/plugins/jquery-d5b90afeaccfdc5ad0e2.js",
+  "plugins/jquery.js.map": "/public/assets/js/plugins/jquery-d5b90afeaccfdc5ad0e2.js.map"
+}
