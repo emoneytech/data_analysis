@@ -67,7 +67,7 @@ gem 'sidekiq-failures'
 gem 'sidekiq-status'
 gem 'sidekiq-scheduler'
 gem 'sidekiq-enqueuer'
-# gem 'redis-rails'
+gem 'redis-rails'
 
 gem 'devise'
 gem 'devise-i18n'
@@ -96,3 +96,4 @@ gem 'money-rails'
 gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'geocoder'
+gem 'net-http'
