@@ -59,4 +59,8 @@ class Conto < ApplicationCoreRecord
     order(idconti: :desc).select(:idconti).first.idconti
   end
 
+  def self.last_update
+    order(lastMovimento: :desc).select(:lastMovimento).first.lastMovimento
+  end
+
 end

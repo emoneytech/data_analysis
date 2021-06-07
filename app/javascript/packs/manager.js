@@ -26,14 +26,7 @@ require('./plugins/jquery.slimscroll.min.js')
 import "select2/dist/css/select2.min.css"
 import "select2-bootstrap4-theme/dist/select2-bootstrap4.min.css"
 
-/*
 require('./plugins/datatables.js')
-*/
-
-document.addEventListener("turbolinks:load", () => {
-  $('[data-toggle="tooltip"]').tooltip()
-  $('.select2').select2({ theme: 'bootstrap4' })
-})
 
 window.d3 = d3
 // Uncomment to copy all static images under ../images to the output folder and reference
@@ -42,3 +35,33 @@ window.d3 = d3
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+window.jQuery = $
+window.$ = $
+const tables = []
+
+document.addEventListener("turbolinks:load", () => {
+  $('[data-toggle="tooltip"]').tooltip()
+  $('.select2').select2({ theme: 'bootstrap4' })
+
+  if (tables.length === 0 && $('.data-table').length !== 0) {
+    tables.push(
+    $('.data-table').each((_, element) => {
+        $(element).DataTable({
+          "paging": false,
+          "info": false,
+          "lengthChange": false,
+          "autoWidth": false,
+          "responsive": true,
+          "buttons": ["copy", "csv", "excel", "pdf", "colvis"]
+        }).buttons().container().appendTo('#table_movements_wrapper .col-md-6:eq(0)')
+      })
+      )
+  }
+})
+
+document.addEventListener("turbolinks:before-cache", () => {
+  while (tables.length !== 0) {
+    console.log(tables.pop())
+    // tables.pop().destroy;
+  }
+})

@@ -27,9 +27,10 @@ class Bintype < ApplicationCoreRecord
   def self.last_id
     order(id: :desc).select(:id).first.id
   end
-
-  def last_update
-    sql = "SELECT UPDATE_TIME FROM information_schema.tables WHERE TABLE_SCHEMA = 'dbconti_prod' AND TABLE_NAME = '#{self.table_name}'"
+  
+  def self.table_stats
+    sql = "SELECT * FROM mysql.innodb_table_stats WHERE database_name = 'dbconti_prod' AND table_name = '#{self.table_name}'"
+    ActiveRecord::Base.connection.exec_query(sql)
   end
 
 end

@@ -43,7 +43,6 @@ class Movimentoconto < ApplicationCoreRecord
   alias_attribute :tipotransazione, "TipoTransazione"
   alias_attribute :payment_order_id, "IdMandato"
 
-
   belongs_to :conto, foreign_key: "numeroconto", class_name: "Conto"
 
   #belongs_to :bank_user_part, -> {select [:idutente, :nome, :cognome, :ragionesociale, :vendor] }, foreign_key: "point", class_name: "Anagrafica"
@@ -71,6 +70,10 @@ class Movimentoconto < ApplicationCoreRecord
 
   def self.last_id
     order(idmovimenticonti: :desc).select(:idmovimenticonti).first.idmovimenticonti
+  end
+
+  def self.last_update
+    order(dataMovimento: :desc).select(:dataMovimento).first.dataMovimento
   end
 
 end

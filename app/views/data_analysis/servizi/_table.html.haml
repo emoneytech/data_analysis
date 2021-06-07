@@ -1,5 +1,3 @@
-- content_for :javascript_in_head do
-  = javascript_pack_tag 'plugins/datatables', 'data-turbolinks-track': 'reload'
 %table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_servizi'}
   %thead
     %tr
@@ -25,14 +23,3 @@
           %td.text-center
             = link_to data_analysis_servizio_path(item), class: "btn btn-xs btn-primary" do
               %i.fa.fa-eye
-:javascript
-  document.addEventListener("turbolinks:load", () => {
-    $('#table_servizi').DataTable({
-      "paging": false,
-      "info": false,
-      "responsive": true,
-      "lengthChange": false,
-      "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "colvis"]
-    }).buttons().container().appendTo('#table_servizi_wrapper .col-md-6:eq(0)');
-  })

@@ -26,15 +26,3 @@
           = link_to fa_icon('eye'), customers_anagrafica_risk_movements_path(item.eval_evaluable), class: "btn btn-xs btn-danger", data:{toggle: "tooltip"}, title: Anagrafica.human_attribute_name(:risk_movements)
           -# if GruppiAnagrafica.where("codice_fiscale like ?", item.eval_evaluable.codice_fiscale).count >= 1
             =# link_to "G", [:data_analysis, Anagrafica, f: "#{item.eval_evaluable.codice_fiscale}"], class: "btn btn-warning btn-xs", data:{toggle: "tooltip"}, title: Anagrafica.human_attribute_name(:group)
-
-:javascript
-  document.addEventListener("turbolinks:load", () => {
-    $('#table_eval_riskinesses').DataTable({
-      "paging": false,
-      "info": false,
-      "responsive": true,
-      "lengthChange": false,
-      "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "colvis"]
-    }).buttons().container().appendTo('#table_eval_riskinesses_wrapper .col-md-6:eq(0)');
-  })

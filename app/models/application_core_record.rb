@@ -5,5 +5,5 @@ class ApplicationCoreRecord < ApplicationRecord
   def readonly?
     true
   end
-
+  
 end

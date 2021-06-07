@@ -8,7 +8,7 @@
       .card-body
         = simple_form_for :filter, method: :get, remote: false do |f|
           = f.input :vendor, as: :select, collection: Anagrafica.vendors.collect {|item| [ "#{item.vendor} - #{item.broker}", item.vendor ] }, include_blank: true, input_html: {class: 'duallistbox'}
-          = f.input :idcausale, as: :select, collection: ViewReason.all.collect {|item| [ "#{item.idcausale}", "#{item.idcausale}" ] }, include_blank: true, input_html: {class: 'duallistbox'}
+          =# f.input :idcausale, as: :select, collection: ViewReason.all.collect {|item| [ "#{item.idcausale}", "#{item.idcausale}" ] }, include_blank: true, input_html: {class: 'duallistbox'}
           = f.input :daterange, label: 'Date range', input_html: { class: 'daterange' }
           = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-success'
 .row

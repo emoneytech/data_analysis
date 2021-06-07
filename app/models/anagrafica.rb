@@ -434,6 +434,11 @@ class Anagrafica < ApplicationCoreRecord
     order(idutente: :desc).select(:idutente).first.idutente
   end
 
+  def self.last_update
+    order(Created: :desc).select(:Created).first.Created
+  end
+
+
   def to_map
     return unless self.Citta
     results = Geocoder.search(self.Citta)

@@ -93,6 +93,10 @@ class Servizio < ApplicationCoreRecord
     order(idservizio: :desc).select(:idservizio).first.idservizio
   end
 
+  def self.last_update
+    order(lastupdate: :desc).select(:lastupdate).first.lastupdate
+  end
+
   def self.titles
     ary = [ "As of Date",
             "Fiscal Year",

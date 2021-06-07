@@ -5,7 +5,7 @@
         %i.fas.fa-microchip
         = t(:listing_resource, resource: Servizio.model_name.human(:count => 2))
     .card-body
-      = render "data_analysis/servizi/table", servizi: @servizi
+      = render "table", servizi: @servizi
     .card-footer.clearfix
       .row
         .col-md-12

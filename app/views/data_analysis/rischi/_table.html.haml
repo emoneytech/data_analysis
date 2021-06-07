@@ -27,15 +27,3 @@
               %i.fa.fa-box
             = link_to customers_anagrafica_eval_riskinesses_path(rischio.anagrafica), class: "btn btn-xs bg-maroon" do
               %i.fa.fa-calendar
-
-:javascript
-  document.addEventListener("turbolinks:load", () => {
-    $('#table_rischi').DataTable({
-      "paging": false,
-      "info": false,
-      "responsive": true,
-      "lengthChange": false,
-      "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "colvis"]
-    }).buttons().container().appendTo('#table_rischi_wrapper .col-md-6:eq(0)');
-  })

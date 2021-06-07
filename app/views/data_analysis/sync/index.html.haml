@@ -7,4 +7,6 @@
             = "#{item}"
           %span.info-box-number
             = "Last id: #{item.classify.constantize.last_id}"
-            = "Last Update: #{item.classify.constantize.last_update}" 
+            - if item.classify.constantize.try(:last_update)
+              %br
+              = "Last Update: #{item.classify.constantize.try(:last_update)}"

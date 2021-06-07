@@ -5,5 +5,5 @@
     <%- else %>
       <li class="breadcrumb-item active"><%= crumb.name %></li>
     <%- end %>
-  <%- end %>
+  <%- end if @breadcrumbs_on_rails %>
 </ol>

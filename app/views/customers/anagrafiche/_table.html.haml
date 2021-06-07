@@ -1,10 +1,7 @@
-- content_for :javascript_in_head do
-  = javascript_pack_tag 'plugins/datatables', 'data-turbolinks-track': 'reload'
-
-%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_anagrafiche'}
+%table.table.table-striped.table-bordered.table-hover.data-table
   %thead
     %tr
-      %th= Anagrafica.human_attribute_name(:anagrafica)
+      %th= Anagrafica.human_attribute_name(:id)
       %th= Anagrafica.human_attribute_name(:full_name)
       %th= Anagrafica.human_attribute_name(:vendor)
       %th= Anagrafica.human_attribute_name(:created)
@@ -12,33 +9,20 @@
   %tbody
     - anagrafiche.each do |item|
       %tr
-        %td= item.idutente
+        %td= item.id
         %td= item.full_name
         %td= item.vendor
         %td= item.created
-        - if can? :manage, Anagrafica
-          %td.text-center
-            = link_to customers_anagrafica_path(item), class: "btn btn-xs btn-primary" do
-              %i.fa.fa-eye
-            = link_to customers_anagrafica_movimenticonti_path(item), class: "btn btn-xs btn-success" do
-              %i.fa.fa-exchange-alt
-            = link_to customers_anagrafica_servizi_path(item), class: "btn btn-xs btn-warning" do
-              %i.fa.fa-microchip
-            = link_to customers_anagrafica_risk_movements_path(item), class: "btn btn-xs btn-danger" do
-              %i.fa.fa-exclamation-triangle
-            = link_to customers_anagrafica_prodotti_path(item), class: "btn btn-xs bg-lightblue" do
-              %i.fa.fa-box
-            = link_to customers_anagrafica_eval_riskinesses_path(item), class: "btn btn-xs bg-maroon" do
-              %i.fa.fa-calendar
-
-:javascript
-  document.addEventListener("turbolinks:load", () => {
-    $('#table_anagrafiche').DataTable({
-      "paging": false,
-      "info": false,
-      "responsive": true,
-      "lengthChange": false,
-      "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "colvis"]
-    }).buttons().container().appendTo('#table_anagrafiche_wrapper .col-md-6:eq(0)');
-  })
+        %td.text-center
+          = link_to customers_anagrafica_path(item), class: "btn btn-xs btn-primary" do
+            %i.fa.fa-eye
+          = link_to customers_anagrafica_movimenticonti_path(item), class: "btn btn-xs btn-success" do
+            %i.fa.fa-exchange-alt
+          = link_to customers_anagrafica_servizi_path(item), class: "btn btn-xs btn-warning" do
+            %i.fa.fa-microchip
+          = link_to customers_anagrafica_risk_movements_path(item), class: "btn btn-xs btn-danger" do
+            %i.fa.fa-exclamation-triangle
+          = link_to customers_anagrafica_prodotti_path(item), class: "btn btn-xs bg-lightblue" do
+            %i.fa.fa-box
+          = link_to customers_anagrafica_eval_riskinesses_path(item), class: "btn btn-xs bg-maroon" do
+            %i.fa.fa-calendar
