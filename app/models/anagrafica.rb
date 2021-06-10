@@ -215,7 +215,7 @@ class Anagrafica < ApplicationCoreRecord
 
   # has_many :user_movements, foreign_key: :user_id, dependent: :destroy
   has_many :risk_movements, -> { order(movement_created_at: :asc)}, foreign_key: :user_id
-  has_many :evaluated_movements, -> { order(movement_created_at: :asc)}, foreign_key: :customer_id
+  has_many :evaluated_movements, foreign_key: :customer_id
 
   has_many :evaluated_risks, primary_key: 'IdUtente', foreign_key: :anagrafica_id
   has_many :rischi, primary_key: 'IdUtente', foreign_key: :IdUtente, class_name: 'Rischio'

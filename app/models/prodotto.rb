@@ -69,6 +69,21 @@ class Prodotto < ApplicationCoreRecord
     "#{name}"
   end
 
+  def self.da_escludere
+    ary = ['Standard IBAN', 'Sms', 'Token', 'Incoming Funds Fee']
+  end
+
+  def  self.da_escludere_per_prodottoid
+    # quando prodotto finisce per 241 la colonna per l'importo diventa commissioni
+    # "SUBSTRING(prodotto, -3, 3) IN (?)", Prodotto.da_escludere_per_prodottoid
+    # 241 Incoming funds fees
+    # 907 Sms
+    # 908 Token
+    # 717 Iban Standard
+    # 719 Iban Vanity
+    ary = [241, 907, 908, 717, 719]
+  end
+
   def nometabella
     self.codicetabella.try(:nometabella) || 'No reference to `codicetabella`'
   end

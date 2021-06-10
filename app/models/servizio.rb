@@ -326,6 +326,7 @@ class Servizio < ApplicationCoreRecord
   end
 
   def self.create_evaluated_movements(year = 2014, default_product_base_risk = Configurable.default_product_base_risk.to_f)
+    servizi = Servizio.for_evaluation
     if year.to_i == 2014
       date =  Servizio.select(:datainserimento).order(datainserimento: :asc).first.datainserimento.to_date
     else
@@ -337,11 +338,10 @@ class Servizio < ApplicationCoreRecord
       days_begin = date_begin.beginning_of_month < date ? date : date_begin.beginning_of_month
       days_stop = days_begin.at_end_of_month > stop ? stop : days_begin.at_end_of_month 
       while (days_begin <= days_stop)
-        Servizio.select(
+        servizi.select(
           :idservizio, :point
         ).where(
-          "servizi.nomeprodotto != ? 
-            AND servizi.nomeprodotto != ?", 'Sms', 'Token'
+          "SUBSTRING(prodotto, -3, 3) IN (?)", Prodotto.da_escludere_per_prodottoid
         ).where(
           "servizi.datainserimento BETWEEN '#{days_begin.beginning_of_day}'
           AND '#{days_begin.end_of_day}'"
@@ -364,6 +364,7 @@ class Servizio < ApplicationCoreRecord
   end
 
   def self.update_evaluated_movements(year = 2016)
+    servizi = Servizio.for_evaluation
     default_product_base_risk = Configurable.default_product_base_risk.to_f
     max_base_risk = Configurable.max_base_risk.to_f
     factor_for_amount = Configurable.factor_for_amount.to_f
@@ -379,7 +380,7 @@ class Servizio < ApplicationCoreRecord
       days_stop = days_begin.at_end_of_month > stop ? stop : days_begin.at_end_of_month 
       while (days_begin <= days_stop)
         puts "- #{days_begin.to_s}"
-        Servizio.select(
+        servizi.select(
           :idservizio, :point
         ).where(
           "servizi.datainserimento BETWEEN '#{days_begin.beginning_of_day}'

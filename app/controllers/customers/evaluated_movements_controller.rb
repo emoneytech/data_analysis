@@ -4,7 +4,7 @@ module Customers
     before_action :local_breadcrumb #, :init_risk
 
     def index
-      @evaluated_movements = @anagrafica.evaluated_movements.page(params[:page]).per(params[:per])
+      @evaluated_movements = @anagrafica.evaluated_movements.order(movement_created_at: :desc).page(params[:page]).per(params[:per])
     end
 
     def show

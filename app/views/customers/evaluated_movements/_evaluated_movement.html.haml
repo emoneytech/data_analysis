@@ -16,3 +16,4 @@
       .col-md-6.text-right
         = link_to 'Next', customers_anagrafica_evaluated_movement_path(@anagrafica, @next) unless @next.blank?
 
+= render 'customers/servizi/servizio', servizio: evaluated_movement.service
