@@ -340,7 +340,7 @@ class Servizio < ApplicationCoreRecord
       while (days_begin <= days_stop)
         servizi.select(
           :idservizio, :point
-        ).where(
+        ).where.not(
           "SUBSTRING(prodotto, -3, 3) IN (?)", Prodotto.da_escludere_per_prodottoid
         ).where(
           "servizi.datainserimento BETWEEN '#{days_begin.beginning_of_day}'
