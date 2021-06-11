@@ -77,11 +77,14 @@ class Prodotto < ApplicationCoreRecord
     # quando prodotto finisce per 241 la colonna per l'importo diventa commissioni
     # "SUBSTRING(prodotto, -3, 3) IN (?)", Prodotto.da_escludere_per_prodottoid
     # 241 Incoming funds fees
+    # 911 Abilita carta
+    # 912 Disabilita carta
+    # 702 Canone Carte
     # 907 Sms
     # 908 Token
     # 717 Iban Standard
     # 719 Iban Vanity
-    ary = [241, 907, 908, 717, 719]
+    ary = [241, 702, 717, 719, 907, 908, 911, 912]
   end
 
   def nometabella
