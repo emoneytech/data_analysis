@@ -24,6 +24,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  recursion           :text(65535)
+#  service_created_at  :datetime
 #
 require "test_helper"
 

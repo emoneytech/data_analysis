@@ -24,6 +24,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  recursion           :text(65535)
+#  service_created_at  :datetime
 #
 class EvaluatedMovement < ApplicationRecord
   monetize :amount_cents
@@ -95,6 +96,7 @@ class EvaluatedMovement < ApplicationRecord
   def set_service(service)
     self.service_id = service.id
     self.service_status = service.status
+    self.service_created_at = service.datainserimento
     self.service_updated_at = service.lastupdate
     self.product_id = service.prodotto
     self.product_name = service.nomeprodotto

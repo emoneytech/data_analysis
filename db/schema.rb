@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_02_074401) do
+ActiveRecord::Schema.define(version: 2021_06_11_085954) do
 
   create_table "active_admin_comments", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -93,8 +93,11 @@ ActiveRecord::Schema.define(version: 2021_06_02_074401) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "recursion"
+    t.datetime "service_created_at"
     t.index ["customer_id"], name: "index_evaluated_movements_on_customer_id"
+    t.index ["movement_created_at"], name: "movement_created_at"
     t.index ["movement_id"], name: "index_evaluated_movements_on_movement_id"
+    t.index ["service_created_at"], name: "index_evaluated_movements_on_service_created_at"
     t.index ["service_id"], name: "index_evaluated_movements_on_service_id"
     t.index ["service_updated_at"], name: "service_updated_at"
   end
