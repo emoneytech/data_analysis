@@ -2,5 +2,10 @@
 require 'sidekiq/enqueuer'
 
 Sidekiq::Enqueuer.configure do |config|
-  config.jobs = [CreateEvaluatedPerYearWorker, SetInitRecursionWorker, SyncEvaluatedMovementsWorker]
+  config.jobs = [
+    CreateEvaluatedPerYearWorker,
+    SetInitRecursionWorker,
+    SyncEvaluatedMovementsWorker,
+    PurgeForExcludedProductsWorker
+  ]
 end
