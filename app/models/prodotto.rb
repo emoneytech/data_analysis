@@ -84,7 +84,7 @@ class Prodotto < ApplicationCoreRecord
     # 908 Token
     # 717 Iban Standard
     # 719 Iban Vanity
-    ary = [241, 702, 717, 719, 907, 908, 911, 912]
+    ary = ExcludedProduct.all.pluck(:last_3_numbers)
   end
 
   def nometabella

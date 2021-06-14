@@ -1,0 +1,11 @@
+.row 
+  .col-md-12
+    .card.card-primary
+      .card-header
+        %h3.card-title
+          %i.fas.fa-wrench
+          = t(:setup_params, default: 'Setup params')
+      .card-body=render 'table_products'
+      .card-footer.clearfix
+        .row
+          .col-md-12

@@ -1,0 +1,10 @@
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table'}
+  %thead
+    %tr
+      %th= Prodotto.human_attribute_name(:id)
+      %th= Prodotto.human_attribute_name(:nome)
+  %tbody
+    - @evaluated_products.each do |item|
+      %tr
+        %td= item.product_id
+        %td= item.product_name

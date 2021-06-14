@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_11_085954) do
+ActiveRecord::Schema.define(version: 2021_06_14_073732) do
 
   create_table "active_admin_comments", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -114,6 +114,14 @@ ActiveRecord::Schema.define(version: 2021_06_11_085954) do
     t.index ["anagrafica_id", "eval_year", "eval_month"], name: "evaluated_risk_for_month_index", unique: true
     t.index ["anagrafica_id"], name: "index_evaluated_risks_on_anagrafica_id"
     t.index ["last_evaluated_risk"], name: "index_evaluated_risks_on_last_evaluated_risk"
+  end
+
+  create_table "excluded_products", charset: "latin1", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "last_3_numbers", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["last_3_numbers"], name: "index_excluded_products_on_last_3_numbers", unique: true
   end
 
   create_table "log_imports", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|

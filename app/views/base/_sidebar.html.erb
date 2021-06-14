@@ -49,16 +49,16 @@
           <%- end %>
 
           <%- if can? :admin, :dashboard %>
-            <li class="nav-item <%= ' menu-open menu-is-opening' if %w(roles users list_types sync configurables).include?(controller_name)%>">
+            <li class="nav-item <%= ' menu-open menu-is-opening' if %w(roles users list_types sync configurables excluded_products setup).include?(controller_name)%>">
               <a href="#" class="nav-link">
                 <i class="nav-icon fa fa-cogs"></i>
                 <p>
                   <%= t(:settings, default: "Settings") %>
-                  <i class="right fas <%= %w(roles users list_types sync configurables).include?(controller_name) ? 'fa-angle-down' : 'fa-angle-left' %>"></i>
+                  <i class="right fas <%= %w(roles users list_types sync configurables excluded_products setup).include?(controller_name) ? 'fa-angle-down' : 'fa-angle-left' %>"></i>
                 </p>
               </a>
               <ul class="nav nav-treeview">
-                <%- if can? :read, :sync %>
+                <%- if can? :manage, User %>
                   <li class="nav-item">
                     <a href="<%= users_path %>" class="nav-link <%= ' active' if controller_name == 'users' %>">
                       <i class="nav-icon fas fa-users"></i>
@@ -68,7 +68,7 @@
                     </a>
                   </li>
                 <%- end %>
-                <%- if can? :read, User %>
+                <%- if can? :read, :sync %>
                   <li class="nav-item">
                     <a href="<%= data_analysis_sync_index_path %>" class="nav-link <%= ' active' if controller_name == 'sync' %>">
                       <i class="nav-icon fas fa-stopwatch"></i>
@@ -90,10 +90,30 @@
                 <%- end %>
                 <%- if current_user.has_role?('admin') %>
                   <li class="nav-item">
+                    <a href="<%= excluded_products_path %>" class="nav-link <%= ' active' if controller_name == 'excluded_products' %>">
+                      <i class="nav-icon fas fa-store-alt-slash"></i>
+                      <p>
+                        <%= ExcludedProduct.model_name.human(count: 2) %>
+                      </p>
+                    </a>
+                  </li>
+                <%- end %>
+                <%- if current_user.has_role?('admin') %>
+                  <li class="nav-item">
                     <a href="<%= sidekiq_web_path %>" class="nav-link">
                       <i class="nav-icon fas fa-clock"></i>
                       <p>
                         <%= t(:async_processor, default: "Async Processor") %>
+                      </p>
+                    </a>
+                  </li>
+                <%- end %>
+                <%- if current_user.has_role?('admin') %>
+                  <li class="nav-item">
+                    <a href="<%= data_analysis_setup_index_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'setup' %>">
+                      <i class="nav-icon fas fa-wrench"></i>
+                      <p>
+                        <%= t(:setup_params, default: "Setup params") %>
                       </p>
                     </a>
                   </li>

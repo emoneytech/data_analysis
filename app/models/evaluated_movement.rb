@@ -42,7 +42,7 @@ class EvaluatedMovement < ApplicationRecord
              class_name: 'Movimentoconto',
              foreign_key: 'movement_id',
              primary_key: 'idMovimentiConti'
-
+          
   # attr reader
   attr_reader :recursion_customer_7, :recursion_customer_30, :recursion_all_7, :recursion_all_30
   # before_save :set_recursion

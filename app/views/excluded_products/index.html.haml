@@ -1,0 +1,21 @@
+.row
+  .col-md-12
+    .card.card-primary
+      .card-header
+        %h3.card-title
+          %i.fa.fa-key
+          = t(:listing_resource, resource: ExcludedProduct.model_name.human(:count => 2))
+      .card-body
+        %table.table.table-striped.table-bordered.table-hover.margin-none.data-table
+          %thead
+            %tr
+              %th= ExcludedProduct.human_attribute_name(:name)
+              %th= ExcludedProduct.human_attribute_name(:last_3_numbers)
+          %tbody
+            - @excluded_products.each do |excluded_product|
+              %tr
+                %td= excluded_product.name
+                %td= excluded_product.last_3_numbers
+      .card-footer.text-right
+        = link_to(t(:add_resource, resource: "Multiple #{ExcludedProduct.model_name.human}"), add_multiple_excluded_products_path, class: "btn btn-success") if can? :create, ExcludedProduct
+        = link_to(t(:add_resource, resource: ExcludedProduct.model_name.human), new_excluded_product_path, class: "btn btn-success") if can? :create, ExcludedProduct

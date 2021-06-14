@@ -1,0 +1,15 @@
+.row
+  - @syncable.each do |item|
+    - result = item.classify.constantize.table_stats
+    .col-md-6.col-12
+      .card.card-primary
+        .card-header
+          %h3.card-title= "#{item}"
+        .card-body
+          %dl.row
+            %dt.col-md-6.text-right= "Last id"
+            %dd.col-md-6= item.classify.constantize.last_id
+            - result.columns.each_with_index do |column, index|
+              %dt.col-md-6.text-right= result.columns[index].humanize
+              %dd.col-md-6= result.rows[0][index]
+

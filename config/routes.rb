@@ -43,9 +43,16 @@ Rails.application.routes.draw do
         get :all_risk_movements
       end
     end
+    resources :setup
   end
   resources :roles
   resources :users
+  resources :excluded_products do
+    collection do
+      get :add_multiple
+      post :create_multiple
+    end
+  end
 
   require 'sidekiq/web'
   require 'sidekiq-scheduler/web'

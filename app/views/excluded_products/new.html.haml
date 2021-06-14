@@ -1,0 +1,14 @@
+.row
+  .col-md-12
+    = simple_form_for @excluded_product do |f|
+      .card.card-primary
+        .card-header
+          %h3.card-title
+            %i.fa.fa-key
+            = t(:add_resource, resource: ExcludedProduct.model_name.human)
+        .card-body
+          = render 'form', f: f
+        .card-footer.clearfix
+          = link_to t(:cancel, default: "Cancel"), excluded_products_path, class: "btn btn-warning"
+          = f.submit class: "btn btn-success"
+
