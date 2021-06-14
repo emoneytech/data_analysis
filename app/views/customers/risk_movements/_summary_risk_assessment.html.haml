@@ -14,7 +14,7 @@
     %dd.col-4.text-right
       = anagrafica.time_lapse_factor.time_lapse_factor
       - if anagrafica.time_lapse_factor.time_lapse_factor_audits.any?
-        = link_to fa_icon('history'), data_analysis_anagrafica_anagrafica_time_lapse_factor_time_lapse_factor_audits_path(anagrafica, anagrafica.time_lapse_factor)
+        = link_to fa_icon('history'), customers_anagrafica_anagrafica_time_lapse_factor_time_lapse_factor_audits_path(anagrafica, anagrafica.time_lapse_factor)
   - if GruppiAnagrafica.where("codice_fiscale like ?", anagrafica.codice_fiscale).count >= 1
     %dt.col-8= Anagrafica.human_attribute_name(:group)
     %dd.col-4.text-right= link_to Anagrafica.human_attribute_name(:group), [:customers, Anagrafica, f: "#{anagrafica.codice_fiscale}"], class: "btn btn-warning btn-xs", data:{toggle: "tooltip"}, title: Anagrafica.human_attribute_name(:group)

@@ -237,16 +237,16 @@ class EvaluatedMovement < ApplicationRecord
   end
 
   def recursion_customer_7
-    self.recursion["customer_id"]["day_7"]
+    self.recursion ? self.recursion["customer_id"]["day_7"] : ' - '
   end
   def recursion_customer_30
-    self.recursion["customer_id"]["day_30"]
+    self.recursion ? self.recursion["customer_id"]["day_30"] : ' - '
   end
   def recursion_all_7
-    self.recursion["all"]["day_7"]
+    self.recursion ? self.recursion["all"]["day_7"] : ' - '
   end
   def recursion_all_30
-    self.recursion["all"]["day_30"]
+    self.recursion ? self.recursion["all"]["day_30"] : ' - '
   end
 
 end

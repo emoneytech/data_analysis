@@ -11,6 +11,6 @@
           %td= note.subject
           %td= note.created_at
           %td
-            = link_to fa_icon("eye"), data_analysis_anagrafica_note_path(note.anagrafica, note), class: "btn btn-xs btn-primary", data: {toggle: "tooltip", title: t(:show_resource, resource: Note.model_name.human)}, remote: true
+            = link_to fa_icon("eye"), customers_anagrafica_note_path(note.anagrafica, note), class: "btn btn-xs btn-primary", data: {toggle: "tooltip", title: t(:show_resource, resource: Note.model_name.human)}, remote: true
 - else             
   .well= t(:no_records_found, default: "No records found")
