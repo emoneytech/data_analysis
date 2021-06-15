@@ -121,8 +121,8 @@ class EvaluatedMovement < ApplicationRecord
         self.beneficiary_other = "#{service.ricarica.action}"
       end
     when 'ricarichecarta'
-      self.beneficiary = "#{service.anagrafica.full_name}"
-      if service.nomeprodotto === 'Transfer Own MasterCard'
+      if service.anagrafica.conti.where(Pan: service.ricaricacarta.numerocarta).count > 0
+        self.beneficiary = "#{service.anagrafica.full_name}"
         self.beneficiary_iban = "#{service.ricaricacarta.numerocrip}"
         self.beneficiary_other = "#{service.nomeprodotto}"
       else

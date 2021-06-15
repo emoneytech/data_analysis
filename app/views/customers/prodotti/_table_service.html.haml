@@ -16,12 +16,12 @@
         %td= "#{item.importo}"
         %td= item.datainserimento
         %td
-          =item.get_beneficiary[:beneficiary]
+          = item.get_beneficiary[:beneficiary]
           %br
-          =item.get_beneficiary[:beneficiary_iban]
+          = item.get_beneficiary[:beneficiary_iban]
           %br
           =item.get_beneficiary[:beneficiary_other]
-        %td=item.get_principal_movement.try(:causale)
+        %td= item.get_principal_movement.try(:causale)
         - if can? :manage, Servizio
           %td.text-center
             = link_to customers_anagrafica_servizio_path(@anagrafica,item), class: "btn btn-xs btn-primary" do

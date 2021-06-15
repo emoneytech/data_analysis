@@ -75,7 +75,7 @@ class Prodotto < ApplicationCoreRecord
 
   def  self.da_escludere_per_prodottoid
     # quando prodotto finisce per 241 la colonna per l'importo diventa commissioni
-    # "SUBSTRING(prodotto, -3, 3) IN (?)", Prodotto.da_escludere_per_prodottoid
+    # "SUBSTRING(prodotto, -3, 3) IN (?)", ExcludedProduct.all.pluck(:last_3_numbers)
     # 241 Incoming funds fees
     # 911 Abilita carta
     # 912 Disabilita carta

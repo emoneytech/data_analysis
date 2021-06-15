@@ -11,7 +11,7 @@ class SyncEvaluatedMovementsWorker
     servizi = Servizio.for_evaluation
 
     servizi.where.not(
-      "SUBSTRING(prodotto, -3, 3) IN (?)", Prodotto.da_escludere_per_prodottoid
+      "SUBSTRING(prodotto, -3, 3) IN (?)", ExcludedProduct.all.pluck(:last_3_numbers)
     ).where(
       "servizi.idservizio > ?", last_id
     ).order(
@@ -32,4 +32,4 @@ end
 
 # last_id = EvaluatedMovement.select(:service_id).order(service_id: :desc).first.service_id
 #.select(:idservizio, :point)
-# servizi.where.not("SUBSTRING(prodotto, -3, 3) IN (?)", Prodotto.da_escludere_per_prodottoid).where("servizi.idservizio > ?", last_id).order(datainserimento: :asc).select(:idservizio, :point).first
+# servizi.where.not("SUBSTRING(prodotto, -3, 3) IN (?)", ExcludedProduct.all.pluck(:last_3_numbers)).where("servizi.idservizio > ?", last_id).order(datainserimento: :asc).select(:idservizio, :point).first

@@ -4,6 +4,9 @@ Rails.application.routes.draw do
 
   namespace :customers do
     resources :anagrafiche do
+      member do
+        post :set_evaluated_movements
+      end
       resources :risk_movements, only: [:show, :index] do
         collection do
           post :recalculate_risk

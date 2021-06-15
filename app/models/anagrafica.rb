@@ -579,6 +579,25 @@ class Anagrafica < ApplicationCoreRecord
     b["current_risk_decreased"] || b["current_risk"]
   end
 
+  def set_evaluated_movements
+    self.servizi.for_evaluation.select(
+      :idservizio, :point
+    ).where.not(
+      "SUBSTRING(prodotto, -3, 3) IN (?)", ExcludedProduct.all.pluck(:last_3_numbers)
+    ).order(
+      datainserimento: :asc
+    ).each_slice(100) do |services|
+      services.each do |s|
+        worker_id = CreateEvaluatedMovementWorker.perform_async(
+          s.idservizio,
+          s.point,
+          default_product_base_risk
+        )
+      end
+    end
+  end
+
+
 end
 
 =begin
