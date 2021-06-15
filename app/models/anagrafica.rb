@@ -580,6 +580,7 @@ class Anagrafica < ApplicationCoreRecord
   end
 
   def set_evaluated_movements
+    default_product_base_risk = Configurable.default_product_base_risk.to_f
     self.servizi.for_evaluation.select(
       :idservizio, :point
     ).where.not(

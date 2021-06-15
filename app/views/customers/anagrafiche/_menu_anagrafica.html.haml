@@ -1,0 +1,30 @@
+.card-tools
+  .btn-group
+    = button_to [:set_evaluated_movements, :customers, anagrafica], class: 'btn btn-warning btn-sm' do  
+      %i.fas.fa-sync-alt
+      Reset Evaluated Movements
+    %button.btn.btn-success.btn-sm.dropdown-toggle{type: "button", data: {toggle: "dropdown", offset: "-152"}}
+      %i.fas.fa-bars
+    .dropdown-menu{role: "menu"}
+      = link_to customers_anagrafica_movimenticonti_path(anagrafica), class: "dropdown-item" do
+        %i.fa.fa-exchange-alt
+        #{Movimentoconto.model_name.human(:count => 2)}
+      = link_to customers_anagrafica_servizi_path(anagrafica), class: "dropdown-item" do
+        %i.fa.fa-microchip
+        #{Servizio.model_name.human(:count => 2)}
+      = link_to customers_anagrafica_risk_movements_path(anagrafica), class: "dropdown-item" do
+        %i.fa.fa-exclamation-triangle
+        #{RiskMovement.model_name.human(:count => 2)}
+      = link_to customers_anagrafica_prodotti_path(anagrafica), class: "dropdown-item" do
+        %i.fa.fa-box
+        #{Prodotto.model_name.human(:count => 2)}
+      .dropdown-divider
+
+      = link_to customers_anagrafica_eval_riskinesses_path(anagrafica), class: "dropdown-item" do
+        %i.fa.fa-box
+        #{EvalRiskiness.model_name.human(:count => 2)}
+      = link_to customers_anagrafica_evaluated_risks_path(anagrafica), class: "dropdown-item" do
+        %i.fa.fa-box
+        #{EvaluatedRisk.model_name.human(:count => 2)}
+  %button{type: "button", class: "btn btn-success btn-sm", "data-card-widget": "collapse"}
+    %i.fas.fa-minus

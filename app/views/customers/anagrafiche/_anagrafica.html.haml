@@ -1,27 +1,9 @@
-.card.card-success
-  .card-header
+.card
+  .card-header.bg-primary
     %h3.card-title
-      %i.fa.fa-user
+      %i.fas.fa-user
       #{Anagrafica.model_name.human} #{anagrafica.id}
-    .card-tools
-      = link_to customers_anagrafica_movimenticonti_path(anagrafica), class: "btn btn-xs btn-primary" do
-        %i.fa.fa-exchange-alt
-        #{Movimentoconto.model_name.human(:count => 2)}
-      = link_to customers_anagrafica_servizi_path(anagrafica), class: "btn btn-xs btn-info" do
-        %i.fa.fa-microchip
-        #{Servizio.model_name.human(:count => 2)}
-      = link_to customers_anagrafica_risk_movements_path(anagrafica), class: "btn btn-xs btn-danger" do
-        %i.fa.fa-exclamation-triangle
-        #{RiskMovement.model_name.human(:count => 2)}
-      = link_to customers_anagrafica_prodotti_path(anagrafica), class: "btn btn-xs bg-lightblue" do
-        %i.fa.fa-box
-        #{Prodotto.model_name.human(:count => 2)}
-      = link_to customers_anagrafica_eval_riskinesses_path(anagrafica), class: "btn btn-xs bg-maroon" do
-        %i.fa.fa-box
-        #{EvalRiskiness.model_name.human(:count => 2)}
-      = link_to customers_anagrafica_evaluated_risks_path(anagrafica), class: "btn btn-xs bg-maroon" do
-        %i.fa.fa-box
-        #{EvaluatedRisk.model_name.human(:count => 2)}
+    = render 'menu_anagrafica', anagrafica: anagrafica
 
   .card-body
     %dl.row
