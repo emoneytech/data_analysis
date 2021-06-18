@@ -16,8 +16,14 @@ Rails.application.routes.draw do
       resources :conti
       resources :movimenticonti, only: [:show, :index]
       resources :eval_riskinesses, only: [:show, :index]
+
       resources :evaluated_risks, only: [:show, :index]
-      resources :evaluated_movements, only: [:show, :index]
+      resources :evaluated_movements do
+        collection do
+          get 'for_day/:day' => :for_day, as: :for_day
+        end
+      end
+      
       resources :prodotti, only: [:show, :index]
       resources :servizi, only: [:show, :index]
       resources :anagrafica_time_lapse_factors do 

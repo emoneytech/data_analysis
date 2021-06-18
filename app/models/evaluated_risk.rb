@@ -18,21 +18,35 @@ class EvaluatedRisk < ApplicationRecord
   
   #@current_tuple = eval "[#{Date.today.year}, #{Date.today.month}]"
   scope :for_month, ->(tuple) { where(eval_month: tuple[1], eval_year: tuple[0]) }
-  before_save :set_last_evaluated_risk
+  before_save :set_last_values
 
   def previous
-    EvaluatedRisk.where("anagrafica_id = ? AND eval_year <= ? AND eval_month < ? ", self.anagrafica_id, self.eval_year, self.eval_month).order(eval_year: :desc, eval_month: :desc).first
+    EvaluatedRisk.where("anagrafica_id = ? AND ((eval_year = ? AND eval_month < ?) OR (eval_year = ? AND eval_month = 12))", self.anagrafica_id, self.eval_year, self.eval_month, self.eval_year - 1).order(eval_year: :desc, eval_month: :desc).first
   end
   
   def next
-    EvaluatedRisk.where("anagrafica_id = ? AND eval_year >= ? AND eval_month < ? ", self.anagrafica_id, self.eval_year, self.eval_month).order(eval_year: :desc, eval_month: :desc).first
+    EvaluatedRisk.where("anagrafica_id = ? AND ((eval_year = ? AND eval_month > ?) OR (eval_year = ? AND eval_month = 1))", self.anagrafica_id, self.eval_year, self.eval_month, self.eval_year + 1).order(eval_year: :asc, eval_month: :asc).first
+  end
+
+  def set_last_values
+    set_nr_movements
+    set_last_evaluated_risk
   end
 
 private
   def set_last_evaluated_risk
-    self.last_evaluated_risk = self.eval_days.values.last[:current_risk_decreased] || self.eval_days.values.last[:current_risk]
+    self.last_evaluated_risk7 = self.eval_days.values.last[0].symbolize_keys[:details].symbolize_keys[:current_risk_decreased].symbolize_keys[:day_7] || self.eval_days.values.last[0].symbolize_keys[:details].symbolize_keys[:current_risk].symbolize_keys[:day_7]
+    self.last_evaluated_risk30 = self.eval_days.values.last[0].symbolize_keys[:details].symbolize_keys[:current_risk_decreased].symbolize_keys[:day_30] || self.eval_days.values.last[0].symbolize_keys[:details].symbolize_keys[:current_risk].symbolize_keys[:day_30]
+  end
+
+  def set_nr_movements
+    unless self.eval_days.kind_of?(Hash)
+      self.nr_movements = 0
+      return
+    end
     sum = 0
-    self.eval_days.values.each { |v| sum += v[:nr_movements] }
+    # binding.pry
+    self.eval_days.values.each { |v| sum += v[0].symbolize_keys[:details].symbolize_keys[:nr_movements] }
     self.nr_movements = sum
   end
 

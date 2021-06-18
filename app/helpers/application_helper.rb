@@ -43,7 +43,6 @@ module ApplicationHelper
   end
 
   def blur_number(number)
-    #binding.pry
     (number.to_s[0...1] == "5" || number.to_s[0...1] == "1" || number.to_s[0...1] == "3") && (number.to_s.size==16 || number.to_s.size==10) ? "#{number.to_s[0...2]}** **** **#{number.to_s[-6...-4]} #{number.to_s[-4...number.to_s.size]}" : number
   end
 

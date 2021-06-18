@@ -2,7 +2,7 @@ class CreateEvaluatedMovementWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
   # sidekiq_options queue: 'critical', retry: false, backtrace: true
-  sidekiq_options queue: 'critical'
+  sidekiq_options queue: 'critical', retry: false, backtrace: true
 
   def perform(service_id, point, default_product_base_risk = Configurable.default_product_base_risk.to_f)
 

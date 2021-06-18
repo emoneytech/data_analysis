@@ -47,6 +47,12 @@ class EvaluatedMovement < ApplicationRecord
   attr_reader :recursion_customer_7, :recursion_customer_30, :recursion_all_7, :recursion_all_30
   # before_save :set_recursion
 
+  scope :for_evaluation, -> { order(movement_created_at: :asc)}
+  scope :with_all_for_day, ->(day) {
+    where("movement_created_at BETWEEN '#{day.beginning_of_day}' 
+    AND '#{day.end_of_day}'").order(movement_created_at: :asc)
+  }
+
   def self.last_service_id
     select(:service_id).order(service_id: :desc).first.try(:service_id) || 0
   end

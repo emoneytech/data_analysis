@@ -6,11 +6,13 @@ class CreateEvaluatedRisks < ActiveRecord::Migration[6.1]
       t.integer :eval_month, limit: 2, null: false
       t.integer :nr_movements, null: false, default: 0
       t.text :eval_days
-      t.float :last_evaluated_risk
+      t.float :last_evaluated_risk7
+      t.float :last_evaluated_risk30
       t.timestamps
     end
     add_index :evaluated_risks, :anagrafica_id
-    add_index :evaluated_risks, :last_evaluated_risk
+    add_index :evaluated_risks, :last_evaluated_risk7
+    add_index :evaluated_risks, :last_evaluated_risk30
     add_index :evaluated_risks, [:anagrafica_id, :eval_year, :eval_month], unique: true, name: 'evaluated_risk_for_month_index'
   end
 end

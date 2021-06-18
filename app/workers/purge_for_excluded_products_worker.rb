@@ -1,7 +1,7 @@
 class PurgeForExcludedProductsWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
-  sidekiq_options queue: 'critical'
+  sidekiq_options queue: 'critical', retry: false, backtrace: true
 
   def perform()
     ExcludedProduct.all.pluck(:last_3_numbers).each do |product_id|

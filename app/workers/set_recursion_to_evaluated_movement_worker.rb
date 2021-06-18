@@ -2,7 +2,7 @@ class SetRecursionToEvaluatedMovementWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
   # sidekiq_options queue: 'critical', retry: false, backtrace: true
-  sidekiq_options queue: 'critical'
+  sidekiq_options queue: 'critical', retry: false, backtrace: true
 
   def perform(evaluated_movement_id)
     em = EvaluatedMovement.find evaluated_movement_id

@@ -9,21 +9,33 @@
     %dl.row
       %dt.col-md-4.text-right= EvaluatedRisk.human_attribute_name(:nr_movements)
       %dd.col-md-8= evaluated_risk.nr_movements
-      %dt.col-md-4.text-right= EvaluatedRisk.human_attribute_name(:last_evaluated_risk)
-      %dd.col-md-8= evaluated_risk.last_evaluated_risk
+      %dt.col-md-4.text-right= EvaluatedRisk.human_attribute_name(:last_evaluated_risk7)
+      %dd.col-md-8= evaluated_risk.last_evaluated_risk7
+      %dt.col-md-4.text-right= EvaluatedRisk.human_attribute_name(:last_evaluated_risk30)
+      %dd.col-md-8= evaluated_risk.last_evaluated_risk30
       %dt.col-md-4.text-right= EvaluatedRisk.human_attribute_name(:eval_days)
       %dd.col-md-8
         %table.table.table-striped.table-bordered.table-hover.text-center.data-table
           %thead
             %tr
               %th= EvaluatedRisk.human_attribute_name(:eval_day)
-              - evaluated_risk.eval_days[evaluated_risk.eval_days.keys.first].keys.each do |key2|
+              - evaluated_risk.eval_days[evaluated_risk.eval_days.keys.first][0]["details"].keys.each do |key2|
                 %th= EvaluatedRisk.human_attribute_name(key2)
+              %th.action
           - evaluated_risk.eval_days.keys.each do |key|
             %tr
               %td= "#{key}"
-              - evaluated_risk.eval_days[key].keys.each do |key2|
-                %td= "#{evaluated_risk.eval_days[key][key2]}"
+              - evaluated_risk.eval_days[key][0]["details"].keys.each do |key2|
+                %td
+                  - unless evaluated_risk.eval_days[key][0]["details"][key2].kind_of?(Hash)
+                    = "#{evaluated_risk.eval_days[key][0]["details"][key2]}"
+                  - else
+                    - evaluated_risk.eval_days[key][0]["details"][key2].each do |key, value|
+                      = "#{key.humanize}: #{value}"
+              %td.action
+                - if evaluated_risk.eval_days[key][0]["details"]["nr_movements"] > 0
+                  = link_to for_day_customers_anagrafica_evaluated_movements_path(@anagrafica, key), class: "btn btn-xs btn-info", title: 'Open popup', remote: true do
+                    %i.fa.fa-exchange-alt
   .card-footer
     .row
       .col-md-6

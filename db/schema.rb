@@ -108,12 +108,14 @@ ActiveRecord::Schema.define(version: 2021_06_14_073732) do
     t.integer "eval_month", limit: 2, null: false
     t.integer "nr_movements", default: 0, null: false
     t.text "eval_days"
-    t.float "last_evaluated_risk"
+    t.float "last_evaluated_risk7"
+    t.float "last_evaluated_risk30"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["anagrafica_id", "eval_year", "eval_month"], name: "evaluated_risk_for_month_index", unique: true
     t.index ["anagrafica_id"], name: "index_evaluated_risks_on_anagrafica_id"
-    t.index ["last_evaluated_risk"], name: "index_evaluated_risks_on_last_evaluated_risk"
+    t.index ["last_evaluated_risk30"], name: "index_evaluated_risks_on_last_evaluated_risk30"
+    t.index ["last_evaluated_risk7"], name: "index_evaluated_risks_on_last_evaluated_risk7"
   end
 
   create_table "excluded_products", charset: "latin1", force: :cascade do |t|

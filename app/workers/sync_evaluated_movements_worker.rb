@@ -3,7 +3,7 @@ class SyncEvaluatedMovementsWorker
   include Sidekiq::Status::Worker
   # sidekiq_options queue: 'critical', retry: false, backtrace: true
 
-  sidekiq_options queue: 'default'
+  sidekiq_options queue: 'default', retry: false, backtrace: true
 
   def perform(default_product_base_risk = Configurable.default_product_base_risk.to_f)
     last_id = EvaluatedMovement.select(:service_id).order(service_id: :desc).first.service_id

@@ -168,45 +168,80 @@
 #
 
 class Anagrafica < ApplicationCoreRecord
-
   self.primary_key = 'idutente'
   self.table_name = 'anagrafiche'
 
-  has_many :conti, -> { order(amount: :desc) }, foreign_key: "IdUtente", class_name: "Conto"
+  has_many :conti,
+           -> { order(amount: :desc) },
+           foreign_key: 'IdUtente',
+           class_name: 'Conto'
 
-  has_many :servizi, foreign_key: "point", class_name: "Servizio"
+  has_many :servizi, foreign_key: 'point', class_name: 'Servizio'
 
   # has_many :positve_servizi, -> { where('servizi.importo > 0') }, foreign_key: "point", class_name: "Servizio"
-  has_many :active_servizi, -> { where('servizi.importo > 0').where(status: [Servizio.status_active]) }, foreign_key: "point", class_name: "Servizio"
+  has_many :active_servizi,
+           -> {
+             where('servizi.importo > 0').where(
+               status: [Servizio.status_active],
+             )
+           },
+           foreign_key: 'point',
+           class_name: 'Servizio'
 
   # has_many :movimenticonti, through: :conti
-  has_many :movimenticonti, through: :servizi, foreign_key: "Point"
-  has_many :prodotti, -> { distinct }, through: :active_servizi, source: :product#, primary_key: "idprodotto", class_name: "Prodotto"
-  has_many :tutti_prodotti, through: :active_servizi, source: :product#, primary_key: "idprodotto", class_name: "Prodotto"
+  has_many :movimenticonti, through: :servizi, foreign_key: 'Point'
+  has_many :prodotti,
+           -> { distinct },
+           through: :active_servizi,
+           source: :product #, primary_key: "idprodotto", class_name: "Prodotto"
+  has_many :tutti_prodotti, through: :active_servizi, source: :product #, primary_key: "idprodotto", class_name: "Prodotto"
 
-  belongs_to :tipo, foreign_key: "IdTipo", class_name: "Tipo"
-  belongs_to :broker, foreign_key: "Vendor", class_name: "Vendor"
+  belongs_to :tipo, foreign_key: 'IdTipo', class_name: 'Tipo'
+  belongs_to :broker, foreign_key: 'Vendor', class_name: 'Vendor'
 
-  alias_attribute :id, "IdUtente"
-  alias_attribute :idutente, "IdUtente"
-  alias_attribute :nome, "Nome"
-  alias_attribute :name, "Nome"
-  alias_attribute :cognome, "Cognome"
-  alias_attribute :vendor, "Vendor"
-  alias_attribute :active, "Attivo"
-  alias_attribute :type_id, "IdTipo"
-  alias_attribute :company, "RagioneSociale"
-  alias_attribute :data_attivazione, "DataAttivazione"
-  alias_attribute :data_creazione, "Created"
-  alias_attribute :codice_fiscale, "Codicefiscale"
-  alias_attribute :created, "Created"
+  alias_attribute :id, 'IdUtente'
+  alias_attribute :idutente, 'IdUtente'
+  alias_attribute :nome, 'Nome'
+  alias_attribute :name, 'Nome'
+  alias_attribute :cognome, 'Cognome'
+  alias_attribute :vendor, 'Vendor'
+  alias_attribute :active, 'Attivo'
+  alias_attribute :type_id, 'IdTipo'
+  alias_attribute :company, 'RagioneSociale'
+  alias_attribute :data_attivazione, 'DataAttivazione'
+  alias_attribute :data_creazione, 'Created'
+  alias_attribute :codice_fiscale, 'Codicefiscale'
+  alias_attribute :created, 'Created'
 
   # scope :for_type, -> (id) { where(:type_id => id) }
 
-  scope :active, -> { where.not("anagrafiche.IdUtente" => %w{70 75})}
-  scope :alive, -> { includes(:conti).where("anagrafiche.tipo" => Tipo.alive.pluck(:id)).where.not("anagrafiche.IdUtente" => %w{70 75}).where.not("anagrafiche.Attivo" => %w{3 6}, "anagrafiche.created" => nil).where("conti.idConti IS NOT NULL").references(:conti)}
+  scope :active, -> { where.not('anagrafiche.IdUtente' => %w[70 75]) }
+  scope :alive,
+        -> {
+          includes(:conti)
+            .where('anagrafiche.tipo' => Tipo.alive.pluck(:id))
+            .where
+            .not('anagrafiche.IdUtente' => %w[70 75])
+            .where
+            .not('anagrafiche.Attivo' => %w[3 6], 'anagrafiche.created' => nil)
+            .where('conti.idConti IS NOT NULL')
+            .references(:conti)
+        }
 
-  scope :user_or_business, -> { includes(:conti).where("anagrafiche.IdTipo" => %w(2 3), "anagrafiche.TipoKYC" => %w(3 4)).where.not("anagrafiche.IdUtente" => %w{70 75}).where.not("anagrafiche.Attivo" => %w{3 6}, "anagrafiche.Created" => nil).where("conti.idConti IS NOT NULL").references(:conti)}
+  scope :user_or_business,
+        -> {
+          includes(:conti)
+            .where(
+              'anagrafiche.IdTipo' => %w[2 3],
+              'anagrafiche.TipoKYC' => %w[3 4],
+            )
+            .where
+            .not('anagrafiche.IdUtente' => %w[70 75])
+            .where
+            .not('anagrafiche.Attivo' => %w[3 6], 'anagrafiche.Created' => nil)
+            .where('conti.idConti IS NOT NULL')
+            .references(:conti)
+        }
 
   has_one :base_riskiness, as: :base_evaluable
   has_many :eval_riskinesses, as: :eval_evaluable
@@ -214,16 +249,30 @@ class Anagrafica < ApplicationCoreRecord
   has_many :notes, foreign_key: :customer_id
 
   # has_many :user_movements, foreign_key: :user_id, dependent: :destroy
-  has_many :risk_movements, -> { order(movement_created_at: :asc)}, foreign_key: :user_id
-  has_many :evaluated_movements, foreign_key: :customer_id
+  has_many :risk_movements,
+           -> { order(movement_created_at: :asc) },
+           foreign_key: :user_id
 
-  has_many :evaluated_risks, primary_key: 'IdUtente', foreign_key: :anagrafica_id
-  has_many :rischi, primary_key: 'IdUtente', foreign_key: :IdUtente, class_name: 'Rischio'
-  has_one :rischio_corrente, ->{ order(Data: :desc)}, primary_key: 'IdUtente', foreign_key: :IdUtente, class_name: 'Rischio'
+  has_many :evaluated_movements,
+           primary_key: 'IdUtente',
+           foreign_key: :customer_id
+  has_many :evaluated_risks,
+           primary_key: 'IdUtente',
+           foreign_key: :anagrafica_id
+
+  has_many :rischi,
+           primary_key: 'IdUtente',
+           foreign_key: :IdUtente,
+           class_name: 'Rischio'
+  has_one :rischio_corrente,
+          -> { order(Data: :desc) },
+          primary_key: 'IdUtente',
+          foreign_key: :IdUtente,
+          class_name: 'Rischio'
 
   # scope :for_evaluation, -> { includes(:rischio_corrente).references(:rischio_corrente).order('rischio.Rischio desc')}
   def full_name
-     company ? "#{company}" : "#{self.nome} #{self.cognome}"
+    company ? "#{company}" : "#{self.nome} #{self.cognome}"
   end
 
   def time_lapse_factor
@@ -239,70 +288,99 @@ class Anagrafica < ApplicationCoreRecord
   end
 
   def self.search_by_full_name(search)
-     names = search.split(" ")
-     where("(nome LIKE ? AND cognome LIKE ?)
+    names = search.split(' ')
+    where(
+      '(nome LIKE ? AND cognome LIKE ?)
                                     OR (nome LIKE ? AND cognome LIKE ?)
-                                    OR RagioneSociale LIKE ?",
-                                    "%#{names[1]}%","%#{names[0]}%",
-                                    "%#{names[0]}%","%#{names[1]}%",
-                                    "%#{search}%")
+                                    OR RagioneSociale LIKE ?',
+      "%#{names[1]}%",
+      "%#{names[0]}%",
+      "%#{names[0]}%",
+      "%#{names[1]}%",
+      "%#{search}%",
+    )
   end
 
-  def days_of_activity(tuple=nil)
-    end_date = tuple ? Date.new(tuple[0],tuple[1]).at_end_of_month : Date.today
+  def days_of_activity(tuple = nil)
+    end_date = tuple ? Date.new(tuple[0], tuple[1]).at_end_of_month : Date.today
     days = (end_date - data_creazione.to_date).to_i
   end
 
-  def risk_base(tuple=nil)
+  def risk_base(tuple = nil)
     if tuple
       last_id = eval_riskinesses.where(eval_month: "#{tuple}").last.try(:id)
       if last_id
-        base = eval_riskinesses.where("id < ?", last_id).order(id: :desc).first.try(:eval_score)
+        base =
+          eval_riskinesses
+            .where('id < ?', last_id)
+            .order(id: :desc)
+            .first
+            .try(:eval_score)
       end
     end
     return base || base_risk
   end
 
-  def eval_score(tuple=nil)
+  def eval_score(tuple = nil)
     if tuple
-      risk = eval_riskinesses.where(eval_month: "#{tuple}").first.try(:eval_score)
+      risk =
+        eval_riskinesses.where(eval_month: "#{tuple}").first.try(:eval_score)
     else
       risk = eval_riskinesses.order(created_at: :desc).first.try(:eval_score)
     end
     return risk
   end
 
-  def danger_movements(tuple=nil)
+  def danger_movements(tuple = nil)
     unless tuple
-      risk_movements.group("CONCAT(IFNULL(product_net_id, 'Prodotto non individuabile'), '|||', IFNULL(beneficiary, 'Beneficiario non individuabile'))").having("count(*) > 1").count
+      risk_movements
+        .group(
+          "CONCAT(IFNULL(product_net_id, 'Prodotto non individuabile'), '|||', IFNULL(beneficiary, 'Beneficiario non individuabile'))",
+        )
+        .having('count(*) > 1')
+        .count
     else
-      risk_movements.for_month(tuple).group("CONCAT(IFNULL(product_net_id, 'Prodotto non individuabile'), '|||', IFNULL(beneficiary, 'Beneficiario non individuabile'))").having("count(*) > 1").count
+      risk_movements
+        .for_month(tuple)
+        .group(
+          "CONCAT(IFNULL(product_net_id, 'Prodotto non individuabile'), '|||', IFNULL(beneficiary, 'Beneficiario non individuabile'))",
+        )
+        .having('count(*) > 1')
+        .count
     end
   end
 
-  def danger_movement_ids(tuple=nil)
+  def danger_movement_ids(tuple = nil)
     ids = []
     current_movements = tuple ? risk_movements.for_month(tuple) : risk_movements
-    danger_movements(tuple).keys.each do |k|
-      if k
-        p, b = k.split("|||")
-        ids << current_movements.where(product_net_id: p, beneficiary: b).pluck(:movement_id)
-      else
-        ids << current_movements.where(product_net_id: nil, beneficiary: nil).pluck(:movement_id)
+    danger_movements(tuple)
+      .keys
+      .each do |k|
+        if k
+          p, b = k.split('|||')
+          ids <<
+            current_movements
+              .where(product_net_id: p, beneficiary: b)
+              .pluck(:movement_id)
+        else
+          ids <<
+            current_movements
+              .where(product_net_id: nil, beneficiary: nil)
+              .pluck(:movement_id)
+        end
       end
-    end
     return ids.flatten
   end
 
-  def danger_movements_to_html(tuple=nil)
+  def danger_movements_to_html(tuple = nil)
     dm_to_html = {}
     name_products = {}
     danger_movements(tuple).each do |key, value|
       if key
-        idprodotto,v = key.split("|||")
+        idprodotto, v = key.split('|||')
         nome = hash_name_products(name_products, idprodotto)
       else
-        nome = "Prodotto non individuabile"
+        nome = 'Prodotto non individuabile'
       end
       dm_to_html["#{nome}"] = value
     end
@@ -310,7 +388,11 @@ class Anagrafica < ApplicationCoreRecord
   end
 
   def hash_name_products(name_products, idprodotto)
-    name_products["#{idprodotto}"] = Prodotto.where(idprodotto: idprodotto).pluck(:nome).first unless name_products["#{idprodotto}"]
+    name_products["#{idprodotto}"] =
+      Prodotto
+        .where(idprodotto: idprodotto)
+        .pluck(:nome)
+        .first unless name_products["#{idprodotto}"]
     return name_products["#{idprodotto}"]
   end
 
@@ -327,39 +409,57 @@ class Anagrafica < ApplicationCoreRecord
   end
 
   def tuple_activities
-    date_tuples([data_creazione.year, data_creazione.month], [Date.today.year, Date.today.month])
+    date_tuples(
+      [data_creazione.year, data_creazione.month],
+      [Date.today.year, Date.today.month],
+    )
   end
-
 
   def risk_for_month(t, number_of_movements)
     danger_movement_ids = danger_movement_ids(t)
     danger_movements_to_html = danger_movements_to_html(t)
     e = eval_riskinesses.where(eval_month: t.to_s).first_or_initialize
     e.number_of_movements = number_of_movements
-    risk_dictionary = eval_risk_for_tuple(t, danger_movement_ids, danger_movements_to_html)
+    risk_dictionary =
+      eval_risk_for_tuple(t, danger_movement_ids, danger_movements_to_html)
+
     #binding.pry if number_of_movements > 0
     e.trend = Anagrafica.get_trend(risk_dictionary)
     e.eval_score = risk_dictionary[:risk]
     e.details_operations = risk_dictionary[:details_operations]
+
     # binding.pry if number_of_movements > 0
     e.save
   end
 
   def self.get_trend(risk_dictionary)
-    return "stable" if risk_dictionary[:details_operations].count == 1
-    if risk_dictionary[:details_operations].values[(risk_dictionary[:details_operations].count - 1)] > risk_dictionary[:details_operations].values[(risk_dictionary[:details_operations].count - 2)]
-      t = "growing"
-    elsif risk_dictionary[:details_operations].values[(risk_dictionary[:details_operations].count - 1)] < risk_dictionary[:details_operations].values[(risk_dictionary[:details_operations].count - 2)]
-      t = "down"
-    elsif risk_dictionary[:details_operations].values[(risk_dictionary[:details_operations].count - 1)] == risk_dictionary[:details_operations].values[(risk_dictionary[:details_operations].count - 2)]
-      t = "stable"
+    return 'stable' if risk_dictionary[:details_operations].count == 1
+    if risk_dictionary[:details_operations].values[
+         (risk_dictionary[:details_operations].count - 1)
+       ] >
+         risk_dictionary[:details_operations].values[
+           (risk_dictionary[:details_operations].count - 2)
+         ]
+      t = 'growing'
+    elsif risk_dictionary[:details_operations].values[
+          (risk_dictionary[:details_operations].count - 1)
+        ] <
+          risk_dictionary[:details_operations].values[
+            (risk_dictionary[:details_operations].count - 2)
+          ]
+      t = 'down'
+    elsif risk_dictionary[:details_operations].values[
+          (risk_dictionary[:details_operations].count - 1)
+        ] ==
+          risk_dictionary[:details_operations].values[
+            (risk_dictionary[:details_operations].count - 2)
+          ]
+      t = 'stable'
     end
     return t
   end
 
   def eval_risk_for_tuple(tuple, danger_movement_ids, danger_movements_to_html)
-
-
     max_base_risk = Configurable.max_base_risk.to_f
     min_base_risk = try(:base_risk).to_f || Configurable.min_base_risk.to_f
 
@@ -367,29 +467,69 @@ class Anagrafica < ApplicationCoreRecord
     factor_for_amount = Configurable.factor_for_amount.to_f
     divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
 
-    risk_dictionary = {details_operations: {}, risk: risk_base(tuple)}
-    start_date = Date.new(tuple[0],tuple[1]).at_beginning_of_month < data_creazione.to_date ? data_creazione.to_date : Date.new(tuple[0],tuple[1]).at_beginning_of_month
-    end_date = Date.new(tuple[0],tuple[1]).at_end_of_month
+    risk_dictionary = { details_operations: {}, risk: risk_base(tuple) }
+    start_date =
+      if Date.new(tuple[0], tuple[1]).at_beginning_of_month <
+           data_creazione.to_date
+        data_creazione.to_date
+      else
+        Date.new(tuple[0], tuple[1]).at_beginning_of_month
+      end
+    end_date = Date.new(tuple[0], tuple[1]).at_end_of_month
     end_date = Date.today if end_date > Date.today
+
     # risk = risk_base(tuple)
     start_date.upto end_date do |day|
       current_day_movements = risk_movements.for_day(day)
       if current_day_movements.any?
         current_day_movements.each do |rm|
           unless danger_movement_ids.include?(rm.id)
-            current_factor = ((((((rm.product_base_risk.percentage_of(1)) - 100) * rm.product_base_risk) * (factor_for_amount * (rm.movement_amount/divisor_amount_for_factor))) + 100) / 100).to_f
-            risk_dictionary[:risk] = (risk_dictionary[:risk] * current_factor).to_f
+            current_factor =
+              (
+                (
+                  (
+                    (
+                      ((rm.product_base_risk.percentage_of(1)) - 100) *
+                        rm.product_base_risk
+                    ) *
+                      (
+                        factor_for_amount *
+                          (rm.movement_amount / divisor_amount_for_factor)
+                      )
+                  ) + 100
+                ) / 100
+              ).to_f
+            risk_dictionary[:risk] =
+              (risk_dictionary[:risk] * current_factor).to_f
           else
             this_factor = danger_movements_to_html["#{rm.product_name}"]
-            current_factor = ((((((rm.product_base_risk.percentage_of(1)) - 100) * this_factor) * (factor_for_amount * (rm.movement_amount/divisor_amount_for_factor))) + 100) / 100).to_f
+            current_factor =
+              (
+                (
+                  (
+                    (
+                      ((rm.product_base_risk.percentage_of(1)) - 100) *
+                        this_factor
+                    ) *
+                      (
+                        factor_for_amount *
+                          (rm.movement_amount / divisor_amount_for_factor)
+                      )
+                  ) + 100
+                ) / 100
+              ).to_f
+
             # binding.pry
-            risk_dictionary[:risk] = (risk_dictionary[:risk] * current_factor).to_f
+            risk_dictionary[:risk] =
+              (risk_dictionary[:risk] * current_factor).to_f
           end
-          risk_dictionary[:risk] = max_base_risk if risk_dictionary[:risk] > max_base_risk
+          risk_dictionary[:risk] = max_base_risk if risk_dictionary[:risk] >
+            max_base_risk
         end
       end
       risk_dictionary[:risk] = (risk_dictionary[:risk] * tlf).to_f
-      risk_dictionary[:risk] = min_base_risk if risk_dictionary[:risk] < min_base_risk
+      risk_dictionary[:risk] = min_base_risk if risk_dictionary[:risk] <
+        min_base_risk
 
       risk_dictionary[:details_operations]["#{day}"] = risk_dictionary[:risk]
     end
@@ -397,13 +537,11 @@ class Anagrafica < ApplicationCoreRecord
   end
 
   def self.init_risk
-    alive.each do |a|
-      a.set_init_risk
-    end
+    alive.each { |a| a.set_init_risk }
   end
 
   def self.recalculate
-    tuple = [Date.today.year,Date.today.month]
+    tuple = [Date.today.year, Date.today.month]
     alive.each do |a|
       a.recalculate_for_tuple(tuple)
       SetEvalRiskWorker.perform_async(a.id)
@@ -415,7 +553,7 @@ class Anagrafica < ApplicationCoreRecord
   end
 
   def set_evaluate_risk
-    Emoney::SetEvaluateRisk.new(id,current_evaluate_risk)
+    Emoney::SetEvaluateRisk.new(id, current_evaluate_risk)
   end
 
 =begin
@@ -423,11 +561,7 @@ class Anagrafica < ApplicationCoreRecord
   end
 =end
   def self.set_global_evaluate_risk
-    alive.each_slice(20) do |a|
-      a.each do |b|
-        b.set_evaluate_risk
-      end
-    end
+    alive.each_slice(20) { |a| a.each { |b| b.set_evaluate_risk } }
   end
 
   def self.last_id
@@ -438,56 +572,67 @@ class Anagrafica < ApplicationCoreRecord
     order(Created: :desc).select(:Created).first.Created
   end
 
-
   def to_map
     return unless self.Citta
     results = Geocoder.search(self.Citta)
     return unless geo = results.first
     ita = {
-            "id": "#{self.id}",
-            "iso2Code": geo.data["address"]["country_code"].upcase,
-            "name": geo.data["display_name"],
-            "region": {
-              "id": geo.data["address"]["country_code"].upcase,
-              "value": geo.data["display_name"]
-            },
-            "adminregion": {
-              "id": geo.data["address"]["town"],
-              "value": geo.data["address"]["state"]
-            },
-            "incomeLevel": {
-              "id": "OEC",
-              "value": "High income: OECD"
-            },
-            "lendingType": {
-              "id": "LNX",
-              "value": "Not classified"
-            },
-            "capitalCity": geo.data["address"]["town"],
-            "longitude": geo.data["lon"],
-            "latitude": geo.data["lat"]
-          }
+      "id": "#{self.id}",
+      "iso2Code": geo.data['address']['country_code'].upcase,
+      "name": geo.data['display_name'],
+      "region": {
+        "id": geo.data['address']['country_code'].upcase,
+        "value": geo.data['display_name'],
+      },
+      "adminregion": {
+        "id": geo.data['address']['town'],
+        "value": geo.data['address']['state'],
+      },
+      "incomeLevel": {
+        "id": 'OEC',
+        "value": 'High income: OECD',
+      },
+      "lendingType": {
+        "id": 'LNX',
+        "value": 'Not classified',
+      },
+      "capitalCity": geo.data['address']['town'],
+      "longitude": geo.data['lon'],
+      "latitude": geo.data['lat'],
+    }
   end
 
   def set_init_evaluated_movement
     max_base_risk = Configurable.max_base_risk.to_f
     factor_for_amount = Configurable.factor_for_amount.to_f
     divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
-    self.servizi.for_evaluation.each do |s|
-      em = s.build_eval_movement(max_base_risk,factor_for_amount,divisor_amount_for_factor)
-      em.risk_factor = em.risk_factor.to_f.round(6)
-      em.save
-    end
+    self
+      .servizi
+      .for_evaluation
+      .each do |s|
+        em =
+          s.build_eval_movement(
+            max_base_risk,
+            factor_for_amount,
+            divisor_amount_for_factor,
+          )
+        em.risk_factor = em.risk_factor.to_f.round(6)
+        em.save
+      end
   end
 
   def last_evaluated_risk
-    evaluated_risks.order(eval_year: :desc, eval_month: :desc).pluck(:last_evaluated_risk).first || Configurable.min_base_risk
+    evaluated_risks
+      .order(eval_year: :desc, eval_month: :desc)
+      .pluck(:last_evaluated_risk)
+      .first || Configurable.min_base_risk.to_f
   end
 
   def account_numbers
     self.conti.pluck(:Pan)
   end
 
+=begin
   def set_evaluated_risks
     # self.evaluated_risks.destroy_all
     default_risk = Configurable.min_base_risk.to_f
@@ -538,66 +683,174 @@ class Anagrafica < ApplicationCoreRecord
     end
     return self.evaluated_risks
   end
-
+=end
+  def evaluated_risk_for_day(day)
+    default_min_base_risk = {
+      day_7: Configurable.min_base_risk.to_f,
+      day_30: Configurable.min_base_risk.to_f
+    }
+    unless a =
+             self
+               .evaluated_risks
+               .find_by_eval_year_and_eval_month(day.year, day.month)
+               .try(:eval_days)
+      return default_min_base_risk
+    end
+    return default_min_base_risk unless b = a["#{day}"]
+    b[0]["details"]["current_risk_decreased"] || b[0]["details"]["current_risk"]
+  end
 
   def set_evaluated_movements
-    self.evaluated_movements.destroy_all
-    default_risk = Configurable.min_base_risk.to_f
     default_product_base_risk = Configurable.default_product_base_risk.to_f
-    max_base_risk = Configurable.max_base_risk.to_f
-    factor_for_amount = Configurable.factor_for_amount.to_f
+    self
+      .servizi
+      .for_evaluation
+      .select(:idservizio, :point)
+      .where
+      .not(
+        'SUBSTRING(prodotto, -3, 3) IN (?)',
+        ExcludedProduct.all.pluck(:last_3_numbers),
+      )
+      .order(datainserimento: :asc)
+      .each_slice(100) do |services|
+        services.each do |s|
+          worker_id =
+            CreateEvaluatedMovementWorker.perform_async(
+              s.idservizio,
+              s.point,
+              default_product_base_risk,
+            )
+        end
+      end
+  end
+
+  def set_evaluated_risks
+    default_risk = Configurable.min_base_risk.to_f
     divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
-    date = self.data_creazione.to_date
+    factor_for_amount = Configurable.factor_for_amount.to_f
+    max_base_risk = Configurable.max_base_risk.to_f
+    date = self.Created.to_date
     date_begin = date.to_date.beginning_of_month
-    stop = Date.today.beginning_of_month
-    # stop = date.at_end_of_month
+    stop = Date.today.to_date
+    #stop = date_begin + 3.day
     while (date_begin <= stop)
       days_begin = date_begin.beginning_of_month < date ? date : date_begin.beginning_of_month
-      days_stop = days_begin.at_end_of_month
+      days_stop  = days_begin.at_end_of_month > stop ? stop : days_begin.at_end_of_month
       while (days_begin <= days_stop)
-        services = Servizio.with_all_for_day(days_begin, self.id)
-        services.each do |service|
-          em = EvaluatedMovement.where(service_id: service.id).first_or_initialize
-          em.set_properties(
-            service,
-            default_product_base_risk,
-            max_base_risk,
+        worker_id =
+        set_avaluated_risk_for_day(
+            days_begin,
+            default_risk,
+            divisor_amount_for_factor,
             factor_for_amount,
-            divisor_amount_for_factor)
-          em.save
-        end
+            max_base_risk
+          )
         days_begin = days_begin.advance(days: 1)
       end
       date_begin = date_begin.advance(months: 1)
     end
-    return self.evaluated_movements.count
   end
 
-  def evaluated_risk_for_day(day)
-    return Configurable.min_base_risk.to_f unless a = self.evaluated_risks.find_by_eval_year_and_eval_month(day.year,day.month).try(:eval_days)
-    return Configurable.min_base_risk.to_f unless b = a["#{day}"]
-    b["current_risk_decreased"] || b["current_risk"]
-  end
+  def set_avaluated_risk_for_day(day,
+    default_risk = Configurable.min_base_risk.to_f,
+    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f,
+    factor_for_amount = Configurable.factor_for_amount.to_f,
+    max_base_risk = Configurable.max_base_risk.to_f)
 
-  def set_evaluated_movements
-    default_product_base_risk = Configurable.default_product_base_risk.to_f
-    self.servizi.for_evaluation.select(
-      :idservizio, :point
-    ).where.not(
-      "SUBSTRING(prodotto, -3, 3) IN (?)", ExcludedProduct.all.pluck(:last_3_numbers)
-    ).order(
-      datainserimento: :asc
-    ).each_slice(100) do |services|
-      services.each do |s|
-        worker_id = CreateEvaluatedMovementWorker.perform_async(
-          s.idservizio,
-          s.point,
-          default_product_base_risk
-        )
-      end
+    customer = self    
+    evaluated_risk = customer.evaluated_risks.where(
+      eval_year: day.to_date.year,
+      eval_month: day.to_date.month
+    ).first_or_initialize
+    evaluated_risk.eval_days = {} if evaluated_risk.new_record?
+    evaluated_risk.eval_days[day] = []
+    evaluated_movements = customer.evaluated_movements.with_all_for_day(day.to_date)
+    hash = {}
+    evaluated_movements.each do |evaluated_movement|
+      recursion = evaluated_movement.recursion ? evaluated_movement.recursion["customer_id"].symbolize_keys : {day_7: 0, day_30: 0}
+
+      recursion7 = recursion[:day_7]
+      recursion30 = recursion[:day_30]
+      hash7 = set_evaluated_by_recursion(recursion7, evaluated_movement, divisor_amount_for_factor, factor_for_amount)
+      hash30 = set_evaluated_by_recursion(recursion30, evaluated_movement, divisor_amount_for_factor, factor_for_amount)
+      h2 = {
+        "#{evaluated_movement.movement_id}": {
+          day_7: hash7,
+          day_30: hash30 
+        }
+      }
+      hash.merge!(h2)
     end
+    # evaluated_risk.eval_days[day] << {movements: hash}
+
+    tlf = customer.time_lapse_factor.time_lapse_factor
+    current_risk = customer.evaluated_risk_for_day(day.to_date - 1.day).symbolize_keys
+
+    hash.values.each do |v|
+      current_risk[:day_7]  = current_risk[:day_7].to_f  * v[:day_7][:evaluated_factor].to_f
+      current_risk[:day_30] = current_risk[:day_30].to_f * v[:day_30][:evaluated_factor].to_f
+    end
+
+    # APPLY DECREASE FACTOR
+    # binding.pry
+    current_risk_decreased = {}
+    current_risk_decreased[:day_7] = (current_risk[:day_7] * tlf).to_f
+    current_risk_decreased[:day_7] = current_risk_decreased[:day_7] <= default_risk ? default_risk : current_risk_decreased[:day_7]
+
+    current_risk_decreased[:day_30] = (current_risk[:day_30] * tlf).to_f
+    current_risk_decreased[:day_30] = current_risk_decreased[:day_30] <= default_risk ? default_risk : current_risk_decreased[:day_30]
+
+    hash2 = {
+      "current_risk": current_risk,
+      "nr_movements": evaluated_movements.count,
+      "current_risk_decreased": current_risk_decreased
+    }
+    evaluated_risk.eval_days[day] << {details: hash2}
+    evaluated_risk.save
   end
 
+  def set_evaluated_by_recursion(recursion, evaluated_movement, divisor_amount_for_factor, factor_for_amount)
+    unless recursion > 0
+      evaluated_factor =
+        (
+          (
+            (
+              (
+                ((evaluated_movement.product_base_risk.percentage_of(1)) - 100) *
+                evaluated_movement.product_base_risk
+              ) *
+                (
+                  factor_for_amount *
+                    ((evaluated_movement.amount_cents / 100).to_f / divisor_amount_for_factor)
+                )
+            ) + 100
+          ) / 100
+        ).to_f
+      evaluated_description = "Operation factor: #{evaluated_factor}"
+    else
+      evaluated_factor =
+        (
+          (
+            (
+              (((evaluated_movement.product_base_risk.percentage_of(1)) - 100) * recursion) *
+                (
+                  factor_for_amount *
+                    ((evaluated_movement.amount_cents / 100).to_f / divisor_amount_for_factor)
+                )
+            ) + 100
+          ) / 100
+        ).to_f
+      evaluated_description =
+        "Repeated: #{recursion} - Factor: #{evaluated_factor}"
+    end
+    hash = {
+      evaluated_movement: evaluated_movement.id,
+      evaluated_factor: evaluated_factor,
+      evaluated_description: evaluated_description,
+      recursion: recursion 
+    }
+    return hash
+  end
 
 end
 
