@@ -8,7 +8,7 @@ class InitEvaluatedRiskWorker
   # customer_id, day, default_risk, divisor_amount_for_factor, factor_for_amount, max_base_risk
 
   def perform()
-    Anagrafica.order(Created: :asc).select(:IdUtente).find_in_batches(batch_size: 500) do |customers|
+    Anagrafica.alive.order(Created: :asc).select(:IdUtente).find_in_batches(batch_size: 500) do |customers|
       customers.each do |customer|
         CreateEvaluatedRiskWorker.perform_async(customer.IdUtente)
       end
