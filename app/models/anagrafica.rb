@@ -790,6 +790,9 @@ class Anagrafica < ApplicationCoreRecord
       current_risk[:day_7]  = current_risk[:day_7].to_f  * v[:day_7][:evaluated_factor].to_f
       current_risk[:day_30] = current_risk[:day_30].to_f * v[:day_30][:evaluated_factor].to_f
     end
+    current_risk[:day_7] = current_risk[:day_7] >= max_base_risk ? max_base_risk : current_risk[:day_7]
+    current_risk[:day_30] = current_risk[:day_30] >= max_base_risk ? max_base_risk : current_risk[:day_30]
+
 
     # APPLY DECREASE FACTOR
     # binding.pry
