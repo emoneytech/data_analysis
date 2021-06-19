@@ -218,14 +218,12 @@ class Anagrafica < ApplicationCoreRecord
   scope :active, -> { where.not('anagrafiche.IdUtente' => %w[70 75]) }
   scope :alive,
         -> {
-          includes(:conti)
+          joins(:conti).distinct
             .where('anagrafiche.tipo' => Tipo.alive.pluck(:id))
             .where
             .not('anagrafiche.IdUtente' => %w[70 75])
             .where
             .not('anagrafiche.Attivo' => %w[3 6], 'anagrafiche.created' => nil)
-            .where('conti.idConti IS NOT NULL')
-            .references(:conti)
         }
 
   scope :user_or_business,

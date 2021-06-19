@@ -9,7 +9,7 @@ module Customers
       if params[:filter] && params[:filter][:q]
         @anagrafiche = @anagrafiche.search_by_full_name(params[:filter][:q])
       end
-      @anagrafiche = @anagrafiche.active.page(params[:page]).per(params[:per])
+      @anagrafiche = @anagrafiche.alive.page(params[:page]).per(params[:per])
     end
 
     def show
