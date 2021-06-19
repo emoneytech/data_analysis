@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       resources :evaluated_movements do
         collection do
           get 'for_day/:day' => :for_day, as: :for_day
+          get 'for_month/:year/:month' => :for_month, as: :for_month
         end
       end
       

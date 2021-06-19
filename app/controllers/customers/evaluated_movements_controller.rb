@@ -17,6 +17,11 @@ module Customers
       @evaluated_movements = @anagrafica.evaluated_movements.with_all_for_day(params[:day].to_date).order(movement_created_at: :desc).page(params[:page]).per(params[:per])
     end
 
+    def for_month
+      month = DateTime.new(params[:year], params[:month], 1)
+      @evaluated_movements = @anagrafica.evaluated_movements.with_all_for_month(month).order(movement_created_at: :desc).page(params[:page]).per(params[:per])
+    end
+
   private
     def local_breadcrumb
       add_breadcrumb helpers.raw("#{helpers.fa_icon('exclamation-triangle')} #{EvaluatedMovement.model_name.human(count: 2)}"), [:customers, @anagrafica, :evaluated_movements]
