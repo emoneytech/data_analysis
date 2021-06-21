@@ -223,7 +223,7 @@ class Anagrafica < ApplicationCoreRecord
             .where
             .not('anagrafiche.IdUtente' => %w[70 75])
             .where
-            .not('anagrafiche.Attivo' => 6])
+            .not('anagrafiche.Attivo' => 6)
             .where
             .not('anagrafiche.created' => nil)
         }
@@ -238,7 +238,9 @@ class Anagrafica < ApplicationCoreRecord
             .where
             .not('anagrafiche.IdUtente' => %w[70 75])
             .where
-            .not('anagrafiche.Attivo' => %w[3 6], 'anagrafiche.Created' => nil)
+            .not('anagrafiche.Attivo' => 6)
+            .where
+            .not('anagrafiche.Created' => nil)
             .where('conti.idConti IS NOT NULL')
             .references(:conti)
         }
