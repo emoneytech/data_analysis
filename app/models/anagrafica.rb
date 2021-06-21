@@ -267,14 +267,17 @@ class Anagrafica < ApplicationCoreRecord
           primary_key: 'IdUtente',
           foreign_key: :IdUtente,
           class_name: 'Rischio'
-
+  has_one :time_lapse_factor, 
+          primary_key: 'IdUtente',
+          foreign_key: :anagrafica_id,
+          class_name: 'AnagraficaTimeLapseFactor'
   # scope :for_evaluation, -> { includes(:rischio_corrente).references(:rischio_corrente).order('rischio.Rischio desc')}
   def full_name
     company ? "#{company}" : "#{self.nome} #{self.cognome}"
   end
 
   def time_lapse_factor
-    AnagraficaTimeLapseFactor.where(anagrafica_id: id).first_or_create
+    super || AnagraficaTimeLapseFactor.where(anagrafica_id: id).first_or_create
   end
 
   def self.vendors
@@ -682,10 +685,10 @@ class Anagrafica < ApplicationCoreRecord
     return self.evaluated_risks
   end
 =end
-  def evaluated_risk_for_day(day)
+  def evaluated_risk_for_day(day, default_risk)
     default_min_base_risk = {
-      day_7: Configurable.min_base_risk.to_f,
-      day_30: Configurable.min_base_risk.to_f
+      day_7: default_risk,
+      day_30: default_risk
     }
     unless a =
              self
@@ -722,12 +725,14 @@ class Anagrafica < ApplicationCoreRecord
       end
   end
 
-  def set_evaluated_risks
-    default_risk = Configurable.min_base_risk.to_f
-    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
-    factor_for_amount = Configurable.factor_for_amount.to_f
-    max_base_risk = Configurable.max_base_risk.to_f
-    date = self.Created.to_date
+  def set_evaluated_risks(
+      tlf = self.time_lapse_factor.time_lapse_factor,
+      default_risk = Configurable.min_base_risk.to_f,
+      divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f,
+      factor_for_amount = Configurable.factor_for_amount.to_f,
+      max_base_risk = Configurable.max_base_risk.to_f)
+
+    date = self["Created"].to_date
     date_begin = date.to_date.beginning_of_month
     stop = Date.today.to_date
     #stop = date_begin + 3.day
@@ -738,6 +743,7 @@ class Anagrafica < ApplicationCoreRecord
         worker_id =
         set_avaluated_risk_for_day(
             days_begin,
+            tlf,
             default_risk,
             divisor_amount_for_factor,
             factor_for_amount,
@@ -750,12 +756,14 @@ class Anagrafica < ApplicationCoreRecord
   end
 
   def set_avaluated_risk_for_day(day,
+    tlf = self.time_lapse_factor.time_lapse_factor,
     default_risk = Configurable.min_base_risk.to_f,
     divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f,
     factor_for_amount = Configurable.factor_for_amount.to_f,
     max_base_risk = Configurable.max_base_risk.to_f)
 
-    customer = self    
+    customer = self
+
     evaluated_risk = customer.evaluated_risks.where(
       eval_year: day.to_date.year,
       eval_month: day.to_date.month
@@ -781,8 +789,8 @@ class Anagrafica < ApplicationCoreRecord
     end
     # evaluated_risk.eval_days[day] << {movements: hash}
 
-    tlf = customer.time_lapse_factor.time_lapse_factor
-    current_risk = customer.evaluated_risk_for_day(day.to_date - 1.day).symbolize_keys
+    
+    current_risk = customer.evaluated_risk_for_day(day.to_date - 1.day, default_risk).symbolize_keys
 
     hash.values.each do |v|
       current_risk[:day_7]  = current_risk[:day_7].to_f  * v[:day_7][:evaluated_factor].to_f
