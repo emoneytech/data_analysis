@@ -6,7 +6,7 @@
           %i.fa.fa-chart-bar
           = t(:listing_resource, resource: RiskMovement.model_name.human(:count => 2))
       .card-body
-        = line_chart RiskMovement.where("movement_amount > ?", "1".to_f).by_year.group(:table_name).group_by_month(:movement_created_at).count# , height: "600px"
+        = line_chart all_risk_movements_data_analysis_charts_path, remote: true
   .col-md-4
     .card.card-primary
       .card-header
