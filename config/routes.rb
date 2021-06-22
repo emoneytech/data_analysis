@@ -3,7 +3,13 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :customers do
+    
     resources :anagrafiche do
+      resources :charts do
+        collection do
+          get 'evaluated_movements_for_month/:year/:month' => :evaluated_movements_for_month, as: :evaluated_movements_for_month
+        end
+      end
       member do
         post :set_evaluated_movements
       end

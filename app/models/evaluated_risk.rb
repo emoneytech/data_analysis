@@ -33,6 +33,17 @@ class EvaluatedRisk < ApplicationRecord
     set_last_evaluated_risk
   end
 
+  def to_hsh
+    hsh = {}
+    self.eval_days.each do |k,v|
+      hsh[["7 days attention factor", k]] = self.eval_days[k][0]["details"]["current_risk"]["day_7"]
+      hsh[["30 days attention factor", k]] = self.eval_days[k][0]["details"]["current_risk"]["day_30"]
+      hsh[["7 days attention factor at midnight", k]] = self.eval_days[k][0]["details"]["current_risk_decreased"]["day_7"]
+      hsh[["30 days attention factor at midnight", k]] = self.eval_days[k][0]["details"]["current_risk_decreased"]["day_30"]
+    end
+    return hsh
+  end
+
 private
   def set_last_evaluated_risk
     self.last_evaluated_risk7 = self.eval_days.values.last[0].symbolize_keys[:details].symbolize_keys[:current_risk_decreased].symbolize_keys[:day_7] || self.eval_days.values.last[0].symbolize_keys[:details].symbolize_keys[:current_risk].symbolize_keys[:day_7]

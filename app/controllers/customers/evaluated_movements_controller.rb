@@ -18,7 +18,7 @@ module Customers
     end
 
     def for_month
-      month = DateTime.new(params[:year], params[:month], 1)
+      month = DateTime.new(params[:year].to_i, params[:month].to_i, 1)
       @evaluated_movements = @anagrafica.evaluated_movements.with_all_for_month(month).order(movement_created_at: :desc).page(params[:page]).per(params[:per])
     end
 

@@ -1,10 +1,11 @@
-.card.card-primary
+.card.card-outline.card-primary
   .card-header
-    %h3.card-title
+    .card-title
       %i.fas.fa-exclamation-triangle
       #{@anagrafica.full_name} - 
       = t(:listing_resource, resource: EvalRiskiness.model_name.human(:count => 2))
       \- #{Date::MONTHNAMES[evaluated_risk.eval_month]} #{evaluated_risk.eval_year}
+    .card-tools
   .card-body
     %dl.row
       %dt.col-md-4.text-right= EvaluatedRisk.human_attribute_name(:nr_movements)
@@ -12,6 +13,7 @@
         - if evaluated_risk.nr_movements.to_i > 0
           = link_to for_month_customers_anagrafica_evaluated_movements_path(@anagrafica, evaluated_risk.eval_year, evaluated_risk.eval_month), class: "btn btn-xs btn-info", title: 'Open popup', remote: true do
             %i.fa.fa-exchange-alt
+            Show #{evaluated_risk.nr_movements} movements
         - else 
           0
       %dt.col-md-4.text-right= EvaluatedRisk.human_attribute_name(:last_evaluated_risk7)

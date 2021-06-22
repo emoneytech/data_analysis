@@ -4,7 +4,7 @@ module Customers
     before_action :local_breadcrumb #, :init_risk
 
     def index
-      @evaluated_risks = @anagrafica.evaluated_risks.order(eval_year: :desc).page(params[:page]).per(12)
+      @evaluated_risks = @anagrafica.evaluated_risks.order(eval_year: :desc).page(params[:page]).per(params[:per])
     end
 
     def show

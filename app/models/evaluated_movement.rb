@@ -52,6 +52,10 @@ class EvaluatedMovement < ApplicationRecord
     where("movement_created_at BETWEEN '#{day.beginning_of_day}' 
     AND '#{day.end_of_day}'").order(movement_created_at: :asc)
   }
+  scope :with_all_for_month, ->(day) {
+    where("movement_created_at BETWEEN '#{day.beginning_of_month}' 
+    AND '#{day.at_end_of_month}'").order(movement_created_at: :asc)
+  }
 
   def self.last_service_id
     select(:service_id).order(service_id: :desc).first.try(:service_id) || 0
