@@ -1,15 +1,15 @@
-%table.table.table-striped.table-bordered.table-hover.margin-none.data-table{id: 'table_eval_riskinesses'}
+%table.table.table-striped.table-bordered.table-hover.margin-none.data-table{id: 'table_eval_riskinesses', data: {order: '[[7, "desc"]]'}}
   %thead
     %tr
-      %th.col-md-1.text-center= Anagrafica.human_attribute_name(:id)
-      %th= EvalRiskiness.human_attribute_name(:user)
+      %th.col-md-1.text-center{data: {priority: "10"}}= Anagrafica.human_attribute_name(:id)
+      %th{data: {priority: "1"}}= EvalRiskiness.human_attribute_name(:user)
       %th= EvalRiskiness.human_attribute_name(:number_of_movements)
-      %th.col-md-1.text-center= Anagrafica.human_attribute_name(:vendor)
-      %th.col-md-1.text-center= Anagrafica.human_attribute_name(:tipo)
-      %th.col-md-1.text-center= EvalRiskiness.human_attribute_name(:eval_month)
-      %th.col-md-1.text-center= EvalRiskiness.human_attribute_name(:eval_score)
-      %th.col-md-1.text-center= EvalRiskiness.human_attribute_name(:trend)
-      %th.col-md-1{nowrap: true}
+      %th.text-center= Anagrafica.human_attribute_name(:vendor)
+      %th.text-center= Anagrafica.human_attribute_name(:tipo)
+      %th.text-center= EvalRiskiness.human_attribute_name(:eval_month)
+      %th.text-center{data: {priority: "2"}}= EvalRiskiness.human_attribute_name(:eval_score)
+      %th.text-center{data: {priority: "3"}}= EvalRiskiness.human_attribute_name(:trend)
+      %th.col-md-1{data: {priority: "1", orderable: "false"},nowrap: true}
   %tbody
     - eval_riskinesses.each do |item|
       %tr
