@@ -1,6 +1,6 @@
-.card
-  .card-header.bg-primary
-    %h3.card-title
+.card.card-outline.card-primary
+  .card-header
+    .card-title
       %i.fas.fa-user
       #{Anagrafica.model_name.human} #{anagrafica.id}
     = render 'menu_anagrafica', anagrafica: anagrafica

@@ -28,6 +28,12 @@ import "select2-bootstrap4-theme/dist/select2-bootstrap4.min.css"
 
 require('./plugins/datatables.js')
 
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
+import * as L from 'leaflet';
+import 'leaflet-defaulticon-compatibility';
+
+
 window.d3 = d3
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
@@ -37,6 +43,7 @@ window.d3 = d3
 // const imagePath = (name) => images(name, true)
 window.jQuery = $
 window.$ = $
+window.L = L
 const tables = []
 
 document.addEventListener("turbolinks:load", () => {
