@@ -7,6 +7,7 @@ Sidekiq::Enqueuer.configure do |config|
     SetInitRecursionWorker,
     SyncEvaluatedMovementsWorker,
     PurgeForExcludedProductsWorker,
-    InitEvaluatedRiskWorker
+    InitEvaluatedRiskWorker,
+    InitCustomerPositionWorker
   ]
 end
