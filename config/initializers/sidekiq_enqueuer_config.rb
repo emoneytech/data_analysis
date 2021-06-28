@@ -8,6 +8,7 @@ Sidekiq::Enqueuer.configure do |config|
     SyncEvaluatedMovementsWorker,
     PurgeForExcludedProductsWorker,
     InitEvaluatedRiskWorker,
-    InitCustomerPositionsWorker
+    InitCustomerPositionsWorker,
+    UpdateCustomerPositionsWorker
   ]
 end

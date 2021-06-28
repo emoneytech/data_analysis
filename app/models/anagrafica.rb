@@ -292,7 +292,10 @@ class Anagrafica < ApplicationCoreRecord
     end
   end
 
-
+  def to_s 
+    "#{full_name}"
+  end
+  
   def time_lapse_factor
     super || AnagraficaTimeLapseFactor.where(anagrafica_id: id).first_or_create
   end

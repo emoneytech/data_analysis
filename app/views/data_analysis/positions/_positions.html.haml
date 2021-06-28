@@ -1,0 +1,14 @@
+.col-md-12
+  .card
+    .card-header
+      %h3.card-title
+        %i.fas.fa-exchange-alt
+        = t(:listing_resource, resource: EvaluatedMovement.model_name.human(:count => 2))
+    .card-body
+      = render "table", positions: @positions
+    .card-footer.clearfix
+      .row
+        .col-md-4
+          = page_entries_info @positions
+        .col-md-8
+          = paginate @positions, theme: 'twitter-bootstrap-4', nav_class: "float-right", pagination_class: 'm-0'

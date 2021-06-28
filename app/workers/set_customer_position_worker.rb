@@ -10,7 +10,10 @@ class SetCustomerPositionWorker
   def perform(customer_id) 
     customer = Anagrafica.find customer_id
     p = customer.current_position || customer.build_current_position
+    result = Geocoder.search(customer.Citta, params: {country: NormalizeCountry(customer.NazioneResidenza, address: customer.Indirizzo)}).first
     p.address = customer.full_address
+    p.latitude = result.latitude
+    p.longitude = result.latitude
     p.save
   end
 
