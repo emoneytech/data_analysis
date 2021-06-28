@@ -9,7 +9,8 @@ class SetCustomerPositionWorker
 
   def perform(customer_id) 
     customer = Anagrafica.find customer_id
-    p = customer.build_current_position(address: customer.full_address)
+    p = customer.current_position || customer.build_current_position
+    p.address = customer.full_address
     p.save
   end
 

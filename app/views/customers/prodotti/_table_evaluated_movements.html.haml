@@ -1,0 +1,31 @@
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_evaluated_movements', data: {order: '[[2, "desc"]]'}}
+  %thead
+    %tr
+      %th= EvaluatedMovement.human_attribute_name(:id)
+      %th= EvaluatedMovement.human_attribute_name(:service_id)
+      %th= EvaluatedMovement.human_attribute_name(:movement_created_at)
+      %th= EvaluatedMovement.human_attribute_name(:product_name)
+      %th= EvaluatedMovement.human_attribute_name(:beneficiary)
+      %th= EvaluatedMovement.human_attribute_name(:product_base_risk)
+      %th= "#{EvaluatedMovement.human_attribute_name(:recursion)} (7/30)"
+      %th= EvaluatedMovement.human_attribute_name(:amount)
+      %th.action
+  %tbody
+    - evaluated_movements.each do |item|
+      %tr
+        %td.text-center= item.id
+        %td.text-center= item.service_id
+        %td= item.movement_created_at
+        %td= item.product_name
+        %td
+          = item.beneficiary
+          %br
+          = item.beneficiary_iban
+          %br
+          = item.beneficiary_other
+        %td.text-center= item.product_base_risk
+        %td.text-center= "#{item.recursion_customer_7} / #{item.recursion_customer_30}"
+        %td= item.amount
+        %td.text-center
+          = link_to customers_anagrafica_evaluated_movement_path(@anagrafica,item), class: "btn btn-xs btn-primary" do
+            %i.fa.fa-eye

@@ -10,7 +10,6 @@ module DataAnalysis
 
     def show
       @movimentoconto = Movimentoconto.where(id: params[:id]).first
-      add_breadcrumb @movimentoconto.id, :revenue_movimentoconto_path
     end
 
   end

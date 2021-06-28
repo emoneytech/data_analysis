@@ -207,7 +207,7 @@ class Servizio < ApplicationCoreRecord
         beneficiary[:beneficiary] = "#{self.bonifico.destinatario}"
         beneficiary[:beneficiary_iban] = "#{self.bonifico.ibandest}"
         beneficiary[:beneficiary_other] =
-          "#{self.bonifico.Paese}, #{self.bonifico.dloc}, #{self.bonifico.dindirizzo}"
+          "#{self.bonifico.dindirizzo}, #{self.bonifico.dloc}, #{self.bonifico.Paese}"
       end
     when 'assegnovirtuale'
       if self.prodotto.to_s == "1614" || self.prodotto.to_s == "1612"

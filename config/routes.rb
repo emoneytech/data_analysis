@@ -49,6 +49,7 @@ Rails.application.routes.draw do
     resources :evaluated_movements
     resources :matviews
     resources :movimenticonti
+    resources :prodotti
     resources :servizi do
       collection do
         get :map

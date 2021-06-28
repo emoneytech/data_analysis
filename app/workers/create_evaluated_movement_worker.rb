@@ -4,6 +4,9 @@ class CreateEvaluatedMovementWorker
   # sidekiq_options queue: 'critical', retry: false, backtrace: true
   sidekiq_options queue: 'critical', retry: false, backtrace: true
 
+  # PARAMS
+  # service_id, point, default_product_base_risk 
+  
   def perform(service_id, point, default_product_base_risk = Configurable.default_product_base_risk.to_f)
 
     service = Servizio.joins(:product,:anagrafica,:movimenticonti)

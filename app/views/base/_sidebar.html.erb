@@ -39,6 +39,13 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="<%= data_analysis_prodotti_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'prodotti' %>">
+                <i class="nav-icon fas fa-store-alt"></i>
+                <p>
+                  <%= Prodotto.model_name.human(count: 2) %>
+                </p>
+              </a>
+            </li>            <li class="nav-item">
               <a href="<%= data_analysis_matviews_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'matviews' %>">
                 <i class="nav-icon fas fa-database"></i>
                 <p>

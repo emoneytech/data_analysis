@@ -25,6 +25,7 @@
 #  updated_at          :datetime         not null
 #  recursion           :text(65535)
 #  service_created_at  :datetime
+#  product_table_code  :integer
 #
 require "test_helper"
 

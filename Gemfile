@@ -97,3 +97,5 @@ gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'geocoder'
 gem 'net-http'
+
+gem "normalize_country"

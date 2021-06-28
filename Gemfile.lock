@@ -224,6 +224,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.11.7-x86_64-linux)
       racc (~> 1.4)
+    normalize_country (0.3.2)
     numerizer (0.1.1)
     orm_adapter (0.5.0)
     paranoia (2.4.3)
@@ -439,6 +440,7 @@ DEPENDENCIES
   money-rails
   mysql2 (>= 0.4.4)
   net-http
+  normalize_country
   paranoia
   paranoia_uniqueness_validator (= 3.3.0)
   pry

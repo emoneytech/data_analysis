@@ -1,0 +1,27 @@
+- data = evaluated_movement.customer.to_map
+.card.card-outline.card-primary
+  .card-header
+    .card-title
+      %i.fas.fa-map-marker-alt
+      #{Anagrafica.model_name.human} #{evaluated_movement.customer_full_name}
+
+  .card-body
+    %div
+      %p= evaluated_movement.origin.inspect
+      %p= evaluated_movement.destination.inspect
+    #mapid{ style: "height: 680px;" }
+:javascript
+  var map = L.map('mapid', {
+    center: [#{data[:latitude]}, #{data[:longitude]}],
+    zoom: 5
+  });
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+  }).addTo(map);
+  L.marker(['#{data[:latitude]}', '#{data[:longitude]}']).addTo(map)
+    .bindPopup('#{evaluated_movement.customer_full_name}.<br> #{evaluated_movement.amount}')
+    .openPopup();
+  L.marker([#{evaluated_movement.destination[:latitude]}, #{evaluated_movement.destination[:longitude]}]).addTo(map)
+    .bindPopup('#{evaluated_movement.beneficiary}.<br> #{evaluated_movement.amount}')
+    .openPopup();

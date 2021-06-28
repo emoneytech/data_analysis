@@ -2,15 +2,16 @@
 #
 # Table name: evaluated_risks
 #
-#  id                  :bigint           not null, primary key
-#  anagrafica_id       :integer          not null
-#  eval_year           :integer          not null
-#  eval_month          :integer          not null
-#  nr_movements        :integer          default(0), not null
-#  eval_days           :text(65535)
-#  last_evaluated_risk :float(24)
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
+#  id                    :bigint           not null, primary key
+#  anagrafica_id         :integer          not null
+#  eval_year             :integer          not null
+#  eval_month            :integer          not null
+#  nr_movements          :integer          default(0), not null
+#  eval_days             :text(65535)
+#  last_evaluated_risk7  :float(24)
+#  last_evaluated_risk30 :float(24)
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
 #
 class EvaluatedRisk < ApplicationRecord
   belongs_to :anagrafica

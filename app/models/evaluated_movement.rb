@@ -25,12 +25,12 @@
 #  updated_at          :datetime         not null
 #  recursion           :text(65535)
 #  service_created_at  :datetime
+#  product_table_code  :integer
 #
 class EvaluatedMovement < ApplicationRecord
   monetize :amount_cents
   serialize :recursion, JSON
-  has_one :destination, -> { where positionable_type: 'EvaluatedMovementDestination' }, class_name: 'Position', foreign_key: :positionable_id
-
+  
   belongs_to :customer,
              class_name: 'Anagrafica',
              foreign_key: 'customer_id',
@@ -43,7 +43,15 @@ class EvaluatedMovement < ApplicationRecord
              class_name: 'Movimentoconto',
              foreign_key: 'movement_id',
              primary_key: 'idMovimentiConti'
+  belongs_to :product,
+             class_name: 'Prodotto',
+             foreign_key: 'product_id',
+             primary_key: 'idprodotto',
+             optional: true
+  has_one :destination, -> { where positionable_type: 'EvaluatedMovementDestination' }, class_name: 'Position', foreign_key: :positionable_id
           
+  delegate :current_position, to: :customer
+  alias :origin :current_position
   # attr reader
   attr_reader :recursion_customer_7, :recursion_customer_30, :recursion_all_7, :recursion_all_30
   # before_save :set_recursion
@@ -111,6 +119,7 @@ class EvaluatedMovement < ApplicationRecord
     self.service_updated_at = service.lastupdate
     self.product_id = service.prodotto
     self.product_name = service.nomeprodotto
+    self.product_table_code = service.product.codtabella
     self.amount = service.importo.to_f
   end
 
@@ -145,7 +154,7 @@ class EvaluatedMovement < ApplicationRecord
         self.beneficiary = "#{service.bonifico.destinatario}"
         self.beneficiary_iban = "#{service.bonifico.ibandest}"
         self.beneficiary_other =
-          "#{service.bonifico.Paese}, #{service.bonifico.dloc}, #{service.bonifico.dindirizzo}"
+          "#{service.bonifico.dindirizzo}, #{service.bonifico.dloc}, #{service.bonifico.Paese}"
       end
     when 'assegnovirtuale'
       if service.prodotto.to_s == "1614" || service.prodotto.to_s == "1612"
@@ -260,4 +269,7 @@ class EvaluatedMovement < ApplicationRecord
     self.recursion ? self.recursion["all"]["day_30"] : ' - '
   end
 
+  def set_destination
+  end
+  
 end

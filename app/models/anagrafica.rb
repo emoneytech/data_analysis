@@ -285,8 +285,11 @@ class Anagrafica < ApplicationCoreRecord
   end
 
   def full_address
-    company ? "#{self.ComunePoint}" : "#{self.Citta}"
-#    company ? "#{self.ComunePoint}, #{self.ProvinciaPoint}, #{self.NazionePoint}" : "#{self.Citta},  #{self.Provincia}, #{self.NazioneResidenza}"
+    if self.IdTipo == 3
+      "#{self.ComunePoint}, #{self.ProvinciaPoint}, #{NormalizeCountry(self.NazionePoint)}"
+    else
+      "#{self.Indirizzo}, #{self.Citta}, #{NormalizeCountry(self.NazioneResidenza)}"
+    end
   end
 
 
