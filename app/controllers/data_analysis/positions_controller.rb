@@ -3,7 +3,7 @@ module DataAnalysis
     add_breadcrumb helpers.raw("#{helpers.fa_icon('exclamation-triangle')} #{Position.model_name.human(count: 2)}"), [:data_analysis, :positions]
 
     def index
-      @positions = @positions.page(params[:page]).per(params[:per])
+      @positions = @positions.where(latitude: nil, longitude: nil).page(params[:page]).per(params[:per])
     end
 
     def show

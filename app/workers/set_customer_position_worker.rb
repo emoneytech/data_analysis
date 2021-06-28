@@ -2,7 +2,7 @@ class SetCustomerPositionWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
   # sidekiq_options queue: 'critical', retry: false, backtrace: true
-  sidekiq_options queue: 'default', retry: true, backtrace: true
+  sidekiq_options queue: 'default', retry: false, backtrace: true
   
   # PARAMS
   # customer_id
