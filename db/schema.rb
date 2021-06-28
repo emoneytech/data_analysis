@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_14_073732) do
+ActiveRecord::Schema.define(version: 2021_06_26_100505) do
 
   create_table "active_admin_comments", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -144,6 +144,19 @@ ActiveRecord::Schema.define(version: 2021_06_14_073732) do
     t.index ["customer_id"], name: "index_notes_on_customer_id"
     t.index ["deleted_at"], name: "index_notes_on_deleted_at"
     t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
+  create_table "positions", charset: "latin1", force: :cascade do |t|
+    t.string "positionable_type", null: false
+    t.bigint "positionable_id", null: false
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
+    t.string "address"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["latitude", "longitude"], name: "index_positions_on_latitude_and_longitude"
+    t.index ["positionable_type", "positionable_id"], name: "index_positions_on_positionable"
   end
 
   create_table "roles", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|

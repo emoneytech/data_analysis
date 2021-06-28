@@ -29,6 +29,7 @@
 class EvaluatedMovement < ApplicationRecord
   monetize :amount_cents
   serialize :recursion, JSON
+  has_one :destination, -> { where positionable_type: 'EvaluatedMovementDestination' }, class_name: 'Position', foreign_key: :positionable_id
 
   belongs_to :customer,
              class_name: 'Anagrafica',

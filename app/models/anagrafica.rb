@@ -275,10 +275,20 @@ class Anagrafica < ApplicationCoreRecord
           primary_key: 'IdUtente',
           foreign_key: :anagrafica_id,
           class_name: 'AnagraficaTimeLapseFactor'
+  
+  has_many :positions, -> { order(created_at: :desc) }, as: :positionable, primary_key: 'IdUtente', foreign_key: :positionable_id
+  has_one :current_position, -> { order(created_at: :desc) }, as: :positionable, primary_key: 'IdUtente', foreign_key: :positionable_id, class_name: 'Position'
+
   # scope :for_evaluation, -> { includes(:rischio_corrente).references(:rischio_corrente).order('rischio.Rischio desc')}
   def full_name
     company ? "#{company}" : "#{self.nome} #{self.cognome}"
   end
+
+  def full_address
+    company ? "#{self.ComunePoint}" : "#{self.Citta}"
+#    company ? "#{self.ComunePoint}, #{self.ProvinciaPoint}, #{self.NazionePoint}" : "#{self.Citta},  #{self.Provincia}, #{self.NazioneResidenza}"
+  end
+
 
   def time_lapse_factor
     super || AnagraficaTimeLapseFactor.where(anagrafica_id: id).first_or_create

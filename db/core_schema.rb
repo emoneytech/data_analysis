@@ -85,10 +85,12 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "ContoRiserva", limit: 20
   end
 
-  create_table "ControlloOperatori", primary_key: ["IdOperatore", "IdUtente"], charset: "latin1", force: :cascade do |t|
+  create_table "ControlloOperatori", primary_key: "IdControlloOperatore", id: :integer, charset: "latin1", force: :cascade do |t|
     t.bigint "IdOperatore", null: false
     t.datetime "Data", default: -> { "CURRENT_TIMESTAMP" }
     t.bigint "IdUtente", null: false
+    t.index ["IdOperatore"], name: "operatore"
+    t.index ["IdUtente"], name: "utente"
   end
 
   create_table "Crypto", primary_key: "IdUtente", id: :bigint, default: nil, charset: "latin1", force: :cascade do |t|
@@ -310,6 +312,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer "Compliance", default: 0
     t.integer "Cbar", default: 0
     t.integer "Escalation", default: 0
+    t.integer "Note", default: 1
+    t.integer "MLRO", default: 0
   end
 
   create_table "aml_cronologia_questionario", primary_key: "idaml_cronologia_questionario", id: :integer, charset: "latin1", force: :cascade do |t|
@@ -958,6 +962,10 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "DataChiusura"
     t.bigint "OperatoreApertura", default: 0
     t.bigint "OperatoreChiusura", default: 0
+    t.index ["IdMandato"], name: "mandati"
+    t.index ["IdServizio"], name: "servizi"
+    t.index ["IdUtente"], name: "utente"
+    t.index ["Stato"], name: "stato"
   end
 
   create_table "eventievo", primary_key: "ideventiEVO", charset: "latin1", force: :cascade do |t|
@@ -1184,7 +1192,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "Data", limit: 45
     t.string "DocId", limit: 45
     t.string "InstrId", limit: 45
-    t.string "EndToEndId", limit: 45
+    t.string "EndToEndId", limit: 45, collation: "utf8mb4_general_ci"
     t.string "TxId", limit: 45
     t.decimal "Amount", precision: 10, scale: 2
     t.string "ChrgBr", limit: 45
@@ -1332,6 +1340,50 @@ ActiveRecord::Schema.define(version: 0) do
     t.text "how_evaluete_customer_behavior", size: :long
   end
 
+  create_table "list_verify_account_business_doc", primary_key: "idList", id: :integer, charset: "latin1", force: :cascade do |t|
+    t.integer "idoperator"
+    t.integer "active", default: 0
+    t.integer "iduser"
+    t.text "date_of_examination"
+    t.datetime "date_of_change", default: -> { "CURRENT_TIMESTAMP" }
+    t.integer "proof_of_identity"
+    t.integer "selfie"
+    t.integer "proof_of_residence"
+    t.integer "source_of_wealth"
+    t.integer "facta_from"
+    t.integer "police_conduct"
+    t.integer "bank_reference_letter"
+    t.integer "agreement_signed"
+    t.integer "last_tax_declaration"
+    t.text "occupation"
+    t.integer "links_founded"
+    t.text "specify_links_found"
+    t.integer "links_founded_STR"
+    t.text "specify_links_found_STR"
+    t.integer "articles_of_association", default: 0, comment: "1= Positive\\n20 On hold"
+    t.integer "memorandum_of_association", default: 0
+    t.integer "excerpt_from_ROC", default: 0
+    t.integer "certificate_of_incorporation", default: 0
+    t.integer "vat_certificate", default: 0
+    t.integer "last_financial_statment", default: 0
+    t.integer "organizational_chart"
+    t.integer "ubo_declaration"
+    t.integer "third_parties_agreement"
+    t.integer "trust_deed"
+    t.integer "license"
+    t.integer "shareholders_register"
+    t.integer "directors_register"
+    t.integer "tax_number"
+    t.integer "last_tax_return"
+    t.integer "wolfsberg_questionnarie"
+    t.integer "list_of_client_and_suppliers"
+    t.integer "policy_and_manual_AML"
+    t.integer "minutes_of_directors_appointment"
+    t.text "specify_further_document_requisted", size: :long
+    t.text "specify_reason", size: :long
+    t.index ["idList"], name: "idList_UNIQUE", unique: true
+  end
+
   create_table "list_verify_account_user", primary_key: "idvau", id: :integer, charset: "latin1", force: :cascade do |t|
     t.integer "active", default: 0
     t.integer "idoperator"
@@ -1371,6 +1423,23 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer "cra"
     t.text "how_do_assign_level_risk"
     t.text "how_evaluete_customer_behavior"
+  end
+
+  create_table "list_verify_account_user_doc", primary_key: "idvau", id: :integer, charset: "latin1", force: :cascade do |t|
+    t.integer "active", default: 0
+    t.integer "idoperator"
+    t.integer "iduser"
+    t.datetime "date_of_examination"
+    t.datetime "date_of_change", default: -> { "CURRENT_TIMESTAMP" }
+    t.integer "proof_of_identity", default: 0, comment: "1= Positive\\\\\\\\n2= On hold"
+    t.integer "selfie", default: 0, comment: "1=positive\\\\n2=On hold"
+    t.integer "proof_of_residence", default: 0
+    t.integer "source_of_wealth", default: 0
+    t.integer "facta_from", default: 0
+    t.integer "police_conduct", default: 0
+    t.integer "bank_reference_letter", default: 0
+    t.integer "agreement_signed", default: 0
+    t.integer "last_tax_declaration"
   end
 
   create_table "logKycnexModClick", primary_key: "idlogKycnexModClick", id: :integer, charset: "latin1", force: :cascade do |t|
@@ -1440,7 +1509,6 @@ ActiveRecord::Schema.define(version: 0) do
     t.index ["Beneficiario"], name: "Beneficiario"
     t.index ["ContoRiferimento"], name: "Contoriferimento"
     t.index ["IdMovimentoTecnico"], name: "movTecnico"
-    t.index ["IdMovimentoValidazione"], name: "movValidazione"
     t.index ["IdMovimentoValidazione"], name: "validazione"
   end
 
@@ -1541,6 +1609,16 @@ ActiveRecord::Schema.define(version: 0) do
   create_table "normtoponomastica", primary_key: "idnormdocumento", id: :integer, charset: "latin1", force: :cascade do |t|
     t.string "tipo", limit: 45
     t.string "Descrizione", limit: 45
+  end
+
+  create_table "note", primary_key: "IdNote", id: :integer, charset: "latin1", force: :cascade do |t|
+    t.bigint "IdUtente"
+    t.string "Tipo", limit: 45
+    t.text "Nota", size: :long
+    t.bigint "IdOperatore"
+    t.datetime "Data", default: -> { "CURRENT_TIMESTAMP" }
+    t.integer "Accesso", default: 0
+    t.index ["IdUtente"], name: "user"
   end
 
   create_table "operatoriTelefonici", primary_key: "IdOperatore", id: :integer, charset: "latin1", force: :cascade do |t|
@@ -1925,6 +2003,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "point_operator", default: "\"\""
     t.index ["datainserimento"], name: "datainserimento"
     t.index ["importo"], name: "importo"
+    t.index ["nomeprodotto"], name: "nomeprodotto"
     t.index ["operatore"], name: "operatore"
     t.index ["point"], name: "point"
     t.index ["prodotto"], name: "prodotto"

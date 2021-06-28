@@ -1,4 +1,4 @@
-%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_servizi'}
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_servizi', data: {order: '[[7, "desc"]]'}}
   %thead
     %tr
       %th= Servizio.human_attribute_name(:servizio)
@@ -8,6 +8,7 @@
       %th= Servizio.human_attribute_name(:nomeprodotto)
       %th= Servizio.human_attribute_name(:vendor)
       %th= Servizio.human_attribute_name(:datainserimento)
+      %th= Servizio.human_attribute_name(:lastupdate)
       %th.action
   %tbody
     - servizi.each do |item|
@@ -19,6 +20,7 @@
         %td= item.nomeprodotto
         %td= item.vendor
         %td= item.datainserimento
+        %td= item.lastupdate
         - if can? :manage, Servizio
           %td.text-center
             = link_to data_analysis_servizio_path(item), class: "btn btn-xs btn-primary" do

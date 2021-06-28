@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  positionable: one
+  positionable_type: Positionable
+  lat: 9.99
+  lng: 9.99
+  descrption: MyText
+
+two:
+  positionable: two
+  positionable_type: Positionable
+  lat: 9.99
+  lng: 9.99
+  descrption: MyText
