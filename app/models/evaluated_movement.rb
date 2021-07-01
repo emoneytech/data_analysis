@@ -48,10 +48,11 @@ class EvaluatedMovement < ApplicationRecord
              foreign_key: 'product_id',
              primary_key: 'idprodotto',
              optional: true
-  has_one :destination, -> { where positionable_type: 'EvaluatedMovementDestination' }, class_name: 'Position', foreign_key: :positionable_id
+  
+  has_one :destination, -> { where positionable_type: 'EvaluatedMovementDestination' }, class_name: 'Place', foreign_key: :positionable_id
           
-  delegate :current_position, to: :customer
-  alias :origin :current_position
+  delegate :current_place, to: :customer
+  alias :origin :current_place
   # attr reader
   attr_reader :recursion_customer_7, :recursion_customer_30, :recursion_all_7, :recursion_all_30
   # before_save :set_recursion

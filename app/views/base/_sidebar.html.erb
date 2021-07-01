@@ -55,10 +55,10 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="<%= data_analysis_positions_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'positions' %>">
+              <a href="<%= data_analysis_places_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'places' %>">
                 <i class="nav-icon fas fa-map-marker-alt"></i>
                 <p>
-                  <%= Position.model_name.human(count: 2) %>
+                  <%= Place.model_name.human(count: 2) %>
                 </p>
               </a>
             </li>

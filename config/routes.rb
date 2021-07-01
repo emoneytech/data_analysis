@@ -51,7 +51,7 @@ Rails.application.routes.draw do
     resources :movimenticonti
     resources :prodotti
     resources :maps
-    resources :positions
+    resources :places
     resources :servizi do
       collection do
         get :map

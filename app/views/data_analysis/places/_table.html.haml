@@ -1,14 +1,14 @@
 %table.table.table-striped.table-bordered.table-hover.data-table{id: 'table'}
   %thead
     %tr
-      %th= Position.human_attribute_name(:id)
-      %th= Position.human_attribute_name(:positionable)
-      %th= Position.human_attribute_name(:latitude)
-      %th= Position.human_attribute_name(:longitude)
-      %th= Position.human_attribute_name(:address)
+      %th= Place.human_attribute_name(:id)
+      %th= Place.human_attribute_name(:positionable)
+      %th= Place.human_attribute_name(:latitude)
+      %th= Place.human_attribute_name(:longitude)
+      %th= Place.human_attribute_name(:address)
       %th.action
   %tbody
-    - positions.each do |item|
+    - places.each do |item|
       %tr
         %td= item.id
         %td= item.positionable
