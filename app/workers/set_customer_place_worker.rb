@@ -1,4 +1,4 @@
-class SetCustomerPositionWorker
+class SetCustomerPlaceWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
   # sidekiq_options queue: 'critical', retry: false, backtrace: true
@@ -9,11 +9,16 @@ class SetCustomerPositionWorker
 
   def perform(customer_id) 
     customer = Anagrafica.find customer_id
-    p = customer.current_position || customer.build_current_position
+    p = customer.current_place || customer.build_current_place
+    p.name = customer.full_name
     result = Geocoder.search(customer.Citta, params: {country: NormalizeCountry(customer.NazioneResidenza, address: customer.Indirizzo)}).first
-    p.address = customer.full_address
-    p.latitude = result.latitude
-    p.longitude = result.latitude
+    if result
+      p.country = result.country
+      p.city = result.city
+      p.address = result.address
+      p.region = result.state
+      p.lonlat = "POINT(#{result.longitude} #{result.latitude})"
+    end
     p.save
   end
 

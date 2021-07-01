@@ -99,3 +99,6 @@ gem 'geocoder'
 gem 'net-http'
 
 gem "normalize_country"
+
+gem 'pg', '>= 0.18', '< 2.0'
+gem 'activerecord-postgis-adapter'

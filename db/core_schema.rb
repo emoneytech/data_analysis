@@ -1564,6 +1564,11 @@ ActiveRecord::Schema.define(version: 0) do
     t.index ["numeroConto"], name: "fk_numeroconto_idx"
   end
 
+  create_table "nazioniEu", primary_key: "Nazione", id: { type: :string, limit: 100 }, charset: "latin1", force: :cascade do |t|
+    t.string "iso2", limit: 45
+    t.string "iso3", limit: 45
+  end
+
   create_table "nazioniiso", primary_key: "Nazione", id: { type: :string, limit: 100 }, charset: "latin1", force: :cascade do |t|
     t.string "ISO2", limit: 2, null: false
     t.string "ISO3", limit: 3, null: false

@@ -1,3 +1,12 @@
+default_pg: &default_pg
+  adapter: postgis
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  migrations_paths: db/core_pg_migrate
+  host: <%= ENV.fetch("PGSQL_HOST") %>
+  username: <%= ENV.fetch("PGSQL_USER") %>
+  password: <%= ENV.fetch("PGSQL_PASSWORD") %>
+
 default: &default
   adapter: mysql2
   encoding: utf8
@@ -17,6 +26,9 @@ development:
   core:
     <<: *default
     database: dbconti_prod
+  core_pg:
+    <<: *default_pg
+    database: data_analysis_production
 
 test:
   risk:
@@ -25,6 +37,9 @@ test:
   core:
     <<: *default
     database: dbconti_prod
+  core_pg:
+    <<: *default_pg
+    database: data_analysis_test
 
 production:
   risk:
@@ -34,3 +49,6 @@ production:
   core:
     <<: *default
     database: dbconti_prod
+  core_pg:
+    <<: *default_pg
+    database: data_analysis_production

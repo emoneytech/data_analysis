@@ -223,7 +223,7 @@ class Anagrafica < ApplicationCoreRecord
             .where
             .not('anagrafiche.IdUtente' => %w[70 75])
             .where
-            .not('anagrafiche.Attivo' => %w[0 6])
+            .not('anagrafiche.Attivo' => 6)
             .where
             .not('anagrafiche.created' => nil)
         }
@@ -276,8 +276,11 @@ class Anagrafica < ApplicationCoreRecord
           foreign_key: :anagrafica_id,
           class_name: 'AnagraficaTimeLapseFactor'
   
-  has_many :positions, -> { order(created_at: :desc) }, as: :positionable, primary_key: 'IdUtente', foreign_key: :positionable_id
-  has_one :current_position, -> { order(created_at: :desc) }, as: :positionable, primary_key: 'IdUtente', foreign_key: :positionable_id, class_name: 'Position'
+#  has_many :positions, -> { order(created_at: :desc) }, as: :positionable, primary_key: 'IdUtente', foreign_key: :positionable_id
+#  has_one :current_position, -> { order(created_at: :desc) }, as: :positionable, primary_key: 'IdUtente', foreign_key: :positionable_id, class_name: 'Position'
+
+  has_many :places, -> { order(created_at: :desc) }, as: :positionable, primary_key: 'IdUtente', foreign_key: :positionable_id
+  has_one :current_place, -> { order(created_at: :desc) }, as: :positionable, primary_key: 'IdUtente', foreign_key: :positionable_id, class_name: 'Place'
 
   # scope :for_evaluation, -> { includes(:rischio_corrente).references(:rischio_corrente).order('rischio.Rischio desc')}
   def full_name
@@ -293,7 +296,7 @@ class Anagrafica < ApplicationCoreRecord
   end
 
   def to_s 
-    "#{full_name}"
+    "#{full_name} - #{self.Attivo}"
   end
   
   def time_lapse_factor

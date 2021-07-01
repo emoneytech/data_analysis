@@ -1,0 +1,35 @@
+.card.card-outline.card-primary
+  .card-header
+    .card-title
+      %i.fas.fa-map-marker-alt
+      #{Anagrafica.model_name.human(count: 2)} 
+
+  .card-body
+    #map{ style: "height: 380px;" }
+:javascript
+  document.addEventListener("turbolinks:load", () => {
+    function initializeMap(data) {
+      var positions = $.parseJSON(data);
+      var geoJSON = L.geoJSON(positions);
+      
+      var map = L.map('map');
+      var layer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+      });
+
+      layer.addTo(map);
+    
+      // this line adds our positions:
+      geoJSON.addTo(map);
+
+      // and this centers the map on the lat/long of our first post:
+      map.setView(positions[0].geometry.coordinates.reverse(), 15);
+    };
+
+    $.ajax({
+      url: '/data_analysis/maps.json',
+      dataType: 'text',
+      success: initializeMap
+    });
+  });

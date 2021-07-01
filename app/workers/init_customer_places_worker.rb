@@ -1,4 +1,4 @@
-class InitCustomerPositionsWorker
+class InitCustomerPlacesWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
   # sidekiq_options queue: 'critical', retry: false, backtrace: true
@@ -10,7 +10,7 @@ class InitCustomerPositionsWorker
   def perform()
     Anagrafica.alive.order(Created: :asc).select(:IdUtente).find_in_batches(batch_size: 500) do |customers|
       customers.each do |customer|
-        SetCustomerPositionWorker.perform_async(customer.IdUtente)
+        SetCustomerPlaceWorker.perform_async(customer.IdUtente)
       end
     end
   end

@@ -47,6 +47,9 @@ GEM
     activerecord (6.1.3.2)
       activemodel (= 6.1.3.2)
       activesupport (= 6.1.3.2)
+    activerecord-postgis-adapter (7.1.0)
+      activerecord (~> 6.1)
+      rgeo-activerecord (~> 7.0.0)
     activestorage (6.1.3.2)
       actionpack (= 6.1.3.2)
       activejob (= 6.1.3.2)
@@ -231,6 +234,9 @@ GEM
       activerecord (>= 4.0, < 6.2)
     paranoia_uniqueness_validator (3.3.0)
       activerecord (>= 5.1.0, < 6.2)
+    pg (1.2.3)
+    pg (1.2.3-x64-mingw32)
+    pg (1.2.3-x86-mingw32)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -308,6 +314,10 @@ GEM
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
+    rgeo (2.3.0)
+    rgeo-activerecord (7.0.1)
+      activerecord (>= 5.0)
+      rgeo (>= 1.0.0)
     ruby_parser (3.16.0)
       sexp_processor (~> 4.15, >= 4.15.1)
     rubyzip (2.3.0)
@@ -412,6 +422,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  activerecord-postgis-adapter
   acts_as_list
   bootsnap (>= 1.4.4)
   bootstrap4-kaminari-views
@@ -443,6 +454,7 @@ DEPENDENCIES
   normalize_country
   paranoia
   paranoia_uniqueness_validator (= 3.3.0)
+  pg (>= 0.18, < 2.0)
   pry
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)

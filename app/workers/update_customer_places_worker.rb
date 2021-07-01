@@ -1,4 +1,4 @@
-class UpdateCustomerPositionsWorker
+class UpdateCustomerPlacesWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
   # sidekiq_options queue: 'critical', retry: false, backtrace: true
@@ -8,9 +8,9 @@ class UpdateCustomerPositionsWorker
   # customer_id, day, default_risk, divisor_amount_for_factor, factor_for_amount, max_base_risk
 
   def perform()
-    Position.where(positionable_type: 'Anagrafica', latitude: nil, longitude: nil).find_in_batches(batch_size: 500) do |positions|
-      positions.each do |position|
-        SetCustomerPositionWorker.perform_async(position.positionable_id)
+    Place.where(positionable_type: 'Anagrafica', lonlat: nil,).find_in_batches(batch_size: 500) do |places|
+      places.each do |place|
+        SetCustomerPlaceWorker.perform_async(place.positionable_id)
       end
     end
   end

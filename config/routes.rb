@@ -50,6 +50,7 @@ Rails.application.routes.draw do
     resources :matviews
     resources :movimenticonti
     resources :prodotti
+    resources :maps
     resources :positions
     resources :servizi do
       collection do

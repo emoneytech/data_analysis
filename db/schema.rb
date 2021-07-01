@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_28_092437) do
+ActiveRecord::Schema.define(version: 2021_06_29_091739) do
 
   create_table "active_admin_comments", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -160,6 +160,7 @@ ActiveRecord::Schema.define(version: 2021_06_28_092437) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["latitude", "longitude"], name: "index_positions_on_latitude_and_longitude"
     t.index ["positionable_type", "positionable_id"], name: "index_positions_on_positionable"
+    t.index ["positionable_type"], name: "index_positions_on_positionable_type"
   end
 
   create_table "roles", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
