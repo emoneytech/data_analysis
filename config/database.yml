@@ -1,7 +1,7 @@
 default_pg: &default_pg
   adapter: postgis
   encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 50 } %>
   migrations_paths: db/core_pg_migrate
   host: <%= ENV.fetch("PGSQL_HOST") %>
   username: <%= ENV.fetch("PGSQL_USER") %>

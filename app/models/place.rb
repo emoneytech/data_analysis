@@ -18,6 +18,7 @@ class Place < CorePgRecord
   # relations
   belongs_to :positionable, polymorphic: true, optional: true
 
+  scope :geocoded, -> { where.not( lonlat: nil) }
   # geocoded_by :address
   # after_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
 
