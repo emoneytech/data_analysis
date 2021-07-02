@@ -49,7 +49,7 @@ class EvaluatedMovement < ApplicationRecord
              primary_key: 'idprodotto',
              optional: true
   
-  has_one :destination, -> { where positionable_type: 'EvaluatedMovementDestination' }, class_name: 'Place', foreign_key: :positionable_id
+  has_one :destination, class_name: 'Place', as: :positionable
           
   delegate :current_place, to: :customer
   alias :origin :current_place
@@ -66,6 +66,13 @@ class EvaluatedMovement < ApplicationRecord
     where("movement_created_at BETWEEN '#{day.beginning_of_month}' 
     AND '#{day.at_end_of_month}'").order(movement_created_at: :asc)
   }
+
+  scope :all_bankwire, -> { where(product_table_code: Codicetabella.find_by_nometabella('bonifici').codtab)}
+  after_save :set_destination, if: :is_bankwire?
+
+  def is_bankwire?
+    self.product_table_code.to_i === Codicetabella.find_by_nometabella('bonifici').codtab
+  end
 
   def self.last_service_id
     select(:service_id).order(service_id: :desc).first.try(:service_id) || 0
@@ -271,6 +278,7 @@ class EvaluatedMovement < ApplicationRecord
   end
 
   def set_destination
+    SetEvaluatedMovementPlaceWorker.perform_async(self.id)
   end
   
 end
