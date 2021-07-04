@@ -60,7 +60,7 @@ class Prodotto < ApplicationCoreRecord
   has_many :servizi, foreign_key: "prodotto", primary_key: "idprodotto", class_name: "Servizio"
   has_many :active_servizi, -> { where('servizi.importo > 0').where(status: [Servizio.status_active]) }, foreign_key: "prodotto", primary_key: "idprodotto", class_name: "Servizio"
 
-  has_many :evaluated_movements, foreign_key: :product_id, primary_key: "idprodotto"
+  has_many :eval_movements, foreign_key: :product_id, primary_key: "idprodotto"
 
   belongs_to :codicetabella, foreign_key: :codtabella, class_name: "Codicetabella"
   # delegate :nometabella, to: :codicetabella

@@ -32,7 +32,12 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
 import * as L from 'leaflet';
 import 'leaflet-defaulticon-compatibility';
+import '@elfalem/leaflet-curve'
+import 'leaflet-arc/bin/leaflet-arc.min.js'
 
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+import 'leaflet.markercluster/dist/leaflet.markercluster.js';
 
 window.d3 = d3
 // Uncomment to copy all static images under ../images to the output folder and reference

@@ -59,7 +59,7 @@ class Servizio < ApplicationCoreRecord
   has_one :ricarica, foreign_key: "idservizio", class_name: "Ricarica"
 
 
-  has_one :evaluated_movement, foreign_key: :service_id, primary_key: 'idservizio'
+  has_one :eval_movement, foreign_key: :service_id, primary_key: 'idservizio'
 
   scope :with_movements, -> { joins(:movimenticonti).uniq }
   scope :active_status, -> { where(status: ['5','6','7','8'])}
@@ -97,7 +97,7 @@ class Servizio < ApplicationCoreRecord
     order(lastupdate: :desc).select(:lastupdate).first.lastupdate
   end
 
-  def self.create_evaluated_movements(year = 2014, default_product_base_risk = Configurable.default_product_base_risk.to_f)
+  def self.create_eval_movements(year = 2014, default_product_base_risk = Configurable.default_product_base_risk.to_f)
     servizi = Servizio.for_evaluation
     if year.to_i == 2014
       date =  Servizio.select(:datainserimento).order(datainserimento: :asc).first.datainserimento.to_date
@@ -121,7 +121,7 @@ class Servizio < ApplicationCoreRecord
           datainserimento: :asc
         ).each_slice(100) do |services|
           services.each do |s|
-            worker_id = CreateEvaluatedMovementWorker.perform_async(
+            worker_id = CreateEvalMovementWorker.perform_async(
               s.idservizio,
               s.point,
               default_product_base_risk
@@ -135,7 +135,7 @@ class Servizio < ApplicationCoreRecord
     end
   end
 
-  def self.update_evaluated_movements(year = 2016)
+  def self.update_eval_movements(year = 2016)
     servizi = Servizio.for_evaluation
     default_product_base_risk = Configurable.default_product_base_risk.to_f
     max_base_risk = Configurable.max_base_risk.to_f
@@ -161,7 +161,7 @@ class Servizio < ApplicationCoreRecord
           datainserimento: :asc
         ).each_slice(100) do |services|
           services.each do |s|
-            worker_id = UpdateEvaluatedMovementWorker.perform_async(
+            worker_id = UpdateEvalMovementWorker.perform_async(
               s.idservizio,
               s.point,
               default_product_base_risk,

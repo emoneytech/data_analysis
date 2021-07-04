@@ -7,11 +7,11 @@ Rails.application.routes.draw do
     resources :anagrafiche do
       resources :charts do
         collection do
-          get 'evaluated_movements_for_month/:year/:month' => :evaluated_movements_for_month, as: :evaluated_movements_for_month
+          get 'eval_movements_for_month/:year/:month' => :eval_movements_for_month, as: :eval_movements_for_month
         end
       end
       member do
-        post :set_evaluated_movements
+        post :set_eval_movements
       end
       resources :risk_movements, only: [:show, :index] do
         collection do
@@ -24,7 +24,7 @@ Rails.application.routes.draw do
       resources :eval_riskinesses, only: [:show, :index]
 
       resources :evaluated_risks, only: [:show, :index]
-      resources :evaluated_movements do
+      resources :eval_movements do
         collection do
           get 'for_day/:day' => :for_day, as: :for_day
           get 'for_month/:year/:month' => :for_month, as: :for_month
@@ -46,7 +46,7 @@ Rails.application.routes.draw do
     resources :rischi
     resources :sync, only: :index
     resources :eval_riskinesses
-    resources :evaluated_movements
+    resources :eval_movements
     resources :matviews
     resources :movimenticonti
     resources :prodotti

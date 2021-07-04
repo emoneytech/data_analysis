@@ -6,6 +6,7 @@ default_pg: &default_pg
   host: <%= ENV.fetch("PGSQL_HOST") %>
   username: <%= ENV.fetch("PGSQL_USER") %>
   password: <%= ENV.fetch("PGSQL_PASSWORD") %>
+  schema_search_path: "public"
 
 default: &default
   adapter: mysql2

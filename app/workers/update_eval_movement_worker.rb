@@ -1,4 +1,4 @@
-class UpdateEvaluatedMovementWorker
+class UpdateEvalMovementWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
 
@@ -32,7 +32,7 @@ class UpdateEvaluatedMovementWorker
         .uniq
         .first
     return unless service
-    em = EvaluatedMovement.where(service_id: service.id).first_or_initialize
+    em = EvalMovement.where(service_id: service.id).first_or_initialize
     em.set_properties(
       service,
       default_product_base_risk,

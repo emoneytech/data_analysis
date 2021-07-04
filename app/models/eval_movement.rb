@@ -1,35 +1,35 @@
 # == Schema Information
 #
-# Table name: evaluated_movements
+# Table name: eval_movements
 #
 #  id                  :bigint           not null, primary key
 #  customer_id         :integer          not null
-#  customer_full_name  :string(255)
+#  customer_full_name  :string
 #  service_id          :integer          not null
-#  service_status      :string(255)
+#  service_status      :string
 #  service_updated_at  :datetime
+#  service_created_at  :datetime
 #  movement_id         :integer          not null
 #  movement_created_at :datetime         not null
 #  product_net_id      :integer
 #  product_id          :integer
-#  product_name        :string(255)
-#  product_base_risk   :float(24)
-#  beneficiary         :string(255)
-#  beneficiary_iban    :string(255)
-#  beneficiary_other   :string(255)
-#  risk_factor         :float(24)
-#  risk_description    :string(255)
+#  product_table_code  :integer
+#  product_name        :string
+#  product_base_risk   :float
+#  beneficiary         :string
+#  beneficiary_iban    :string
+#  beneficiary_other   :string
+#  risk_factor         :float
+#  risk_description    :string
+#  recursion           :jsonb            not null
 #  amount_cents        :integer          default(0), not null
-#  amount_currency     :string(255)      default("EUR"), not null
+#  amount_currency     :string           default("EUR"), not null
+#  destination_lonlat  :geography        point, 4326
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
-#  recursion           :text(65535)
-#  service_created_at  :datetime
-#  product_table_code  :integer
 #
-class EvaluatedMovement < ApplicationRecord
+class EvalMovement < CorePgRecord
   monetize :amount_cents
-  serialize :recursion, JSON
   
   belongs_to :customer,
              class_name: 'Anagrafica',
@@ -55,7 +55,6 @@ class EvaluatedMovement < ApplicationRecord
   alias :origin :current_place
   # attr reader
   attr_reader :recursion_customer_7, :recursion_customer_30, :recursion_all_7, :recursion_all_30
-  # before_save :set_recursion
 
   scope :for_evaluation, -> { order(movement_created_at: :asc)}
   scope :with_all_for_day, ->(day) {
@@ -68,7 +67,8 @@ class EvaluatedMovement < ApplicationRecord
   }
 
   scope :all_bankwire, -> { where(product_table_code: Codicetabella.find_by_nometabella('bonifici').codtab)}
-  after_save :set_destination, if: :is_bankwire?
+  # before_save :set_recursion0
+  # after_save :set_destination, if: :is_bankwire?
 
   def is_bankwire?
     self.product_table_code.to_i === Codicetabella.find_by_nometabella('bonifici').codtab
@@ -79,19 +79,19 @@ class EvaluatedMovement < ApplicationRecord
   end
 
   def previous
-    EvaluatedMovement.where("customer_id = ? AND movement_created_at < ? ", self.customer_id, self.movement_created_at).order(movement_created_at: :desc).first
+    EvalMovement.where("customer_id = ? AND movement_created_at < ? ", self.customer_id, self.movement_created_at).order(movement_created_at: :desc).first
   end
   
   def all_previous
-    EvaluatedMovement.where("movement_created_at < ? ", self.movement_created_at).order(movement_created_at: :desc).first
+    EvalMovement.where("movement_created_at < ? ", self.movement_created_at).order(movement_created_at: :desc).first
   end
 
   def next
-    EvaluatedMovement.where("customer_id = ? AND movement_created_at > ?", self.customer_id, self.movement_created_at).order(movement_created_at: :asc).first
+    EvalMovement.where("customer_id = ? AND movement_created_at > ?", self.customer_id, self.movement_created_at).order(movement_created_at: :asc).first
   end
 
   def all_next
-    EvaluatedMovement.where("movement_created_at > ?", self.movement_created_at).order(movement_created_at: :asc).first
+    EvalMovement.where("movement_created_at > ?", self.movement_created_at).order(movement_created_at: :asc).first
   end
 
   def set_properties(service,
@@ -163,6 +163,10 @@ class EvaluatedMovement < ApplicationRecord
         self.beneficiary_iban = "#{service.bonifico.ibandest}"
         self.beneficiary_other =
           "#{service.bonifico.dindirizzo}, #{service.bonifico.dloc}, #{service.bonifico.Paese}"
+        result = Geocoder.search(service.bonifico.dloc, params: {country: NormalizeCountry(service.bonifico.Paese, address: service.bonifico.dindirizzo)}).first
+        if result
+          self.destination_lonlat = "POINT(#{result.longitude} #{result.latitude})"
+        end
       end
     when 'assegnovirtuale'
       if service.prodotto.to_s == "1614" || service.prodotto.to_s == "1612"
@@ -232,20 +236,20 @@ class EvaluatedMovement < ApplicationRecord
   def count_recursive_for_customer(days=7)
     start_date = self.movement_created_at.to_date - days.days
     end_date = self.movement_created_at.to_date
-    EvaluatedMovement.where(customer_id: self.customer_id)
-    .where("evaluated_movements.beneficiary = ? OR evaluated_movements.beneficiary_iban = ?", self.beneficiary, self.beneficiary_iban)
-    .where("evaluated_movements.movement_created_at BETWEEN '#{start_date.to_date.beginning_of_day}' 
+    EvalMovement.where(customer_id: self.customer_id)
+    .where("eval_movements.beneficiary = ? OR eval_movements.beneficiary_iban = ?", self.beneficiary, self.beneficiary_iban)
+    .where("eval_movements.movement_created_at BETWEEN '#{start_date.to_date.beginning_of_day}' 
             AND '#{end_date}'").count
   end
 
   def count_recursive(days=7)
     start_date = self.movement_created_at.to_date - days.days
     end_date = self.movement_created_at.to_date
-    EvaluatedMovement.where(
-      "evaluated_movements.beneficiary = ? 
-        OR evaluated_movements.beneficiary_iban = ?", self.beneficiary, self.beneficiary_iban
+    EvalMovement.where(
+      "eval_movements.beneficiary = ? 
+        OR eval_movements.beneficiary_iban = ?", self.beneficiary, self.beneficiary_iban
     ).where(
-      "evaluated_movements.movement_created_at 
+      "eval_movements.movement_created_at 
         BETWEEN '#{start_date.to_date.beginning_of_day}' 
         AND '#{end_date}'"
     ).count
@@ -275,10 +279,6 @@ class EvaluatedMovement < ApplicationRecord
   end
   def recursion_all_30
     self.recursion ? self.recursion["all"]["day_30"] : ' - '
-  end
-
-  def set_destination
-    SetEvaluatedMovementPlaceWorker.perform_async(self.id)
   end
   
 end

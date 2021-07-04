@@ -1,0 +1,22 @@
+.card.card-outline.card-primary
+  .card-header
+    .card-title
+      %i.fas.fa-map-marker-alt
+      #{EvalMovement.model_name.human}
+  .card-body
+    #mapid{ style: "height: 680px;" }
+:javascript
+  var map = L.map('mapid', {
+    center: [#{eval_movement.destination.latitude}, #{eval_movement.destination.longitude}],
+    zoom: 4
+  });
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+  }).addTo(map);
+  L.marker([#{eval_movement.origin.latitude}, #{eval_movement.origin.longitude}]).addTo(map)
+  L.marker([#{eval_movement.destination.latitude}, #{eval_movement.destination.longitude}]).addTo(map)
+  L.Polyline.Arc([#{eval_movement.origin.latitude}, #{eval_movement.origin.longitude}], [#{eval_movement.destination.latitude}, #{eval_movement.destination.longitude}], {
+    color: 'red'
+  }).bindPopup('#{to_popup(eval_movement)}').addTo(map).openPopup();
+

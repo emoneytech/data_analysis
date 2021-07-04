@@ -5,10 +5,10 @@
         %i.fas.fa-exchange-alt
         = t(:listing_resource, resource: EvalMovement.model_name.human(:count => 2))
     .card-body
-      = render "table", places: @places
+      = render "table", eval_movements: @eval_movements
     .card-footer.clearfix
       .row
         .col-md-4
-          = page_entries_info @places
+          = page_entries_info @eval_movements
         .col-md-8
-          = paginate @places, theme: 'twitter-bootstrap-4', nav_class: "float-right", pagination_class: 'm-0'
+          = paginate @eval_movements, theme: 'twitter-bootstrap-4', nav_class: "float-right", pagination_class: 'm-0'

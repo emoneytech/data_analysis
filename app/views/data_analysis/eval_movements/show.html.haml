@@ -1,0 +1,8 @@
+- if @eval_movement.is_bankwire?
+  .row
+    .col-md-12
+      = render "map_single", eval_movement: @eval_movement
+.row
+  .col-md-12= render "eval_movement", eval_movement: @eval_movement
+
+

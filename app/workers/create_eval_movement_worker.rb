@@ -1,4 +1,4 @@
-class CreateEvaluatedMovementWorker
+class CreateEvalMovementWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
   # sidekiq_options queue: 'critical', retry: false, backtrace: true
@@ -16,7 +16,7 @@ class CreateEvaluatedMovementWorker
                 .where(point: point,idservizio: service_id)
                 .uniq.first
     return unless service
-    em = EvaluatedMovement.where(service_id: service.id).first_or_initialize
+    em = EvalMovement.where(service_id: service.id).first_or_initialize
     em.build_for_service(service)
     em.set_product_base_risk(service.product, default_product_base_risk)
     em.save

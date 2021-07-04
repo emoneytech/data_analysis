@@ -2,6 +2,7 @@
   "name": "data_analysis",
   "private": true,
   "dependencies": {
+    "@elfalem/leaflet-curve": "^0.8.0",
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@prettier/plugin-ruby": "^1.5.5",
     "@rails/actioncable": "^6.0.0",
@@ -32,7 +33,9 @@
     "daterangepicker": "^3.1.0",
     "jquery": "^3.6.0",
     "leaflet": "^1.7.1",
+    "leaflet-arc": "^1.0.2",
     "leaflet-defaulticon-compatibility": "^0.1.1",
+    "leaflet.markercluster": "^1.5.0",
     "moment": "^2.29.1",
     "popover": "^2.4.1",
     "popper.js": "^1.16.1",

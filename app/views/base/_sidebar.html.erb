@@ -15,10 +15,10 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="<%= data_analysis_evaluated_movements_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'evaluated_movements' %>">
+              <a href="<%= data_analysis_eval_movements_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'eval_movements' %>">
                 <i class="nav-icon fas fa-exchange-alt"></i>
                 <p>
-                  <%= EvaluatedMovement.model_name.human(count: 2) %>
+                  <%= EvalMovement.model_name.human(count: 2) %>
                 </p>
               </a>
             </li>

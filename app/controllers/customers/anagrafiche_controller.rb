@@ -16,8 +16,8 @@ module Customers
       add_breadcrumb helpers.raw("#{helpers.fa_icon('user')} #{@anagrafica.full_name}"), @anagrafica
     end
 
-    def set_evaluated_movements
-      @anagrafica.set_evaluated_movements
+    def set_eval_movements
+      @anagrafica.set_eval_movements
       redirect_to customers_anagrafica_path(@anagrafica)
     end
 

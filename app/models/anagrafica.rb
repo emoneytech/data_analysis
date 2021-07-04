@@ -255,7 +255,7 @@ class Anagrafica < ApplicationCoreRecord
            -> { order(movement_created_at: :asc) },
            foreign_key: :user_id
 
-  has_many :evaluated_movements,
+  has_many :eval_movements,
            primary_key: 'IdUtente',
            foreign_key: :customer_id
   has_many :evaluated_risks,
@@ -626,7 +626,7 @@ class Anagrafica < ApplicationCoreRecord
     }
   end
 
-  def set_init_evaluated_movement
+  def set_init_eval_movement
     max_base_risk = Configurable.max_base_risk.to_f
     factor_for_amount = Configurable.factor_for_amount.to_f
     divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
@@ -683,7 +683,7 @@ class Anagrafica < ApplicationCoreRecord
         services = Servizio.with_all_for_day(days_begin, self.id)
         current_risk_factor = 1
         services.each do |service|
-          em = EvaluatedMovement.where(service_id: service.id).first_or_initialize
+          em = EvalMovement.where(service_id: service.id).first_or_initialize
           em.set_properties(
             service,
             default_product_base_risk,
@@ -724,7 +724,7 @@ class Anagrafica < ApplicationCoreRecord
     b[0]["details"]["current_risk_decreased"] || b[0]["details"]["current_risk"]
   end
 
-  def set_evaluated_movements
+  def set_eval_movements
     default_product_base_risk = Configurable.default_product_base_risk.to_f
     self
       .servizi
@@ -739,7 +739,7 @@ class Anagrafica < ApplicationCoreRecord
       .each_slice(100) do |services|
         services.each do |s|
           worker_id =
-            CreateEvaluatedMovementWorker.perform_async(
+            CreateEvalMovementWorker.perform_async(
               s.idservizio,
               s.point,
               default_product_base_risk,
@@ -793,17 +793,17 @@ class Anagrafica < ApplicationCoreRecord
     ).first_or_initialize
     evaluated_risk.eval_days = {} if evaluated_risk.new_record?
     evaluated_risk.eval_days[day] = []
-    evaluated_movements = customer.evaluated_movements.with_all_for_day(day.to_date)
+    eval_movements = customer.eval_movements.with_all_for_day(day.to_date)
     hash = {}
-    evaluated_movements.each do |evaluated_movement|
-      recursion = evaluated_movement.recursion ? evaluated_movement.recursion["customer_id"].symbolize_keys : {day_7: 0, day_30: 0}
+    eval_movements.each do |eval_movement|
+      recursion = eval_movement.recursion ? eval_movement.recursion["customer_id"].symbolize_keys : {day_7: 0, day_30: 0}
 
       recursion7 = recursion[:day_7]
       recursion30 = recursion[:day_30]
-      hash7 = set_evaluated_by_recursion(recursion7, evaluated_movement, divisor_amount_for_factor, factor_for_amount)
-      hash30 = set_evaluated_by_recursion(recursion30, evaluated_movement, divisor_amount_for_factor, factor_for_amount)
+      hash7 = set_evaluated_by_recursion(recursion7, eval_movement, divisor_amount_for_factor, factor_for_amount)
+      hash30 = set_evaluated_by_recursion(recursion30, eval_movement, divisor_amount_for_factor, factor_for_amount)
       h2 = {
-        "#{evaluated_movement.movement_id}": {
+        "#{eval_movement.movement_id}": {
           day_7: hash7,
           day_30: hash30 
         }
@@ -834,26 +834,26 @@ class Anagrafica < ApplicationCoreRecord
 
     hash2 = {
       "current_risk": current_risk,
-      "nr_movements": evaluated_movements.count,
+      "nr_movements": eval_movements.count,
       "current_risk_decreased": current_risk_decreased
     }
     evaluated_risk.eval_days[day] << {details: hash2}
     evaluated_risk.save
   end
 
-  def set_evaluated_by_recursion(recursion, evaluated_movement, divisor_amount_for_factor, factor_for_amount)
+  def set_evaluated_by_recursion(recursion, eval_movement, divisor_amount_for_factor, factor_for_amount)
     unless recursion > 0
       evaluated_factor =
         (
           (
             (
               (
-                ((evaluated_movement.product_base_risk.percentage_of(1)) - 100) *
-                evaluated_movement.product_base_risk
+                ((eval_movement.product_base_risk.percentage_of(1)) - 100) *
+                eval_movement.product_base_risk
               ) *
                 (
                   factor_for_amount *
-                    ((evaluated_movement.amount_cents / 100).to_f / divisor_amount_for_factor)
+                    ((eval_movement.amount_cents / 100).to_f / divisor_amount_for_factor)
                 )
             ) + 100
           ) / 100
@@ -864,10 +864,10 @@ class Anagrafica < ApplicationCoreRecord
         (
           (
             (
-              (((evaluated_movement.product_base_risk.percentage_of(1)) - 100) * recursion) *
+              (((eval_movement.product_base_risk.percentage_of(1)) - 100) * recursion) *
                 (
                   factor_for_amount *
-                    ((evaluated_movement.amount_cents / 100).to_f / divisor_amount_for_factor)
+                    ((eval_movement.amount_cents / 100).to_f / divisor_amount_for_factor)
                 )
             ) + 100
           ) / 100
@@ -876,7 +876,7 @@ class Anagrafica < ApplicationCoreRecord
         "Repeated: #{recursion} - Factor: #{evaluated_factor}"
     end
     hash = {
-      evaluated_movement: evaluated_movement.id,
+      eval_movement: eval_movement.id,
       evaluated_factor: evaluated_factor,
       evaluated_description: evaluated_description,
       recursion: recursion 

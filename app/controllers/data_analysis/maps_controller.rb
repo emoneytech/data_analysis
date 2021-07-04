@@ -3,7 +3,7 @@ module DataAnalysis
     before_action(only: :index) { authorize! :admin, :dashboard }
 
     def index
-      @places = Place.where(positionable_type: 'Anagrafica').geocoded.limit(100)
+      @places = Place.where(positionable_type: 'EvalMovement').order(created_at: :desc).geocoded.limit(1000)
       respond_to do |format|
         format.html
         format.json do
