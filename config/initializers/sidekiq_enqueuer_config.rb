@@ -9,6 +9,7 @@ Sidekiq::Enqueuer.configure do |config|
     PurgeForExcludedProductsWorker,
     InitEvaluatedRiskWorker,
     InitCustomerPlacesWorker,
-    UpdateCustomerPlacesWorker
+    UpdateCustomerPlacesWorker,
+    UpdateCustomerBusinessWorker
   ]
 end
