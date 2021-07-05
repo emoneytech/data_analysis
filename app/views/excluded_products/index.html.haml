@@ -6,7 +6,7 @@
           %i.fa.fa-key
           = t(:listing_resource, resource: ExcludedProduct.model_name.human(:count => 2))
       .card-body
-        %table.table.table-striped.table-bordered.table-hover.margin-none.data-table
+        %table.table.table-striped.table-bordered.table-hover.margin-none.data-table{id: 'table_products', data: {order: '[[1, "asc"]]'}}
           %thead
             %tr
               %th= ExcludedProduct.human_attribute_name(:name)
