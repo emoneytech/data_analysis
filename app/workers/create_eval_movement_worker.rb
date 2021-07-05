@@ -14,6 +14,11 @@ class CreateEvalMovementWorker
                 .where('movimenticonti.Point = ?', point)
                 .references(:movimenticonti)
                 .where(point: point,idservizio: service_id)
+                .where
+                .not(
+                  'SUBSTRING(prodotto, -3, 3) IN (?)',
+                  ExcludedProduct.all.pluck(:last_3_numbers)
+                )
                 .uniq.first
     return unless service
     em = EvalMovement.where(service_id: service.id).first_or_initialize
@@ -22,5 +27,4 @@ class CreateEvalMovementWorker
     em.save
   end
 end
-
-# service = Servizio.joins(:product,:anagrafica,:movimenticonti).preload(:product,{anagrafica: :conti},:movimenticonti,:ricarica,:ricaricacarta,:bonifico,:assegnovirtuale,:incassoassegno).where('movimenticonti.Point = ?', point).references(:movimenticonti).where(point: point,idservizio: service_id).uniq.first
+# service = Servizio.joins(:product,:anagrafica,:movimenticonti).preload(:product,{anagrafica: :conti},:movimenticonti,:ricarica,:ricaricacarta,:bonifico,:assegnovirtuale,:incassoassegno).where('movimenticonti.Point = ?', point).references(:movimenticonti).where(point: point,idservizio: service_id).where.not('SUBSTRING(prodotto, -3, 3) IN (?)',ExcludedProduct.all.pluck(:last_3_numbers)).uniq.first
