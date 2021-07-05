@@ -14,7 +14,6 @@ module DataAnalysis
 
     def show
       @prodotto = Prodotto.where(idprodotto: params[:id]).first
-      binding.pry
       add_breadcrumb @prodotto.nome, :data_analysis_prodotto
     end
 

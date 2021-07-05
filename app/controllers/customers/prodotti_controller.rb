@@ -11,7 +11,6 @@ module Customers
 
     def show
       @prodotto = @anagrafica.prodotti.where(id: params[:id]).first
-      binding.pry
       @eval_movements = @prodotto.eval_movements.where(customer_id: @anagrafica.id).page(params[:page]).per(30)
       # @servizi = @prodotto.active_servizi.where(point: @anagrafica.id).page(params[:page]).per(30)
       add_breadcrumb @prodotto.idprodotto, :customers_prodotto

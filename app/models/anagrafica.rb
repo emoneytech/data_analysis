@@ -230,7 +230,7 @@ class Anagrafica < ApplicationCoreRecord
 
   scope :user_or_business,
         -> {
-          includes(:conti)
+          joins(:conti).distinct
             .where(
               'anagrafiche.IdTipo' => %w[2 3],
               'anagrafiche.TipoKYC' => %w[3 4],
@@ -241,8 +241,19 @@ class Anagrafica < ApplicationCoreRecord
             .not('anagrafiche.Attivo' => 6)
             .where
             .not('anagrafiche.Created' => nil)
-            .where('conti.idConti IS NOT NULL')
-            .references(:conti)
+        }
+  scope :business,
+        -> {
+          joins(:conti).distinct
+            .where(
+              'anagrafiche.IdTipo' => 3
+            )
+            .where
+            .not('anagrafiche.IdUtente' => %w[70 75])
+            .where
+            .not('anagrafiche.Attivo' => 6)
+            .where
+            .not('anagrafiche.Created' => nil)
         }
 
   has_one :base_riskiness, as: :base_evaluable

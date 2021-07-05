@@ -10,6 +10,7 @@
       %th= EvalMovement.human_attribute_name(:product_base_risk)
       %th= EvalMovement.human_attribute_name(:recursion)
       %th= EvalMovement.human_attribute_name(:amount)
+      %th= EvalMovement.human_attribute_name(:destination_lonlat)
       %th.action
   %tbody
     - eval_movements.each do |item|
@@ -23,6 +24,7 @@
         %td= item.product_base_risk
         %td= item.recursion
         %td= item.amount
+        %td= item.destination_lonlat
         %td.text-center
           = link_to [:data_analysis, item], class: "btn btn-xs btn-primary" do
             %i.fa.fa-eye

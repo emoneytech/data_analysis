@@ -1,4 +1,3 @@
-- data = anagrafica.to_map
 .card.card-outline.card-primary
   .card-header
     .card-title
@@ -9,13 +8,13 @@
     #mapid{ style: "height: 380px;" }
 :javascript
   var map = L.map('mapid', {
-    center: [#{data[:latitude]}, #{data[:longitude]}],
+    center: [#{anagrafica.current_place.latitude}, #{anagrafica.current_place.longitude}],
     zoom: 6
   });
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
   }).addTo(map);
-  L.marker([#{data[:latitude]}, #{data[:longitude]}]).addTo(map)
+  L.marker([#{anagrafica.current_place.latitude}, #{anagrafica.current_place.longitude}]).addTo(map)
     .bindPopup('#{anagrafica.full_name}.<br> #{anagrafica.TelefonoAzienda}')
     .openPopup();

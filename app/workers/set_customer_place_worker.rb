@@ -8,10 +8,16 @@ class SetCustomerPlaceWorker
   # customer_id
 
   def perform(customer_id) 
-    customer = Anagrafica.find customer_id
+    customer = customer.find customer_id
     p = customer.current_place || customer.build_current_place
     p.name = customer.full_name
-    result = Geocoder.search(customer.Citta, params: {country: NormalizeCountry(customer.NazioneResidenza, address: customer.Indirizzo)}).first
+    if customer.IdTipo == 3
+      city, state, address = customer.ComunePoint, NormalizeCountry(customer.NazionePoint), customer.IndirizzoPoint
+    else
+      city, state, address = customer.Citta, NormalizeCountry(customer.NazioneResidenza), customer.Indirizzo
+    end
+
+    result = Geocoder.search(city, params: {country: state, address: address}).first
     if result
       p.country = result.country
       p.city = result.city
