@@ -8,7 +8,7 @@ class SetCustomerPlaceWorker
   # customer_id
 
   def perform(customer_id) 
-    customer = customer.find customer_id
+    customer = Anagrafica.find customer_id
     p = customer.current_place || customer.build_current_place
     p.name = customer.full_name
     if customer.IdTipo == 3
