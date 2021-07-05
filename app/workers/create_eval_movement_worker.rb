@@ -21,6 +21,7 @@ class CreateEvalMovementWorker
                 )
                 .uniq.first
     return unless service
+    return if service.anagrafica.Attivo.try(:to_i) == 6
     em = EvalMovement.where(service_id: service.id).first_or_initialize
     em.build_for_service(service)
     em.set_product_base_risk(service.product, default_product_base_risk)
