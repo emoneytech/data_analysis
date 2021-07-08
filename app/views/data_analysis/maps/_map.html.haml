@@ -57,7 +57,7 @@
     var markers = L.markerClusterGroup();
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 14,
+      maxZoom: 18,
       attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
     }).addTo(map);
     map.setView(new L.LatLng(coords[0], coords[1]), 5);
