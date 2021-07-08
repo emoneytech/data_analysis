@@ -39,6 +39,11 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
+    active_model_serializers (0.10.12)
+      actionpack (>= 4.1, < 6.2)
+      activemodel (>= 4.1, < 6.2)
+      case_transform (>= 0.2)
+      jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
     activejob (6.1.3.2)
       activesupport (= 6.1.3.2)
       globalid (>= 0.3.6)
@@ -105,6 +110,8 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    case_transform (0.2)
+      activesupport
     chartkick (4.0.4)
     childprocess (3.0.0)
     chronic_duration (0.10.6)
@@ -135,6 +142,8 @@ GEM
     erubis (2.7.0)
     et-orbi (1.2.4)
       tzinfo
+    fast_jsonapi (1.5)
+      activesupport (>= 4.2)
     ffi (1.15.1)
     ffi (1.15.1-java)
     ffi (1.15.1-x64-mingw32)
@@ -168,6 +177,7 @@ GEM
     io-wait (0.1.0)
     jbuilder (2.11.2)
       activesupport (>= 5.0.0)
+    jsonapi-renderer (0.2.2)
     kaminari (1.2.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.1)
@@ -422,6 +432,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  active_model_serializers
   activerecord-postgis-adapter
   acts_as_list
   bootsnap (>= 1.4.4)
@@ -441,6 +452,7 @@ DEPENDENCIES
   devise
   devise-i18n
   dotenv-rails
+  fast_jsonapi
   geocoder
   groupdate
   haml-rails

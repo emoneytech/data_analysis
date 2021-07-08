@@ -48,13 +48,14 @@ class EvalMovement < CorePgRecord
              foreign_key: 'product_id',
              primary_key: 'idprodotto',
              optional: true
-  
-  has_one :destination, class_name: 'Place', as: :positionable
-          
+       
   delegate :current_place, to: :customer
-  alias :origin :current_place
-  # attr reader
+  alias_method :origin, :current_place
+
+# attr reader
   attr_reader :recursion_customer_7, :recursion_customer_30, :recursion_all_7, :recursion_all_30
+  # before_save :set_recursion0
+  # after_save :set_destination, if: :is_bankwire?
 
   scope :for_evaluation, -> { order(movement_created_at: :asc)}
   scope :with_all_for_day, ->(day) {
@@ -65,10 +66,40 @@ class EvalMovement < CorePgRecord
     where("movement_created_at BETWEEN '#{day.beginning_of_month}' 
     AND '#{day.at_end_of_month}'").order(movement_created_at: :asc)
   }
-
   scope :all_bankwire, -> { where(product_table_code: Codicetabella.find_by_nometabella('bonifici').codtab)}
-  # before_save :set_recursion0
-  # after_save :set_destination, if: :is_bankwire?
+
+  # PostGIS SPATIAL QUERIES
+  # for finding place X distance from a particular point (i.e. radius)
+  scope :geocoded, -> { where.not( destination_lonlat: nil) }
+
+  scope :within, -> (lon, lat, meter) {
+    where(%{
+     ST_Distance(destination_lonlat, 'POINT(%f %f)') < %d
+    } % [lon, lat, meter])
+  }
+
+  # for finding trees within a certain bounding box
+  scope :bbox, -> (sw_lon, sw_lat, ne_lon, ne_lat) {
+    factory = RGeo::Geographic.spherical_factory(srid: 4326, geo_type: 'point')
+    sw = factory.point(sw_lon, sw_lat)
+    nw = factory.point(sw_lon, ne_lat)
+    ne = factory.point(ne_lon, ne_lat)
+    se = factory.point(ne_lon, sw_lat)
+
+    ring = factory.linear_ring([sw, nw, ne, se])
+    bbox = factory.polygon(ring)
+    where('ST_Intersects(destination_lonlat, :bbox)', bbox: bbox)
+  }
+
+  def latitude
+    self.destination_lonlat.lat
+  end
+
+  def longitude
+    self.destination_lonlat.lon
+  end
+  
+
 
   def is_bankwire?
     self.product_table_code.to_i === Codicetabella.find_by_nometabella('bonifici').codtab

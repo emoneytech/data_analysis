@@ -2,34 +2,70 @@
   .card-header
     .card-title
       %i.fas.fa-map-marker-alt
-      #{Anagrafica.model_name.human(count: 2)} 
-
+      #{EvalMovement.model_name.human(count: 2)}: 
+      %span#places_count= @places.count
+      \- day: #{@day}
   .card-body
-    #map{ style: "height: 380px;" }
+    #map{ style: "height: 880px;" }
 :javascript
   document.addEventListener("turbolinks:load", () => {
-    function initializeMap(data) {
-      var positions = $.parseJSON(data);
-      var geoJSON = L.geoJSON(positions);
-      
-      var map = L.map('map');
-      var layer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    function getMovements(bbox) {
+      $.ajax({
+        url: '/data_analysis/maps.json?bbox=' + bbox,
+        success: function(data) {
+          setCluster(data)
+          $('span#places_count').html(data.features.length)
+        }
       });
+    }
 
-      layer.addTo(map);
-    
-      // this line adds our positions:
-      geoJSON.addTo(map);
+    function setBbox() {
+      const bounds = map.getBounds();
+      bbox = bounds._southWest.lng + ',' + bounds._southWest.lat + ',' + bounds._northEast.lng + ',' + bounds._northEast.lat;
+      getMovements(bbox)
+    }
 
-      // and this centers the map on the lat/long of our first post:
-      map.setView(positions[0].geometry.coordinates.reverse(), 15);
-    };
+    function compilePopup(properties) {
+      str = '<h3>' + properties.customer_full_name + '</h3>'
+      str += '<h5>' + properties.beneficiary + '</h5>'
+      str += '<p>' 
+      str += properties.beneficiary_iban + '<br />'
+      str += properties.address + '<br />'
+      str += (properties.amount.cents / 100).toLocaleString("en-US", {style:"currency", currency:"EUR"}); + '<br />'
+      str += '</p>'
+      return str
+    }
 
-    $.ajax({
-      url: '/data_analysis/maps.json',
-      dataType: 'text',
-      success: initializeMap
+    function setCluster(geoJsonData) {
+      if (markers) {
+        map.removeLayer(markers);
+      }
+      var geoJsonLayer = L.geoJson(geoJsonData, {
+        onEachFeature: function (feature, layer) {
+          str = compilePopup(feature.properties)
+          layer.bindPopup(str);
+        }
+      });
+      markers = L.markerClusterGroup();
+      markers.addLayer(geoJsonLayer);
+      map.addLayer(markers);
+    }
+
+    var coords = [35.9480742, 14.3973929]
+    var bbox = ''
+    var map = L.map('map');
+    var markers = L.markerClusterGroup();
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 14,
+      attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    }).addTo(map);
+    map.setView(new L.LatLng(coords[0], coords[1]), 5);
+    map.on('zoomend', function() {
+      setBbox();
     });
+    map.on('dragend', function() {
+      setBbox();
+    });
+    setBbox();
   });

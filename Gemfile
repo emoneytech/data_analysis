@@ -102,3 +102,6 @@ gem "normalize_country"
 
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'activerecord-postgis-adapter'
+
+gem 'active_model_serializers'
+gem 'fast_jsonapi'
