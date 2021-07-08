@@ -29,7 +29,7 @@ class Place < CorePgRecord
   # for finding place X distance from a particular point (i.e. radius)
   scope :within, -> (lon, lat, meter) {
     where(%{
-     ST_Distance(xy, 'POINT(%f %f)') < %d
+     ST_Distance(lonlat, 'POINT(%f %f)') < %d
     } % [lon, lat, meter])
   }
 
@@ -43,7 +43,7 @@ class Place < CorePgRecord
 
     ring = factory.linear_ring([sw, nw, ne, se])
     bbox = factory.polygon(ring)
-    where('ST_Intersects(xy, :bbox)', bbox: bbox)
+    where('ST_Intersects(lonlat, :bbox)', bbox: bbox)
   }
 
   def latitude

@@ -1,0 +1,67 @@
+.card.card-outline.card-primary
+  .card-header
+    .card-title
+      %i.fas.fa-map-marker-alt
+      #{Anagrafica.model_name.human(count: 2)}: 
+      %span#places_count= @places.count
+  .card-body
+    #map{ style: "height: 880px;" }
+:javascript
+  document.addEventListener("turbolinks:load", () => {
+    function getPlaces(bbox) {
+      $.ajax({
+        url: '/data_analysis/places.json?bbox=' + bbox,
+        success: function(data) {
+          setCluster(data)
+          $('span#places_count').html(data.features.length)
+        }
+      });
+    }
+
+    function setBbox() {
+      const bounds = map.getBounds();
+      bbox = bounds._southWest.lng + ',' + bounds._southWest.lat + ',' + bounds._northEast.lng + ',' + bounds._northEast.lat;
+      getPlaces(bbox)
+    }
+
+    function compilePopup(properties) {
+      str = '<h3>' + properties.name + '</h3>'
+      str += '<p>' 
+      str += properties.address + '<br />'
+      str += '</p>'
+      return str
+    }
+
+    function setCluster(geoJsonData) {
+      if (markers) {
+        map.removeLayer(markers);
+      }
+      var geoJsonLayer = L.geoJson(geoJsonData, {
+        onEachFeature: function (feature, layer) {
+          str = compilePopup(feature.properties)
+          layer.bindPopup(str);
+        }
+      });
+      markers = L.markerClusterGroup();
+      markers.addLayer(geoJsonLayer);
+      map.addLayer(markers);
+    }
+
+    var coords = [35.9480742, 14.3973929]
+    var bbox = ''
+    var map = L.map('map');
+    var markers = L.markerClusterGroup();
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    }).addTo(map);
+    map.setView(new L.LatLng(coords[0], coords[1]), 5);
+    map.on('zoomend', function() {
+      setBbox();
+    });
+    map.on('dragend', function() {
+      setBbox();
+    });
+    setBbox();
+  });

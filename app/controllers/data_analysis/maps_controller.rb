@@ -24,7 +24,7 @@ module DataAnalysis
       end
   
     end
-
+  private
     def spatial_query(coords, day)
       EvalMovement.with_all_for_day(day).bbox(coords[0], coords[1], coords[2], coords[3]).limit(QUERY_LIMIT)
     end

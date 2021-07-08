@@ -92,11 +92,11 @@ class EvalMovement < CorePgRecord
   }
 
   def latitude
-    self.destination_lonlat.lat
+    self.destination_lonlat.try(:lat)
   end
 
   def longitude
-    self.destination_lonlat.lon
+    self.destination_lonlat.try(:lon)
   end
   
 
@@ -169,7 +169,7 @@ class EvalMovement < CorePgRecord
     self.movement_created_at = movement.dataMovimento
   end
 
-  def set_beneficiary(service)
+  def set_beneficiary(service = self.service)
     self.beneficiary = 'Beneficiary not identifiable'
     return unless service.product.try(:nometabella)
     case service.product.nometabella
@@ -192,12 +192,7 @@ class EvalMovement < CorePgRecord
       if service.bonifico
         self.beneficiary = "#{service.bonifico.destinatario}"
         self.beneficiary_iban = "#{service.bonifico.ibandest}"
-        self.beneficiary_other =
-          "#{service.bonifico.dindirizzo}, #{service.bonifico.dloc}, #{service.bonifico.Paese}"
-        result = Geocoder.search(service.bonifico.dloc, params: {country: NormalizeCountry(service.bonifico.Paese, address: service.bonifico.dindirizzo)}).first
-        if result
-          self.destination_lonlat = "POINT(#{result.longitude} #{result.latitude})"
-        end
+        self.set_beneficiary_point
       end
     when 'assegnovirtuale'
       if service.prodotto.to_s == "1614" || service.prodotto.to_s == "1612"
@@ -214,6 +209,20 @@ class EvalMovement < CorePgRecord
       self.beneficiary_other = "#{service.incassoassegno.beneficiary_other}"
     else
       self.beneficiary = 'Beneficiary not identifiable'
+    end
+  end
+
+  def set_beneficiary_point
+    if self.beneficiary_iban != ''
+      iban = self.beneficiary_iban
+      iban_info = IbanUtils.validate_iban(iban)
+      bank_data_hash = iban_info["bank_data"]
+      city = bank_data_hash["city"]
+      country = bank_data_hash["country"]
+      address = bank_data_hash["address"]
+      result = Geocoder.search(city, params: {country: country, address: address}).first
+      self.beneficiary_other = "#{address} - #{city}, #{country}"
+      self.destination_lonlat = "POINT(#{result.longitude} #{result.latitude})"
     end
   end
 

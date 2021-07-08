@@ -8,18 +8,17 @@ class SetEvalMovementPlaceWorker
   # customer_id
 
   def perform(eval_movement_id) 
-    eval_movement = EvalMovement.includes(:service, :customer).find eval_movement_id
-    p = eval_movement.destination || eval_movement.build_destination
-    p.name = "Service #{eval_movement.service_id}"
-    result = Geocoder.search(eval_movement.service.bonifico.dloc, params: {country: NormalizeCountry(eval_movement.service.bonifico.Paese, address: eval_movement.service.bonifico.dindirizzo)}).first
-    if result
-      p.country = result.country
-      p.city = result.city
-      p.address = result.address
-      p.region = result.state
-      p.lonlat = "POINT(#{result.longitude} #{result.latitude})"
-    end
-    p.save
+    eval_movement = EvalMovement.find eval_movement_id
+    iban = eval_movement.beneficiary_iban
+    iban_info = IbanUtils.validate_iban(iban)
+    bank_data_hash = iban_info["bank_data"]
+    city = bank_data_hash["city"]
+    country = bank_data_hash["country"]
+    address = bank_data_hash["address"]
+    result = Geocoder.search(city, params: {country: country, address: address}).first
+    eval_movement.beneficiary_other = "#{address} - #{city}, #{country}"
+    eval_movement.destination_lonlat = "POINT(#{result.longitude} #{result.latitude})"
+    eval_movement.save
   end
 
 end
