@@ -11,6 +11,7 @@ Sidekiq::Enqueuer.configure do |config|
     InitCustomerPlacesWorker,
     UpdateCustomerPlacesWorker,
     UpdateCustomerBusinessWorker,
-    UpdateEvalMovementsDestinationsWorker
+    UpdateEvalMovementsDestinationsWorker,
+    UpdateEvalMovementsIbansWorker
   ]
 end
