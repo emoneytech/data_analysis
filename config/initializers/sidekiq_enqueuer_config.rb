@@ -10,6 +10,7 @@ Sidekiq::Enqueuer.configure do |config|
     InitEvaluatedRiskWorker,
     InitCustomerPlacesWorker,
     UpdateCustomerPlacesWorker,
-    UpdateCustomerBusinessWorker
+    UpdateCustomerBusinessWorker,
+    UpdateEvalMovementsDestinationsWorker
   ]
 end
