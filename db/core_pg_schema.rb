@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_04_080258) do
+ActiveRecord::Schema.define(version: 2021_07_11_091223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,7 +58,10 @@ ActiveRecord::Schema.define(version: 2021_07_04_080258) do
     t.geography "destination_lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "beneficiary_card", limit: 50
     t.index ["amount_cents"], name: "index_eval_movements_on_amount_cents"
+    t.index ["beneficiary_card"], name: "index_eval_movements_on_beneficiary_card"
+    t.index ["beneficiary_iban"], name: "index_eval_movements_on_beneficiary_iban"
     t.index ["customer_id"], name: "index_eval_movements_on_customer_id"
     t.index ["destination_lonlat"], name: "index_eval_movements_on_destination_lonlat", using: :gist
     t.index ["movement_created_at"], name: "index_eval_movements_on_movement_created_at"

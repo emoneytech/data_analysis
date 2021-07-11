@@ -27,6 +27,7 @@
 #  destination_lonlat  :geography        point, 4326
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  beneficiary_card    :string(50)
 #
 class EvalMovement < CorePgRecord
   monetize :amount_cents
@@ -98,8 +99,6 @@ class EvalMovement < CorePgRecord
   def longitude
     self.destination_lonlat.try(:lon)
   end
-  
-
 
   def is_bankwire?
     self.product_table_code.to_i === Codicetabella.find_by_nometabella('bonifici').codtab
@@ -183,7 +182,7 @@ class EvalMovement < CorePgRecord
       if service.anagrafica.conti.where(Pan: service.ricaricacarta.numerocarta).count > 0
         self.beneficiary = "#{service.anagrafica.full_name}"
         self.beneficiary_iban = "#{service.ricaricacarta.numerocrip}"
-        self.beneficiary_other = "#{service.nomeprodotto}"
+        self.beneficiary_other = "#{service.anagrafica.full_address}"
       else
         self.beneficiary_other =
           "check for #{service.prodotto}: #{service.nomeprodotto}"

@@ -1,4 +1,4 @@
-class UpdateEvalMovementsDestinationsWorker
+class UpdateEvalMovementsIbansWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
   # sidekiq_options queue: 'critical', retry: false, backtrace: true
@@ -8,9 +8,9 @@ class UpdateEvalMovementsDestinationsWorker
   # 
 
   def perform()
-    EvalMovement.select(:id).where.not(beneficiary_iban: '').where.not('beneficiary_iban iLIKE ?', '%*****%').find_in_batches(batch_size: 500) do |eval_movements|
+    EvalMovement.select(:id).where('beneficiary_iban iLIKE ?', '%*****%').find_in_batches(batch_size: 500) do |eval_movements|
       eval_movements.each do |eval_movement|
-        SetEvalMovementDestinationWorker.perform_async(eval_movement.id)
+        SetEvalMovementCardWorker.perform_async(eval_movement.id)
       end
     end
   end

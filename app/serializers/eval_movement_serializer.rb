@@ -27,6 +27,7 @@
 #  destination_lonlat  :geography        point, 4326
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  beneficiary_card    :string(50)
 #
 class EvalMovementSerializer < ActiveModel::Serializer
   attributes :type, :properties, :geometry
