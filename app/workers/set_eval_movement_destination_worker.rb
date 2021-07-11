@@ -5,7 +5,7 @@ class SetEvalMovementDestinationWorker
   sidekiq_options queue: 'default', retry: false, backtrace: true
   
   # PARAMS
-  # customer_id
+  # eval_movement_id
 
   def perform(eval_movement_id) 
     eval_movement = EvalMovement.find eval_movement_id
