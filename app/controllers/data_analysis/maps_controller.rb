@@ -8,17 +8,25 @@ module DataAnalysis
       if params[:day].present?
         @day = params[:day].to_date
       else
-        @day = Date.today - 10.days
+        @day = Date.today - 1.month + 3.days
       end
 
       if params[:bbox].present?
         coords = params[:bbox].split(',')
       end
+
+      if params[:start_date].present?
+        start_date = params[:start_date].to_datetime
+      end
+
+      if params[:end_date].present?
+        end_date = params[:end_date].to_datetime
+      end
       @places = EvalMovement.geocoded.with_all_for_day(@day).order(created_at: :desc).limit(QUERY_LIMIT)
       respond_to do |format|
         format.html
         format.json do
-          @places = spatial_query(coords, @day)
+          @places = spatial_datetime_query(start_date, end_date, coords)
           render json: MapsSerializer.new(@places).serializable_hash
         end
       end
@@ -29,6 +37,9 @@ module DataAnalysis
       EvalMovement.with_all_for_day(day).bbox(coords[0], coords[1], coords[2], coords[3]).limit(QUERY_LIMIT)
     end
 
+    def spatial_datetime_query(start_date, end_date, coords)
+      EvalMovement.where("movement_created_at between ? and ?", start_date, end_date).bbox(coords[0], coords[1], coords[2], coords[3]).limit(QUERY_LIMIT)
+    end
   end
 end
 =begin

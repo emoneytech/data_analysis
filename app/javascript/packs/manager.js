@@ -18,10 +18,10 @@ import "../plugins/index.js"
 require("jquery")
 require('select2')
 
-/*
+
 require('./plugins/duallistbox.js')
 require('./plugins/daterangepicker.js')
-*/
+
 require('./plugins/jquery.slimscroll.min.js')
 
 import "select2/dist/css/select2.min.css"
@@ -29,16 +29,20 @@ import "select2-bootstrap4-theme/dist/select2-bootstrap4.min.css"
 
 require('./plugins/datatables.js')
 
-import 'leaflet/dist/leaflet.css';
-import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
-import * as L from 'leaflet';
-import 'leaflet-defaulticon-compatibility';
+import 'leaflet/dist/leaflet.css'
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css' // Re-uses images from ~leaflet package
+import * as L from 'leaflet'
+import 'leaflet-defaulticon-compatibility'
 import '@elfalem/leaflet-curve'
 import 'leaflet-arc/bin/leaflet-arc.min.js'
 
-import 'leaflet.markercluster/dist/MarkerCluster.css';
-import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
-import 'leaflet.markercluster/dist/leaflet.markercluster.js';
+import 'leaflet.markercluster/dist/MarkerCluster.css'
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
+import 'leaflet.markercluster/dist/leaflet.markercluster.js'
+import 'leaflet.timeline.control'
+
+import moment from 'moment/moment'
+window.moment = moment
 
 import * as d3 from "d3"
 window.d3 = d3
@@ -75,6 +79,6 @@ document.addEventListener("turbolinks:load", () => {
 
 document.addEventListener("turbolinks:before-cache", () => {
   while (tables.length !== 0) {
-    tables.pop().remove();
+    tables.pop().remove()
   }
 })

@@ -47,7 +47,9 @@ class EvalMovementSerializer < ActiveModel::Serializer
       service_status: object.service_status,
       customer_full_name: object.customer_full_name,
       beneficiary: object.beneficiary,
-      beneficiary_iban: object.beneficiary_iban
+      beneficiary_iban: object.beneficiary_iban,
+      beneficiary_card: object.beneficiary_card,
+      service_updated_at: object.service_updated_at
     }
   end
 
