@@ -4,7 +4,6 @@
       %i.fas.fa-map-marker-alt
       #{EvalMovement.model_name.human(count: 2)}: 
       %span#places_count= @places.count
-      \- day: #{@day}
   .card-body
     .row.mb-1
       .col-md-12
@@ -45,7 +44,7 @@
       autoplay: false,
       position: "bottomleft",
       onNextStep: (cur) => this.tick(cur),
-      interval: 2000,
+      interval: 3000,
       button: {
         pausedText: "Play",
         playingText: "Pause",
@@ -127,15 +126,15 @@
     }).addTo(map);
     map.setView(new L.LatLng(coords[0], coords[1]), 5);
     map.on('zoomend', function() {
-      // setBbox();
+      setBbox(current_date);
     });
     map.on('dragend', function() {
-      // setBbox();
+      setBbox(current_date);
     });
     // setBbox();
   }
 
-  const format1 = "YYYY-MM-DD HH:mm:ss"
+  var format1 = "YYYY-MM-DD HH:mm:ss"
   var bbox;
   var map;
   var timelineControl;
