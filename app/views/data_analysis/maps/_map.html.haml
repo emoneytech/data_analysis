@@ -31,7 +31,7 @@
             %input#showtime.form-control.float-right{type: "text"}
     .row
       .col-md-12
-        #map_movements{ style: "height: 880px;" }
+        #map_movements{ style: "height: 1030px;" }
 :javascript
 
   function initTimeControl(options) {
@@ -125,12 +125,6 @@
       attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
     }).addTo(map);
     map.setView(new L.LatLng(coords[0], coords[1]), 5);
-    map.on('zoomend', function() {
-      setBbox(current_date);
-    });
-    map.on('dragend', function() {
-      setBbox(current_date);
-    });
     // setBbox();
   }
 
