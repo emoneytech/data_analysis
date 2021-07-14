@@ -32,6 +32,7 @@
             %option{value: 'month', selected: "selected"} Month
             %option{value: 'day'} Day
             %option{value: 'hour'} Hour
+            %option{value: 'range'} Range
       .col-md-6
         .form-group.mb-0
           .input-group
@@ -46,15 +47,16 @@
 :javascript
   var current_date = moment("#{@day}")
   initMap('map_movements')
-  setOptions()
+  setProps()
   getMovements()
   // console.log(this.start_query_date)
   setDateRange()
-  initTimeControl(this.options)
+  initTimeControl(this.props)
+  pickerInit(datepicker, 'month');
   /*
-  // setSelector()
+  setSelector()
   setBbox(current_date)
-  initTimeControl(this.options)
+  initTimeControl(this.props)
   */
   
 

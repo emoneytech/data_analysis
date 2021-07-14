@@ -6,7 +6,7 @@ var bbox
   , current_range
   , start_date
   , end_date
-  , options
+  , props
   , start_query_date
   , end_query_date
 
@@ -37,11 +37,11 @@ function setBbox() {
   $('span#bbox').html(bbox)
 }
 
-function setOptions() {
+function setProps() {
   current_range = $('#showrange').val()
   switch(current_range) {
     case 'hour':
-      step = { minutes: 5 }
+      step = { minute: 5 }
       dateFormat = 'HH:mm'
       break
     case 'day':
@@ -57,24 +57,24 @@ function setOptions() {
       dateFormat = 'MMM'
       break
   }
-  this.options = {
+  this.props = {
     range: current_range,
     step: step,
     dateFormat: dateFormat
   }
-  setQueryDate(this.options)
+  setQueryDate(this.props)
 }
 
-function setQueryDate(options) {
+function setQueryDate(props) {
   if(!start_query_date) {
-    start_date = current_date.startOf(options.range)
+    start_date = current_date.startOf(props.range)
   }
   start_query_date = start_date.format(format1)
-  end_query_date = start_date.add(1, Object.keys(options.step)[0]).format(format1)
+  end_query_date = start_date.add(Object.values(props.step)[0], Object.keys(props.step)[0]).format(format1)
   $('span#start_date').html(start_query_date)
   $('span#end_date').html(end_query_date)
-  $('span#current_range').html(options.range)
-  $('span#current_step').html(JSON.stringify(options.step))
+  $('span#current_range').html(props.range)
+  $('span#current_step').html(JSON.stringify(props.step))
 }
 
 function getMovements() {
@@ -86,53 +86,6 @@ function getMovements() {
       $('span#places_count').html(data.features.length)
     }
   });
-}
-
-function initTimeControl(options) {
-  let btn = document.createElement("button")
-  btn.className = "btn btn-primary"
-  let slot = document.createElement("p")
-  slot.className = "hide"
-
-  timelineControl = L.control.timeline({
-    autoplay: false,
-    position: "bottomleft",
-    onNextStep: (cur) => tick(cur),
-    interval: 3000,
-    button: {
-      pausedText: "Play",
-      playingText: "Pause",
-      render: () => btn
-    },
-    timeline: {
-      dateFormat: options.dateFormat,
-      // renderSlot: () => slot,
-      // renderActiveSlot: () => document.createElement("p"),
-      range: [this.current_date.startOf(options.range).toDate(), this.current_date.endOf(options.range).toDate()],
-      step: options.step
-    }
-  })
-  map.addControl(timelineControl)
-}
-
-function tick(cur) {
-  start_date = moment(cur)
-  setOptions()
-  getMovements()
-}
-
-
-
-function compilePopup(properties) {
-  str = '<h5>' + properties.customer_full_name + '</h5>'
-  str += '<h5>' + properties.beneficiary + '</h5>'
-  str += '<p>' 
-  str += properties.service_updated_at + '<br />'
-  str += properties.beneficiary_iban + '<br />'
-  str += properties.address + '<br />'
-  str += (properties.amount.cents / 100).toLocaleString("en-US", {style:"currency", currency:"EUR"}); + '<br />'
-  str += '</p>'
-  return str
 }
 
 function setCluster(geoJsonData) {
@@ -150,12 +103,185 @@ function setCluster(geoJsonData) {
   map.addLayer(markers);
 }
 
+function compilePopup(properties) {
+  str = '<h5>' + properties.customer_full_name + '</h5>'
+  str += '<h5>' + properties.beneficiary + '</h5>'
+  str += '<p>' 
+  str += properties.service_updated_at + '<br />'
+  str += properties.beneficiary_iban + '<br />'
+  str += properties.address + '<br />'
+  str += (properties.amount.cents / 100).toLocaleString("en-US", {style:"currency", currency:"EUR"}); + '<br />'
+  str += '</p>'
+  return str
+}
 
+function initTimeControl(props) {
+  let btn = document.createElement("button")
+  btn.className = "btn btn-primary"
+  let slot = document.createElement("p")
+  slot.className = "hide"
+
+  timelineControl = L.control.timeline({
+    autoplay: false,
+    position: "bottomleft",
+    onNextStep: (cur) => tick(cur),
+    interval: 3000,
+    button: {
+      pausedText: "Play",
+      playingText: "Pause",
+      render: () => btn
+    },
+    timeline: {
+      dateFormat: props.dateFormat,
+      // renderSlot: () => slot,
+      // renderActiveSlot: () => document.createElement("p"),
+      range: [this.current_date.startOf(props.range).toDate(), this.current_date.endOf(props.range).toDate()],
+      step: props.step
+    }
+  })
+  map.addControl(timelineControl)
+}
+
+function tick(cur) {
+  start_date = moment(cur)
+  setProps()
+  getMovements()
+}
 
 function setDateRange(){
   $("#showrange").on('change', function() {
-    setOptions()
+    setProps()
     getMovements()
+    if (timelineControl) {
+      map.removeControl(timelineControl);
+    }
+    pickerInit(datepicker, this.value);
+    initTimeControl(props)
     // console.log(this.value)
   })
 }
+/*
+function setSelector() {
+  var date1 = new Date()
+  $('#showtime').daterangepicker({
+    singleDatePicker: true,
+
+    timePicker: true,
+    timePickerIncrement: 1,
+    locale: {
+      "format": 'MMM YYYY'
+    },
+    changeYear: true,
+    changeMonth: true,
+    maxDate: date1
+  })
+}
+*/
+var datepicker = $('input#showtime');
+var pickerConfig = function(period) {
+  var config = {};
+  switch (period) {
+    case "hour":
+      config = {
+        showDropdowns: true,
+        timePicker: true,
+        timePickerIncrement: 1,
+        singleDatePicker: true,
+        autoUpdateInput: true,
+        locale: {
+          format: "YYYY-MM-DD HH:mm:ss",
+          cancelLabel: 'Clear'
+        }
+      };
+      break;
+    case "day":
+      config = {
+        showDropdowns: true,
+        singleDatePicker: true,
+        autoUpdateInput: true,
+        locale: {
+          format: "YYYY-MM-DD",
+          cancelLabel: 'Clear'
+        },
+        startDate: start_date
+      };
+      break;
+    case "month":
+      config = {
+        showDropdowns: true,
+        singleDatePicker: true,
+        autoUpdateInput: true,
+        locale: {
+          format: "MMM YYYY",
+          cancelLabel: 'Clear'
+        },
+        startDate: start_date
+      };
+      break;
+    case "year":
+      config = {
+        showDropdowns: true,
+        singleDatePicker: true,
+        autoUpdateInput: true,
+        locale: {
+          format: "YYYY",
+          cancelLabel: 'Clear'
+        },
+        startDate: start_date
+      };
+      break;
+    case "range":
+      config = {
+        showDropdowns: true,
+        timePicker: true,
+        timePickerIncrement: 1,
+        autoUpdateInput: true,
+        locale: {
+          format: "YYYY-MM-DD HH:mm:ss",
+          cancelLabel: 'Clear'
+        },
+        startDate: start_date
+      };
+      break;
+    default:
+      config = null;
+      break;
+  }
+  return config;
+};
+var pickerEvent = function(start, end, label, period) {
+  console.log('period: ', period)
+  console.log("A new date selection was made: " + start.format(format1) + ' to ' + end.format(format1));
+  switch (period) {
+    case "month":
+    case "year":
+      break;
+    default:
+      console.log('period: ', period)
+      break;
+  }
+}
+var pickerInit = function(picker, period) {
+  datepicker = picker.daterangepicker(pickerConfig(period), function(start, end) {
+    current_date = start
+    switch (period) {
+      case "month":
+        start_date = start
+      case "year":
+        start_date = start
+        break;
+      default:
+        start_date = start
+        break;
+    }
+    setProps()
+    getMovements()
+    if (timelineControl) {
+      map.removeControl(timelineControl);
+    }
+    initTimeControl(props)
+  })
+
+}
+
+
