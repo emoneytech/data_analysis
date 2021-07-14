@@ -26,8 +26,8 @@ module DataAnalysis
       respond_to do |format|
         format.html
         format.json do
-          # @places = spatial_datetime_query(start_date, end_date, coords)
-          @places = datetime_query(start_date, end_date)
+          @places = spatial_datetime_query(start_date, end_date, coords)
+          # @places = datetime_query(start_date, end_date)
           render json: MapsSerializer.new(@places).serializable_hash
         end
       end
@@ -39,7 +39,7 @@ module DataAnalysis
     end
 
     def spatial_datetime_query(start_date, end_date, coords)
-      EvalMovement.where("movement_created_at between ? and ?", start_date, end_date).bbox(coords[0], coords[1], coords[2], coords[3]).limit(QUERY_LIMIT)
+      EvalMovement.geocoded.where("movement_created_at between ? and ?", start_date, end_date).bbox(coords[0], coords[1], coords[2], coords[3]).limit(QUERY_LIMIT)
     end
     def datetime_query(start_date, end_date)
       EvalMovement.geocoded.where("movement_created_at between ? and ?", start_date, end_date).limit(QUERY_LIMIT)

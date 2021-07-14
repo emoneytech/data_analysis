@@ -1,0 +1,200 @@
+.card.card-outline.card-primary
+  .card-header
+    .card-title
+      %i.fas.fa-map-marker-alt
+      #{EvalMovement.model_name.human(count: 2)}: 
+      %span#places_count= @places.count
+  .card-body
+    .row.mb-1
+      .col-md-12
+        %p
+          Query params: bbox:
+          %span#bbox
+          start_date:
+          %span#start_date
+          end_date:
+          %span#end_date
+
+      .col-md-6
+        .form-group
+          %select#showrange.form-control.select2bs4{style: "width: 100%;"}
+            %option{value: 'year'} Year
+            %option{value: 'month', selected: "selected"} Month
+            %option{value: 'day'} Day
+            %option{value: 'hour'} Hour
+      .col-md-6
+        .form-group.mb-0
+          .input-group
+            .input-group-prepend
+              %span.input-group-text
+                %i.far.fa-clock
+            %input#showtime.form-control.float-right{type: "text"}
+    .row
+      .col-md-12
+        #map_movements{ style: "height: 830px;" }
+:javascript
+
+  function initTimeControl(options) {
+    let btn = document.createElement("button")
+    btn.className = "btn btn-primary"
+    let slot = document.createElement("p")
+    slot.className = "hide"
+
+    timelineControl = L.control.timeline({
+      autoplay: false,
+      position: "bottomleft",
+      onNextStep: (cur) => this.tick(cur),
+      interval: 3000,
+      button: {
+        pausedText: "Play",
+        playingText: "Pause",
+        render: () => btn
+      },
+      timeline: {
+        dateFormat: options.dateFormat,
+        // renderSlot: () => slot,
+        // renderActiveSlot: () => document.createElement("p"),
+        range: [this.current_date.startOf(options.range).toDate(), this.current_date.endOf(options.range).toDate()],
+        step: options.step
+      }
+    })
+    map.addControl(timelineControl)
+  }
+
+  function tick(cur) {
+    let current = moment(cur)
+    setBbox(current)
+  }
+  
+  function getMovements(bbox, current_date) {
+    var my_step = Object.keys(this.options.step)[0]
+    var start_query_date = current_date.startOf(this.options.current_range).format(format1)
+    var end_query_date = current_date.startOf(this.options.current_range).add(1, my_step).format(format1)
+    $('span#start_date').html(start_query_date)
+    $('span#end_date').html(end_query_date)
+    $.ajax({
+      url: '/data_analysis/maps.json?bbox=' + bbox + '&start_date=' + start_query_date + '&end_date=' + end_query_date,
+      success: function(data) {
+        setCluster(data)
+        $('span#places_count').html(data.features.length)
+      }
+    });
+  }
+
+  function setBbox(current_date) {
+    const bounds = map.getBounds();
+    bbox = bounds._southWest.lng + ',' + bounds._southWest.lat + ',' + bounds._northEast.lng + ',' + bounds._northEast.lat;
+    $('span#bbox').html(bbox)
+    getMovements(bbox, current_date)
+  }
+
+  function compilePopup(properties) {
+    str = '<h5>' + properties.customer_full_name + '</h5>'
+    str += '<h5>' + properties.beneficiary + '</h5>'
+    str += '<p>' 
+    str += properties.service_updated_at + '<br />'
+    str += properties.beneficiary_iban + '<br />'
+    str += properties.address + '<br />'
+    str += (properties.amount.cents / 100).toLocaleString("en-US", {style:"currency", currency:"EUR"}); + '<br />'
+    str += '</p>'
+    return str
+  }
+
+  function setCluster(geoJsonData) {
+    if (markers) {
+      map.removeLayer(markers);
+    }
+    var geoJsonLayer = L.geoJson(geoJsonData, {
+      onEachFeature: function (feature, layer) {
+        str = compilePopup(feature.properties)
+        layer.bindPopup(str);
+      }
+    });
+    markers = L.markerClusterGroup();
+    markers.addLayer(geoJsonLayer);
+    map.addLayer(markers);
+  }
+  
+
+  function initMap() {
+    coords = [35.9480742, 14.3973929]
+    map = new L.map('map_movements');
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      minZoom: 3,
+      attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    }).addTo(map);
+    map.setView(new L.LatLng(coords[0], coords[1]), 5);
+    // setBbox();
+  }
+
+  var format1 = "YYYY-MM-DD HH:mm:ss"
+  var bbox;
+  var map;
+  var timelineControl;
+  var markers;
+
+  var current_range
+  var current_date = moment("#{@day}")
+  var start_time, end_time
+  var options
+
+  function setOptions() {
+    current_range = $('#showrange').val()
+    switch(current_range) {
+      case 'hour':
+        step = { minutes: 5 }
+        dateFormat = 'HH:mm'
+        break
+      case 'day':
+        step = { hour: 1 }
+        dateFormat = 'HH:mm'
+        break
+      case 'month':
+        step = { day: 1 }
+        dateFormat = 'dd-MM'
+        break
+      case 'year':
+        step = { month: 1 }
+        dateFormat = 'MMM'
+        break
+    }
+    this.options = {
+      range: current_range,
+      step: step,
+      dateFormat: dateFormat
+    }
+  }
+  
+  function setDateRange(){
+    $("#showrange").on('change', function() {
+      if (timelineControl) {
+        map.removeControl(timelineControl);
+      }
+      setOptions()
+      setBbox(current_date)
+      initTimeControl(this.options)
+      // console.log(this.value)
+    })
+  }
+  /*
+  function setSelector() {
+    $('#showtime').daterangepicker({
+      timePicker: true,
+      timePickerIncrement: 30,
+      locale: {
+        "format": "DD/MM/YYYY HH:mm:ss",
+      },
+      minDate: this.current_date.startOf(options.range),
+      maxDate: this.current_date.endOf(options.range)
+    })
+  }
+  */
+  initMap()
+  setOptions()
+  setDateRange()
+  // setSelector()
+  setBbox(current_date)
+  initTimeControl(this.options)
+
+  
