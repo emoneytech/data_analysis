@@ -104,8 +104,11 @@ function setCluster(geoJsonData) {
 }
 
 function compilePopup(properties) {
-  str = '<h5>' + properties.customer_full_name + '</h5>'
-  str += '<h5>' + properties.beneficiary + '</h5>'
+  str = '<h5>'
+  str += '<a href="/data_analysis/eval_movements/' + properties.id + '">'
+  str += properties.customer_full_name + ' -> '
+  str += properties.beneficiary 
+  str += '</a></h5>'
   str += '<p>' 
   str += properties.service_updated_at + '<br />'
   str += properties.beneficiary_iban + '<br />'
@@ -186,6 +189,7 @@ var pickerConfig = function(period) {
         showDropdowns: true,
         timePicker: true,
         timePickerIncrement: 1,
+        timePicker24Hour: true,
         singleDatePicker: true,
         autoUpdateInput: true,
         locale: {
@@ -235,6 +239,7 @@ var pickerConfig = function(period) {
         showDropdowns: true,
         timePicker: true,
         timePickerIncrement: 1,
+        timePicker24Hour: true,
         autoUpdateInput: true,
         locale: {
           format: "YYYY-MM-DD HH:mm:ss",
