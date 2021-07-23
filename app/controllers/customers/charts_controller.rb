@@ -6,7 +6,7 @@ module Customers
 
     def eval_movements_for_month
       month = DateTime.new(params[:year].to_i, params[:month].to_i, 1)
-      render json: @anagrafica.eval_movements.with_all_for_month(month).group(:product_name).group_by_day(:service_updated_at).count.chart_json
+      render json: @anagrafica.eval_movements.for_month(month).group(:product_name).group_by_day(:service_updated_at).count.chart_json
     end
     
   end

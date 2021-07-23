@@ -4,7 +4,7 @@ module Customers
     before_action :local_breadcrumb #, :init_risk
 
     def index
-      @eval_riskinesses = @anagrafica.eval_riskinesses
+      @eval_riskinesses = @anagrafica.eval_riskinesses.order(eval_month: :desc)
       unless params[:t]
         @current_tuple = eval "[#{Date.today.year}, #{Date.today.month}]"
       else

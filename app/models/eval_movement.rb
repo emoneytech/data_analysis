@@ -67,6 +67,10 @@ class EvalMovement < CorePgRecord
     where("movement_created_at BETWEEN '#{day.beginning_of_month}' 
     AND '#{day.at_end_of_month}'").order(movement_created_at: :asc)
   }
+  scope :for_month, ->(day) {
+    where("movement_created_at BETWEEN '#{day.beginning_of_month}' 
+    AND '#{day.at_end_of_month}'")
+  }
   scope :all_bankwire, -> { where(product_table_code: Codicetabella.find_by_nometabella('bonifici').codtab)}
 
   # PostGIS SPATIAL QUERIES
