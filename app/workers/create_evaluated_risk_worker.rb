@@ -14,7 +14,7 @@ class CreateEvaluatedRiskWorker
     max_base_risk = Configurable.max_base_risk.to_f) 
     customer = Anagrafica.includes(:time_lapse_factor).find customer_id
     tlf = customer.time_lapse_factor.time_lapse_factor
-    customer.set_evaluated_risks(tlf,default_risk,divisor_amount_for_factor,factor_for_amount,max_base_risk)
+    customer.set_attention_factors(tlf,default_risk,divisor_amount_for_factor,factor_for_amount,max_base_risk)
   end
 
 end

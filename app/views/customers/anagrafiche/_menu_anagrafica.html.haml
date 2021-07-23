@@ -23,7 +23,7 @@
       = link_to customers_anagrafica_eval_riskinesses_path(anagrafica), class: "dropdown-item" do
         %i.fa.fa-box
         #{EvalRiskiness.model_name.human(:count => 2)}
-      = link_to customers_anagrafica_evaluated_risks_path(anagrafica), class: "dropdown-item" do
+      = link_to customers_anagrafica_eval_customers_path(anagrafica), class: "dropdown-item" do
         %i.fa.fa-box
         #{EvaluatedRisk.model_name.human(:count => 2)}
   %button{type: "button", class: "btn btn-success btn-sm", "data-card-widget": "collapse"}

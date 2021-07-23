@@ -1196,9 +1196,9 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "TxId", limit: 45
     t.decimal "Amount", precision: 10, scale: 2
     t.string "ChrgBr", limit: 45
-    t.string "NomeDebitore", limit: 145
+    t.string "NomeDebitore", limit: 145, collation: "utf8mb4_general_ci"
     t.string "NazioneDebitore", limit: 45
-    t.string "IndirizzoDebitore", limit: 145
+    t.string "IndirizzoDebitore", limit: 145, collation: "utf8mb4_general_ci"
     t.string "IndirizzoDebitore2", limit: 145, collation: "utf8mb4_general_ci"
     t.string "IbanDebitore", limit: 45, collation: "utf8mb4_general_ci"
     t.string "BicDebitore", limit: 45

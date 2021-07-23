@@ -21,16 +21,16 @@ ActiveRecord::Schema.define(version: 2021_07_11_091223) do
     t.integer "eval_year", null: false
     t.integer "eval_month", limit: 2, null: false
     t.integer "nr_movements", default: 0, null: false
-    t.float "last_evaluated_risk7"
-    t.float "last_evaluated_risk30"
+    t.float "last_attention_factor7"
+    t.float "last_attention_factor30"
     t.jsonb "eval_days", default: "{}", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["anagrafica_id", "eval_year", "eval_month"], name: "evaluated_risk_for_month_index", unique: true
+    t.index ["anagrafica_id", "eval_year", "eval_month"], name: "attention_factor_for_month_index", unique: true
     t.index ["anagrafica_id"], name: "index_eval_customers_on_anagrafica_id"
     t.index ["eval_days"], name: "index_eval_customers_on_eval_days", using: :gin
-    t.index ["last_evaluated_risk30"], name: "index_eval_customers_on_last_evaluated_risk30"
-    t.index ["last_evaluated_risk7"], name: "index_eval_customers_on_last_evaluated_risk7"
+    t.index ["last_attention_factor30"], name: "index_eval_customers_on_last_attention_factor30"
+    t.index ["last_attention_factor7"], name: "index_eval_customers_on_last_attention_factor7"
   end
 
   create_table "eval_movements", force: :cascade do |t|

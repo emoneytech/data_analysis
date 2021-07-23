@@ -59,6 +59,7 @@ class EvalMovement < CorePgRecord
   # after_save :set_destination, if: :is_bankwire?
 
   scope :for_evaluation, -> { order(movement_created_at: :asc)}
+
   scope :with_all_for_day, ->(day) {
     where("movement_created_at BETWEEN '#{day.beginning_of_day}' 
     AND '#{day.end_of_day}'").order(movement_created_at: :asc)
@@ -139,7 +140,7 @@ class EvalMovement < CorePgRecord
     self.set_movement(service)
     self.set_beneficiary(service)
     self.set_product_base_risk(service.product, default_product_base_risk)
-    self.set_evaluated_risk_factor(service.anagrafica, factor_for_amount, divisor_amount_for_factor)
+    self.set_evaluated_customer_factor(service.anagrafica, factor_for_amount, divisor_amount_for_factor)
   end
 
   def build_for_service(service)
@@ -236,7 +237,7 @@ class EvalMovement < CorePgRecord
       product.try(:base_risk) ? product.base_risk : default_product_base_risk
   end
 
-  def set_evaluated_risk_factor(anagrafica,
+  def set_evaluated_customer_factor(anagrafica,
                                 factor_for_amount = Configurable.factor_for_amount.to_f,
                                 divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f)
 

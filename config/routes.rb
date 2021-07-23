@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   root 'data_analysis/dashboard#index'
   devise_for :users
 
+  get "/triggers/services/:id" => "triggers#services", :as => :triggers_service
+
   namespace :customers do
     
     resources :anagrafiche do
@@ -23,7 +25,7 @@ Rails.application.routes.draw do
       resources :movimenticonti, only: [:show, :index]
       resources :eval_riskinesses, only: [:show, :index]
 
-      resources :evaluated_risks, only: [:show, :index]
+      resources :eval_customers, only: [:show, :index]
       resources :eval_movements do
         collection do
           get 'for_day/:day' => :for_day, as: :for_day

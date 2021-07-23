@@ -4,19 +4,19 @@
       %th= EvaluatedRisk.human_attribute_name(:id)
       %th= EvaluatedRisk.human_attribute_name(:eval_year)
       %th= EvaluatedRisk.human_attribute_name(:eval_month)
-      %th= EvaluatedRisk.human_attribute_name(:last_evaluated_risk7)
-      %th= EvaluatedRisk.human_attribute_name(:last_evaluated_risk30)
+      %th= EvaluatedRisk.human_attribute_name(:last_attention_factor7)
+      %th= EvaluatedRisk.human_attribute_name(:last_attention_factor30)
       %th= EvaluatedRisk.human_attribute_name(:nr_movements)
       %th.action
   %tbody
-    - evaluated_risks.each do |item|
+    - eval_customers.each do |item|
       %tr
         %td= item.id
         %td= item.eval_year
         %td= item.eval_month
-        %td= item.last_evaluated_risk7
-        %td= item.last_evaluated_risk30
+        %td= item.last_attention_factor7
+        %td= item.last_attention_factor30
         %td= item.nr_movements
         %td.text-center
-          = link_to customers_anagrafica_evaluated_risk_path(@anagrafica,item), class: "btn btn-xs btn-primary" do
+          = link_to customers_anagrafica_eval_customer_path(@anagrafica,item), class: "btn btn-xs btn-primary" do
             %i.fa.fa-eye

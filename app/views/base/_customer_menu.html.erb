@@ -56,7 +56,7 @@
       </a>
     </li>
     <li class="nav-item">
-      <a href="<%= customers_anagrafica_evaluated_risks_path(customer) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'evaluated_risks' %>">
+      <a href="<%= customers_anagrafica_eval_customers_path(customer) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'eval_customers' %>">
         <i class="nav-icon fa fa-box"></i>
         <p>
           <%= EvaluatedRisk.model_name.human(:count => 2) %>

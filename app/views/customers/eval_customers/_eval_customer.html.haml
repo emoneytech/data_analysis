@@ -1,0 +1,51 @@
+.card.card-outline.card-primary
+  .card-header
+    .card-title
+      %i.fas.fa-exclamation-triangle
+      #{@anagrafica.full_name} - 
+      = t(:listing_resource, resource: EvalRiskiness.model_name.human(:count => 2))
+      \- #{Date::MONTHNAMES[eval_customer.eval_month]} #{eval_customer.eval_year}
+    .card-tools
+  .card-body
+    %dl.row
+      %dt.col-md-4.text-right= EvaluatedRisk.human_attribute_name(:nr_movements)
+      %dd.col-md-8
+        - if eval_customer.nr_movements.to_i > 0
+          = link_to for_month_customers_anagrafica_eval_movements_path(@anagrafica, eval_customer.eval_year, eval_customer.eval_month), class: "btn btn-xs btn-info", title: 'Open popup', remote: true do
+            %i.fa.fa-exchange-alt
+            Show #{eval_customer.nr_movements} movements
+        - else 
+          0
+      %dt.col-md-4.text-right= EvaluatedRisk.human_attribute_name(:last_eval_customer7)
+      %dd.col-md-8= eval_customer.last_eval_customer7
+      %dt.col-md-4.text-right= EvaluatedRisk.human_attribute_name(:last_eval_customer30)
+      %dd.col-md-8= eval_customer.last_eval_customer30
+    
+    %table.table.table-striped.table-bordered.table-hover.text-center.data-table
+      %thead
+        %tr
+          %th= EvaluatedRisk.human_attribute_name(:eval_day)
+          - eval_customer.eval_days[eval_customer.eval_days.keys.first][0]["details"].keys.each do |key2|
+            %th= EvaluatedRisk.human_attribute_name(key2)
+          %th.action
+      - eval_customer.eval_days.keys.each do |key|
+        %tr
+          %td= "#{key}"
+          - eval_customer.eval_days[key][0]["details"].keys.each do |key2|
+            %td
+              - unless eval_customer.eval_days[key][0]["details"][key2].kind_of?(Hash)
+                = "#{eval_customer.eval_days[key][0]["details"][key2]}"
+              - else
+                - eval_customer.eval_days[key][0]["details"][key2].each do |key, value|
+                  = "#{key.humanize}: #{value}"
+          %td.action
+            - if eval_customer.eval_days[key][0]["details"]["nr_movements"] > 0
+              = link_to for_day_customers_anagrafica_eval_movements_path(@anagrafica, key), class: "btn btn-xs btn-info", title: 'Open popup', remote: true do
+                %i.fa.fa-exchange-alt
+  .card-footer
+    .row
+      .col-md-6
+        = link_to 'Prev', customers_anagrafica_eval_customer_path(@anagrafica, @prev) unless @prev.blank?
+      .col-md-6.text-right
+        = link_to 'Next', customers_anagrafica_eval_customer_path(@anagrafica, @next) unless @next.blank?
+
