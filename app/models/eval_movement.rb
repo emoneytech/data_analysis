@@ -53,6 +53,8 @@ class EvalMovement < CorePgRecord
   delegate :current_place, to: :customer
   alias_method :origin, :current_place
 
+  validates :service_id, uniqueness: true
+  
 # attr reader
   attr_reader :recursion_customer_7, :recursion_customer_30, :recursion_all_7, :recursion_all_30
   # before_save :set_recursion0
