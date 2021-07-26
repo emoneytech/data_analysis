@@ -10,7 +10,7 @@
       %th= Movimentoconto.human_attribute_name(:importo)
       %th= Movimentoconto.human_attribute_name(:data_movimento)
       %th= Movimentoconto.human_attribute_name(:causale)
-      %th= Movimentoconto.human_attribute_name(:idCausale)
+      %th= Movimentoconto.human_attribute_name(:SaldoProg)
       %th.action
   %tbody
     - movimenticonti.each do |item|
@@ -24,8 +24,12 @@
         %td= item.importo
         %td= item.datamovimento
         %td= item.causale
-        %td= item.idcausale
+        %td= item.SaldoProg
         - if can? :manage, Movimentoconto
           %td.text-center
-            = link_to customers_anagrafica_movimentoconto_path(@anagrafica,item), class: "btn btn-xs btn-primary" do
-              %i.fa.fa-eye
+            - if item.dare.to_f > item.avere.to_f 
+              = link_to customers_anagrafica_movimentoconto_path(@anagrafica,item), class: "btn btn-xs btn-primary" do
+                %i.fa.fa-eye
+            - else
+              = link_to data_analysis_movimentoconto_path(item), class: "btn btn-xs btn-primary" do
+                %i.fa.fa-eye

@@ -22,7 +22,10 @@ class Bintype < ApplicationCoreRecord
 
   self.table_name = "bintype"
   self.primary_key = 'id'
-  has_many :conti, foreign_key: "bintype", class_name: "Conto"
+
+  alias_attribute :product_name, "descrprod"
+
+  has_many :conti, foreign_key: "tipoprodotto", primary_key: "ProductType", class_name: "Conto"
 
   def self.last_id
     order(id: :desc).select(:id).first.id

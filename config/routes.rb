@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   get "/triggers/services/:id" => "triggers#services", :as => :triggers_service
 
   namespace :customers do
-    
     resources :anagrafiche do
       resources :charts do
         collection do
@@ -21,7 +20,7 @@ Rails.application.routes.draw do
           get :details
         end
       end
-      resources :conti
+      resources :conti, only: [:show, :index]
       resources :movimenticonti, only: [:show, :index]
       resources :eval_riskinesses, only: [:show, :index]
 
@@ -62,6 +61,7 @@ Rails.application.routes.draw do
     resources :charts do
       collection do
         get :all_risk_movements
+        get 'average_stocks/:id' => :average_stocks, as: :average_stocks
       end
     end
     resources :setup

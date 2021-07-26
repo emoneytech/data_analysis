@@ -1,0 +1,25 @@
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_movements'}
+  %thead
+    %tr
+      %th= Conto.human_attribute_name(:id)
+      %th= Conto.human_attribute_name(:Pan)
+      %th= Conto.human_attribute_name(:product_type)
+      %th= Conto.human_attribute_name(:Saldo)
+      %th= Conto.human_attribute_name(:ProductState)
+      %th= Conto.human_attribute_name(:average_stock)
+      %th= Conto.human_attribute_name(:lastMovimento)
+      %th.action
+  %tbody
+    - conti.each do |item|
+      %tr
+        %td= item.idConti
+        %td= item.Pan
+        %td= item.product_name
+        %td= item.Saldo
+        %td= item.ProductState
+        %td= humanized_money_with_symbol item.average_stock
+        %td= item.lastMovimento
+        - if can? :manage, Conto
+          %td.text-center
+            = link_to customers_anagrafica_conto_path(@anagrafica, item.Pan), class: "btn btn-xs btn-primary" do
+              %i.fa.fa-eye

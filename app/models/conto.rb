@@ -43,18 +43,19 @@
 class Conto < ApplicationCoreRecord
 
   self.table_name = "conti"
-  self.primary_key = 'pan'
+  self.primary_key = 'Pan'
 
   alias_attribute :amount, "saldo"
-  alias_attribute :product_type, "producttype"
+  alias_attribute :product_type, "ProductType"
 
-  belongs_to :bank_user, foreign_key: "idutente", class_name: "Anagrafica"
+  belongs_to :bank_user, primary_key: "IdUtente", foreign_key: "IdUtente", class_name: "Anagrafica"
 
-  belongs_to :tipo_conto, foreign_key: "producttype", primary_key: "tipoprodotto", class_name: "Bintype"
+  belongs_to :tipo_conto, primary_key: "tipoprodotto", foreign_key: "ProductType", class_name: "Bintype"
 
-  delegate :descrizione, to: :tipo_conto
-  has_many :movimenticonti, foreign_key: "numeroconto", class_name: 'Movimentoconto'
+  delegate :product_name, to: :tipo_conto
+  has_many :movimenticonti, primary_key: "Pan", foreign_key: "numeroconto", class_name: 'Movimentoconto'
 
+  scope :alive, -> { where(ProductState: 1) }
   def self.last_id
     order(idconti: :desc).select(:idconti).first.idconti
   end
@@ -63,4 +64,35 @@ class Conto < ApplicationCoreRecord
     order(lastMovimento: :desc).select(:lastMovimento).first.lastMovimento
   end
 
+  def first_movement_date
+    movimenticonti.order(dataMovimento: :asc).first.try(:dataMovimento)
+  end
+
+  def average_stock(start_time=self.first_movement_date,end_time=Time.now)
+    movimenticonti.any? ? movimenticonti.select('AVG(SaldoProg) AS average_stock').where("dataMovimento BETWEEN '#{start_time}' AND '#{end_time}'").first.average_stock.to_f : 'nu'
+  end
+
+  def average_movement_amount_in(start_time=self.first_movement_date,end_time=Time.now)
+    movimenticonti.any? ? movimenticonti.select('AVG(Avere) AS average_movement_amount_in').where('Avere > 0').where("dataMovimento BETWEEN '#{start_time}' AND '#{end_time}'").first.average_movement_amount_in.to_f : 'nu'
+  end
+
+  def average_movement_amount_out(start_time=self.first_movement_date,end_time=Time.now)
+    movimenticonti.any? ? movimenticonti.select('AVG(Dare) AS average_movement_amount_out').where('Dare > 0').where("dataMovimento BETWEEN '#{start_time}' AND '#{end_time}'").first.average_movement_amount_out.to_f : 'nu'
+  end
+
+  def min_movement_amount_in(start_time=self.first_movement_date,end_time=Time.now)
+    movimenticonti.any? ? movimenticonti.select('MIN(Avere) AS min_movement_amount_in').where('Avere > 0').where("dataMovimento BETWEEN '#{start_time}' AND '#{end_time}'").first.min_movement_amount_in.to_f : 'nu'
+  end
+
+  def min_movement_amount_out(start_time=self.first_movement_date,end_time=Time.now)
+    movimenticonti.any? ? movimenticonti.select('MIN(Dare) AS min_movement_amount_out').where('Dare > 0').where("dataMovimento BETWEEN '#{start_time}' AND '#{end_time}'").first.min_movement_amount_out.to_f : 'nu'
+  end
+
+  def max_movement_amount_in(start_time=self.first_movement_date,end_time=Time.now)
+    movimenticonti.any? ? movimenticonti.select('MAX(Avere) AS max_movement_amount_in').where('Avere > 0').where("dataMovimento BETWEEN '#{start_time}' AND '#{end_time}'").first.max_movement_amount_in.to_f : 'nu'
+  end
+
+  def max_movement_amount_out(start_time=self.first_movement_date,end_time=Time.now)
+    movimenticonti.any? ? movimenticonti.select('MAX(Dare) AS max_movement_amount_out').where('Dare > 0').where("dataMovimento BETWEEN '#{start_time}' AND '#{end_time}'").first.max_movement_amount_out.to_f : 'nu'
+  end
 end

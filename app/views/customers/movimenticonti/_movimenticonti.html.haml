@@ -6,7 +6,7 @@
         = "#{Movimentoconto.model_name.human(:count => 2)} - "
         = "ID: #{@anagrafica.IdUtente} - #{@anagrafica.full_name}"
     .card-body
-      = render "table", movimenticonti: @movimenticonti
+      = render "customers/movimenticonti/table", movimenticonti: @movimenticonti
     .card-footer.clearfix
       .row
         .col-md-12

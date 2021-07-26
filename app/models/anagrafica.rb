@@ -188,8 +188,9 @@ class Anagrafica < ApplicationCoreRecord
            foreign_key: 'point',
            class_name: 'Servizio'
 
-  # has_many :movimenticonti, through: :conti
-  has_many :movimenticonti, through: :servizi, foreign_key: 'Point'
+  has_many :movimenticonti, through: :conti
+  # has_many :movimenticonti, through: :servizi, foreign_key: 'Point'
+
   has_many :prodotti,
            -> { distinct },
            through: :active_servizi,
