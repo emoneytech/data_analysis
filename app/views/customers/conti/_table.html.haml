@@ -3,6 +3,7 @@
     %tr
       %th= Conto.human_attribute_name(:id)
       %th= Conto.human_attribute_name(:Pan)
+      %th= Conto.human_attribute_name(:nr_of_movement)
       %th= Conto.human_attribute_name(:product_type)
       %th= Conto.human_attribute_name(:Saldo)
       %th= Conto.human_attribute_name(:ProductState)
@@ -12,12 +13,13 @@
   %tbody
     - conti.each do |item|
       %tr
-        %td= item.idConti
-        %td= item.Pan
+        %td= item.idConti # $('td#'+id).html("#{humanized_money_with_symbol item.average_stock}");
+        %td= item.Pan 
+        %td= item.nr_of_movement 
         %td= item.product_name
         %td= item.Saldo
         %td= item.ProductState
-        %td= humanized_money_with_symbol item.average_stock
+        %td.text-center{id: "average-#{item.id}"}= link_to_function 'Load data', "getAverageStock('#{@anagrafica.id}', 'average-#{item.id}')"
         %td= item.lastMovimento
         - if can? :manage, Conto
           %td.text-center

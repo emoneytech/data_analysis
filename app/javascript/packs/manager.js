@@ -42,6 +42,10 @@ import 'leaflet.markercluster/dist/leaflet.markercluster.js'
 import 'leaflet.timeline.control'
 
 import moment from 'moment/moment'
+import {initLoading, stopLoading, getAverageStock} from './plugins/loading'
+window.initLoading = initLoading
+window.stopLoading = stopLoading
+window.getAverageStock = getAverageStock
 window.moment = moment
 
 import * as d3 from "d3"

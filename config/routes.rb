@@ -20,7 +20,11 @@ Rails.application.routes.draw do
           get :details
         end
       end
-      resources :conti, only: [:show, :index]
+      resources :conti, only: [:show, :index] do
+        member do
+          get 'get_average'
+        end
+      end
       resources :movimenticonti, only: [:show, :index]
       resources :eval_riskinesses, only: [:show, :index]
 

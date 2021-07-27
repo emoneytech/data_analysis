@@ -1,10 +1,15 @@
 .col-md-12
-  .card
+  .card.card-outline.card-success
     .card-header
       %h3.card-title
         %i.fa.fa-exchange-alt
         = "#{Conto.model_name.human(:count => 2)} - "
         = "ID: #{@anagrafica.IdUtente} - #{@anagrafica.full_name}"
+      .card-tools
+        %button{type: "button", class: "btn btn-tool", "data-card-widget" => "maximize"}
+          %i.fas.fa-expand
+        %button{type: "button", class: "btn btn-tool", "data-card-widget" => "collapse"}
+          %i.fas.fa-minus
     .card-body
       = render "table", conti: @conti
     .card-footer.clearfix

@@ -11,6 +11,11 @@ module Customers
       @movimenticonti = @conto.movimenticonti.order(dataMovimento: :desc).page(params[:page]).per(params[:per])
       add_breadcrumb @conto.id, :customers_movimentoconto
     end
+    
+    def get_average
+      conto = @anagrafica.conti.where(Pan: params[:id]).first
+      render json: helpers.raw(helpers.humanized_money_with_symbol(conto.average_stock)).to_json
+    end
 
   end
 end
