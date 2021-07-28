@@ -9,7 +9,9 @@
 :limits:
   default: 10
   mailers: 5
+  critical: 1
   serial: 1
 
 :process_limits:
+  critical: 1
   serial: 1
