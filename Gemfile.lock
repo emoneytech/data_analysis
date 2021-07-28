@@ -250,10 +250,6 @@ GEM
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    pry (0.14.1-java)
-      coderay (~> 1.1)
-      method_source (~> 1.0)
-      spoon (~> 0.0)
     public_suffix (4.0.6)
     puma (5.3.2)
       nio4r (~> 2.0)
@@ -357,6 +353,8 @@ GEM
     sidekiq-enqueuer (2.1.1)
     sidekiq-failures (1.0.0)
       sidekiq (>= 4.0.0)
+    sidekiq-limit_fetch (3.4.0)
+      sidekiq (>= 4)
     sidekiq-scheduler (3.1.0)
       e2mmap
       redis (>= 3, < 5)
@@ -370,8 +368,6 @@ GEM
     simple_form (5.1.0)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
-    spoon (0.0.6)
-      ffi
     spring (2.1.1)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -479,6 +475,7 @@ DEPENDENCIES
   sidekiq
   sidekiq-enqueuer
   sidekiq-failures
+  sidekiq-limit_fetch
   sidekiq-scheduler
   sidekiq-status
   simple_form

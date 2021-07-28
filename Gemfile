@@ -67,6 +67,8 @@ gem 'sidekiq-failures'
 gem 'sidekiq-status'
 gem 'sidekiq-scheduler'
 gem 'sidekiq-enqueuer'
+gem 'sidekiq-limit_fetch'
+
 gem 'redis-rails'
 
 gem 'devise'

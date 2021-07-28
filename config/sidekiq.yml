@@ -1,6 +1,15 @@
 ---
 :concurrency: 20
 :queues:
-  - [mailers, 5]
-  - [default, 10]
-  - [critical, 25]
+  - critical
+  - default
+  - mailers
+  - serial
+
+:limits:
+  default: 10
+  mailers: 5
+  serial: 1
+
+:process_limits:
+  serial: 1

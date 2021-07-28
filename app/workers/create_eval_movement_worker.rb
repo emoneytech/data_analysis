@@ -2,7 +2,7 @@ class CreateEvalMovementWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
   # sidekiq_options queue: 'critical', retry: false, backtrace: true
-  sidekiq_options queue: 'critical', retry: false, backtrace: true
+  sidekiq_options queue: 'serial', retry: true, backtrace: true
 
   # PARAMS
   # service_id, point, default_product_base_risk 
