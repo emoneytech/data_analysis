@@ -227,8 +227,9 @@ class EvalMovement < CorePgRecord
       country = bank_data_hash["country"]
       address = bank_data_hash["address"]
       result = Geocoder.search(city, params: {country: country, address: address}).first
+      result = Geocoder.search("#{address}, #{country}").first unless result
       self.beneficiary_other = "#{address} - #{city}, #{country}"
-      self.destination_lonlat = "POINT(#{result.longitude} #{result.latitude})"
+      self.destination_lonlat = "POINT(#{result.longitude} #{result.latitude})" if result
     end
   end
 
