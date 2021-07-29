@@ -11,7 +11,7 @@
   .card-footer
     .row
       .col-md-6
-        =# link_to 'Prev', customers_anagrafica_eval_movement_path(@anagrafica, @prev) unless @prev.blank?
+        = link_to 'Prev', [:data_analysis, @prev] unless @prev.blank?
       .col-md-6.text-right
-        =# link_to 'Next', customers_anagrafica_eval_movement_path(@anagrafica, @next) unless @next.blank?
+        = link_to 'Next', [:data_analysis, @next] unless @next.blank?
 

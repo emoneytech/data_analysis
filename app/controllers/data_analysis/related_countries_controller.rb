@@ -7,7 +7,10 @@ module DataAnalysis
     end
 
     def show
+      add_breadcrumb helpers.raw("#{t(:show_resource, resource: RelatedCountry.model_name.human)}"), [:data_analysis, :related_country]
+      @prev = @related_country.previous
+      @next = @related_country.next
     end
-    
+
   end
 end
