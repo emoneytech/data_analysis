@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_11_091223) do
+ActiveRecord::Schema.define(version: 2021_07_29_073551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,11 +59,13 @@ ActiveRecord::Schema.define(version: 2021_07_11_091223) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "beneficiary_card", limit: 50
+    t.integer "lock_version", default: 0, null: false
     t.index ["amount_cents"], name: "index_eval_movements_on_amount_cents"
     t.index ["beneficiary_card"], name: "index_eval_movements_on_beneficiary_card"
     t.index ["beneficiary_iban"], name: "index_eval_movements_on_beneficiary_iban"
     t.index ["customer_id"], name: "index_eval_movements_on_customer_id"
     t.index ["destination_lonlat"], name: "index_eval_movements_on_destination_lonlat", using: :gist
+    t.index ["lock_version"], name: "index_eval_movements_on_lock_version"
     t.index ["movement_created_at"], name: "index_eval_movements_on_movement_created_at"
     t.index ["movement_id"], name: "index_eval_movements_on_movement_id"
     t.index ["product_name"], name: "index_eval_movements_on_product_name"
@@ -71,6 +73,7 @@ ActiveRecord::Schema.define(version: 2021_07_11_091223) do
     t.index ["recursion"], name: "index_eval_movements_on_recursion", using: :gin
     t.index ["service_created_at"], name: "index_eval_movements_on_service_created_at"
     t.index ["service_id"], name: "index_eval_movements_on_service_id"
+    t.index ["service_id"], name: "service_unique_on_eval_movements", unique: true
     t.index ["service_updated_at"], name: "index_eval_movements_on_service_updated_at"
   end
 
@@ -89,6 +92,37 @@ ActiveRecord::Schema.define(version: 2021_07_11_091223) do
     t.index ["positionable_type", "positionable_id"], name: "index_places_on_positionable"
     t.index ["positionable_type", "positionable_id"], name: "index_places_on_positionable_type_and_positionable_id"
     t.index ["positionable_type"], name: "index_places_on_positionable_type"
+  end
+
+  create_table "related_countries", force: :cascade do |t|
+    t.string "continent"
+    t.string "region"
+    t.string "subregion"
+    t.string "name"
+    t.text "unofficial_names", default: [], array: true
+    t.string "gec"
+    t.string "alpha2", null: false
+    t.string "alpha3", null: false
+    t.string "world_region"
+    t.boolean "in_eu"
+    t.boolean "in_eea"
+    t.boolean "in_esm"
+    t.float "score", default: 1.0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["alpha2"], name: "index_related_countries_on_alpha2", unique: true
+    t.index ["alpha3"], name: "index_related_countries_on_alpha3", unique: true
+    t.index ["continent"], name: "index_related_countries_on_continent"
+    t.index ["gec"], name: "index_related_countries_on_gec"
+    t.index ["in_eea"], name: "index_related_countries_on_in_eea"
+    t.index ["in_esm"], name: "index_related_countries_on_in_esm"
+    t.index ["in_eu"], name: "index_related_countries_on_in_eu"
+    t.index ["name"], name: "index_related_countries_on_name"
+    t.index ["region"], name: "index_related_countries_on_region"
+    t.index ["score"], name: "index_related_countries_on_score"
+    t.index ["subregion"], name: "index_related_countries_on_subregion"
+    t.index ["unofficial_names"], name: "index_related_countries_on_unofficial_names"
+    t.index ["world_region"], name: "index_related_countries_on_world_region"
   end
 
 end

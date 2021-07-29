@@ -46,28 +46,29 @@ Rails.application.routes.draw do
   end
 
   namespace :data_analysis do
-    resources :dashboard, only: :index
-    resources :dashboard2, only: :index
-    resources :rischi
-    resources :sync, only: :index
-    resources :eval_riskinesses
-    resources :eval_movements
-    resources :matviews
-    resources :movimenticonti
-    resources :prodotti
-    resources :maps
-    resources :places
-    resources :servizi do
-      collection do
-        get :map
-      end
-    end
     resources :charts do
       collection do
         get :all_risk_movements
         get 'average_stocks/:id' => :average_stocks, as: :average_stocks
       end
     end
+    resources :dashboard, only: :index
+    resources :dashboard2, only: :index
+    resources :eval_movements
+    resources :eval_riskinesses
+    resources :matviews
+    resources :maps
+    resources :movimenticonti
+    resources :places
+    resources :prodotti
+    resources :related_countries
+    resources :rischi
+    resources :servizi do
+      collection do
+        get :map
+      end
+    end
+    resources :sync, only: :index
     resources :setup
   end
   resources :roles

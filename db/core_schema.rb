@@ -353,10 +353,10 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "aml_possibili_risposte", primary_key: "IdPossibileRisposta", id: :integer, charset: "latin1", force: :cascade do |t|
     t.integer "IdDomanda", null: false
-    t.string "PossibileRisposta", null: false
-    t.string "PossibileRispostaENG"
-    t.string "PossibileRispostaBG", collation: "utf8_general_ci"
-    t.string "PossibileRispostaPFS", limit: 145
+    t.text "PossibileRisposta", size: :long, null: false
+    t.text "PossibileRispostaENG", size: :long
+    t.text "PossibileRispostaBG", size: :long, collation: "utf8mb4_general_ci"
+    t.text "PossibileRispostaPFS", size: :long
     t.decimal "valoreRischio", precision: 10, scale: 2, null: false
     t.integer "jumpquestion", default: 0
   end
@@ -1237,6 +1237,89 @@ ActiveRecord::Schema.define(version: 0) do
     t.bigint "IdMandato"
   end
 
+  create_table "internal_report", primary_key: "idReport", id: :integer, charset: "latin1", force: :cascade do |t|
+    t.integer "idEscalation"
+    t.integer "idOperator"
+    t.integer "idUser"
+    t.datetime "dOr", default: -> { "CURRENT_TIMESTAMP" }
+    t.integer "idCloser", default: 0
+    t.datetime "dateClose"
+    t.integer "status", default: 1
+    t.string "noRp"
+    t.string "ceMail"
+    t.string "prevIR", limit: 45
+    t.string "suspectedTerrorist", limit: 155
+    t.string "knowPep", limit: 45
+    t.string "pmlftr", limit: 45
+    t.text "typeIR", size: :long
+    t.string "mlft", limit: 45
+    t.text "suspiciousDetails", size: :long
+    t.string "title", limit: 45
+    t.string "dOb", limit: 45
+    t.string "firstName", limit: 155
+    t.string "middleName", limit: 155
+    t.string "lastName", limit: 155
+    t.string "coB", limit: 45
+    t.string "nationality", limit: 45
+    t.text "documentInfo", size: :long
+    t.text "residentialAddress", size: :long
+    t.string "countryResidence", limit: 155
+    t.string "knownOccupation", limit: 155
+    t.string "ddlTts", limit: 45
+    t.string "ddlPep", limit: 45
+    t.string "ddlLsl", limit: 45
+    t.text "webLink", size: :long
+    t.string "ddlCriminalDettails", limit: 45
+    t.text "criminalDettails", size: :long
+    t.string "nameLegal", limit: 45
+    t.string "typeCompany", limit: 45
+    t.datetime "dateInc"
+    t.string "regNumber", limit: 45
+    t.string "regOffice", limit: 45
+    t.string "countryReg", limit: 45
+    t.string "natureBusiness", limit: 45
+    t.string "ddlCriminalInv", limit: 45
+    t.text "CriminalInv", size: :long
+    t.string "ddlLegalWebLink", limit: 45
+    t.text "legalWebLink", size: :long
+    t.text "ubo", size: :long
+    t.string "nameSubject", limit: 45
+    t.string "service", limit: 45
+    t.string "statusBusiness", limit: 65
+    t.datetime "deBr"
+    t.datetime "dbRd"
+    t.string "npH", limit: 45
+    t.string "pt", limit: 45
+    t.string "pnN", limit: 45
+    t.string "ddlCurrency", limit: 155
+    t.string "balance", limit: 45
+    t.datetime "d_O"
+    t.datetime "dC"
+    t.datetime "dSb"
+    t.text "ac", size: :long
+    t.datetime "fDate"
+    t.string "amount", limit: 45
+    t.string "ddlFCurrency", limit: 45
+    t.string "rblPt", limit: 45
+    t.string "cra", limit: 45
+    t.string "ibanR", limit: 50
+    t.string "nR", limit: 45
+    t.string "cba", limit: 45
+    t.string "ibanB", limit: 50
+    t.string "nb", limit: 45
+    t.string "employeeSub", limit: 45
+    t.string "jt", limit: 45
+    t.string "cfn", limit: 45
+    t.string "tfn", limit: 45
+    t.datetime "diRr"
+    t.string "rblwsTr", limit: 45
+    t.string "rblastr", limit: 45
+    t.text "wd", size: :long
+    t.string "fn", limit: 45
+    t.datetime "dateMlro"
+    t.datetime "dateSigned"
+  end
+
   create_table "intrapay", primary_key: "idintrapay", id: :integer, charset: "latin1", force: :cascade do |t|
     t.bigint "idservizio"
     t.string "NomeProd", limit: 45
@@ -1557,7 +1640,10 @@ ActiveRecord::Schema.define(version: 0) do
     t.text "Causale", comment: "Causale del cliente del movimento "
     t.string "Cro", limit: 45
     t.bigint "IdMandato", default: 0
+    t.index ["Avere"], name: "Avere"
+    t.index ["Dare"], name: "Dare"
     t.index ["Point"], name: "fk_point_idx"
+    t.index ["SaldoProg"], name: "SaldoProg"
     t.index ["TipoTransazione"], name: "fk_tipotransazione"
     t.index ["dataMovimento"], name: "data"
     t.index ["idtransazione"], name: "fk_Idtransazione_idx"
@@ -2330,6 +2416,10 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "toaddress", default: "0"
     t.index ["idServizio"], name: "idServizio_UNIQUE", unique: true
     t.index ["idacquistoCripto"], name: "idacquistoCripto_UNIQUE", unique: true
+  end
+
+  create_table "triggers_test", id: :integer, charset: "latin1", force: :cascade do |t|
+    t.integer "idservizio", default: 0
   end
 
   create_table "usersdd", primary_key: "IdUtenteAnonimo", id: :integer, charset: "latin1", force: :cascade do |t|

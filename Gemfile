@@ -107,3 +107,5 @@ gem 'activerecord-postgis-adapter'
 
 gem 'active_model_serializers'
 gem 'fast_jsonapi'
+
+gem 'countries', require: 'countries/global'

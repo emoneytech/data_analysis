@@ -1,0 +1,37 @@
+%table.table.table-striped.table-bordered.table-hover.margin-none.data-table{id: 'related_countries', data: {order: '[[6, "asc"]]'}}
+  %thead
+    %tr
+      %th{data: {visible: "false"}}> continent
+      %th{data: {visible: "false"}}> region
+      %th{data: {visible: "false"}}> subregion
+      %th> name
+      %th{data: {visible: "false"}}> unofficial name
+      %th> gec
+      %th> alpha2
+      %th> alpha3
+      %th{data: {visible: "false"}}> world_region
+      %th> in_eu?
+      %th> in_eea?
+      %th> in_esm?
+      %th> score
+      %th.col-md-1{data: {priority: "1", orderable: "false"},nowrap: true}
+  %tbody
+    - related_countries.each do |item|
+      %tr
+        %td= item.continent
+        %td= item.region
+        %td= item.subregion
+        %td= item.name
+        %td= item.unofficial_names.to_sentence
+        %td= item.gec
+        %td= item.alpha2
+        %td= item.alpha3
+        %td= item.world_region
+        %td= item.in_eu
+        %td= item.in_eea
+        %td= item.in_esm
+        %td= item.score
+        %td.col-md-1.text-center{nowrap: true}
+          = link_to fa_icon('eye'), [:data_analysis, item], class: "btn btn-xs btn-primary", data:{toggle: "tooltip"}, title: RelatedCountry.model_name.human
+          
+

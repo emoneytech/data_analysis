@@ -1,0 +1,2 @@
+class RelatedCountry < CorePgRecord
+end
