@@ -1,6 +1,7 @@
-%table.table.table-striped.table-bordered.table-hover.margin-none.data-table{id: 'related_countries', data: {order: '[[6, "asc"]]'}}
+%table.table.table-striped.table-bordered.table-hover.margin-none.data-table{id: 'related_countries', data: {order: '[[7, "asc"]]'}}
   %thead
     %tr
+      %th.text-center{data: {priority: "1", orderable: "false"},nowrap: true}
       %th{data: {visible: "false"}}> continent
       %th{data: {visible: "false"}}> region
       %th{data: {visible: "false"}}> subregion
@@ -18,19 +19,20 @@
   %tbody
     - related_countries.each do |item|
       %tr
+        %td.text-center= Country[item.alpha2].emoji_flag
         %td= item.continent
         %td= item.region
         %td= item.subregion
         %td= item.name
         %td= item.unofficial_names.to_sentence
-        %td= item.gec
-        %td= item.alpha2
-        %td= item.alpha3
-        %td= item.world_region
-        %td= item.in_eu
-        %td= item.in_eea
-        %td= item.in_esm
-        %td= item.score
+        %td.text-center= item.gec
+        %td.text-center= item.alpha2
+        %td.text-center= item.alpha3
+        %td.text-center= item.world_region
+        %td.text-center{style: "background-color: #{item.in_eu ? 'lightgreen' : ''}"}= item.in_eu
+        %td.text-center{style: "background-color: #{item.in_eea ? 'lightblue' : ''}"}= item.in_eea
+        %td.text-center{style: "background-color: #{item.in_esm ? 'cyan' : ''}"}= item.in_esm
+        %td.text-center= item.score
         %td.col-md-1.text-center{nowrap: true}
           = link_to fa_icon('eye'), [:data_analysis, item], class: "btn btn-xs btn-primary", data:{toggle: "tooltip"}, title: RelatedCountry.model_name.human
           
