@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_29_073551) do
+ActiveRecord::Schema.define(version: 2021_07_29_091801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,14 +60,20 @@ ActiveRecord::Schema.define(version: 2021_07_29_073551) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "beneficiary_card", limit: 50
     t.integer "lock_version", default: 0, null: false
+    t.string "origin_country"
+    t.string "destination_country"
+    t.boolean "internal", default: false, null: false
     t.index ["amount_cents"], name: "index_eval_movements_on_amount_cents"
     t.index ["beneficiary_card"], name: "index_eval_movements_on_beneficiary_card"
     t.index ["beneficiary_iban"], name: "index_eval_movements_on_beneficiary_iban"
     t.index ["customer_id"], name: "index_eval_movements_on_customer_id"
+    t.index ["destination_country"], name: "index_eval_movements_on_destination_country"
     t.index ["destination_lonlat"], name: "index_eval_movements_on_destination_lonlat", using: :gist
+    t.index ["internal"], name: "index_eval_movements_on_internal"
     t.index ["lock_version"], name: "index_eval_movements_on_lock_version"
     t.index ["movement_created_at"], name: "index_eval_movements_on_movement_created_at"
     t.index ["movement_id"], name: "index_eval_movements_on_movement_id"
+    t.index ["origin_country"], name: "index_eval_movements_on_origin_country"
     t.index ["product_name"], name: "index_eval_movements_on_product_name"
     t.index ["product_table_code"], name: "index_eval_movements_on_product_table_code"
     t.index ["recursion"], name: "index_eval_movements_on_recursion", using: :gin

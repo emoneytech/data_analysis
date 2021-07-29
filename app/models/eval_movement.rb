@@ -155,6 +155,7 @@ class EvalMovement < CorePgRecord
   def set_customer(anagrafica)
     self.customer_id = anagrafica.id
     self.customer_full_name = anagrafica.full_name
+    self.origin_country = NormalizeCountry(anagrafica.current_place.country, :to => :alpha2)
   end
 
   def set_service(service)
@@ -225,6 +226,7 @@ class EvalMovement < CorePgRecord
       bank_data_hash = iban_info["bank_data"]
       city = bank_data_hash["city"]
       country = bank_data_hash["country"]
+      self.destination_country = NormalizeCountry(country, :to => :alpha2)
       address = bank_data_hash["address"]
       result = Geocoder.search(city, params: {country: country, address: address}).first
       result = Geocoder.search("#{address}, #{country}").first unless result
