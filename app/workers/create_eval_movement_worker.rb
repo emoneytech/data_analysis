@@ -8,7 +8,7 @@ class CreateEvalMovementWorker
   # service_id, point, default_product_base_risk 
   
   def perform(service_id, point, default_product_base_risk = Configurable.default_product_base_risk.to_f)
-
+    return if [70, 75].include?(point.to_i)
     service = Servizio.joins(:product,:anagrafica,:movimenticonti)
                 .preload(:product,{anagrafica: :conti},:movimenticonti,:ricarica,:ricaricacarta,:bonifico,:assegnovirtuale,:incassoassegno)
                 .where('movimenticonti.Point = ?', point)
