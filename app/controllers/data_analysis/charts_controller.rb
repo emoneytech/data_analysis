@@ -14,5 +14,10 @@ module DataAnalysis
       render json: movimenti.chart_json
     end
 
+    def recursions
+      recursions = EvalMovement.for_month(Date.today).group("(recursion -> 'all' ->> 'day_7')").group_by_day(:movement_created_at).count
+      render json: recursions.chart_json
+    end
+
   end
 end

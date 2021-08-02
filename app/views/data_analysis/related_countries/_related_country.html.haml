@@ -1,8 +1,10 @@
-.card.card-primary
+.card.card-primary.card-outline
   .card-header
     %h3.card-title
       %i.fas.fa-globe
       #{related_country.name}
+    .card-tools
+      = link_to fa_icon('edit'), [:edit, :data_analysis, related_country], class: "btn btn-xs btn-warning", data:{toggle: "tooltip"}, title: 'Edit'
   .card-body
     %dl.row
       - for attribute in related_country.attributes.keys

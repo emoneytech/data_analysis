@@ -28,6 +28,10 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  beneficiary_card    :string(50)
+#  lock_version        :integer          default(0), not null
+#  origin_country      :string
+#  destination_country :string
+#  internal            :boolean          default(FALSE), not null
 #
 
 one:

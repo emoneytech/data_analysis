@@ -28,10 +28,15 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  beneficiary_card    :string(50)
+#  lock_version        :integer          default(0), not null
+#  origin_country      :string
+#  destination_country :string
+#  internal            :boolean          default(FALSE), not null
 #
 class EvalMovement < CorePgRecord
   monetize :amount_cents
   
+
   belongs_to :customer,
              class_name: 'Anagrafica',
              foreign_key: 'customer_id',
@@ -71,8 +76,8 @@ class EvalMovement < CorePgRecord
     AND '#{day.at_end_of_month}'").order(movement_created_at: :asc)
   }
   scope :for_month, ->(day) {
-    where("movement_created_at BETWEEN '#{day.beginning_of_month}' 
-    AND '#{day.at_end_of_month}'")
+    where("movement_created_at BETWEEN '#{day.beginning_of_month.beginning_of_day}' 
+    AND '#{day.at_end_of_month.end_of_day}'")
   }
   scope :all_bankwire, -> { where(product_table_code: Codicetabella.find_by_nometabella('bonifici').codtab)}
 
@@ -328,6 +333,10 @@ class EvalMovement < CorePgRecord
   end
   def recursion_all_30
     self.recursion["all"] ? self.recursion["all"]["day_30"] : ' - '
+  end
+  
+  def self.get_recursion(alloc, key, value=0)
+    where("(recursion -> :alloc ->> :key)::INTEGER > :value", alloc: alloc, key: key, value: value.to_i)
   end
   
 end

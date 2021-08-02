@@ -1,0 +1,21 @@
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_movements', data: {order: '[[1, "desc"]]'}}
+  %thead
+    %tr
+      %th= CustomerSetting.human_attribute_name(:id)
+      %th= CustomerSetting.human_attribute_name(:active)
+      %th= CustomerSetting.human_attribute_name(:customer)
+      %th= CustomerSetting.human_attribute_name(:product)
+      %th= CustomerSetting.human_attribute_name(:attention_factor)
+      %th.action{data: {orderable: "false"}}
+  %tbody
+    - customer_settings.each do |item|
+      %tr
+        %td= item.id
+        %td= item.active
+        %td= item.customer
+        %td= item.product_id === 0 ? 'All' : item.product
+        %td= item.attention_factor
+        %td.text-center
+          = link_to fa_icon('eye'), [:customers, @anagrafica, item], class: "btn btn-xs btn-primary", data:{toggle: "tooltip"}, title: 'Show'
+          = link_to fa_icon('edit'), [:edit, :customers, @anagrafica, item], class: "btn btn-xs btn-warning", data:{toggle: "tooltip"}, title: 'Edit'
+

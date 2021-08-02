@@ -1,0 +1,15 @@
+.row
+  .col-md-12
+    = simple_form_for [:customers, @anagrafica, @customer_setting] do |f|
+      .card.card-outline.card-success
+        .card-header
+          %h3.card-title
+            %i.fa.fa-key
+            = t(:edit_resource, resource: CustomerSetting.model_name.human)
+          .spacer
+        .card-body
+          = render 'form', f: f
+        .card-footer.clearfix
+          = link_to t(:cancel, default: "Cancel"),  [:customers, @anagrafica, :customer_settings], class: "btn btn-warning"
+          = f.submit class: "btn btn-success"
+

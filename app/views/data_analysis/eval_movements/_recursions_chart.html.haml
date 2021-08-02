@@ -1,0 +1,7 @@
+.card.card-danger.card-outline
+  .card-header
+    %h3.card-title
+      %i.fa.fa-chart-bar
+      = t(:listing_resource, resource: EvalMovement.model_name.human(:count => 2))
+  .card-body
+    = line_chart recursions_data_analysis_charts_path, remote: true

@@ -9,7 +9,7 @@
       %th= Conto.human_attribute_name(:ProductState)
       %th= Conto.human_attribute_name(:average_stock)
       %th= Conto.human_attribute_name(:lastMovimento)
-      %th.action
+      %th.action{data: {orderable: "false"}}
   %tbody
     - conti.each do |item|
       %tr
@@ -23,5 +23,4 @@
         %td= item.lastMovimento
         - if can? :manage, Conto
           %td.text-center
-            = link_to customers_anagrafica_conto_path(@anagrafica, item.Pan), class: "btn btn-xs btn-primary" do
-              %i.fa.fa-eye
+            = link_to fa_icon('eye'), customers_anagrafica_conto_path(@anagrafica, item.Pan), class: "btn btn-xs btn-primary", data:{toggle: "tooltip"}, title: 'Show'

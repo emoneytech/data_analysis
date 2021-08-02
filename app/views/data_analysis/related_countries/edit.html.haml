@@ -1,0 +1,15 @@
+.row
+  .col-md-12
+    = simple_form_for [:data_analysis, @related_country] do |f|
+      .card.card-outline.card-success
+        .card-header
+          %h3.card-title
+            %i.fa.fa-key
+            = t(:edit_resource, resource: RelatedCountry.model_name.human)
+          .spacer
+        .card-body
+          = render 'form', f: f
+        .card-footer.clearfix
+          = link_to t(:cancel, default: "Cancel"),  [:data_analysis, :related_countries], class: "btn btn-warning"
+          = f.submit class: "btn btn-success"
+

@@ -369,7 +369,6 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "DataCreazione", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.integer "Destinatario", comment: "2 = USER,3 = Business"
     t.datetime "DataAttivazione"
-    t.index ["NomeQuestionario"], name: "NomeQuestionario_UNIQUE", unique: true
   end
 
   create_table "aml_risposte", primary_key: "IdRisposta", id: :integer, charset: "latin1", force: :cascade do |t|

@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   namespace :customers do
     resources :anagrafiche do
+      resources :customer_settings
+      
       resources :charts do
         collection do
           get 'eval_movements_for_month/:year/:month' => :eval_movements_for_month, as: :eval_movements_for_month
@@ -49,6 +51,7 @@ Rails.application.routes.draw do
     resources :charts do
       collection do
         get :all_risk_movements
+        get :recursions
         get 'average_stocks/:id' => :average_stocks, as: :average_stocks
       end
     end

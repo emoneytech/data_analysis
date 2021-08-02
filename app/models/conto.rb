@@ -5,7 +5,7 @@
 #  idConti             :integer          not null
 #  IdUtente            :bigint           not null
 #  idpoint             :bigint           default(0), not null
-#  Pan                 :string(46)       not null
+#  Pan                 :string(46)       not null, primary key
 #  IPan                :string(16)       default("0000000000000000"), not null
 #  alias               :string(50)
 #  Saldo               :decimal(12, 2)   default(0.0), not null

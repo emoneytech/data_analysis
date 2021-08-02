@@ -275,6 +275,10 @@ class Anagrafica < ApplicationCoreRecord
            primary_key: 'IdUtente',
            foreign_key: :anagrafica_id
 
+  has_many :customer_settings,
+    primary_key: 'IdUtente',
+    foreign_key: :customer_id
+
   has_many :rischi,
            primary_key: 'IdUtente',
            foreign_key: :IdUtente,

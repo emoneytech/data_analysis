@@ -10,11 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_29_091801) do
+ActiveRecord::Schema.define(version: 2021_08_01_071514) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
+
+  create_table "customer_settings", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.integer "customer_id", null: false
+    t.integer "product_id", default: 0, null: false
+    t.float "attention_factor", default: 1.0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["active"], name: "index_customer_settings_on_active"
+    t.index ["customer_id"], name: "index_customer_settings_on_customer_id"
+    t.index ["product_id"], name: "index_customer_settings_on_product_id", unique: true
+  end
 
   create_table "eval_customers", force: :cascade do |t|
     t.integer "anagrafica_id", null: false
