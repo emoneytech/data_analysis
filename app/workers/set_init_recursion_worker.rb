@@ -5,9 +5,9 @@ class SetInitRecursionWorker
   sidekiq_options queue: 'massive', retry: false, backtrace: true
 
   def perform()
-    EvalMovement.order(movement_created_at: :asc).select(:id).find_in_batches(batch_size: 500) do |eval_movements|
+    EvalMovement.where(recursion_all_7: nil).order(movement_created_at: :asc).select(:id).find_in_batches(batch_size: 500) do |eval_movements|
       eval_movements.each do |eval_movement|
-        SetRecursionToEvalMovementWorker.perform_async(eval_movement.id)
+        UpdateRecursionToEvalMovementWorker.perform_async(eval_movement.id)
       end
     end
   end
