@@ -4,4 +4,4 @@
       %i.fa.fa-chart-bar
       = t(:listing_resource, resource: EvalMovement.model_name.human(:count => 2))
   .card-body
-    = line_chart recursions_data_analysis_charts_path, remote: true
+    = column_chart recursions_data_analysis_charts_path, remote: true, stacked: true, legend: false

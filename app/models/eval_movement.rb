@@ -83,6 +83,12 @@ class EvalMovement < CorePgRecord
     where("movement_created_at BETWEEN '#{day.beginning_of_month.beginning_of_day}' 
     AND '#{day.at_end_of_month.end_of_day}'")
   }
+
+  scope :between_date, ->(start_date, end_date) {
+    where("movement_created_at BETWEEN '#{start_date.beginning_of_day}' 
+      AND '#{end_date.end_of_day}'")
+  }
+
   scope :all_bankwire, -> { where(product_table_code: Codicetabella.find_by_nometabella('bonifici').codtab)}
 
   # PostGIS SPATIAL QUERIES

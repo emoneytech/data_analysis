@@ -16,8 +16,8 @@ module DataAnalysis
 
     def recursions
       recursions = Hash.new
-      EvalMovement.where.not(recursion_all_7: nil, recursion_all_7: 0).for_month(Date.today - 1.month).group(:recursion_all_7).group_by_day(:movement_created_at).order(recursion_all_7: :asc).count.map{|k,v| recursions[ [v,k[1]] ] = k[0]}
-      render json: recursions.to_json
+      EvalMovement.where.not(recursion_all_7: nil, recursion_all_7: 0).for_month(Date.today - 1.month).group(:recursion_all_7).group_by_day(:movement_created_at).order(recursion_all_7: :asc).count.map{|k,v| recursions[ [k[0],k[1]] ] = v}
+      render json: recursions.chart_json
     end
 
   end
