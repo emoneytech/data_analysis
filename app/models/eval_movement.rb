@@ -293,7 +293,7 @@ class EvalMovement < CorePgRecord
 
   def count_recursive_for_customer(days=7)
     start_date = self.movement_created_at.to_date - days.days
-    end_date = self.movement_created_at.to_date
+    end_date = self.movement_created_at
     EvalMovement.where(customer_id: self.customer_id)
     .where("eval_movements.beneficiary = ? OR eval_movements.beneficiary_iban = ?", self.beneficiary, self.beneficiary_iban)
     .where("eval_movements.movement_created_at BETWEEN '#{start_date.to_date.beginning_of_day}' 
@@ -302,7 +302,7 @@ class EvalMovement < CorePgRecord
 
   def count_recursive(days=7)
     start_date = self.movement_created_at.to_date - days.days
-    end_date = self.movement_created_at.to_date
+    end_date = self.movement_created_at
     EvalMovement.where(
       "eval_movements.beneficiary = ? 
         OR eval_movements.beneficiary_iban = ?", self.beneficiary, self.beneficiary_iban
