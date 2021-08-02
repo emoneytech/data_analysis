@@ -26,7 +26,7 @@
         %td= link_to item.product_id, data_analysis_prodotto_path(item.product_id)
         %td= item.beneficiary
         %td= item.product_base_risk
-        %td= item.recursion
+        %td= "#{item.recursion_all_7}/#{item.recursion_all_30}/#{item.recursion_customer_7}/#{item.recursion_customer_30}"
         %td= item.amount
         %td= item.destination_lonlat
         %td= item.origin_country
