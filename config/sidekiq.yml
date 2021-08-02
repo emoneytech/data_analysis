@@ -1,17 +1,20 @@
 ---
 :concurrency: 20
 :queues:
+  - massive
   - critical
   - default
   - mailers
   - serial
 
 :limits:
+  massive: 25
   default: 10
   mailers: 5
   critical: 1
   serial: 1
 
 :process_limits:
+  massive: 25
   critical: 1
   serial: 1

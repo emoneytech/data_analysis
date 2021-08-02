@@ -2,36 +2,40 @@
 #
 # Table name: eval_movements
 #
-#  id                  :bigint           not null, primary key
-#  customer_id         :integer          not null
-#  customer_full_name  :string
-#  service_id          :integer          not null
-#  service_status      :string
-#  service_updated_at  :datetime
-#  service_created_at  :datetime
-#  movement_id         :integer          not null
-#  movement_created_at :datetime         not null
-#  product_net_id      :integer
-#  product_id          :integer
-#  product_table_code  :integer
-#  product_name        :string
-#  product_base_risk   :float
-#  beneficiary         :string
-#  beneficiary_iban    :string
-#  beneficiary_other   :string
-#  risk_factor         :float
-#  risk_description    :string
-#  recursion           :jsonb            not null
-#  amount_cents        :integer          default(0), not null
-#  amount_currency     :string           default("EUR"), not null
-#  destination_lonlat  :geography        point, 4326
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  beneficiary_card    :string(50)
-#  lock_version        :integer          default(0), not null
-#  origin_country      :string
-#  destination_country :string
-#  internal            :boolean          default(FALSE), not null
+#  id                    :bigint           not null, primary key
+#  customer_id           :integer          not null
+#  customer_full_name    :string
+#  service_id            :integer          not null
+#  service_status        :string
+#  service_updated_at    :datetime
+#  service_created_at    :datetime
+#  movement_id           :integer          not null
+#  movement_created_at   :datetime         not null
+#  product_net_id        :integer
+#  product_id            :integer
+#  product_table_code    :integer
+#  product_name          :string
+#  product_base_risk     :float
+#  beneficiary           :string
+#  beneficiary_iban      :string
+#  beneficiary_other     :string
+#  risk_factor           :float
+#  risk_description      :string
+#  recursion             :jsonb            not null
+#  amount_cents          :integer          default(0), not null
+#  amount_currency       :string           default("EUR"), not null
+#  destination_lonlat    :geography        point, 4326
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  beneficiary_card      :string(50)
+#  lock_version          :integer          default(0), not null
+#  origin_country        :string
+#  destination_country   :string
+#  internal              :boolean          default(FALSE), not null
+#  recursion_all_7       :integer
+#  recursion_all_30      :integer
+#  recursion_customer_7  :integer
+#  recursion_customer_30 :integer
 #
 class EvalMovement < CorePgRecord
   monetize :amount_cents
@@ -60,8 +64,8 @@ class EvalMovement < CorePgRecord
 
   validates :service_id, uniqueness: true
   
-# attr reader
-  attr_reader :recursion_customer_7, :recursion_customer_30, :recursion_all_7, :recursion_all_30
+  # attr reader
+  # attr_reader :recursion_customer_7, :recursion_customer_30, :recursion_all_7, :recursion_all_30
   before_save :set_recursion
   # after_save :set_destination, if: :is_bankwire?
 
@@ -310,33 +314,10 @@ class EvalMovement < CorePgRecord
   end
 
   def set_recursion
-    self.recursion = {
-      "customer_id": {
-        "day_7": count_recursive_for_customer(days=7),
-        "day_30": count_recursive_for_customer(days=30)
-      },
-      "all": {
-        "day_7": count_recursive(days=7),
-        "day_30": count_recursive(days=30)
-      }
-    }
+    self.recursion_all_7       = count_recursive(days=7)
+    self.recursion_all_30      = count_recursive(days=30)
+    self.recursion_customer_7  = count_recursive_for_customer(days=7)
+    self.recursion_customer_30 = count_recursive_for_customer(days=30)
   end
-
-  def recursion_customer_7
-    self.recursion["customer_id"] ? self.recursion["customer_id"]["day_7"] : ' - '
-  end
-  def recursion_customer_30
-    self.recursion["customer_id"] ? self.recursion["customer_id"]["day_30"] : ' - '
-  end
-  def recursion_all_7
-    self.recursion["all"] ? self.recursion["all"]["day_7"] : ' - '
-  end
-  def recursion_all_30
-    self.recursion["all"] ? self.recursion["all"]["day_30"] : ' - '
-  end
-  
-  def self.get_recursion(alloc, key, value=0)
-    where("(recursion -> :alloc ->> :key)::INTEGER > :value", alloc: alloc, key: key, value: value.to_i)
-  end
-  
+ 
 end

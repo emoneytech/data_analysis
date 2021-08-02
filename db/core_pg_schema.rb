@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_01_071514) do
+ActiveRecord::Schema.define(version: 2021_08_02_075603) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,10 @@ ActiveRecord::Schema.define(version: 2021_08_01_071514) do
     t.string "origin_country"
     t.string "destination_country"
     t.boolean "internal", default: false, null: false
+    t.integer "recursion_all_7"
+    t.integer "recursion_all_30"
+    t.integer "recursion_customer_7"
+    t.integer "recursion_customer_30"
     t.index ["amount_cents"], name: "index_eval_movements_on_amount_cents"
     t.index ["beneficiary_card"], name: "index_eval_movements_on_beneficiary_card"
     t.index ["beneficiary_iban"], name: "index_eval_movements_on_beneficiary_iban"
@@ -89,6 +93,10 @@ ActiveRecord::Schema.define(version: 2021_08_01_071514) do
     t.index ["product_name"], name: "index_eval_movements_on_product_name"
     t.index ["product_table_code"], name: "index_eval_movements_on_product_table_code"
     t.index ["recursion"], name: "index_eval_movements_on_recursion", using: :gin
+    t.index ["recursion_all_30"], name: "index_eval_movements_on_recursion_all_30"
+    t.index ["recursion_all_7"], name: "index_eval_movements_on_recursion_all_7"
+    t.index ["recursion_customer_30"], name: "index_eval_movements_on_recursion_customer_30"
+    t.index ["recursion_customer_7"], name: "index_eval_movements_on_recursion_customer_7"
     t.index ["service_created_at"], name: "index_eval_movements_on_service_created_at"
     t.index ["service_id"], name: "index_eval_movements_on_service_id"
     t.index ["service_id"], name: "service_unique_on_eval_movements", unique: true
