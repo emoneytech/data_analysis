@@ -1,7 +1,31 @@
-.card.card-danger.card-outline
+.card.card-info.card-outline
   .card-header
     %h3.card-title
       %i.fa.fa-chart-bar
-      = t(:listing_resource, resource: EvalMovement.model_name.human(:count => 2))
+      = t(:recursions, default: "Recursions")
+    .card-tools
+      %button{type: "button", class: "btn btn-tool", "data-card-widget" => "maximize"}
+        %i.fas.fa-expand
+      %button{type: "button", class: "btn btn-tool", "data-card-widget" => "collapse"}
+        %i.fas.fa-minus
   .card-body
-    = column_chart recursions_data_analysis_charts_path, remote: true, stacked: true, legend: false
+    .row
+      .col-md-12.text-right
+        .btn-group
+          = link_to_function 'All 7', "getRecursions('all_7')", class: "btn-recursions btn btn-info btn-sm active", id:'all_7'
+          = link_to_function 'All 30', "getRecursions('all_30')", class: "btn-recursions btn btn-info btn-sm", id:'all_30'
+          = link_to_function 'Customer 7', "getRecursions('customer_7')", class: "btn-recursions btn btn-info btn-sm", id:'customer_7'
+          = link_to_function 'Customer 30', "getRecursions('customer_30')", class: "btn-recursions btn btn-info btn-sm", id:'customer_30'
+        
+    = column_chart recursions_data_analysis_charts_path(key: 'all_7'), remote: true, stacked: true, legend: false, id: 'recursions-chart', height: '300px'
+
+:javascript
+  var chart = Chartkick.charts["recursions-chart"]
+  var data_source = chart.getDataSource().split('?')
+
+  function getRecursions(key) { 
+    $('.btn-recursions').removeClass('active');
+    $('a#' + key).addClass('active');
+    let url = data_source[0] + '?key=' + key
+    chart.updateData(url)
+  }
