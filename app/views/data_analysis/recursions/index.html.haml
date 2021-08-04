@@ -2,9 +2,6 @@
   .col-md-12
     = render 'chart'
 
-  .col-md-12
-    = render 'table'
-
 :javascript
   var chart = Chartkick.charts["recursions-chart"]
   var data_source = chart.getDataSource().split('?')

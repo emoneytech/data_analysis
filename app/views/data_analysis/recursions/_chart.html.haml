@@ -17,5 +17,8 @@
           = link_to_function 'Customer 7', "getRecursions('customer_7')", class: "btn-recursions btn btn-info btn-sm", id:'customer_7'
           = link_to_function 'Customer 30', "getRecursions('customer_30')", class: "btn-recursions btn btn-info btn-sm", id:'customer_30'
         
-    = column_chart chart_data_analysis_recursions_path(key: 'all_7'), remote: true, stacked: true, legend: false, id: 'recursions-chart', height: '300px'
-    
+      .col-md-12
+        = column_chart chart_data_analysis_recursions_path(key: 'all_7'), remote: true, stacked: true, legend: false, id: 'recursions-chart', height: '300px'
+    .row
+      .col-md-12.p-3
+        = render 'table'
