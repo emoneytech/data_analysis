@@ -18,3 +18,8 @@
   massive: 25
   critical: 1
   serial: 1
+
+:schedule:
+  enqueuer_worker:
+    cron: '0 * * * *'
+    class: EnqueuerWorker
