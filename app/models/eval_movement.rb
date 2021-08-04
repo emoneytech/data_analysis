@@ -71,9 +71,13 @@ class EvalMovement < CorePgRecord
 
   scope :for_evaluation, -> { order(movement_created_at: :asc)}
 
-  scope :with_all_for_day, ->(day) {
+  scope :for_day, ->(day) {
     where("movement_created_at BETWEEN '#{day.beginning_of_day}' 
-    AND '#{day.end_of_day}'").order(movement_created_at: :asc)
+    AND '#{day.end_of_day}'")
+  }
+
+  scope :with_all_for_day, ->(day) {
+    for_day(day).order(movement_created_at: :asc)
   }
   scope :with_all_for_month, ->(day) {
     where("movement_created_at BETWEEN '#{day.beginning_of_month}' 

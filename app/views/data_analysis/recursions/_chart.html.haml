@@ -18,14 +18,4 @@
           = link_to_function 'Customer 30', "getRecursions('customer_30')", class: "btn-recursions btn btn-info btn-sm", id:'customer_30'
         
     = column_chart chart_data_analysis_recursions_path(key: 'all_7'), remote: true, stacked: true, legend: false, id: 'recursions-chart', height: '300px'
-
-:javascript
-  var chart = Chartkick.charts["recursions-chart"]
-  var data_source = chart.getDataSource().split('?')
-
-  function getRecursions(key) { 
-    $('.btn-recursions').removeClass('active');
-    $('a#' + key).addClass('active');
-    let url = data_source[0] + '?key=' + key
-    chart.updateData(url)
-  }
+    

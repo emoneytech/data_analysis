@@ -33,6 +33,6 @@
         %td= item.destination_lonlat
         %td= item.origin_country
         %td= item.destination_country
-        %td.text-center
+        %td.text-center{data: {orderable: "false"}}
           = link_to [:data_analysis, item], class: "btn btn-xs btn-primary" do
             %i.fa.fa-eye

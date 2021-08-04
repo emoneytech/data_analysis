@@ -1,3 +1,37 @@
 .row
   .col-md-12
     = render 'chart'
+
+  .col-md-12
+    = render 'table'
+
+:javascript
+  var chart = Chartkick.charts["recursions-chart"]
+  var data_source = chart.getDataSource().split('?')
+  var table = $('#table_recursions').DataTable()
+
+  function getRecursions(key) { 
+    $('.btn-recursions').removeClass('active')
+    $('a#' + key).addClass('active')
+    let url = data_source[0] + '?key=' + key
+    chart.updateData(url)
+  }
+
+  $( document ).ajaxComplete(function( event, xhr, settings ) {
+    let response = JSON.parse(xhr.responseText)
+    setTable(response[0].data)
+  })
+
+
+  function setTable(response) {
+    table.clear()
+    let data = []
+    response.forEach(function (item, index) {
+      data.push({
+        0: item[0],
+        1: item[1],
+        2: '<a class="btn btn-xs btn-primary" href="/data_analysis/eval_movements/for_day/' + item[0] + '" /><i class="fa fa-eye"></i></a>'
+      })
+    })
+    table.rows.add(data).draw();
+  }

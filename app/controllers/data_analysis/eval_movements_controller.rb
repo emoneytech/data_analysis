@@ -19,5 +19,16 @@ module DataAnalysis
       @next = @eval_movement.all_next
     end
 
+    def for_day
+      @eval_movements = @eval_movements.for_day(params[:day].to_date).order(recursion_all_7: :desc).page(params[:page]).per(params[:per])
+      render 'index'
+    end
+
+    def for_month
+      month = DateTime.new(params[:year].to_i, params[:month].to_i, 1)
+      @eval_movements = @eval_movements.with_all_for_month(month).order(movement_created_at: :desc).page(params[:page]).per(params[:per])
+      render 'index'
+    end
+
   end
 end

@@ -56,7 +56,12 @@ Rails.application.routes.draw do
     end
     resources :dashboard, only: :index
     resources :dashboard2, only: :index
-    resources :eval_movements
+    resources :eval_movements do
+      collection do
+        get 'for_day/:day' => :for_day, as: :for_day
+        get 'for_month/:year/:month' => :for_month, as: :for_month
+      end
+    end
     resources :eval_riskinesses
     resources :matviews
     resources :maps
