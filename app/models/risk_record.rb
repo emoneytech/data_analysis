@@ -1,5 +1,4 @@
-class RiskRecord < ApplicationRecord
+class RiskRecord < ActiveRecord::Base
   self.abstract_class = true
-
-  connects_to database: { writing: :risk }
+  connects_to database: { writing: :risk, reading: :risk }
 end

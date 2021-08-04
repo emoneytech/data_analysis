@@ -12,7 +12,7 @@
 #  updated_at  :datetime         not null
 #
 
-class Note < ApplicationRecord
+class Note < RiskRecord
 
   belongs_to :user
   belongs_to :anagrafica, foreign_key: :customer_id

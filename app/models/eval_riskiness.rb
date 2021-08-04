@@ -15,7 +15,7 @@
 #  trend               :string(12)
 #
 
-class EvalRiskiness < ApplicationRecord
+class EvalRiskiness < RiskRecord
 
   belongs_to :eval_evaluable, polymorphic: true
 

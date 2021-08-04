@@ -502,7 +502,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer "TipoKYC", default: 0
     t.datetime "DataOkKyc"
     t.string "DataNumOkKyc", limit: 8
-    t.string "OpHelpDeskKyc", limit: 5
+    t.string "OpHelpDeskKyc", limit: 7
     t.bigint "IdLastUpdateKYC", default: 0
     t.datetime "DataLastUpdateKYC"
     t.string "EmailSollecito", limit: 150

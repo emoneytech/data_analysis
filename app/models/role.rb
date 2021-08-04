@@ -12,7 +12,7 @@
 #  active       :boolean          default(TRUE), not null
 #
 
-class Role < ApplicationRecord
+class Role < RiskRecord
 
   alias_attribute :level, :policy
 

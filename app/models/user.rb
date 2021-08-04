@@ -29,7 +29,7 @@
 #  deleted_at             :datetime
 #
 
-class User < ApplicationRecord
+class User < RiskRecord
 
   acts_as_paranoid
   # Include default devise modules. Others available are:

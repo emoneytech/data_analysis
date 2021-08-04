@@ -9,7 +9,7 @@
 #  updated_at        :datetime         not null
 #
 
-class AnagraficaTimeLapseFactor < ApplicationRecord
+class AnagraficaTimeLapseFactor < RiskRecord
 
   belongs_to :anagrafica
 

@@ -8,7 +8,7 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #
-class ExcludedProduct < ApplicationRecord
+class ExcludedProduct < RiskRecord
 
   validates :last_3_numbers, presence: true, uniqueness: true
   validates :name, presence: true

@@ -13,7 +13,7 @@
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #
-class EvaluatedRisk < ApplicationRecord
+class EvaluatedRisk < RiskRecord
   belongs_to :anagrafica
   serialize :eval_days, JSON
   

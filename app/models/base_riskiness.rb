@@ -11,6 +11,6 @@
 #  updated_at          :datetime         not null
 #
 
-class BaseRiskiness < ApplicationRecord
+class BaseRiskiness < RiskRecord
   belongs_to :base_evaluable, polymorphic: true
 end

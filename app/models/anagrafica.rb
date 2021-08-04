@@ -103,7 +103,7 @@
 #  TipoKYC                   :integer          default(0)
 #  DataOkKyc                 :datetime
 #  DataNumOkKyc              :string(8)
-#  OpHelpDeskKyc             :string(5)
+#  OpHelpDeskKyc             :string(7)
 #  IdLastUpdateKYC           :bigint           default(0)
 #  DataLastUpdateKYC         :datetime
 #  EmailSollecito            :string(150)

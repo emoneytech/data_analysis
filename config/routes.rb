@@ -51,7 +51,6 @@ Rails.application.routes.draw do
     resources :charts do
       collection do
         get :all_risk_movements
-        get :recursions
         get 'average_stocks/:id' => :average_stocks, as: :average_stocks
       end
     end
@@ -64,6 +63,11 @@ Rails.application.routes.draw do
     resources :movimenticonti
     resources :places
     resources :prodotti
+    resources :recursions do
+      collection do
+        get :chart
+      end
+    end
     resources :related_countries
     resources :rischi
     resources :servizi do

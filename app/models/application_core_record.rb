@@ -1,4 +1,4 @@
-class ApplicationCoreRecord < ApplicationRecord
+class ApplicationCoreRecord < RiskRecord
   self.abstract_class = true
   connects_to database: { writing: :core, reading: :core }
 

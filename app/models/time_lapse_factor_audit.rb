@@ -11,7 +11,7 @@
 #  updated_at                      :datetime         not null
 #
 
-class TimeLapseFactorAudit < ApplicationRecord
+class TimeLapseFactorAudit < RiskRecord
   
   belongs_to :anagrafica_time_lapse_factor
   belongs_to :user
