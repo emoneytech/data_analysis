@@ -21,7 +21,6 @@
 #  beneficiary_other     :string
 #  risk_factor           :float
 #  risk_description      :string
-#  recursion             :jsonb            not null
 #  amount_cents          :integer          default(0), not null
 #  amount_currency       :string           default("EUR"), not null
 #  destination_lonlat    :geography        point, 4326

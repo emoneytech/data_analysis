@@ -47,7 +47,7 @@ class Conto < ApplicationCoreRecord
 
   alias_attribute :amount, "saldo"
   alias_attribute :product_type, "ProductType"
-
+  
   belongs_to :bank_user, primary_key: "IdUtente", foreign_key: "IdUtente", class_name: "Anagrafica"
 
   belongs_to :tipo_conto, primary_key: "tipoprodotto", foreign_key: "ProductType", class_name: "Bintype"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_02_075603) do
+ActiveRecord::Schema.define(version: 2021_08_06_084946) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,7 +64,6 @@ ActiveRecord::Schema.define(version: 2021_08_02_075603) do
     t.string "beneficiary_other"
     t.float "risk_factor"
     t.string "risk_description"
-    t.jsonb "recursion", default: "{}", null: false
     t.integer "amount_cents", default: 0, null: false
     t.string "amount_currency", default: "EUR", null: false
     t.geography "destination_lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
@@ -92,7 +91,6 @@ ActiveRecord::Schema.define(version: 2021_08_02_075603) do
     t.index ["origin_country"], name: "index_eval_movements_on_origin_country"
     t.index ["product_name"], name: "index_eval_movements_on_product_name"
     t.index ["product_table_code"], name: "index_eval_movements_on_product_table_code"
-    t.index ["recursion"], name: "index_eval_movements_on_recursion", using: :gin
     t.index ["recursion_all_30"], name: "index_eval_movements_on_recursion_all_30"
     t.index ["recursion_all_7"], name: "index_eval_movements_on_recursion_all_7"
     t.index ["recursion_customer_30"], name: "index_eval_movements_on_recursion_customer_30"

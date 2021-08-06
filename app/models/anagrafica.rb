@@ -312,6 +312,10 @@ class Anagrafica < ApplicationCoreRecord
     end
   end
 
+  def country
+    self.IdTipo == 3 ? "#{NormalizeCountry(self.NazionePoint)}" : "#{NormalizeCountry(self.NazioneResidenza)}"
+  end
+
   def to_s 
     "#{full_name} - #{self.Attivo}"
   end

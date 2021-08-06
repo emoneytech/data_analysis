@@ -21,7 +21,6 @@
 #  beneficiary_other     :string
 #  risk_factor           :float
 #  risk_description      :string
-#  recursion             :jsonb            not null
 #  amount_cents          :integer          default(0), not null
 #  amount_currency       :string           default("EUR"), not null
 #  destination_lonlat    :geography        point, 4326
@@ -174,7 +173,7 @@ class EvalMovement < CorePgRecord
   def set_customer(anagrafica)
     self.customer_id = anagrafica.id
     self.customer_full_name = anagrafica.full_name
-    self.origin_country = NormalizeCountry(anagrafica.current_place.country, :to => :alpha2)
+    self.origin_country = "MT"
   end
 
   def set_service(service)
@@ -211,9 +210,18 @@ class EvalMovement < CorePgRecord
         self.beneficiary_iban = "#{service.ricaricacarta.numerocrip}"
         self.beneficiary_other = "#{service.anagrafica.full_address}"
       else
-        self.beneficiary_other =
-          "check for #{service.prodotto}: #{service.nomeprodotto}"
+        destination_account = Conto.find_by_Pan(service.ricaricacarta.numerocarta).try(:bank_user)
+        unless destination_account
+          self.beneficiary_other = "check for #{service.prodotto}: #{service.nomeprodotto}"
+        else
+          self.beneficiary = "#{destination_account.full_name}"
+          self.beneficiary_iban = "#{service.ricaricacarta.numerocrip}"
+          self.beneficiary_other = "#{destination_account.full_address}"
+          self.destination_lonlat = destination_account.current_place.lonlat
+          self.internal = true
+        end
       end
+      self.destination_country = "MT"
     when 'bonifici'
       if service.bonifico
         self.beneficiary = "#{service.bonifico.destinatario}"
