@@ -121,7 +121,7 @@ class Servizio < ApplicationCoreRecord
           datainserimento: :asc
         ).each_slice(100) do |services|
           services.each do |s|
-            worker_id = CreateEvalMovementWorker.perform_async(
+            worker_id = CreateMassiveEvalMovementWorker.perform_async(
               s.idservizio,
               s.point,
               default_product_base_risk
