@@ -109,3 +109,9 @@ gem 'active_model_serializers'
 gem 'fast_jsonapi'
 
 gem 'countries', require: 'countries/global'
+
+
+#GEMS for compliance check
+gem 'mechanize', require: false
+gem 'nokogumbo', require: false
+gem 'watir', require: false

@@ -37,6 +37,8 @@
 #  recursion_customer_30 :integer
 #
 class EvalMovement < CorePgRecord
+  include Filterable
+
   monetize :amount_cents
   
 
@@ -68,6 +70,37 @@ class EvalMovement < CorePgRecord
   before_save :set_recursion
   # after_save :set_destination, if: :is_bankwire?
 
+  scope :filter_by_customer_full_name, -> (name) { where("customer_full_name ilike ?", "%#{name}%")}
+  scope :filter_by_beneficiary, -> (name) { where("beneficiary ilike ?", "%#{name}%")}
+
+  scope :filter_by_product_name, -> (name) { where("product_name ilike ?", "%#{product_name}%")}
+  scope :filter_by_daterange, ->(daterange) {
+    where("movement_created_at BETWEEN '#{daterange.split(' - ')[0].to_date.beginning_of_day}' 
+      AND '#{daterange.split(' - ')[1].to_date.end_of_day}'")
+  }
+  scope :filter_by_origin_country, -> (country) { where("origin_country = ?", "#{country}")}
+  scope :filter_by_destination_country, -> (country) { where("destination_country = ?", "#{country}")}
+
+  scope :filter_by_amount,     -> (amount_cents) { where("amount_cents  = ?", amount_cents)}
+  scope :filter_by_min_amount, -> (amount_cents) { where("amount_cents >= ?", amount_cents)}
+  scope :filter_by_max_amount, -> (amount_cents) { where("amount_cents <= ?", amount_cents)}
+
+  scope :filter_by_recursion_all_7,       -> (recursion_all_7) { where("recursion_all_7  = ?", recursion_all_7)}
+  scope :filter_by_min_recursion_all_7,   -> (recursion_all_7) { where("recursion_all_7 >= ?", recursion_all_7)}
+  scope :filter_by_max_recursion_all_7,   -> (recursion_all_7) { where("recursion_all_7 <= ?", recursion_all_7)}
+
+  scope :filter_by_recursion_all_30,      -> (recursion_all_30) { where("recursion_all_30  = ?", recursion_all_30)}
+  scope :filter_by_min_recursion_all_30,  -> (recursion_all_30) { where("recursion_all_30 >= ?", recursion_all_30)}
+  scope :filter_by_max_recursion_all_30,  -> (recursion_all_30) { where("recursion_all_30 <= ?", recursion_all_30)}
+
+  scope :filter_by_recursion_customer_7,     -> (recursion_customer_7) { where("recursion_customer_7  = ?", recursion_customer_7)}
+  scope :filter_by_min_recursion_customer_7, -> (recursion_customer_7) { where("recursion_customer_7 >= ?", recursion_customer_7)}
+  scope :filter_by_max_recursion_customer_7, -> (recursion_customer_7) { where("recursion_customer_7 <= ?", recursion_customer_7)}
+
+  scope :filter_by_recursion_customer_30,     -> (recursion_customer_30) { where("recursion_customer_30  = ?", recursion_customer_30)}
+  scope :filter_by_min_recursion_customer_30, -> (recursion_customer_30) { where("recursion_customer_30 >= ?", recursion_customer_30)}
+  scope :filter_by_max_recursion_customer_30, -> (recursion_customer_30) { where("recursion_customer_30 <= ?", recursion_customer_30)}
+
   scope :for_evaluation, -> { order(movement_created_at: :asc)}
 
   scope :for_day, ->(day) {
@@ -87,10 +120,7 @@ class EvalMovement < CorePgRecord
     AND '#{day.at_end_of_month.end_of_day}'")
   }
 
-  scope :between_date, ->(start_date, end_date) {
-    where("movement_created_at BETWEEN '#{start_date.beginning_of_day}' 
-      AND '#{end_date.end_of_day}'")
-  }
+  
 
   scope :all_bankwire, -> { where(product_table_code: Codicetabella.find_by_nometabella('bonifici').codtab)}
 
@@ -207,7 +237,8 @@ class EvalMovement < CorePgRecord
     when 'ricarichecarta'
       if service.anagrafica.conti.where(Pan: service.ricaricacarta.numerocarta).count > 0
         self.beneficiary = "#{service.anagrafica.full_name}"
-        self.beneficiary_iban = "#{service.ricaricacarta.numerocrip}"
+        self.beneficiary_iban = ''
+        self.beneficiary_card = "#{service.ricaricacarta.numerocrip}"
         self.beneficiary_other = "#{service.anagrafica.full_address}"
       else
         destination_account = Conto.find_by_Pan(service.ricaricacarta.numerocarta).try(:bank_user)
@@ -215,7 +246,8 @@ class EvalMovement < CorePgRecord
           self.beneficiary_other = "check for #{service.prodotto}: #{service.nomeprodotto}"
         else
           self.beneficiary = "#{destination_account.full_name}"
-          self.beneficiary_iban = "#{service.ricaricacarta.numerocrip}"
+          self.beneficiary_iban = ''
+          self.beneficiary_card = "#{service.ricaricacarta.numerocrip}"
           self.beneficiary_other = "#{destination_account.full_address}"
           self.destination_lonlat = destination_account.current_place.lonlat
           self.internal = true

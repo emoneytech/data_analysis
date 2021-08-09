@@ -4,12 +4,7 @@ module DataAnalysis
 
 
     def index
-      if params[:filter]
-        if params[:filter][:daterange]
-          start_date, end_date = params[:filter][:daterange].split(' - ') if params[:filter][:daterange]
-          @eval_movements = @eval_movements.between_date(start_date.to_date, end_date.to_date)
-        end
-      end
+      @eval_movements = EvalMovement.filter(filtering_params)
       @eval_movements = @eval_movements.order(movement_created_at: :desc).page(params[:page]).per(params[:per])
     end
 
@@ -30,5 +25,19 @@ module DataAnalysis
       render 'index'
     end
 
+    private
+
+    def filtering_params
+      params[:filter] ? params[:filter].slice(
+        :daterange,
+        :customer_full_name,
+        :beneficiary,
+        :origin_country,
+        :destination_country,
+        :product_name,
+        :recursion_all_7
+      ).permit! : {}
+    end
+    
   end
 end
