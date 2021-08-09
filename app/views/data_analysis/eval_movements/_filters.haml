@@ -8,12 +8,17 @@
         %i.fas{class: " #{ params[:filter] ? 'fa-minus' : 'fa-plus'}" }
   .card-body
     = simple_form_for :filter, method: :get, remote: false do |f|
-      = f.input :daterange, label: 'Date range', input_html: { class: 'daterange' }, required: true
+      .row
+        .col-md-6= f.input :product_name, required: false, input_html: {value: "#{params[:filter][:product_name] if params[:filter]}"}
+        .col-md-6= f.input :daterange, label: 'Date range', input_html: { class: 'daterange' }, required: true
       .row
         .col-md-3= f.input :customer_full_name, required: false, input_html: {value: "#{params[:filter][:customer_full_name] if params[:filter]}"}
         .col-md-3= f.input :beneficiary, required: false, input_html: {value: "#{params[:filter][:beneficiary] if params[:filter]}"}
         .col-md-3= f.input :origin_country, as: :string, required: false, input_html: {value: "#{params[:filter][:origin_country] if params[:filter]}"}
         .col-md-3= f.input :destination_country, as: :string, required: false, input_html: {value: "#{params[:filter][:origin_country] if params[:filter]}"}
       .row
-        .col-md-6= f.input :product_name, required: false, input_html: {value: "#{params[:filter][:product_name] if params[:filter]}"}
+        .col-md-3= f.input :recursion_all_7, required: false, input_html: {value: "#{params[:filter][:product_name] if params[:filter]}"}
+        .col-md-3= f.input :min_recursion_all_7, required: false, input_html: {value: "#{params[:filter][:product_name] if params[:filter]}"}
+        .col-md-3= f.input :max_recursion_all_7, required: false, input_html: {value: "#{params[:filter][:product_name] if params[:filter]}"}
+
       = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-success'

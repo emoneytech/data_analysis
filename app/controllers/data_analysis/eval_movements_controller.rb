@@ -35,7 +35,12 @@ module DataAnalysis
         :origin_country,
         :destination_country,
         :product_name,
-        :recursion_all_7
+        :recursion_all_7,
+        :min_recursion_all_7,
+        :max_recursion_all_7,
+        :recursion_customer_7,
+        :min_recursion_customer_7,
+        :max_recursion_customer_7
       ).permit! : {}
     end
     

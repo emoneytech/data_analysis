@@ -249,7 +249,8 @@ class EvalMovement < CorePgRecord
           self.beneficiary_iban = ''
           self.beneficiary_card = "#{service.ricaricacarta.numerocrip}"
           self.beneficiary_other = "#{destination_account.full_address}"
-          self.destination_lonlat = destination_account.current_place.lonlat
+          destination_account.set_current_place unless destination_account.current_place
+          self.destination_lonlat = destination_account.reload.current_place.lonlat
           self.internal = true
         end
       end

@@ -905,6 +905,24 @@ class Anagrafica < ApplicationCoreRecord
     return hash
   end
 
+  def set_current_place
+    p = self.current_place || self.build_current_place
+    p.name = self.full_name
+    if self.IdTipo == 3
+      city, state, address = self.ComunePoint, NormalizeCountry(self.NazionePoint), self.IndirizzoPoint
+    else
+      city, state, address = self.Citta, NormalizeCountry(self.NazioneResidenza), self.Indirizzo
+    end 
+    result = Geocoder.search(city, params: {country: state, address: address}).first
+    if result
+      p.country = result.country
+      p.city = result.city
+      p.address = result.address
+      p.region = result.state
+      p.lonlat = "POINT(#{result.longitude} #{result.latitude})"
+    end
+    p.save
+  end
 end
 
 =begin
