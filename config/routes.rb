@@ -25,6 +25,8 @@ Rails.application.routes.draw do
       resources :conti, only: [:show, :index] do
         member do
           get 'get_average'
+          get 'get_max_amount'
+          get 'get_average_amount'
         end
       end
       resources :movimenticonti, only: [:show, :index]

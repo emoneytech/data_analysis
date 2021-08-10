@@ -13,6 +13,7 @@ module Customers
     end
 
     def show
+      @anagrafica.set_current_place unless @anagrafica.current_place
       add_breadcrumb helpers.raw("#{helpers.fa_icon('user')} #{@anagrafica.full_name}"), @anagrafica
     end
 

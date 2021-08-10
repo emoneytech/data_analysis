@@ -17,5 +17,15 @@ module Customers
       render json: helpers.raw(helpers.humanized_money_with_symbol(conto.average_stock)).to_json
     end
 
+    def get_max_amount
+      conto = @anagrafica.conti.where(Pan: params[:id]).first
+      render json: "#{helpers.raw(helpers.humanized_money_with_symbol(conto.max_movement_amount_in))} / #{helpers.raw(helpers.humanized_money_with_symbol(conto.max_movement_amount_out))}".to_json
+    end
+
+    def get_average_amount
+      conto = @anagrafica.conti.where(Pan: params[:id]).first
+      render json: "#{helpers.raw(helpers.humanized_money_with_symbol(conto.average_movement_amount_in))} / #{helpers.raw(helpers.humanized_money_with_symbol(conto.average_movement_amount_out))}".to_json
+    end
+
   end
 end

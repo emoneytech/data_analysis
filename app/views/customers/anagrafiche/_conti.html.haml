@@ -1,26 +1,23 @@
 .card.card-outline.card-primary
   .card-header
     .card-title
-      %i.fas.fa-list
-      #{anagrafica.full_name}
-  .card-body
+      %i.fas.fa-wallet
+      = Conto.model_name.human(count: 2)
+  .card-body.p-0
     %table.table.table-striped.table-bordered.table-hover
       %thead
         %tr.text-center
           %th= Conto.human_attribute_name(:Pan)
           %th= Conto.human_attribute_name(:Saldo)
           %th= Conto.human_attribute_name(:average_stock)
-          %th= "#{Conto.human_attribute_name(:max_movement_amount)} (IN/OUT)"
-          %th= "#{Conto.human_attribute_name(:min_movement_amount)} (IN/OUT)"
+          %th= "#{Conto.human_attribute_name(:max_amount)} (IN/OUT)"
           %th= "#{Conto.human_attribute_name(:average_movement_amount)} (IN/OUT)"
       %tbody
         - anagrafica.conti.alive.each do |item|
           %tr.text-center
             %td= link_to item.Pan, customers_anagrafica_conto_path(anagrafica, item.Pan)
             %td= humanized_money_with_symbol item.Saldo
-            %td{id: "average-#{item.id}"}
-              = link_to_function 'carica', "getAverageStock('#{@anagrafica.id}', 'average-#{item.id}')"
-            %td=# "#{humanized_money_with_symbol item.max_movement_amount_in} / #{humanized_money_with_symbol item.max_movement_amount_out}"
-            %td=# "#{humanized_money_with_symbol item.min_movement_amount_in} / #{humanized_money_with_symbol item.min_movement_amount_out}"
-            %td=# "#{humanized_money_with_symbol item.average_movement_amount_in} / #{humanized_money_with_symbol item.average_movement_amount_out}"
+            %td{id: "average-#{item.id}"}= link_to_function 'load', "getAccountInfo('#{@anagrafica.id}', 'average-#{item.id}')"
+            %td{id: "max_amount-#{item.id}"}= link_to_function 'load', "getAccountInfo('#{@anagrafica.id}', 'max_amount-#{item.id}')"
+            %td{id: "average_amount-#{item.id}"}= link_to_function 'load', "getAccountInfo('#{@anagrafica.id}', 'average_amount-#{item.id}')"
   

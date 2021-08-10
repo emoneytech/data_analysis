@@ -1,7 +1,7 @@
+.row
+  .col-md-12
+    = render "conti", anagrafica: @anagrafica
 - if @anagrafica.current_place.try(:lonlat) 
-  .row
-    .col-md-12
-      = render "conti", anagrafica: @anagrafica
   .row
     .col-md-6
       = render "map", anagrafica: @anagrafica
