@@ -1,0 +1,20 @@
+.card.card-success.card-outline
+  .card-header
+    %h3.card-title
+      %i.fa.fa-user
+      #{Vendor.model_name.human} #{vendor.ragionesociale}
+    = render 'card_tools'
+  .card-body
+    %dl.row
+      %dt.col-md-4.text-right= Vendor.human_attribute_name(:id)
+      %dd.col-md-8= vendor.id
+      %dt.col-md-4.text-right= Vendor.human_attribute_name(:Listino)
+      %dd.col-md-8= vendor.Listino
+      %dt.col-md-4.text-right= Vendor.human_attribute_name(:ragionesociale)
+      %dd.col-md-8= vendor.ragionesociale
+      %dt.col-md-4.text-right= Vendor.human_attribute_name(:anagrafiche)
+      %dd.col-md-8= vendor.anagrafiche.count
+      %dt.col-md-4.text-right= Vendor.human_attribute_name(:servizi)
+      %dd.col-md-8= vendor.servizi.count
+      %dt.col-md-4.text-right= Vendor.human_attribute_name(:products)
+      %dd.col-md-8= vendor.products.count

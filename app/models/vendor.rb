@@ -25,6 +25,14 @@
 #
 class Vendor < ApplicationCoreRecord
   self.table_name = 'vendor'
+  include Filterable
+  has_many :anagrafiche, foreign_key: 'Vendor'
+  has_many :servizi, foreign_key: 'vendor'
+
+  has_many :products, -> { distinct }, through: :servizi, source: :product
+  has_many :all_products, through: :servizi, source: :product
+  
+  scope :filter_by_ragione_sociale, -> (name) { where("ragionesociale LIKE ?", "%#{name}%")}
 
   def to_s
     "#{ragionesociale}"

@@ -49,6 +49,12 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :brokers do
+    resources :vendors do
+      resources :prodotti
+    end
+  end
+
   namespace :data_analysis do
     resources :charts do
       collection do

@@ -48,7 +48,7 @@ class EvalMovementSerializer < ActiveModel::Serializer
       id: object.id,
       address: object.beneficiary_other,
       risk_factor: object.risk_factor,
-      recursion: object.recursion,
+      recursions: object.recursions,
       amount: object.amount,
       service: object.service_id,
       service_status: object.service_status,

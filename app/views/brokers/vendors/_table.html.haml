@@ -1,0 +1,15 @@
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_vendors'}
+  %thead
+    %tr
+      %th= Vendor.human_attribute_name(:id)
+      %th= Vendor.human_attribute_name(:ragionesociale)
+      %th{data: {orderable: "false"},nowrap: true}
+  %tbody
+    - vendors.each do |item|
+      %tr
+        %td= item.id
+        %td= item.ragionesociale
+        %td.text-center{data: {orderable: "false"}}
+          = link_to [:brokers, item], class: "btn btn-xs btn-primary" do
+            %i.fa.fa-eye
+

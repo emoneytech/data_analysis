@@ -66,7 +66,7 @@ class EvalMovement < CorePgRecord
   validates :service_id, uniqueness: true
   
   # attr reader
-  # attr_reader :recursion_customer_7, :recursion_customer_30, :recursion_all_7, :recursion_all_30
+  attr_reader :recursions
   before_save :set_recursion
   # after_save :set_destination, if: :is_bankwire?
 
@@ -379,4 +379,12 @@ class EvalMovement < CorePgRecord
     self.recursion_customer_30 = count_recursive_for_customer(days=30)
   end
  
+  def recursions
+    {
+      all_7: self.recursion_all_7,
+      all_30: self.recursion_all_30,
+      customer_7: self.recursion_customer_7,
+      customer_30: self.recursion_customer_30
+    }
+  end
 end

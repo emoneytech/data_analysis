@@ -1,0 +1,9 @@
+.card-tools
+  .btn-group
+    %button.btn.btn-success.btn-sm.dropdown-toggle{type: "button", data: {toggle: "dropdown", offset: "-152"}}
+      %i.fas.fa-bars
+    .dropdown-menu{role: "menu"}
+      = link_to [:brokers, @vendor, :prodotti], class: "dropdown-item" do
+        %i.fa.fa-box
+        #{Prodotto.model_name.human(:count => 2)}
+      .dropdown-divider
