@@ -10,6 +10,6 @@
         %td= item.id
         %td= item.ragionesociale
         %td.text-center{data: {orderable: "false"}}
-          = link_to [:brokers, item], class: "btn btn-xs btn-primary" do
-            %i.fa.fa-eye
+          = link_to fa_icon('eye'), [:brokers, item], class: "btn btn-xs btn-primary"
+
 

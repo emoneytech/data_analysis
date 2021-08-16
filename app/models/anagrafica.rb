@@ -168,6 +168,7 @@
 #
 
 class Anagrafica < ApplicationCoreRecord
+  include Filterable
   self.primary_key = 'idutente'
   self.table_name = 'anagrafiche'
 
@@ -300,6 +301,22 @@ class Anagrafica < ApplicationCoreRecord
   has_one :current_place, -> { order(created_at: :desc) }, as: :positionable, primary_key: 'IdUtente', foreign_key: :positionable_id, class_name: 'Place'
 
   # scope :for_evaluation, -> { includes(:rischio_corrente).references(:rischio_corrente).order('rischio.Rischio desc')}
+
+  scope :filter_by_full_name, -> (name) { where(
+    '(nome LIKE ? AND cognome LIKE ?)
+    OR (nome LIKE ? AND cognome LIKE ?)
+    OR RagioneSociale LIKE ?',
+    "%#{ name.split(' ').count > 2 ? "#{name.split(' ')[0]} #{name.split(' ')[1]}" : "#{name.split(' ')[0]}" }%",
+    "%#{ name.split(' ').count > 2 ? "#{name.split(' ')[2]}" : "#{name.split(' ')[1]}" }%",
+    "%#{ name.split(' ').count > 2 ? "#{name.split(' ')[2]}" : "#{name.split(' ')[1]}" }%",
+    "%#{ name.split(' ').count > 2 ? "#{name.split(' ')[0]} #{name.split(' ')[1]}" : "#{name.split(' ')[0]}" }%",
+    "%#{name}%",
+  )}
+  
+  
+
+  scope :filter_by_vendor, -> (vendor_id) { where("Vendor = ?", vendor_id)}
+
   def full_name
     company ? "#{company}" : "#{self.nome} #{self.cognome}"
   end

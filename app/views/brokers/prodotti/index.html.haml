@@ -1,12 +1,5 @@
-.card.card-primary
-  .card-header
-    %h3.card-title
-      %i.fa.fa-chart-line
-      = t(:listing_resource, resource: Prodotto.model_name.human(:count => 2))
-  .card-body
-    - if @all_products.any?
-      = pie_chart @all_products, donuts: true
-    - else
-      .well= t(:no_prodocts, default: "No products for this Customer")
+#prodotti_carts.row
+  .col-md-12=# render "charts"
 
-#prodotti_items.row= render "prodotti"
+#prodotti_items.row
+  .col-md-12= render "prodotti"

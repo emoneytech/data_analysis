@@ -1,4 +1,25 @@
 .row
-  .col-md-12= render "vendor", vendor: @vendor
+  .col-md-8= render "vendor", vendor: @vendor
+  .col-md-4
+    .card.card-success.card-outline
+      .card-header
+        %h3.card-title
+          %i.fa.fa-file-excel
+          Reports
+      .card-body.p-0
+        %table.table.table-striped.table-hover
+          %thead
+            %tr
+              %th= t(:year, default: "Year")
+              %th{data: {orderable: "false"},nowrap: true}
+          %tbody
+            - years = @vendor.servizi.select( "DATE_FORMAT(lastupdate , '%Y') AS year").distinct
+            - years.each do |item|
+              %tr
+                %td= item.year
+                %td.text-center{data: {orderable: "false"}}
+                  - time_lapse = "#{item.year}-01-01".to_date.at_beginning_of_year.strftime("%Y-%m-%d") + "/" + "#{item.year}-01-01".to_date.at_end_of_year.strftime("%Y-%m-%d")  
+                  = link_to fa_icon('file-excel'), reports_brokers_vendor_path(@vendor, time_lapse), class: "btn btn-xs btn-success"
+
 
 

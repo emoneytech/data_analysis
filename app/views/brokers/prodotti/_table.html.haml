@@ -3,20 +3,12 @@
     %tr
       %th= Prodotto.human_attribute_name(:idprodotto)
       %th= Prodotto.human_attribute_name(:nome)
-      %th= Prodotto.human_attribute_name(:codtabella)
-      %th= Prodotto.human_attribute_name(:nometabella)
-      %th= Prodotto.human_attribute_name(:base_risk)
-      %th= t(:number_of_operations, default: 'Nr Service')
       %th.action
   %tbody
     - prodotti.each do |item|
       %tr
         %td= item.idprodotto
         %td= item.nome
-        %td= item.codtabella
-        %td= item.nometabella
-        %td= item.base_risk
-        %td= @tp[item.idprodotto]
         %td.text-center
           = link_to [:brokers, @vendor, item], class: "btn btn-xs btn-primary" do
             %i.fa.fa-eye

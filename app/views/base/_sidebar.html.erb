@@ -87,80 +87,6 @@
               </a>
             </li>
           <%- end %>
-
-          <%- if can? :admin, :dashboard %>
-            <li class="nav-item <%= ' menu-open menu-is-opening' if %w(roles users list_types sync configurables excluded_products setup).include?(controller_name)%>">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-cogs"></i>
-                <p>
-                  <%= t(:settings, default: "Settings") %>
-                  <i class="right fas <%= %w(roles users list_types sync configurables excluded_products setup).include?(controller_name) ? 'fa-angle-down' : 'fa-angle-left' %>"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <%- if can? :manage, User %>
-                  <li class="nav-item">
-                    <a href="<%= users_path %>" class="nav-link <%= ' active' if controller_name == 'users' %>">
-                      <i class="nav-icon fas fa-users"></i>
-                      <p>
-                        <%= User.model_name.human(count: 2) %>
-                      </p>
-                    </a>
-                  </li>
-                <%- end %>
-                <%- if can? :read, :sync %>
-                  <li class="nav-item">
-                    <a href="<%= data_analysis_sync_index_path %>" class="nav-link <%= ' active' if controller_name == 'sync' %>">
-                      <i class="nav-icon fas fa-stopwatch"></i>
-                      <p>
-                        <%= t(:sync, default: "Sync") %>
-                      </p>
-                    </a>
-                  </li>
-                <%- end %>
-                <%- if can? :read, Role %>
-                  <li class="nav-item">
-                    <a href="<%= roles_path %>" class="nav-link <%= ' active' if controller_name == 'roles' %>">
-                      <i class="nav-icon fas fa-key"></i>
-                      <p>
-                        <%= Role.model_name.human(count: 2) %>
-                      </p>
-                    </a>
-                  </li>
-                <%- end %>
-                <%- if current_user.has_role?('admin') %>
-                  <li class="nav-item">
-                    <a href="<%= excluded_products_path %>" class="nav-link <%= ' active' if controller_name == 'excluded_products' %>">
-                      <i class="nav-icon fas fa-store-alt-slash"></i>
-                      <p>
-                        <%= ExcludedProduct.model_name.human(count: 2) %>
-                      </p>
-                    </a>
-                  </li>
-                <%- end %>
-                <%- if current_user.has_role?('admin') %>
-                  <li class="nav-item">
-                    <a href="<%= sidekiq_web_path %>" class="nav-link">
-                      <i class="nav-icon fas fa-clock"></i>
-                      <p>
-                        <%= t(:async_processor, default: "Async Processor") %>
-                      </p>
-                    </a>
-                  </li>
-                <%- end %>
-                <%- if current_user.has_role?('admin') %>
-                  <li class="nav-item">
-                    <a href="<%= data_analysis_setup_index_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'setup' %>">
-                      <i class="nav-icon fas fa-wrench"></i>
-                      <p>
-                        <%= t(:setup_params, default: "Setup params") %>
-                      </p>
-                    </a>
-                  </li>
-                <%- end %>
-              </ul>
-            </li>
-          <%- end %>
           <li class="nav-item">
             <a href="<%= customers_anagrafiche_path %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'anagrafiche' %>">
               <i class="nav-icon fas fa-users"></i>
@@ -170,6 +96,7 @@
             </a>
           </li>
           <%= render 'base/customer_menu', customer: @anagrafica if @module_name === 'Customers' && @anagrafica %>
+          <%= render 'base/menu_admin' %>
           <li class="nav-item">
             <%= link_to destroy_user_session_path, :method=>'delete', class: 'nav-link' do %>
               <i class="nav-icon fas fa-sign-out-alt"></i>

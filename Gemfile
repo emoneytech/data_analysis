@@ -110,6 +110,8 @@ gem 'fast_jsonapi'
 
 gem 'countries', require: 'countries/global'
 
+#GEMs for XLS files
+gem 'spreadsheet'#, require: false
 
 #GEMS for compliance check
 gem 'mechanize', require: false

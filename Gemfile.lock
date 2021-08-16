@@ -355,6 +355,7 @@ GEM
     rgeo-activerecord (7.0.1)
       activerecord (>= 5.0)
       rgeo (>= 1.0.0)
+    ruby-ole (1.2.12.2)
     ruby_parser (3.16.0)
       sexp_processor (~> 4.15, >= 4.15.1)
     rubyzip (2.3.0)
@@ -402,6 +403,8 @@ GEM
     sixarm_ruby_unaccent (1.2.0)
     spoon (0.0.6)
       ffi
+    spreadsheet (1.2.9)
+      ruby-ole
     spring (2.1.1)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -527,6 +530,7 @@ DEPENDENCIES
   sidekiq-scheduler
   sidekiq-status
   simple_form
+  spreadsheet
   spring
   sqlite3 (~> 1.4)
   turbolinks (~> 5)

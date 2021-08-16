@@ -51,6 +51,9 @@ Rails.application.routes.draw do
 
   namespace :brokers do
     resources :vendors do
+      member do
+        get 'reports/:time_lapse' => :reports, as: :reports
+      end
       resources :prodotti
     end
   end

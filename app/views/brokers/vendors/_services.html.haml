@@ -1,0 +1,25 @@
+- @services.each do |service|
+  .card.card-success.card-outline
+    .card-header
+      %h3.card-title
+        %i.fas.fa-calendar
+        = service[0]
+    .card-body
+      %table.table.table-striped.table-bordered.table-hover.data-table{id: "service-#{service[0]}", data: {order: '[[3, "asc"]]'}}
+        %thead
+          %tr
+            %th= t(:number_of_operations, default: 'Nr Services')
+            %th= t(:total_amount, default: 'Total Amount')
+            %th= t(:total_amount, default: 'Fees')
+            %th= t(:product, default: 'Product')
+            %th{data: {priority: "1", orderable: "false"},nowrap: true}
+        %tbody
+          - service[1].each do |item|
+            %tr
+              %td= item.nr_of_services
+              %td= humanized_money_with_symbol item.total_amount
+              %td= humanized_money_with_symbol item.fees
+              %td= Prodotto.find_by_idprodotto(item.product_id).nome
+              %td.text-center
+                - daterange = "#{"#{service[0]}-01".to_date.to_date.strftime('%d/%m/%Y')} - #{"#{service[0]}-01".to_date.at_end_of_month.strftime('%d/%m/%Y')}"
+                = link_to fa_icon('eye'), data_analysis_servizi_path(params: {filter: {vendor: @vendor.id, product_id: item.product_id, daterange: daterange}}), class: "btn btn-xs btn-primary"

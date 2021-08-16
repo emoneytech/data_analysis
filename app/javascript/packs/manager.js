@@ -75,7 +75,7 @@ document.addEventListener("turbolinks:load", () => {
           autoWidth: false,
           responsive: true,
           buttons: ["copy", "csv", "excel", "pdf", "colvis"]
-        }).buttons().container().appendTo('.dataTables_wrapper .col-md-6:eq(0)')
+        }).buttons().container().appendTo('#' + element.id + '_wrapper .col-md-6:eq(0)')
       })
       )
   }

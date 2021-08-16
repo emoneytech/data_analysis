@@ -84,6 +84,35 @@ class Servizio < ApplicationCoreRecord
                   :bonifico,
                   :assegnovirtuale,
                   :incassoassegno)}
+  # scope for reports
+  scope :grouped_by_month, -> (time_lapse) {
+    where( 
+      status: [3, 5, 8, 10]
+    ).where(
+      "DATE_FORMAT(lastupdate , '%Y-%m-%d') between ? and ?", time_lapse[0], time_lapse[1]
+    ).select(
+      "COUNT(idservizio) AS nr_of_services",
+      "SUM(importo) AS total_amount",
+      "SUM(commissioni) AS fees",
+      "DATE_FORMAT(lastupdate , '%Y-%m') AS month_group",
+      "prodotto AS product_id"
+    ).group(
+      "prodotto", "month_group ASC"
+    ).order(
+      "month_group ASC"
+    ).group_by(&:month_group)
+  }
+  include Filterable
+  # scopes for filters
+  scope :filter_by_min_amount, -> (amount) { where("importo >= ?", amount)}
+  scope :filter_by_max_amount, -> (amount) { where("importo <= ?", amount)}
+  scope :filter_by_customer_id, -> (customer_id) { where("point = ?", customer_id)}
+  scope :filter_by_product_id, -> (product_id) { where("prodotto = ?", product_id)}
+  scope :filter_by_product_name, -> (product_name) { where("nomeprodotto LIKE ?", "%#{product_name}%")}
+  scope :filter_by_vendor, -> (vendor_id) { where("vendor = ?", vendor_id)}
+  scope :filter_by_daterange, -> (daterange) { where(
+    "DATE_FORMAT(lastupdate , '%Y-%m-%d') between ? and ?", daterange.split(' - ')[0].to_date.strftime('%Y-%m-%d'), daterange.split(' - ')[1].to_date.strftime('%Y-%m-%d')
+  )}
 
   def self.status_active
     ['5','6','7','8']

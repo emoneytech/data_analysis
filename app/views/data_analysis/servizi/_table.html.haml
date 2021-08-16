@@ -14,7 +14,7 @@
     - servizi.each do |item|
       %tr
         %td= item.idservizio
-        %td= item.anagrafica.full_name
+        %td= item.try(:anagrafica).try(:full_name)
         %td= item.importo
         %td= item.commissioni
         %td= item.nomeprodotto

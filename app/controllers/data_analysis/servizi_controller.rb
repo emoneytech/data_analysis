@@ -4,9 +4,7 @@ module DataAnalysis
     respond_to :json, only: :map
 
     def index
-      # @cached_total_pages = (RowCount.where(relname: 'servizi').pluck(:reltuples).first / 30.0).ceil
-      @cached_total_pages = (Servizio.count / 30.0).ceil
-      @servizi = Servizio.includes(:anagrafica).order(servizio_id: :desc).page(params[:page]).per(30).without_count
+      @servizi = Servizio.filter(filtering_params).includes(:anagrafica).order(servizio_id: :desc).page(params[:page]).per(30)
     end
 
     def show
@@ -15,6 +13,20 @@ module DataAnalysis
 
     def map
     end
+  private
+
+    def filtering_params
+      params[:filter] ? params[:filter].slice(
+        :min_amount,
+        :max_amount,
+        :customer_id,
+        :product_id,
+        :product_name,
+        :vendor,
+        :daterange
+      ).permit! : {}
+    end
 
   end
 end
+

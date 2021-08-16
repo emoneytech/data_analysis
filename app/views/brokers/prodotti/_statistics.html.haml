@@ -1,0 +1,26 @@
+- services = @vendor.servizi.where(prodotto: product.idprodotto).select("COUNT(idservizio) AS nr_of_services","SUM(importo) AS total_amount","SUM(commissioni) AS fees","DATE_FORMAT(lastupdate , '%Y-%m') AS month_group").group("month_group ASC")
+.card.card-success.card-outline
+  .card-header
+    %h3.card-title
+      %i.fas.fa-users
+      = product.nome
+  .card-body
+    %table.table.table-striped.table-bordered.table-hover.data-table{id: "product-#{product.id}", data: {order: '[[3, "asc"]]'}}
+      %thead
+        %tr
+          %th= t(:number_of_operations, default: 'Nr Services')
+          %th= t(:total_amount, default: 'Total Amount')
+          %th= t(:total_amount, default: 'Fees')
+          %th= t(:period, default: 'Period')
+          %th{data: {priority: "1", orderable: "false"},nowrap: true}
+      %tbody
+        - services.each do |item|
+          %tr
+            %td= item.nr_of_services
+            %td= humanized_money_with_symbol item.total_amount
+            %td= humanized_money_with_symbol item.fees
+            %td= item.month_group #.strftime("%Y/%m")
+            %td.text-center
+              = link_to "#", class: "btn btn-xs btn-primary" do
+                %i.fa.fa-eye
+
