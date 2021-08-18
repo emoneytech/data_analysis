@@ -1,4 +1,4 @@
-.card.card-primary.card-outline{class: "#{ 'collapsed-card' unless params[:filter]}" }
+.card.card-primary.card-outline{classes: "#{ 'collapsed-card' unless params[:filter]}" }
   .card-header
     %h3.card-title
       %i.fa.fa-chart-bar
@@ -9,8 +9,9 @@
   .card-body
     = simple_form_for :filter, method: :get, remote: false do |f|
       .row
-        .col-md-6= f.input :daterange, label: 'Date range', input_html: { class: 'daterange' }, required: true
-        .col-md-6= f.input :product_name, required: false, input_html: {value: "#{params[:filter][:product_name] if params[:filter]}"}
+        .col-md-4= f.input :daterange, label: 'Date range', input_html: { class: 'local-daterange', checked: params[:filter] && params[:filter][:daterange] }, required: true
+        .col-md-4= f.input :product_name, required: false, input_html: {value: "#{params[:filter][:product_name] if params[:filter]}"}
+        .col-md-4= f.input :internal, as: :boolean, required: false, input_html: {class: 'check-box', checked: (params[:filter] && params[:filter][:internal] == "1")}
       .row
         .col-md-3= f.input :customer_full_name, required: false, input_html: {value: "#{params[:filter][:customer_full_name] if params[:filter]}"}
         .col-md-3= f.input :beneficiary, required: false, input_html: {value: "#{params[:filter][:beneficiary] if params[:filter]}"}
@@ -23,3 +24,13 @@
         .col-md-3= f.input :min_recursion_customer_30, required: false, input_html: {value: "#{params[:filter][:min_recursion_customer_30] if params[:filter]}"}
 
       = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-success'
+
+:javascript
+  document.addEventListener("turbolinks:load", () => {
+    $(".local-daterange").daterangepicker({
+      startDate: moment("#{@daterange.split(' - ')[0]}",'DD/MM/YYYY'),
+      endDate: moment("#{@daterange.split(' - ')[1]}",'DD/MM/YYYY'),
+      maxDate: moment(),
+      locale: { format: 'DD/MM/YYYY'},
+    })
+  })

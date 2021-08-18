@@ -13,6 +13,7 @@
       %th{data: {priority: "3"}}= EvalMovement.human_attribute_name(:recursion_all_30)
       %th{data: {priority: "4"}}= EvalMovement.human_attribute_name(:amount)
       %th{data: {priority: "12"}}= EvalMovement.human_attribute_name(:destination_lonlat)
+      %th{data: {priority: "10"}}= EvalMovement.human_attribute_name(:internal)
       %th{data: {priority: "7"}}= EvalMovement.human_attribute_name(:origin_country)
       %th{data: {priority: "6"}}= EvalMovement.human_attribute_name(:destination_country)
       %th{data: {priority: "1", orderable: "false"},nowrap: true}
@@ -25,12 +26,16 @@
         %td= link_to item.customer_full_name, customers_anagrafica_path(item.customer_id)
         %td= item.product_name
         %td= link_to item.product_id, data_analysis_prodotto_path(item.product_id)
-        %td= item.beneficiary
+        %td
+          = item.beneficiary
+          %br
+          = item.beneficiary_iban
         %td= item.product_base_risk
         %td= item.recursion_all_7
         %td= item.recursion_all_30
         %td= item.amount
         %td= item.destination_lonlat
+        %td= item.internal
         %td= item.origin_country
         %td= item.destination_country
         %td.text-center{data: {orderable: "false"}}

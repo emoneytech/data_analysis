@@ -73,7 +73,7 @@ class EvalMovement < CorePgRecord
   scope :filter_by_customer_full_name, -> (name) { where("customer_full_name ilike ?", "%#{name}%")}
   scope :filter_by_beneficiary, -> (name) { where("beneficiary ilike ?", "%#{name}%")}
 
-  scope :filter_by_product_name, -> (name) { where("product_name ilike ?", "%#{product_name}%")}
+  scope :filter_by_product_name, -> (product_name) { where("product_name ilike ?", "%#{product_name}%")}
   scope :filter_by_daterange, ->(daterange) {
     where("movement_created_at BETWEEN '#{daterange.split(' - ')[0].to_date.beginning_of_day}' 
       AND '#{daterange.split(' - ')[1].to_date.end_of_day}'")
@@ -100,6 +100,8 @@ class EvalMovement < CorePgRecord
   scope :filter_by_recursion_customer_30,     -> (recursion_customer_30) { where("recursion_customer_30  = ?", recursion_customer_30)}
   scope :filter_by_min_recursion_customer_30, -> (recursion_customer_30) { where("recursion_customer_30 >= ?", recursion_customer_30)}
   scope :filter_by_max_recursion_customer_30, -> (recursion_customer_30) { where("recursion_customer_30 <= ?", recursion_customer_30)}
+
+  scope :filter_by_internal, -> (internal) { where(internal: internal)}
 
   scope :for_evaluation, -> { order(movement_created_at: :asc)}
 

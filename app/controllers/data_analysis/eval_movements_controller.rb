@@ -4,6 +4,7 @@ module DataAnalysis
 
 
     def index
+      @daterange = params[:filter] && params[:filter][:daterange] ? params[:filter][:daterange] : "#{(Date.today - 1.month).strftime("%d/%m/%Y")} - #{Date.today.strftime("%d/%m/%Y")}"
       @eval_movements = EvalMovement.filter(filtering_params)
       @eval_movements = @eval_movements.order(movement_created_at: :desc).page(params[:page]).per(params[:per])
     end
@@ -32,6 +33,7 @@ module DataAnalysis
         :daterange,
         :customer_full_name,
         :beneficiary,
+        :internal,
         :origin_country,
         :destination_country,
         :product_name,
