@@ -1,0 +1,22 @@
+# == Schema Information
+#
+# Table name: sanction_lists
+#
+#  id                        :bigint           not null, primary key
+#  name                      :string
+#  sanction_list_items_count :integer
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#
+
+one:
+  name: MyString
+  download_url: MyString
+  download_date: 2021-08-23 09:38:54
+  sanction_list_items_count: 1
+
+two:
+  name: MyString
+  download_url: MyString
+  download_date: 2021-08-23 09:38:54
+  sanction_list_items_count: 1

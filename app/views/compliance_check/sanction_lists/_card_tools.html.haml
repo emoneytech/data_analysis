@@ -1,0 +1,5 @@
+.card-tools
+  .btn-group
+    = link_to [:new, :compliance_check, :sanction_list], class: "btn btn-success btn-sm" do
+      %i.fa.fa-plus
+      = t(:add_resource, resource: SanctionList.model_name.human)

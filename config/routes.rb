@@ -4,6 +4,15 @@ Rails.application.routes.draw do
 
   get "/triggers/services/:id" => "triggers#services", :as => :triggers_service
 
+  namespace :compliance_check do
+    resources :sanction_lists do
+      member do 
+        post :import
+      end
+      resources :sanction_list_items
+    end
+  end
+
   namespace :customers do
     resources :anagrafiche do
       resources :customer_settings

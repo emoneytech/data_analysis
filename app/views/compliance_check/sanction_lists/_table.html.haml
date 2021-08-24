@@ -1,0 +1,14 @@
+%table.table.table-striped.table-bordered.table-hover.margin-none.data-table{id: 'table_sanction_lists'}
+  %thead
+    %tr
+      %th= SanctionList.human_attribute_name(:name)
+      %th{data: {orderable: "false"}, nowrap: true}
+  %tbody
+    - sanction_lists.each do |item|
+      %tr
+        %td= item.name
+        %td.text-center
+          = link_to fa_icon("eye"), [:compliance_check, item], data: {toggle: "tooltip", title: t(:show_resource, resource: item.model_name.human)}, class: "btn btn-xs btn-primary"
+          = link_to fa_icon("list"), [:compliance_check, item, :sanction_list_items], data: {toggle: "tooltip", title: t(:show_resource, resource: SanctionListItem.model_name.human)}, class: "btn btn-xs btn-primary"
+          = link_to fa_icon("trash"), [:compliance_check, item], data: {toggle: "tooltip", confirm: t(:are_you_sure, default: 'Are you sure?'), title: t(:delete_resource, resource: item.model_name.human), commit: t(:sure, default: 'Sure!'), cancel: t(:cancel, default: 'Cancel')}, :method => :delete, class: "btn btn-xs btn-danger"
+

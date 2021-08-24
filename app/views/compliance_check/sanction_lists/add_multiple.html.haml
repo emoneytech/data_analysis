@@ -1,0 +1,19 @@
+- content_for :javascript_in_head do
+  = javascript_pack_tag 'plugins/duallistbox', 'data-turbolinks-track': 'reload'
+  = javascript_pack_tag 'plugins/daterangepicker', 'data-turbolinks-track': 'reload'
+
+
+.row
+  .col-md-12
+    = simple_form_for :create_multiple, url: create_multiple_excluded_products_path  do |f|
+      .card.card-primary
+        .card-header
+          %h3.card-title
+            %i.fa.fa-key
+            = t(:add_resource, resource: ExcludedProduct.model_name.human)
+        .card-body
+          = f.input :names, as: :select, collection: @all_products.collect {|item| [ "#{item.prodotto.to_s.split(//).last(3).join}-#{item.nomeprodotto}", "#{item.prodotto.to_s.split(//).last(3).join}-#{item.nomeprodotto}" ] }, include_blank: true, input_html: {class: 'duallistbox', multiple: "multiple"}
+        .card-footer.clearfix
+          = link_to t(:cancel, default: "Cancel"), excluded_products_path, class: "btn btn-warning"
+          = f.submit class: "btn btn-success"
+

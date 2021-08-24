@@ -1,0 +1,14 @@
+.row
+  .col-md-12
+    = simple_form_for [:compliance_check, @sanction_list] do |f|
+      .card.card-success.card-outline
+        .card-header
+          %h3.card-title
+            %i.fa.fa-user-check
+            = t(:edit_resource, resource: SanctionList.model_name.human)
+        .card-body
+          = render 'form', f: f
+        .card-footer.clearfix
+          = link_to t(:cancel, default: "Cancel"), [:compliance_check, :sanction_lists], class: "btn btn-warning"
+          = f.submit class: "btn btn-success"
+

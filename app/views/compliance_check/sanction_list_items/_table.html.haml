@@ -1,0 +1,28 @@
+%table.table.table-striped.table-bordered.table-hover.margin-none.data-table{id: 'table_sanction_list_items'}
+  %thead
+    %tr
+      %th= SanctionListItem.human_attribute_name(:name_alias_first_name)
+      %th= SanctionListItem.human_attribute_name(:name_alias_last_name)
+      %th= SanctionListItem.human_attribute_name(:name_alias_middle_name)
+      %th= SanctionListItem.human_attribute_name(:name_alias_whole_name)
+      %th= SanctionListItem.human_attribute_name(:name_alias_name_language)
+      %th= SanctionListItem.human_attribute_name(:identification_country_iso2_code)
+      %th{data: {orderable: "false"}, nowrap: true}
+  %tbody
+    - sanction_list_items.each do |item|
+      %tr
+        %td= item.name_alias_first_name
+        %td= item.name_alias_last_name
+        %td= item.name_alias_middle_name
+        %td= item.name_alias_whole_name
+        %td= item.name_alias_name_language
+        %td= item.identification_country_iso2_code
+        %td{nowrap: true}
+          = link_to fa_icon("eye"), [:compliance_check, @sanction_list, item], data: {toggle: "tooltip", title: t(:show_resource, resource: item.model_name.human)}, class: "btn btn-xs btn-primary"
+          
+          %button.btn.btn-success.btn-xs.dropdown-toggle{type: "button", data: {toggle: "dropdown", offset: "-152"}}
+            %i.fas.fa-file-pdf
+          .dropdown-menu{role: "menu"}
+            = link_to SanctionListItem.human_attribute_name(:entity_regulation_publication_url), item.entity_regulation_publication_url, target: '_blank', data: {toggle: "tooltip", title: t(:show_resource, resource: item.model_name.human)}, class: "dropdown-item" if item.entity_regulation_publication_url
+            = link_to SanctionListItem.human_attribute_name(:name_alias_regulation_publication_url), item.name_alias_regulation_publication_url, target: '_blank', data: {toggle: "tooltip", title: t(:show_resource, resource: item.model_name.human)}, class: "dropdown-item" if item.name_alias_regulation_publication_url && item.name_alias_regulation_publication_url != item.entity_regulation_publication_url
+            = link_to SanctionListItem.human_attribute_name(:address_regulation_publication_url), item.address_regulation_publication_url, target: '_blank', data: {toggle: "tooltip", title: t(:show_resource, resource: item.model_name.human)}, class: "dropdown-item" if item.address_regulation_publication_url && item.address_regulation_publication_url != item.entity_regulation_publication_url

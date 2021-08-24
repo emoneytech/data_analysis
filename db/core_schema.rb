@@ -1577,7 +1577,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.decimal "Importo", precision: 12, scale: 2, default: "0.0"
     t.bigint "Beneficiario"
     t.string "ContoBeneficiario", limit: 45, default: "0"
-    t.text "Ordinante"
+    t.text "Ordinante", collation: "utf8_general_ci"
     t.string "ContoRiferimento", limit: 45
     t.string "Note", limit: 250
     t.string "Stato", limit: 45
@@ -1636,7 +1636,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "Valuta", limit: 6, null: false
     t.decimal "SaldoProg", precision: 12, scale: 2, default: "0.0", null: false, comment: "Saldo aggiornato con l'ultimo movimento andato a buon fine"
     t.string "idCausale", limit: 45, comment: "Causale interna"
-    t.text "Causale", comment: "Causale del cliente del movimento "
+    t.text "Causale", collation: "utf8_general_ci", comment: "Causale del cliente del movimento "
     t.string "Cro", limit: 45
     t.bigint "IdMandato", default: 0
     t.index ["Avere"], name: "Avere"

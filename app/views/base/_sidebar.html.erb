@@ -15,6 +15,14 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="<%= compliance_check_sanction_lists_path %>" class="nav-link<%= ' active' if @module_name === 'ComplianceCheck' && controller_name == 'sanction_lists' %>">
+                <i class="nav-icon fas fa-user-check"></i>
+                <p>
+                  <%= SanctionList.model_name.human(count: 2) %>
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="<%= data_analysis_related_countries_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'related_countries' %>">
                 <i class="nav-icon fas fa-globe"></i>
                 <p>
