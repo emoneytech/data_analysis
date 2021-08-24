@@ -1,0 +1,14 @@
+.card.card-primary.card-outline{class: "#{ 'collapsed-card' unless params[:filter]}" }
+  .card-header
+    %h3.card-title
+      %i.fas.fa-search
+      = t(:filters, default: 'Filters')
+    .card-tools
+      %button{type: "button", class: "btn btn-tool", "data-card-widget" => "collapse"}
+        %i.fas{class: " #{ params[:filter] ? 'fa-minus' : 'fa-plus'}" }
+  .card-body
+    = simple_form_for :filter, url: [:search, :compliance_check, @sanction_list, :sanction_list_items], method: :get, remote: false do |f|
+      .row
+        .col-md-3= f.input :name, required: false, input_html: {value: "#{params[:filter][:name] if params[:filter]}"}
+
+      = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-success'

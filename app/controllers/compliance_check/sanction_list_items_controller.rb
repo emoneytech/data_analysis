@@ -11,13 +11,18 @@ module ComplianceCheck
       add_breadcrumb @sanction_list_item.id, [:compliance_check, :sanction_list, :sanction_list_item]
     end
 
+    def search
+      @sanction_list_items = @sanction_list.sanction_list_items.name_similar(filtering_params[:name]).page(params[:page])
+      render 'index'
+    end
+
   private
 
     # Never trust parameters from the scary internet, only allow the white list through.
 
     def filtering_params
       params[:filter] ? params[:filter].slice(
-        :ragione_sociale
+        :name
       ).permit! : {}
     end
   end

@@ -16,12 +16,14 @@ module DataAnalysis
     end
 
     def for_day
+      @daterange = params[:filter] && params[:filter][:daterange] ? params[:filter][:daterange] : "#{params[:day].to_date.strftime("%d/%m/%Y")} - #{params[:day].to_date.strftime("%d/%m/%Y")}"
       @eval_movements = @eval_movements.for_day(params[:day].to_date).order(recursion_all_7: :desc).page(params[:page]).per(params[:per])
       render 'index'
     end
 
     def for_month
       month = DateTime.new(params[:year].to_i, params[:month].to_i, 1)
+      @daterange = params[:filter] && params[:filter][:daterange] ? params[:filter][:daterange] : "#{month.at_beginning_of_month.strftime("%d/%m/%Y")} - #{month.at_end_of_month.strftime("%d/%m/%Y")}"
       @eval_movements = @eval_movements.with_all_for_month(month).order(movement_created_at: :desc).page(params[:page]).per(params[:per])
       render 'index'
     end

@@ -9,7 +9,11 @@ Rails.application.routes.draw do
       member do 
         post :import
       end
-      resources :sanction_list_items
+      resources :sanction_list_items do
+        collection do 
+          get :search
+        end
+      end  
     end
   end
 

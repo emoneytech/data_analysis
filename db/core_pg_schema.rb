@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_23_073928) do
+ActiveRecord::Schema.define(version: 2021_08_24_151707) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_trgm"
   enable_extension "plpgsql"
   enable_extension "postgis"
 
@@ -271,6 +272,10 @@ ActiveRecord::Schema.define(version: 2021_08_23_073928) do
     t.string "citizenship_regulation_publication_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["name_alias_first_name"], name: "index_sanction_list_items_on_name_alias_first_name", opclass: :gin_trgm_ops, using: :gin
+    t.index ["name_alias_last_name"], name: "index_sanction_list_items_on_name_alias_last_name", opclass: :gin_trgm_ops, using: :gin
+    t.index ["name_alias_middle_name"], name: "index_sanction_list_items_on_name_alias_middle_name", opclass: :gin_trgm_ops, using: :gin
+    t.index ["name_alias_whole_name"], name: "index_sanction_list_items_on_name_alias_whole_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["sanction_list_id"], name: "index_sanction_list_items_on_sanction_list_id"
   end
 
