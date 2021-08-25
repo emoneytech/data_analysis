@@ -47,6 +47,8 @@ class Servizio < ApplicationCoreRecord
   alias_attribute :servizio_id, :idservizio
   alias_attribute :gruppo_id, :gruppo
 
+  belongs_to :statoservizio, foreign_key: "status", class_name: "Statoservizio"
+
   belongs_to :gruppi, foreign_key: "gruppo", class_name: "Gruppo"
   belongs_to :product, foreign_key: "prodotto", primary_key: "idprodotto", class_name: "Prodotto"
   belongs_to :anagrafica, foreign_key: "point", primary_key: "idutente", class_name: "Anagrafica"
@@ -89,12 +91,12 @@ class Servizio < ApplicationCoreRecord
     where( 
       status: [3, 5, 8, 10]
     ).where(
-      "DATE_FORMAT(lastupdate , '%Y-%m-%d') between ? and ?", time_lapse[0], time_lapse[1]
+      "DATE_FORMAT(servizi.lastupdate , '%Y-%m-%d') between ? and ?", time_lapse[0], time_lapse[1]
     ).select(
       "COUNT(idservizio) AS nr_of_services",
       "SUM(importo) AS total_amount",
       "SUM(commissioni) AS fees",
-      "DATE_FORMAT(lastupdate , '%Y-%m') AS month_group",
+      "DATE_FORMAT(servizi.lastupdate , '%Y-%m') AS month_group",
       "prodotto AS product_id"
     ).group(
       "prodotto", "month_group ASC"
@@ -104,6 +106,8 @@ class Servizio < ApplicationCoreRecord
   }
   include Filterable
   # scopes for filters
+  scope :filter_by_idservizio, -> (id) { where("idservizio = ?", id)}
+  scope :filter_by_status, -> (status) { where("status = ?", status)}
   scope :filter_by_min_amount, -> (amount) { where("importo >= ?", amount)}
   scope :filter_by_max_amount, -> (amount) { where("importo <= ?", amount)}
   scope :filter_by_customer_id, -> (customer_id) { where("point = ?", customer_id)}
@@ -111,7 +115,7 @@ class Servizio < ApplicationCoreRecord
   scope :filter_by_product_name, -> (product_name) { where("nomeprodotto LIKE ?", "%#{product_name}%")}
   scope :filter_by_vendor, -> (vendor_id) { where("vendor = ?", vendor_id)}
   scope :filter_by_daterange, -> (daterange) { where(
-    "DATE_FORMAT(lastupdate , '%Y-%m-%d') between ? and ?", daterange.split(' - ')[0].to_date.strftime('%Y-%m-%d'), daterange.split(' - ')[1].to_date.strftime('%Y-%m-%d')
+    "DATE_FORMAT(servizi.lastupdate , '%Y-%m-%d') between ? and ?", daterange.split(' - ')[0].to_date.strftime('%Y-%m-%d'), daterange.split(' - ')[1].to_date.strftime('%Y-%m-%d')
   )}
 
   def self.status_active

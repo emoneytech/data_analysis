@@ -9,6 +9,7 @@
       %th= Servizio.human_attribute_name(:vendor)
       %th= Servizio.human_attribute_name(:datainserimento)
       %th= Servizio.human_attribute_name(:lastupdate)
+      %th= Servizio.human_attribute_name(:status)
       %th.action
   %tbody
     - servizi.each do |item|
@@ -21,6 +22,7 @@
         %td= item.vendor
         %td= item.datainserimento
         %td= item.lastupdate
+        %td= item.statoservizio
         - if can? :manage, Servizio
           %td.text-center
             = link_to data_analysis_servizio_path(item), class: "btn btn-xs btn-primary" do
