@@ -20,6 +20,7 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'Bonifico', 'Bonifici'
   inflect.irregular 'Codicetabella', 'Codicitabelle'
   inflect.irregular 'Conto', 'Conti'
+  inflect.irregular 'FamilyConto', 'FamiliesConti'
   inflect.irregular 'Intra', 'Intrapay'
   inflect.irregular 'IncassoAssegno', 'IncassiAssegni'
   inflect.irregular 'Fattura', 'Fatture'

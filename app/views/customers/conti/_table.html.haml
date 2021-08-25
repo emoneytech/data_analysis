@@ -18,7 +18,7 @@
         %td= item.nr_of_movement 
         %td= item.product_name
         %td= item.Saldo
-        %td= item.ProductState
+        %td= item.stato
         %td.text-center{id: "average-#{item.id}"}= link_to_function 'Load data', "getAverageStock('#{@anagrafica.id}', 'average-#{item.id}')"
         %td= item.lastMovimento
         - if can? :manage, Conto

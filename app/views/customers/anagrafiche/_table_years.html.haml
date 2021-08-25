@@ -1,0 +1,21 @@
+.card.card-success.card-outline
+  .card-header
+    %h3.card-title
+      %i.fa.fa-file-excel
+      Reports
+  .card-body.p-0
+    %table.table.table-striped.table-hover
+      %thead
+        %tr
+          %th= t(:year, default: "Year")
+          %th{data: {orderable: "false"}, nowrap: true}
+      %tbody
+        - years = item.servizi.select( "DATE_FORMAT(lastupdate , '%Y') AS year").distinct
+        - years.each do |year|
+          %tr
+            %td= year.year
+            %td.text-right{data: {orderable: "false"}}
+              - time_lapse = "#{year.year}-01-01".to_date.at_beginning_of_year.strftime("%Y-%m-%d") + "/" + "#{year.year}-01-01".to_date.at_end_of_year.strftime("%Y-%m-%d")  
+              = link_to fa_icon('list'), reports_customers_anagrafica_path(item, time_lapse), class: "btn btn-xs btn-success"
+
+

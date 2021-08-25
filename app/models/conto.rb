@@ -51,6 +51,7 @@ class Conto < ApplicationCoreRecord
   belongs_to :bank_user, primary_key: "IdUtente", foreign_key: "IdUtente", class_name: "Anagrafica"
 
   belongs_to :tipo_conto, primary_key: "tipoprodotto", foreign_key: "ProductType", class_name: "Bintype"
+  belongs_to :stato, primary_key: "idstato", foreign_key: "ProductState", class_name: "Stato"
 
   delegate :product_name, to: :tipo_conto
   has_many :movimenticonti, primary_key: "Pan", foreign_key: "numeroconto", class_name: 'Movimentoconto'

@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       end
       member do
         post :set_eval_movements
+        get 'reports/:time_lapse' => :reports, as: :reports
       end
       resources :risk_movements, only: [:show, :index] do
         collection do
