@@ -1,18 +1,9 @@
-%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_movements'}
+%table.table.table-striped.table-bordered.table-hover{id: 'table_products'}
   %thead
     %tr
+      %th= Prodotto.human_attribute_name(:id)
       %th= Prodotto.human_attribute_name(:idprodotto)
       %th= Prodotto.human_attribute_name(:nome)
       %th= Prodotto.human_attribute_name(:codtabella)
       %th= Prodotto.human_attribute_name(:nometabella)
-      %th.action
-  %tbody
-    - prodotti.each do |item|
-      %tr
-        %td= item.idprodotto
-        %td= item.nome
-        %td= item.codtabella
-        %td= item.nometabella
-        %td.text-center
-          = link_to data_analysis_prodotto_path(item.idprodotto), class: "btn btn-xs btn-primary" do
-            %i.fa.fa-eye
+ 

@@ -120,3 +120,6 @@ gem 'spreadsheet'#, require: false
 gem 'mechanize', require: false
 gem 'nokogumbo', require: false
 gem 'watir', require: false
+
+#gems for datatables
+gem 'ajax-datatables-rails'
