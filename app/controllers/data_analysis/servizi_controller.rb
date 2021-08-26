@@ -4,6 +4,7 @@ module DataAnalysis
     respond_to :json, only: :map
 
     def index
+      @daterange = params[:filter] && params[:filter][:daterange] ? params[:filter][:daterange] : "#{(Date.today - 1.month).strftime("%d/%m/%Y")} - #{Date.today.strftime("%d/%m/%Y")}"
       @servizi = Servizio.filter(filtering_params).includes(:anagrafica, :statoservizio).order(servizio_id: :desc).page(params[:page]).per(30)
     end
 

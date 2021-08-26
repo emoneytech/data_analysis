@@ -9,7 +9,7 @@
   .card-body
     = simple_form_for :filter, method: :get, remote: false do |f|
       .row
-        .col-md-3= f.input :daterange, label: 'Date range', input_html: { class: 'daterange' }, required: false
+        .col-md-3= f.input :daterange, label: 'Date range', input_html: { class: 'local-daterange' }, required: false
         .col-md-3= f.input :status, as: :select, collection: Statoservizio.all, label: 'Status', input_html: { class: 'select2' }, selected: "#{params[:filter][:status] if params[:filter]}", include_blank: true, required: false
         .col-md-2= f.input :idservizio, label: 'ID Operazione', required: false, input_html: {value: "#{params[:filter][:idservizio] if params[:filter]}"}
         .col-md-4= f.input :product_name, required: false, input_html: {value: "#{params[:filter][:product_name] if params[:filter]}"}
@@ -22,3 +22,12 @@
         .col-md-3= f.input :max_amount, required: false, input_html: {value: "#{params[:filter][:max_amount] if params[:filter]}"}
 
       = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-success'
+:javascript
+  document.addEventListener("turbolinks:load", () => {
+    $(".local-daterange").daterangepicker({
+      startDate: moment("#{@daterange.split(' - ')[0]}",'DD/MM/YYYY'),
+      endDate: moment("#{@daterange.split(' - ')[1]}",'DD/MM/YYYY'),
+      maxDate: moment(),
+      locale: { format: 'DD/MM/YYYY'},
+    })
+  })
