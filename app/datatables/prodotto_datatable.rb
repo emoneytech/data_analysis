@@ -4,11 +4,11 @@ class ProdottoDatatable < AjaxDatatablesRails::ActiveRecord
     # Declare strings in this format: ModelName.column_name
     # or in aliased_join_table.column_name format
     @view_columns ||= {
-      id: { source: "Prodotto.id", cond: :eq },
-      product_id: { source: "Prodotto.idprodotto", cond: :eq },
-      name: { source: "Prodotto.nome", cond: :like },
-      table_code: { codtabella: "Prodotto.codtabella", cond: :eq },
-      table_name: { nometabella: "Prodotto.nometabella", cond: :like }
+      id: { source: "Prodotto.id" },
+      idprodotto: { source: "Prodotto.idprodotto" },
+      nome: { source: "Prodotto.nome", cond: :like, searchable: true, orderable: true },
+      codtabella: { codtabella: "Prodotto.codtabella", searchable: false, orderable: false },
+      nometabella: { nometabella: "Prodotto.nometabella", searchable: false, orderable: false }
     }
   end
 
@@ -17,17 +17,17 @@ class ProdottoDatatable < AjaxDatatablesRails::ActiveRecord
       {
         # example:
         id: record.id,
-        product_id: record.idprodotto,
-        name: record.nome,
-        table_code: record.codtabella,
-        table_name: record.nometabella
+        idprodotto: record.idprodotto,
+        nome: record.nome,
+        codtabella: record.codtabella,
+        nometabella: record.nometabella
       }
     end
   end
 
   def get_raw_records
     # insert query here
-    Prodotto.all
+    Prodotto.eager_load(:codicetabella).all
   end
 
 end

@@ -1,4 +1,4 @@
-%table.table.table-striped.table-bordered.table-hover{id: 'table_products'}
+%table.table.table-striped.table-bordered.table-hover{id: 'table_products', data: {source: "#{data_analysis_prodotti_path(format: :json)}"}}
   %thead
     %tr
       %th= Prodotto.human_attribute_name(:id)
@@ -6,4 +6,31 @@
       %th= Prodotto.human_attribute_name(:nome)
       %th= Prodotto.human_attribute_name(:codtabella)
       %th= Prodotto.human_attribute_name(:nometabella)
- 
+  %tbody
+
+:javascript
+  $(document).ready(function() {
+    $('#table_products').DataTable({
+      processing: true,
+      serverSide: true,
+      columnDefs: [
+        {"orderable": false, "targets": [-1, -2]},
+        {"serachable": false, "targets": [-1, -2]},
+      ],
+      ajax: {
+        "url": $('#table_products').data('source')
+      },
+      pagingType: "full_numbers",
+      columns: [
+        {"data": "id"},
+        {"data": "idprodotto"},
+        {"data": "nome"},
+        {"data": "codtabella"},
+        {"data": "nometabella"}
+      ],
+      lengthChange: true,
+      pageLength: 25,
+      autoWidth: false,
+      responsive: true
+    })
+  })

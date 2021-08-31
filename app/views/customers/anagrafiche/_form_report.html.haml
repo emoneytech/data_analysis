@@ -1,0 +1,8 @@
+- opts = {query: @anagrafica.servizi.grouped_by_month(time_lapse.split('/')).to_sql, group_by: "&:month_group" }
+- name = ActiveStorage::Filename.new("services_customer_#{@anagrafica.id}_#{time_lapse}").sanitized
+= simple_form_for [:data_analysis, current_user.reports.build(name: name, opts: opts)] do |f|
+  = f.input :name, as: :hidden
+  = f.simple_fields_for :opts do |option|#, as: :hidden
+    - opts.each do |k,v|
+      = option.input k.to_sym, as: :hidden, input_html: {value: v}
+  = f.submit class: "btn btn-xs btn-success"

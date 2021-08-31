@@ -11,25 +11,11 @@ class ExportXlsWorker
   # vendor_id = 254000
   # start_date = Date.today.to_date.at_beginning_of_year
   # end_date = Date.today.to_date
-  # time_lapse = [start_date, end_date]
+  # time_lapse = [Date.today.to_date.at_beginning_of_year, Date.today.to_date]
 
   def perform(vendor_id, time_lapse = [Date.today.to_date.at_beginning_of_year, Date.today.to_date])
     vendor = Vendor.find vendor_id
-    services = vendor.servizi.where( 
-      status: [3, 5, 8, 10]
-    ).where(
-      "DATE_FORMAT(lastupdate , '%Y-%m-%d') between ? and ?", time_lapse[0].strftime('%Y-%m-%d'), time_lapse[1].strftime('%Y-%m-%d')
-    ).select(
-      "COUNT(idservizio) AS nr_of_services",
-      "SUM(importo) AS total_amount",
-      "SUM(commissioni) AS fees",
-      "DATE_FORMAT(lastupdate , '%Y-%m') AS month_group",
-      "prodotto AS product_id"
-    ).group(
-      "prodotto", "month_group ASC"
-    ).order(
-      "month_group ASC"
-    ).group_by(&:month_group)
+    services = vendor.servizi.grouped_by_month(time_lapse).group_by(&:month_group)
     current_row = 0
     book = Spreadsheet::Workbook.new
     services.each do |service|
@@ -44,7 +30,12 @@ class ExportXlsWorker
         )
       end
     end
-    book.write "#{Rails.root}/private/spreadsheets/vendor_#{vendor_id}_#{time_lapse[0].strftime('%Y')}.xls"
+    r = Report.first
+    file_name = "#{Rails.root}/private/spreadsheets/vendor_#{r.name}.xlsx"
+    book.write_xlsx file_name
+    r.xls_file.attach(file_name)
+    r.xls_file.attach(io: File.open(file_name), filename: file_name, content_type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    File.delete(file_name)
   end
 
 end

@@ -1,0 +1,19 @@
+.col-md-12
+  .card
+    .card-header
+      %h3.card-title
+        %i.fas.fa-exchange-alt
+        = t(:listing_resource, resource: Report.model_name.human(:count => 2))
+      .card-tools
+        %button{type: "button", class: "btn btn-tool", "data-card-widget" => "maximize"}
+          %i.fas.fa-expand
+        %button{type: "button", class: "btn btn-tool", "data-card-widget" => "collapse"}
+          %i.fas.fa-plus
+    .card-body
+      = render "table", reports: reports
+    .card-footer.clearfix
+      .row
+        .col-md-4
+          = page_entries_info reports
+        .col-md-8
+          = paginate reports, theme: 'twitter-bootstrap-4', nav_class: "float-right", pagination_class: 'm-0'

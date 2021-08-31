@@ -12,6 +12,7 @@ en:
   listing_resource: "Listing %{resource}"
   new_resource: "New %{resource}"
   update_resource: "Update %{resource}"
+  download_resource: "Download %{resource}"
   show_resource: Show %{resource}
   hint:
     birth_fields_required: "Fiscal code, Birth Date, Birth Place"

@@ -240,6 +240,7 @@ it:
   listing_resource: "Elenco %{resource}"
   new_resource: "Nuovo %{resource}"
   show_resource: "Visualizza %{resource}"
+  download_resource: "Scarica %{resource}"
   update_resource: "Aggiorna %{resource}"
   details: Dettagli
   load_time: Tempo di caricamento

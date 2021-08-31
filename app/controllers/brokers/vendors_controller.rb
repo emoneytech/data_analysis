@@ -18,7 +18,7 @@ module Brokers
       add_breadcrumb @vendor.ragionesociale, :brokers_vendor
       @time_lapse = params[:time_lapse].split('/')
       add_breadcrumb "Reports #{@time_lapse}", :reports_brokers_vendor
-      @services = @vendor.servizi.grouped_by_month(params[:time_lapse].split('/'))
+      @services = @vendor.servizi.grouped_by_month(params[:time_lapse].split('/')).group_by(&:month_group)
     end
 
   private

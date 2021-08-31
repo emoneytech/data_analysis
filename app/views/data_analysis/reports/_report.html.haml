@@ -1,0 +1,15 @@
+.card.card-outline.card-success
+  .card-header
+    %h3.card-title
+      %i.fas.fa-file-excel
+      = t(:show_resource, resource: report.name)
+    .card-tools
+      = link_to fa_icon("edit"), [:edit, :data_analysis, report], data: {toggle: "tooltip", title: t(:edit_resource, resource: report.model_name.human)}, class: "btn btn-xs btn-warning"
+
+  .card-body
+    %dl.row
+      - for attribute in report.attributes.keys
+        %dt.col-md-4.text-right= attribute.humanize
+        %dd.col-md-8= report.attributes[attribute] && report.attributes[attribute] != '' && report.attributes[attribute] != '""'? report.attributes[attribute].to_s : ' - '
+
+

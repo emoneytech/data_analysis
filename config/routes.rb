@@ -99,6 +99,11 @@ Rails.application.routes.draw do
       end
     end
     resources :related_countries
+    resources :reports do
+      member do
+        get :download
+      end
+    end
     resources :rischi
     resources :servizi do
       collection do

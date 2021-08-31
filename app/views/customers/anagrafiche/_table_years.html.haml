@@ -17,5 +17,5 @@
             %td.text-right{data: {orderable: "false"}}
               - time_lapse = "#{year.year}-01-01".to_date.at_beginning_of_year.strftime("%Y-%m-%d") + "/" + "#{year.year}-01-01".to_date.at_end_of_year.strftime("%Y-%m-%d")  
               = link_to fa_icon('list'), reports_customers_anagrafica_path(item, time_lapse), class: "btn btn-xs btn-success"
-
+              = render 'form_report', time_lapse: time_lapse
 

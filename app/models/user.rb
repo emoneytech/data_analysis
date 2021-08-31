@@ -39,6 +39,7 @@ class User < RiskRecord
          :recoverable, :rememberable, :trackable, :validatable, :lockable
   belongs_to :role
   has_many :notes
+  has_many :reports
   
   alias_attribute :name, :nickname
 

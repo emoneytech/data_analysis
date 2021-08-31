@@ -8,10 +8,13 @@ module DataAnalysis
 
     def index
       # @cached_total_pages = (RowCount.where(relname: 'prodotti').pluck(:reltuples).first / 30.0).ceil
-      @prodotti = Prodotto.page(params[:page]).per(30)
+      @prodotti = []
       respond_to do |format|
         format.html
-        format.json { render json: ProdottoDatatable.new(params) }
+        format.json { 
+          # binding.pry
+          render json: ProdottoDatatable.new(params)
+        }
       end
     end
 

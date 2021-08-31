@@ -1,0 +1,21 @@
+# == Schema Information
+#
+# Table name: reports
+#
+#  id         :bigint           not null, primary key
+#  user_id    :integer          not null
+#  name       :string
+#  opts       :jsonb            not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+one:
+  user: one
+  name: MyString
+  opts: 
+
+two:
+  user: two
+  name: MyString
+  opts: 

@@ -93,16 +93,16 @@ class Servizio < ApplicationCoreRecord
     ).where(
       "DATE_FORMAT(servizi.lastupdate , '%Y-%m-%d') between ? and ?", time_lapse[0], time_lapse[1]
     ).select(
-      "COUNT(idservizio) AS nr_of_services",
-      "SUM(importo) AS total_amount",
-      "SUM(commissioni) AS fees",
+      "COUNT(servizi.idservizio) AS nr_of_services",
+      "SUM(servizi.importo) AS total_amount",
+      "SUM(servizi.commissioni) AS fees",
       "DATE_FORMAT(servizi.lastupdate , '%Y-%m') AS month_group",
-      "prodotto AS product_id"
+      "servizi.prodotto AS product_id"
     ).group(
       "prodotto", "month_group ASC"
     ).order(
       "month_group ASC"
-    ).group_by(&:month_group)
+    )
   }
   include Filterable
   # scopes for filters

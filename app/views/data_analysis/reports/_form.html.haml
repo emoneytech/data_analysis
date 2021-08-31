@@ -1,0 +1,5 @@
+= f.input :name
+= f.simple_fields_for :opts do |option|#, as: :hidden
+  - f.object.opts.each do |k,v|
+    = option.input k.to_sym, input_html: {value: v}
+= f.input :xls_file

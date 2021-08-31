@@ -1,3 +1,10 @@
+# == Schema Information
+#
+# Table name: stati
+#
+#  idstato :integer          not null, primary key
+#  stato   :string(100)
+#
 class Stato < ApplicationCoreRecord
 
   self.table_name = 'stati'
