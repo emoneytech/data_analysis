@@ -5,6 +5,7 @@
         %i.fas.fa-exchange-alt
         = t(:listing_resource, resource: Report.model_name.human(:count => 2))
       .card-tools
+        = link_to "#{fa_icon("plus")} #{t(:add_resource, resource: Report.model_name.human)}".html_safe, [:new, :data_analysis, :report], data: {toggle: "tooltip", title: t(:add_resource, resource: Report.model_name.human)}, class: "btn btn-xs btn-success"
         %button{type: "button", class: "btn btn-tool", "data-card-widget" => "maximize"}
           %i.fas.fa-expand
         %button{type: "button", class: "btn btn-tool", "data-card-widget" => "collapse"}

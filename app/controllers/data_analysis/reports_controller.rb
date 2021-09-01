@@ -15,6 +15,11 @@ module DataAnalysis
       add_breadcrumb @report.name.humanize, :edit_data_analysis_report
     end
 
+    def new
+      @report = current_user.reports.build(opts: {table: 'servizi'})
+      add_breadcrumb I18n.t(:add_resource, resource: Report.model_name.human), :edit_data_analysis_report
+    end
+    
     def create
       @report = current_user.reports.build(report_params)
       respond_to do |format|

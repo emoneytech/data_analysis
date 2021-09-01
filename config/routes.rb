@@ -108,6 +108,7 @@ Rails.application.routes.draw do
     resources :servizi do
       collection do
         get :map
+        get :reports
       end
     end
     resources :sync, only: :index

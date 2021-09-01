@@ -1,0 +1,14 @@
+.row
+  .col-md-12
+    = simple_form_for [:data_analysis, @report] do |f|
+      .card.card-warning.card-outline
+        .card-header
+          %h3.card-title
+            %i.fa.fa-file-excel
+            = t(:add_resource, resource: Report.model_name.human)
+        .card-body
+          = render 'form', f: f
+        .card-footer.clearfix
+          = link_to t(:cancel, default: "Cancel"), roles_path, class: "btn btn-warning"
+          = f.submit class: "btn btn-success"
+

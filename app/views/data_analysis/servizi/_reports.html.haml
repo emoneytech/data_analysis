@@ -1,0 +1,41 @@
+- @services.each do |service|
+  .card.card-success.card-outline
+    .card-header
+      %h3.card-title
+        %i.fas.fa-calendar
+        = service[0]
+    .card-body
+      %table.table.table-striped.table-bordered.table-hover.data-table{id: "service-#{service[0]}", data: {order: '[[3, "asc"]]'}}
+        %thead
+          %tr
+            %th= t(:nr_of_services, default: 'Nr Services')
+            %th= t(:total_amount, default: 'Total Amount')
+            %th= t(:fees, default: 'Fees')
+            %th= t(:product, default: 'Product')
+            %th{data: {priority: "1", orderable: "false"},nowrap: true}
+        %tbody
+          - service[1].each do |item|
+            %tr
+              %td= item.nr_of_services
+              %td= humanized_money_with_symbol item.total_amount
+              %td= humanized_money_with_symbol item.fees
+              %td= Prodotto.find_by_idprodotto(item.product_id).try(:nome) if item.product_id
+              %td.text-center
+                - daterange = "#{"#{service[0]}-01".to_date.to_date.strftime('%d/%m/%Y')} - #{"#{service[0]}-01".to_date.at_end_of_month.strftime('%d/%m/%Y')}"
+                = link_to fa_icon('eye'), data_analysis_servizi_path(params: {filter: {product_id: item.product_id, daterange: daterange}}), class: "btn btn-xs btn-primary"
+        %tfooter
+          %tr
+            %th
+              = t(:nr_of_services, default: 'Nr Services')
+              -# binding.pry
+              = service[1].sum(&:nr_of_services)
+            %th
+              = t(:total_amount, default: 'Total Amount')
+              = humanized_money_with_symbol service[1].sum(&:total_amount)
+            %th
+              = t(:fees, default: 'Fees')
+              = humanized_money_with_symbol service[1].sum(&:fees)
+            %th
+              = t(:products, default: 'Products')
+              = service[1].count(&:product_id)
+            %th
