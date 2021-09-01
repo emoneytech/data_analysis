@@ -32,6 +32,7 @@ module DataAnalysis
     def filtering_params
       params[:filter] ? params[:filter].slice(
         :idservizio,
+        :daterange,
         :min_amount,
         :max_amount,
         :customer_id,
