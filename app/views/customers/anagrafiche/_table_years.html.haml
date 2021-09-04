@@ -15,7 +15,9 @@
           %tr
             %td= year.year
             %td.text-right{data: {orderable: "false"}}
-              - time_lapse = "#{year.year}-01-01".to_date.at_beginning_of_year.strftime("%Y-%m-%d") + "/" + "#{year.year}-01-01".to_date.at_end_of_year.strftime("%Y-%m-%d")  
-              = link_to fa_icon('list'), reports_customers_anagrafica_path(item, time_lapse), class: "btn btn-xs btn-success"
-              = render 'form_report', time_lapse: time_lapse
+              - opts = {filter: {customer_id: @anagrafica.id, daterange: year_to_daterange(year.year)}}
+              = link_to fa_icon('microchip'), data_analysis_servizi_path(params: opts), class: "btn btn-xs btn-success"
+              = link_to fa_icon('search-dollar'), data_analysis_eval_movements_path(params: opts), class: "btn btn-xs btn-success"
+              = link_to fa_icon('file-excel'), reports_data_analysis_servizi_path(params: opts), class: "btn btn-xs btn-success"
+              =# render 'form_report', daterange: daterange
 

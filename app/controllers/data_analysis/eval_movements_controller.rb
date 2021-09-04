@@ -32,18 +32,23 @@ module DataAnalysis
 
     def filtering_params
       params[:filter] ? params[:filter].slice(
-        :daterange,
-        :customer_full_name,
         :beneficiary,
-        :internal,
-        :origin_country,
+        :beneficiary_card,
+        :beneficiary_iban,
+        :beneficiary_other,
+        :customer_id,
+        :customer_full_name,
+        :daterange,
         :destination_country,
-        :product_name,
-        :recursion_all_7,
+        :internal,
         :min_recursion_all_7,
         :min_recursion_all_30,
         :min_recursion_customer_7,
-        :min_recursion_customer_30
+        :min_recursion_customer_30,
+        :origin_country,
+        :product_name,
+        :recursion_all_7,
+        :service_id
       ).permit! : {}
     end
     

@@ -312,10 +312,10 @@ class Anagrafica < ApplicationCoreRecord
     "%#{ name.split(' ').count > 2 ? "#{name.split(' ')[0]} #{name.split(' ')[1]}" : "#{name.split(' ')[0]}" }%",
     "%#{name}%",
   )}
-  
-  
 
-  scope :filter_by_vendor, -> (vendor_id) { where("Vendor = ?", vendor_id)}
+  scope :filter_by_vendor             , -> (value) { where("Vendor = ?", value)}
+  scope :filter_by_min_base_risk      , -> (value) { where("base_risk >= ?", value)}
+  scope :filter_by_min_base_risk_calc , -> (value) { where("base_risk_calc >= ?", value)}
 
   def full_name
     company ? "#{company}" : "#{self.nome} #{self.cognome}"

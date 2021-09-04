@@ -4,6 +4,8 @@
       %th= Anagrafica.human_attribute_name(:id)
       %th= Anagrafica.human_attribute_name(:full_name)
       %th= Anagrafica.human_attribute_name(:vendor)
+      %th= Anagrafica.human_attribute_name(:base_risk)
+      %th= Anagrafica.human_attribute_name(:base_risk_calc)
       %th= Anagrafica.human_attribute_name(:created)
       %th.action
   %tbody
@@ -12,6 +14,8 @@
         %td= item.id
         %td= item.full_name
         %td= item.vendor
+        %td= item.base_risk
+        %td= item.base_risk_calc
         %td= item.created
         %td.text-center
           = link_to customers_anagrafica_path(item), class: "btn btn-xs btn-primary" do

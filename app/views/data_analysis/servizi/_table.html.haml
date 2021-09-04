@@ -15,7 +15,7 @@
     - servizi.each do |item|
       %tr
         %td= item.idservizio
-        %td= item.try(:anagrafica).try(:full_name)
+        %td= link_to item.anagrafica.try(:full_name), customers_anagrafica_path(item.point) if item.anagrafica
         %td= item.importo
         %td= item.commissioni
         %td= item.nomeprodotto

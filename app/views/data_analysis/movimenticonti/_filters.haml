@@ -1,0 +1,25 @@
+.card.card-primary.card-outline{classes: "#{ 'collapsed-card' unless params[:filter]}" }
+  .card-header
+    %h3.card-title
+      %i.fa.fa-chart-bar
+      = t(:filters, default: 'Filters')
+    .card-tools
+      %button{type: "button", class: "btn btn-tool", "data-card-widget" => "collapse"}
+        %i.fas{class: " #{ params[:filter] ? 'fa-minus' : 'fa-plus'}" }
+  .card-body
+    = simple_form_for :filter, method: :get, remote: false do |f|
+      .row
+        .col-md-3= f.input :service_id, label: 'Service ID', required: false, input_html: {value: "#{params[:filter][:service_id] if params[:filter]}"}
+        .col-md-3= f.input :customer_id, label: "Customer ID", required: false, input_html: {value: "#{params[:filter][:customer_id] if params[:filter]}"}
+
+      = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-success'
+
+:javascript
+  document.addEventListener("turbolinks:load", () => {
+    $(".local-daterange").daterangepicker({
+      startDate: moment("#{@daterange.split(' - ')[0]}",'DD/MM/YYYY'),
+      endDate: moment("#{@daterange.split(' - ')[1]}",'DD/MM/YYYY'),
+      maxDate: moment(),
+      locale: { format: 'DD/MM/YYYY'},
+    })
+  })

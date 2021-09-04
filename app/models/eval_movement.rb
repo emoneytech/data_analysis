@@ -71,7 +71,13 @@ class EvalMovement < CorePgRecord
   # after_save :set_destination, if: :is_bankwire?
 
   scope :filter_by_customer_full_name, -> (name) { where("customer_full_name ilike ?", "%#{name}%")}
+  scope :filter_by_customer_id, -> (customer_id) { where(customer_id: customer_id)}
+  scope :filter_by_service_id, -> (service_id) { where(service_id: service_id)}
+
   scope :filter_by_beneficiary, -> (name) { where("beneficiary ilike ?", "%#{name}%")}
+  scope :filter_by_beneficiary_card, -> (beneficiary_card) { where("beneficiary_card ilike ?", "%#{beneficiary_card}%")}
+  scope :filter_by_beneficiary_iban, -> (beneficiary_iban) { where("beneficiary_iban ilike ?", "%#{beneficiary_iban}%")}
+  scope :filter_by_beneficiary_other, -> (beneficiary_other) { where("beneficiary_other ilike ?", "%#{beneficiary_other}%")}
 
   scope :filter_by_product_name, -> (product_name) { where("product_name ilike ?", "%#{product_name}%")}
   scope :filter_by_daterange, ->(daterange) {

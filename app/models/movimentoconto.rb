@@ -24,6 +24,7 @@
 #
 
 class Movimentoconto < ApplicationCoreRecord
+  include Filterable
 
   self.table_name = 'movimenticonti'
   self.primary_key = 'idmovimenticonti'
@@ -63,6 +64,9 @@ class Movimentoconto < ApplicationCoreRecord
   scope :fast_out_for_user, -> (user_id) {fast_out.where("point" => user_id).order_asc}
  
   scope :with_service, -> { where('movimenticonti.idtransazione IS NOT NULL AND movimenticonti.idtransazione != ?',0) }
+
+  scope :filter_by_customer_id, -> (customer_id) { where(Point: customer_id)}
+  scope :filter_by_service_id, -> (service_id) { where(idtransazione: service_id)}
 
   def main_service
     Movimentoconto.includes(:servizio).where("servizi.status IN (?)", %w{5 6 7 8}).references(:servizio).find (self.id)

@@ -1,0 +1,39 @@
+%table.table.table-striped.table-bordered.table-hover{id: 'table_anagrafiche', data: {source: "#{customers_anagrafiche_path(format: :json)}"}}
+  %thead
+    %tr
+      %th= Anagrafica.human_attribute_name(:id)
+      %th= Anagrafica.human_attribute_name(:full_name)
+      %th= Anagrafica.human_attribute_name(:vendor)
+      %th= Anagrafica.human_attribute_name(:base_risk)
+      %th= Anagrafica.human_attribute_name(:rischio_corrente)
+      %th= Anagrafica.human_attribute_name(:created)
+      %th.action
+
+:javascript
+  $(document).ready(function() {
+    $('#table_anagrafiche').dataTable({
+      processing: true,
+      serverSide: true,
+      columnDefs: [
+        {"orderable": false, "targets": [1,-1, -3]},
+        {"serachable": false, "targets": [1, -1, -3]},
+      ],
+      ajax: {
+        "url": $('#table_products').data('source')
+      },
+      pagingType: "full_numbers",
+      columns: [
+        {"data": "id"},
+        {"data": "full_name"},
+        {"data": "vendor"},
+        {"data": "base_risk"},
+        {"data": "rischio_corrente"},
+        {"data": "created"},
+        {"data": "actions"}
+      ],
+      lengthChange: true,
+      pageLength: 25,
+      autoWidth: false,
+      responsive: true
+    })
+  })

@@ -2,11 +2,23 @@ module Customers
   class AnagraficheController < DataAnalysisController
     add_breadcrumb helpers.raw("#{helpers.fa_icon('users')} #{Anagrafica.model_name.human(count: 2)}"), :customers_anagrafiche
     
+
     def index
       @anagrafiche = Anagrafica.filter(filtering_params)
       @anagrafiche = @anagrafiche.alive.active.page(params[:page]).per(params[:per])
     end
-
+=begin
+    def index
+      @anagrafiche = []
+      respond_to do |format|
+        format.html
+        format.json { 
+          # binding.pry
+          render json: AnagraficaDatatable.new(params, view_context: view_context)
+        }
+      end
+    end
+=end
     def show
       @anagrafica.set_current_place unless @anagrafica.current_place
       add_breadcrumb helpers.raw("#{helpers.fa_icon('user')} #{@anagrafica.full_name}"), @anagrafica

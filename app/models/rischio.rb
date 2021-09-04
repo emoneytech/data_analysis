@@ -14,4 +14,8 @@ class Rischio < ApplicationCoreRecord
   belongs_to :anagrafica, foreign_key: "IdUtente", class_name: "Anagrafica"
 
   scope :for_today, -> { where("rischio.Data BETWEEN '#{Time.now.to_date.at_beginning_of_day}' AND '#{Time.now}'")}
+
+  def to_s
+    "#{self.Rischio}"
+  end
 end 

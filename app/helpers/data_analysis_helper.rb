@@ -35,4 +35,12 @@ module DataAnalysisHelper
   def tuple_to_html(tuple)
     "#{t("date.month_names")[tuple[1]]} - #{tuple[0]}"
   end
+
+  def year_to_daterange(year)
+    start_date_string = "#{year}-01-01".to_date.strftime('%d/%m/%Y')
+    end_date =Date.today.year === year.to_i ? Date.today : "#{year}-12-31".to_date
+    end_date_string = end_date.strftime('%d/%m/%Y')
+    return "#{start_date_string} - #{end_date_string}"
+  end
+
 end

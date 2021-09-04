@@ -14,9 +14,9 @@
         .col-md-2= f.input :idservizio, label: 'ID Operazione', required: false, input_html: {value: "#{params[:filter][:idservizio] if params[:filter]}"}
         .col-md-4= f.input :product_name, required: false, input_html: {value: "#{params[:filter][:product_name] if params[:filter]}"}
       .row
-        .col-md-3= f.input :customer_id, required: false, input_html: {value: "#{params[:filter][:customer_id] if params[:filter]}"}
-        .col-md-3= f.input :product_id, required: false, input_html: {value: "#{params[:filter][:product_id] if params[:filter]}"}
-        .col-md-3= f.input :vendor, as: :string, required: false, input_html: {value: "#{params[:filter][:vendor] if params[:filter]}"}
+        .col-md-3= f.input :customer_id, label: 'ID Utente', required: false, input_html: {value: "#{params[:filter][:customer_id] if params[:filter]}"}
+        .col-md-3= f.input :product_id, label: 'ID Prodotto', required: false, input_html: {value: "#{params[:filter][:product_id] if params[:filter]}"}
+        .col-md-3= f.input :vendor, label: 'ID Vendor', required: false, input_html: {value: "#{params[:filter][:vendor] if params[:filter]}"}
       .row
         .col-md-3= f.input :min_amount, required: false, input_html: {value: "#{params[:filter][:min_amount] if params[:filter]}"}
         .col-md-3= f.input :max_amount, required: false, input_html: {value: "#{params[:filter][:max_amount] if params[:filter]}"}
