@@ -1,0 +1,13 @@
+.col-md-12
+  .card.card-danger.card-outline
+    .card-header
+      %h3.card-title
+        %i.fas.fa-exchange-alt
+        = t(:listing_resource, resource: TimeLapseFactorAudit.model_name.human(:count => 2))
+      .card-tools
+        %button{type: "button", class: "btn btn-tool", "data-card-widget" => "maximize"}
+          %i.fas.fa-expand
+        %button{type: "button", class: "btn btn-tool", "data-card-widget" => "collapse"}
+          %i.fas.fa-plus
+    .card-body
+      = render "data_analysis/time_lapse_factor_audits/table", time_lapse_factor_audits: time_lapse_factor_audits

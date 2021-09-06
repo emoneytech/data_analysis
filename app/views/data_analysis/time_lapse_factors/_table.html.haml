@@ -1,0 +1,15 @@
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_time_lapse_factors', data: {order: '[[8, "desc"]]'}}
+  %thead
+    %tr
+      %th{data: {priority: "10"}}= TimeLapseFactor.human_attribute_name(:id)
+      %th{data: {priority: "9"}}= TimeLapseFactor.human_attribute_name(:anagrafica_id)
+      %th{data: {priority: "8"}}= TimeLapseFactor.human_attribute_name(:time_lapse_factor)
+      %th{data: {priority: "1", orderable: "false"},nowrap: true}
+  %tbody
+    - time_lapse_factors.each do |item|
+      %tr
+        %td= item.id
+        %td= link_to item.anagrafica.full_name, [:customers, item.anagrafica]
+        %td= item.time_lapse_factor
+        %td.text-center{data: {orderable: "false"}}
+          = link_to fa_icon('eye'), [:data_analysis, item], class: "btn btn-xs btn-primary"

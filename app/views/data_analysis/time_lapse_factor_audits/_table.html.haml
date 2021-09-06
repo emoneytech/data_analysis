@@ -1,0 +1,21 @@
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_time_lapse_factor_audits', data: {order: '[[8, "desc"]]'}}
+  %thead
+    %tr
+      %th{data: {priority: "10"}}= TimeLapseFactorAudit.human_attribute_name(:id)
+      %th{data: {priority: "9"}}= TimeLapseFactorAudit.human_attribute_name(:user)
+      %th{data: {priority: "9"}}= TimeLapseFactorAudit.human_attribute_name(:old_value)
+      %th{data: {priority: "9"}}= TimeLapseFactorAudit.human_attribute_name(:old_evaluate_risk_value)
+      %th{data: {priority: "8"}}= TimeLapseFactorAudit.human_attribute_name(:updated_at)
+      %th{data: {priority: "8"}}= TimeLapseFactorAudit.human_attribute_name(:created_at)
+      %th{data: {priority: "1", orderable: "false"},nowrap: true}
+  %tbody
+    - time_lapse_factor_audits.each do |item|
+      %tr
+        %td= item.id
+        %td= item.user.full_name
+        %td= item.old_value
+        %td= item.old_evaluate_risk_value
+        %td= item.updated_at
+        %td= item.created_at
+        %td.text-center{data: {orderable: "false"}}
+          =# link_to fa_icon('eye'), [:data_analysis, item], class: "btn btn-xs btn-primary"

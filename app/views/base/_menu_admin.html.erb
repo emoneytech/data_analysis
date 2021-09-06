@@ -53,6 +53,14 @@
         </a>
       </li>
       <li class="nav-item">
+        <a href="<%= data_analysis_time_lapse_factors_path %>" class="nav-link">
+          <i class="nav-icon fas fa-clock"></i>
+          <p>
+            <%= TimeLapseFactor.model_name.human(count: 2) %>
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
         <a href="<%= sidekiq_web_path %>" class="nav-link">
           <i class="nav-icon fas fa-clock"></i>
           <p>

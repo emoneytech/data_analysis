@@ -1,0 +1,17 @@
+.card.card-primary.card-outline{classes: "#{ 'collapsed-card' unless params[:filter]}" }
+  .card-header
+    %h3.card-title
+      %i.fa.fa-chart-bar
+      = t(:filters, default: 'Filters')
+    .card-tools
+      %button{type: "button", class: "btn btn-tool", "data-card-widget" => "collapse"}
+        %i.fas{class: " #{ params[:filter] ? 'fa-minus' : 'fa-plus'}" }
+  .card-body
+    = simple_form_for :filter, url: [:data_analysis, :eval_movements], method: :get, remote: false do |f|
+      .row
+        .col-md-3= f.input :anagrafica_id, label: 'Customer ID', required: false, input_html: {value: "#{params[:filter][:anagrafica_id] if params[:filter]}"}
+        .col-md-3= f.input :min_time_lapse_factor, required: false, input_html: {value: "#{params[:filter][:min_time_lapse_factor] if params[:filter]}"}
+        .col-md-3= f.input :max_time_lapse_factor, required: false, input_html: {value: "#{params[:filter][:max_time_lapse_factor] if params[:filter]}"}
+
+      = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-success'
+
