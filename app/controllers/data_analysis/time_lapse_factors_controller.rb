@@ -12,8 +12,29 @@ module DataAnalysis
       add_breadcrumb helpers.raw("#{helpers.fa_icon('exchange-alt')} #{t(:show_resource, resource: TimeLapseFactor.model_name.human)}"), [:data_analysis, :time_lapse_factor]
     end
 
+    def edit
+    end
+
+    def update
+      
+      respond_to do |format|
+        if @time_lapse_factor.update(time_lapse_factor_params)
+          format.html { redirect_to [:data_analysis, @time_lapse_factor_params], notice: 'Role was successfully updated.' }
+          format.js {  }
+        else
+          format.html { render :edit }
+          format.js { render :edit }
+        end
+      end
+    end
+
+
     private
 
+    def time_lapse_factor_params
+      params.require(:time_lapse_factor).permit(:time_lapse_factor)
+    end
+    
     def filtering_params
       params[:filter] ? params[:filter].slice(
         :anagrafica_id,

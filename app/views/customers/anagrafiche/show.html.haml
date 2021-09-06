@@ -2,8 +2,9 @@
   .col-md-12
     = render "conti", anagrafica: @anagrafica
 .row
-  .col-md-6= render "map", anagrafica: @anagrafica
-  .col-md-4= render "table_years", item: @anagrafica
+  .col-md-4= render "map", anagrafica: @anagrafica
+  .col-md-3= render "table_years", item: @anagrafica
+  .col-md-5= render "risk_assessment", current_tuple: @current_tuple, anagrafica: @anagrafica
 .row
   #anagrafiche_item.col-md-12
     = render "anagrafica", anagrafica: @anagrafica

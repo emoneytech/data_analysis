@@ -1,0 +1,4 @@
+= simple_form_for [:data_analysis, time_lapse_factor] do |f|
+  .row
+    .col-md-8= f.input :time_lapse_factor, label: false,  input_html: {class: "form-control-sm"}
+    .col-md-4= f.submit t(:update, default: "Update"), class: "btn btn-sm btn-success"

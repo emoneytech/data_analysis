@@ -16,10 +16,13 @@ class TimeLapseFactor < RiskRecord
   belongs_to :anagrafica
 
   validates :anagrafica_id, presence: true, uniqueness: true
+  validates :time_lapse_factor, presence: true, numericality: { only_integer: false,  greater_than_or_equal_to: 0.78 }
+
   has_many :time_lapse_factor_audits, -> {order(created_at: :asc)}, foreign_key: :anagrafica_time_lapse_factor_id
 
   scope :filter_by_anagrafica_id          , -> (value) { where(anagrafica_id: value)}
   scope :filter_by_min_time_lapse_factor  , -> (value) { where("time_lapse_factor >= ?", value)}
   scope :filter_by_max_time_lapse_factor  , -> (value) { where("time_lapse_factor <= ?", value)}
+
 
 end
