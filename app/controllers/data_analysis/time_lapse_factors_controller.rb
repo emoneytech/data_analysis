@@ -19,7 +19,7 @@ module DataAnalysis
       
       respond_to do |format|
         if @time_lapse_factor.update(time_lapse_factor_params)
-          format.html { redirect_to [:data_analysis, @time_lapse_factor_params], notice: 'Role was successfully updated.' }
+          format.html { redirect_to [:data_analysis, @time_lapse_factor], notice: 'TimeLapseFactor was successfully updated.' }
           format.js {  }
         else
           format.html { render :edit }
