@@ -94,7 +94,15 @@
                 </p>
               </a>
             </li>
-          <%- end %>
+            <li class="nav-item">
+              <a href="<%= data_analysis_time_lapse_factors_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'time_lapse_factors' %>">
+                <i class="nav-icon fas fa-clock"></i>
+                <p>
+                  <%= TimeLapseFactor.model_name.human(count: 2) %>
+                </p>
+              </a>
+            </li>
+            <%- end %>
           <li class="nav-item">
             <a href="<%= customers_anagrafiche_path %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'anagrafiche' %>">
               <i class="nav-icon fas fa-users"></i>
