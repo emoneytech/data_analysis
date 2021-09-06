@@ -18,7 +18,11 @@ module DataAnalysis
     def update
       
       respond_to do |format|
-        if @time_lapse_factor.update(time_lapse_factor_params)
+        if @time_lapse_factor.time_lapse_factor_audits.create(
+          user_id: current_user.id,
+          old_value: @time_lapse_factor.time_lapse_factor,
+          old_evaluate_risk_value: @time_lapse_factor.anagrafica.eval_score.to_f
+        ) && @time_lapse_factor.update(time_lapse_factor_params)
           format.html { redirect_to [:data_analysis, @time_lapse_factor], notice: 'TimeLapseFactor was successfully updated.' }
           format.js {  }
         else
