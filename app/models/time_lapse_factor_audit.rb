@@ -13,6 +13,6 @@
 
 class TimeLapseFactorAudit < RiskRecord
   
-  belongs_to :anagrafica_time_lapse_factor
+  belongs_to :anagrafica_time_lapse_factor, class_name: "TimeLapseFactor"
   belongs_to :user
 end

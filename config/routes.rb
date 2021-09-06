@@ -113,6 +113,7 @@ Rails.application.routes.draw do
     end
     resources :sync, only: :index
     resources :setup
+    resources :time_lapse_factors
   end
   resources :roles
   resources :users

@@ -292,7 +292,7 @@ class Anagrafica < ApplicationCoreRecord
   has_one :time_lapse_factor, 
           primary_key: 'IdUtente',
           foreign_key: :anagrafica_id,
-          class_name: 'AnagraficaTimeLapseFactor'
+          class_name: 'TimeLapseFactor'
   
 #  has_many :positions, -> { order(created_at: :desc) }, as: :positionable, primary_key: 'IdUtente', foreign_key: :positionable_id
 #  has_one :current_position, -> { order(created_at: :desc) }, as: :positionable, primary_key: 'IdUtente', foreign_key: :positionable_id, class_name: 'Position'
@@ -338,7 +338,7 @@ class Anagrafica < ApplicationCoreRecord
   end
   
   def time_lapse_factor
-    super || AnagraficaTimeLapseFactor.where(anagrafica_id: id).first_or_create
+    super || TimeLapseFactor.where(anagrafica_id: id).first_or_create
   end
 
   def self.vendors
