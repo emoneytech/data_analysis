@@ -78,9 +78,10 @@ class Movimentoconto < ApplicationCoreRecord
   scope :filter_by_min_amount, -> (amount) { where("Importo >= ?", amount)}
   scope :filter_by_max_amount, -> (amount) { where("Importo <= ?", amount)}
 
-  scope :filter_by_in, -> (value) { where("Dare >= ?", value)}
-  scope :filter_by_out, -> (value) { where("Avere >= ?", value)}
+  scope :filter_by_in, -> (value) { where("Avere >= ?", value)}
+  scope :filter_by_out, -> (value) { where("Dare >= ?", value)}
 
+  scope :only_customers, -> { where.not( numeroConto: Conto.where(IdUtente: %w[70 75]).pluck(:Pan) ) }
   def main_service
     Movimentoconto.includes(:servizio).where("servizi.status IN (?)", %w{5 6 7 8}).references(:servizio).find (self.id)
   end
