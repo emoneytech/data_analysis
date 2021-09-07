@@ -34,6 +34,7 @@ module Customers
 
     def filtering_params
       params[:filter] ? params[:filter].slice(
+        :customer_id,
         :fiscal_code,
         :min_base_risk,
         :max_base_risk,

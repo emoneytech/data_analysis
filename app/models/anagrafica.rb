@@ -303,9 +303,9 @@ class Anagrafica < ApplicationCoreRecord
   # scope :for_evaluation, -> { includes(:rischio_corrente).references(:rischio_corrente).order('rischio.Rischio desc')}
 
   scope :filter_by_full_name, -> (name) { where(
-    '(nome LIKE ? AND cognome LIKE ?)
-    OR (nome LIKE ? AND cognome LIKE ?)
-    OR RagioneSociale LIKE ?',
+    '(anagrafiche.nome LIKE ? AND anagrafiche.cognome LIKE ?)
+    OR (anagrafiche.nome LIKE ? AND anagrafiche.cognome LIKE ?)
+    OR anagrafiche.RagioneSociale LIKE ?',
     "%#{ name.split(' ').count > 2 ? "#{name.split(' ')[0]} #{name.split(' ')[1]}" : "#{name.split(' ')[0]}" }%",
     "%#{ name.split(' ').count > 2 ? "#{name.split(' ')[2]}" : "#{name.split(' ')[1]}" }%",
     "%#{ name.split(' ').count > 2 ? "#{name.split(' ')[2]}" : "#{name.split(' ')[1]}" }%",
@@ -313,12 +313,12 @@ class Anagrafica < ApplicationCoreRecord
     "%#{name}%",
   )}
 
-  scope :filter_by_customer_id        , -> (value) { where("IdUtente = ?", value)}
-  scope :filter_by_vendor             , -> (value) { where("Vendor = ?", value)}
-  scope :filter_by_fiscal_code        , -> (value) { where("Codicefiscale like ?", value)}
-  scope :filter_by_min_base_risk      , -> (value) { where("base_risk >= ?", value)}
-  scope :filter_by_max_base_risk      , -> (value) { where("base_risk <= ?", value)}
-  scope :filter_by_min_base_risk_calc , -> (value) { where("base_risk_calc >= ?", value)}
+  scope :filter_by_customer_id        , -> (value) { where("anagrafiche.IdUtente = ?", value)}
+  scope :filter_by_vendor             , -> (value) { where("anagrafiche.Vendor = ?", value)}
+  scope :filter_by_fiscal_code        , -> (value) { where("anagrafiche.Codicefiscale like ?", value)}
+  scope :filter_by_min_base_risk      , -> (value) { where("anagrafiche.base_risk >= ?", value)}
+  scope :filter_by_max_base_risk      , -> (value) { where("anagrafiche.base_risk <= ?", value)}
+  scope :filter_by_min_base_risk_calc , -> (value) { where("anagrafiche.base_risk_calc >= ?", value)}
 
   def full_name
     company ? "#{company}" : "#{self.nome} #{self.cognome}"

@@ -16,6 +16,7 @@
             %td= year.year
             %td.text-right{data: {orderable: "false"}}
               - opts = {filter: {customer_id: @anagrafica.id, daterange: year_to_daterange(year.year)}}
+              = link_to fa_icon('exchange-alt'), data_analysis_movimenticonti_path(params: opts), class: "btn btn-xs btn-success"
               = link_to fa_icon('microchip'), data_analysis_servizi_path(params: opts), class: "btn btn-xs btn-success"
               = link_to fa_icon('search-dollar'), data_analysis_eval_movements_path(params: opts), class: "btn btn-xs btn-success"
               = link_to fa_icon('file-excel'), reports_data_analysis_servizi_path(params: opts), class: "btn btn-xs btn-success"

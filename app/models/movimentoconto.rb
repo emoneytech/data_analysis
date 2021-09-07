@@ -44,12 +44,16 @@ class Movimentoconto < ApplicationCoreRecord
   alias_attribute :tipotransazione, "TipoTransazione"
   alias_attribute :payment_order_id, "IdMandato"
 
-  belongs_to :conto, foreign_key: "numeroconto", class_name: "Conto"
 
   #belongs_to :bank_user_part, -> {select [:idutente, :nome, :cognome, :ragionesociale, :vendor] }, foreign_key: "point", class_name: "Anagrafica"
   belongs_to :servizio, class_name: "Servizio", foreign_key: "idtransazione", optional: true
   # belongs_to :main_service, -> { includes(:servizio).where("servizi.status IN (?)", %w{5 6 7 8}).references(:servizio) }, class_name: "Servizio", foreign_key: "idtransazione", optional: true
-  has_one :anagrafica, through: :servizio, class_name: "Anagrafica"
+
+  
+  belongs_to :conto, foreign_key: "numeroConto", primary_key: "Pan", class_name: 'Conto'
+  
+ # has_one :anagrafica, through: :servizio, class_name: "Anagrafica"
+  has_one :anagrafica, through: :conto, class_name: "Anagrafica", source: :bank_user
 
   belongs_to :mandato, foreign_key: "idmandato", class_name: "Mandato", optional: true
   has_one :product, through: :main_service
@@ -65,7 +69,7 @@ class Movimentoconto < ApplicationCoreRecord
  
   scope :with_service, -> { where('movimenticonti.idtransazione IS NOT NULL AND movimenticonti.idtransazione != ?',0) }
 
-  scope :filter_by_customer_id, -> (customer_id) { where(Point: customer_id)}
+  scope :filter_by_customer_id, -> (customer_id) { where(numeroConto: Conto.where(IdUtente: customer_id).pluck(:Pan)) }
   scope :filter_by_service_id, -> (service_id) { where(idtransazione: service_id)}
   
   scope :filter_by_daterange, -> (daterange) { where(

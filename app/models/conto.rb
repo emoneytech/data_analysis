@@ -54,7 +54,7 @@ class Conto < ApplicationCoreRecord
   belongs_to :stato, primary_key: "idstato", foreign_key: "ProductState", class_name: "Stato"
 
   delegate :product_name, to: :tipo_conto
-  has_many :movimenticonti, primary_key: "Pan", foreign_key: "numeroconto", class_name: 'Movimentoconto'
+  has_many :movimenticonti, primary_key: "Pan", foreign_key: "numeroConto", class_name: 'Movimentoconto'
 
   scope :alive, -> { where(ProductState: 1) }
   def self.last_id
