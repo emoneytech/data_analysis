@@ -67,6 +67,15 @@ class Movimentoconto < ApplicationCoreRecord
 
   scope :filter_by_customer_id, -> (customer_id) { where(Point: customer_id)}
   scope :filter_by_service_id, -> (service_id) { where(idtransazione: service_id)}
+  
+  scope :filter_by_daterange, -> (daterange) { where(
+    "DATE_FORMAT(movimenticonti.dataMovimento , '%Y-%m-%d') between ? and ?", daterange.split(' - ')[0].to_date.strftime('%Y-%m-%d'), daterange.split(' - ')[1].to_date.strftime('%Y-%m-%d')
+  )}
+  scope :filter_by_min_amount, -> (amount) { where("Importo >= ?", amount)}
+  scope :filter_by_max_amount, -> (amount) { where("Importo <= ?", amount)}
+
+  scope :filter_by_in, -> (value) { where("Dare >= ?", value)}
+  scope :filter_by_out, -> (value) { where("Avere >= ?", value)}
 
   def main_service
     Movimentoconto.includes(:servizio).where("servizi.status IN (?)", %w{5 6 7 8}).references(:servizio).find (self.id)

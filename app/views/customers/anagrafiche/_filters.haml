@@ -9,7 +9,12 @@
   .card-body
     = simple_form_for :filter, method: :get, remote: false do |f|
       .row
+        .col-md-3= f.input :customer_id, required: false, input_html: {value: "#{params[:filter][:customer_id] if params[:filter]}"}
         .col-md-3= f.input :full_name, required: false, input_html: {value: "#{params[:filter][:full_name] if params[:filter]}"}
         .col-md-3= f.input :vendor, required: false, input_html: {value: "#{params[:filter][:vendor] if params[:filter]}"}
+        .col-md-3= f.input :fiscal_code, required: false, input_html: {value: "#{params[:filter][:fiscal_code] if params[:filter]}"}
+      .row
+        .col-md-3= f.input :min_base_risk, required: false, input_html: {value: "#{params[:filter][:min_base_risk] if params[:filter]}"}
+        .col-md-3= f.input :max_base_risk, required: false, input_html: {value: "#{params[:filter][:max_base_risk] if params[:filter]}"}
 
       = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-success'

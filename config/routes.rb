@@ -43,7 +43,6 @@ Rails.application.routes.draw do
           get 'get_average_amount'
         end
       end
-      resources :movimenticonti, only: [:show, :index]
       resources :eval_riskinesses, only: [:show, :index]
 
       resources :eval_customers, only: [:show, :index]
@@ -55,7 +54,6 @@ Rails.application.routes.draw do
       end
       
       resources :prodotti, only: [:show, :index]
-      resources :servizi, only: [:show, :index]
       resources :time_lapse_factors do 
         resources :time_lapse_factor_audits
       end

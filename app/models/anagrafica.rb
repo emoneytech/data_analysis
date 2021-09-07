@@ -313,8 +313,11 @@ class Anagrafica < ApplicationCoreRecord
     "%#{name}%",
   )}
 
+  scope :filter_by_customer_id        , -> (value) { where("IdUtente = ?", value)}
   scope :filter_by_vendor             , -> (value) { where("Vendor = ?", value)}
+  scope :filter_by_fiscal_code        , -> (value) { where("Codicefiscale like ?", value)}
   scope :filter_by_min_base_risk      , -> (value) { where("base_risk >= ?", value)}
+  scope :filter_by_max_base_risk      , -> (value) { where("base_risk <= ?", value)}
   scope :filter_by_min_base_risk_calc , -> (value) { where("base_risk_calc >= ?", value)}
 
   def full_name
