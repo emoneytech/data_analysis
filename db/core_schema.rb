@@ -129,6 +129,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.decimal "Singola", precision: 10, scale: 2, default: "0.0"
     t.decimal "TurnOver", precision: 12, scale: 2, default: "0.0"
     t.decimal "Balance", precision: 12, scale: 2, default: "0.0"
+    t.integer "Changed", default: 0
   end
 
   create_table "Mastercard", primary_key: "idMastercard", id: :integer, charset: "latin1", force: :cascade do |t|
@@ -540,7 +541,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "linguaPergamena", limit: 45
     t.string "nazionePorting", limit: 45
     t.date "dataSendPergamena"
-    t.decimal "base_risk", precision: 10, scale: 2, default: "5.0"
+    t.decimal "base_risk", precision: 10, scale: 2, default: "4.0"
     t.integer "bonifico", default: 0
     t.decimal "base_risk_calc", precision: 10, scale: 2, default: "0.0"
     t.string "tipobusiness"
@@ -564,6 +565,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer "Pep", default: 0
     t.integer "ExPep", default: 0
     t.integer "Occasionale", default: 0
+    t.integer "forcedIdQuestionaire", default: 0
+    t.datetime "dateForcedIdQuestionaire"
     t.index ["Agente"], name: "agente"
     t.index ["Attivo"], name: "stato"
     t.index ["Citta"], name: "idx_anagrafiche_Citta"
@@ -1274,7 +1277,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "typeCompany", limit: 45
     t.datetime "dateInc"
     t.string "regNumber", limit: 45
-    t.string "regOffice", limit: 45
+    t.text "regOffice", size: :long
     t.string "countryReg", limit: 45
     t.string "natureBusiness", limit: 45
     t.string "ddlCriminalInv", limit: 45

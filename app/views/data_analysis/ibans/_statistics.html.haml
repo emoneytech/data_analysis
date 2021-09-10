@@ -1,0 +1,7 @@
+.card.card-success.card-outline
+  .card-header
+    %h3.card-title
+      %i.fa.fa-chart-bar
+      = Conto.human_attribute_name(:average_stock)
+  .card-body
+    = line_chart average_stocks_data_analysis_charts_path(conto), remote: true

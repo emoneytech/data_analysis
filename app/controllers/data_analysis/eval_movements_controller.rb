@@ -40,6 +40,7 @@ module DataAnalysis
         :customer_full_name,
         :daterange,
         :destination_country,
+        :in_out,
         :internal,
         :min_recursion_all_7,
         :min_recursion_all_30,

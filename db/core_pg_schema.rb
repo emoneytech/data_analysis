@@ -10,12 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_28_092901) do
+ActiveRecord::Schema.define(version: 2021_09_10_091306) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
   enable_extension "postgis"
+
+  # These are custom enum types that must be created before they can be used in the schema definition
+  create_enum "eval_movement_type", ["IN", "OUT"]
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -107,6 +110,7 @@ ActiveRecord::Schema.define(version: 2021_08_28_092901) do
     t.integer "recursion_all_30"
     t.integer "recursion_customer_7"
     t.integer "recursion_customer_30"
+    t.enum "in_out", default: "OUT", as: "eval_movement_type"
     t.index ["amount_cents"], name: "index_eval_movements_on_amount_cents"
     t.index ["beneficiary_card"], name: "index_eval_movements_on_beneficiary_card"
     t.index ["beneficiary_iban"], name: "index_eval_movements_on_beneficiary_iban"

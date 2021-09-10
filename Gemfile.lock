@@ -52,6 +52,10 @@ GEM
     activerecord (6.1.4.1)
       activemodel (= 6.1.4.1)
       activesupport (= 6.1.4.1)
+    activerecord-pg_enum (1.2.2)
+      activerecord (>= 4.1.0)
+      activesupport
+      pg
     activerecord-postgis-adapter (7.1.1)
       activerecord (~> 6.1)
       rgeo-activerecord (~> 7.0.0)
@@ -284,10 +288,6 @@ GEM
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    pry (0.14.1-java)
-      coderay (~> 1.1)
-      method_source (~> 1.0)
-      spoon (~> 0.0)
     public_suffix (4.0.6)
     puma (5.4.0)
       nio4r (~> 2.0)
@@ -409,8 +409,6 @@ GEM
       actionpack (>= 5.2)
       activemodel (>= 5.2)
     sixarm_ruby_unaccent (1.2.0)
-    spoon (0.0.6)
-      ffi
     spreadsheet (1.2.9)
       ruby-ole
     spring (2.1.1)
@@ -436,6 +434,8 @@ GEM
     turbolinks-source (5.2.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2021.1)
+      tzinfo (>= 1.0.0)
     unf (0.1.4)
       unf_ext
     unf (0.1.4-java)
@@ -483,6 +483,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
+  activerecord-pg_enum
   activerecord-postgis-adapter
   acts_as_list
   ajax-datatables-rails

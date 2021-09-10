@@ -35,10 +35,11 @@
 #  recursion_all_30      :integer
 #  recursion_customer_7  :integer
 #  recursion_customer_30 :integer
+#  in_out                :enum             default("OUT")
 #
 class EvalMovement < CorePgRecord
   include Filterable
-
+  include PGEnum(eval_movement_type: %w[IN OUT])
   monetize :amount_cents
   
 
@@ -108,6 +109,7 @@ class EvalMovement < CorePgRecord
   scope :filter_by_max_recursion_customer_30, -> (recursion_customer_30) { where("recursion_customer_30 <= ?", recursion_customer_30)}
 
   scope :filter_by_internal, -> (internal) { where(internal: internal)}
+  scope :filter_by_in_out, -> (value) { where(in_out: value)}
 
   scope :for_evaluation, -> { order(movement_created_at: :asc)}
 

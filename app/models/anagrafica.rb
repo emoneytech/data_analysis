@@ -141,7 +141,7 @@
 #  linguaPergamena           :string(45)
 #  nazionePorting            :string(45)
 #  dataSendPergamena         :date
-#  base_risk                 :decimal(10, 2)   default(5.0)
+#  base_risk                 :decimal(10, 2)   default(4.0)
 #  bonifico                  :integer          default(0)
 #  base_risk_calc            :decimal(10, 2)   default(0.0)
 #  tipobusiness              :string(255)
@@ -165,6 +165,8 @@
 #  Pep                       :integer          default(0)
 #  ExPep                     :integer          default(0)
 #  Occasionale               :integer          default(0)
+#  forcedIdQuestionaire      :integer          default(0)
+#  dateForcedIdQuestionaire  :datetime
 #
 
 class Anagrafica < ApplicationCoreRecord

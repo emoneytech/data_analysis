@@ -85,6 +85,7 @@ Rails.application.routes.draw do
       end
     end
     resources :eval_riskinesses
+    resources :ibans
     resources :matviews
     resources :maps
     resources :movimenticonti
