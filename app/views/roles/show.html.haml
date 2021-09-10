@@ -1,15 +1,20 @@
 .row
   .col-md-12
-    .box.box-primary
-      .box-header
-        %h3.box-title= raw "#{fa_icon('key')} #{Role.model_name.human}: #{@role.presentation}"
-        .box-tools.pull-right= edit_link(@role)
-      .separator
-      .box-body
-        %dl.dl-horizontal
-          %dt= Role.human_attribute_name(:name)
-          %dd= @role.name
-          %dt= Role.human_attribute_name(:presentation)
-          %dd= @role.presentation
-          %dt= Role.human_attribute_name(:description)
-          %dd= @role.description
+    .card.card-primary.card-outline
+      .card-header
+        %h3.card-title= raw "#{fa_icon('key')} #{Role.model_name.human}: #{@role.presentation}"
+        .card-tools
+          = edit_link(@role)
+          = back_link(roles_path)
+
+      .card-body
+        %dl.row
+          %dt.col-4.text-right= Role.human_attribute_name(:presentation)
+          %dd.col-md-8= @role.presentation
+          %dt.col-4.text-right= Role.human_attribute_name(:description)
+          %dd.col-md-8= @role.description
+          %dt.col-4.text-right= Role.human_attribute_name(:name)
+          %dd.col-md-8= @role.name
+          %dt.col-4.text-right= Role.human_attribute_name(:level)
+          %dd.col-md-8= @role.level
+

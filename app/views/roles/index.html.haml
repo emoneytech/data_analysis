@@ -1,6 +1,6 @@
 .row
   .col-md-12
-    .card.card-primary
+    .card.card-primary.card-outline
       .card-header
         %h3.card-title
           %i.fa.fa-key
@@ -20,6 +20,7 @@
                 %td= role.presentation
                 %td= role.level
                 %td
+                  =  link_to fa_icon('user'), users_path(params: {filter: {role: role.name}}), class: "btn btn-xs btn-primary"
                   - if can? :manage, Role
                     = link_to fa_icon("edit"), [:edit, role], class: "btn btn-xs btn-warning" if can? :edit, role
       .card-footer.text-right

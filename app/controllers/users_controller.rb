@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   load_and_authorize_resource except: :create
-  add_breadcrumb User.model_name.human(count: 2), :users
+  add_breadcrumb helpers.raw("#{helpers.fa_icon('user')} #{User.model_name.human(count: 2)}"), :users
+
 
   def index
     if params[:filter]
@@ -46,8 +47,8 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if @user.update_attributes(secure_params)
-      redirect_to manager_users_path, :notice => "User updated."
+    if @user.update(secure_params)
+      redirect_to @user, :notice => "User updated."
     else
       render "edit"
     end

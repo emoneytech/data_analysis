@@ -1,19 +1,21 @@
 - if can? :manage, User
   .row
     .col-md-12
-      .btn-group{role: "group", "aria-label" => "Filter Sope"}
-        = link_to t(:all), users_path, class: "btn btn-default#{' active' unless @current_role }"
-        - Role.active.each do |role|
-          = link_to t(role.presentation, default: role.presentation).capitalize, users_path(filter: {role: role.name} ), class: "btn btn-default#{' active' if @current_role == role.name.to_s }"
+      
 
 .row
   .col-md-12
-    .card.card-primary
+    .card.card-primary.card-outline
       .card-header
         %h3.card-title
           %i.fa.fa-users
           = t(:listing_resource, resource: User.model_name.human(:count => 2))
-        = link_to(t(:new_resource, resource: User.model_name.human), new_user_path(@user), class: "btn btn-success btn-sm pull-right") if can? :create, User
+        .card-tools
+          = link_to(t(:new_resource, resource: User.model_name.human), new_user_path(@user), class: "btn btn-success btn-xs") if can? :create, User
+          .btn-group{role: "group", "aria-label" => "Filter Sope"}
+            = link_to t(:all), users_path, class: "btn btn-xs btn-info#{' active' unless @current_role }"
+            - Role.active.each do |role|
+              = link_to t(role.presentation, default: role.presentation).capitalize, users_path(filter: {role: role.name} ), class: "btn btn-xs btn-info#{' active' if @current_role == role.name.to_s }"
       .card-body
         %table.table.table-striped.table-bordered.table-hover.margin-none.data-table
           %thead
@@ -22,7 +24,7 @@
               - if can? :manage, User
                 %th= User.human_attribute_name(:nickname)
                 %th= User.human_attribute_name(:role)
-              %th.col-md-1{nowrap: true}
+              %th.col-md-1{data: {orderable: "false"}, nowrap: true}
           %tbody
             - @users.each do |user|
               %tr

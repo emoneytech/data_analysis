@@ -1,12 +1,11 @@
 .row
   .col-md-12
     = simple_form_for @user do |f|
-      .card.card-warning
+      .card.card-warning.card-outline
         .card-header
           %h3.card-title
             %i.fa.fa-user
             = t(:edit_resource, resource: User.model_name.human)
-          .spacer
         .card-body
           = render 'form', f: f
         .card-footer.clearfix

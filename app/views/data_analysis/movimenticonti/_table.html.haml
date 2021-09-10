@@ -13,7 +13,7 @@
       %th= Movimentoconto.human_attribute_name(:anagrafica)
       %th= Movimentoconto.human_attribute_name(:causale)
       %th= Movimentoconto.human_attribute_name(:idCausale)
-      %th.action
+      %th.action{data: {orderable: "false"}}
   %tbody
     - movimenticonti.each do |item|
       %tr

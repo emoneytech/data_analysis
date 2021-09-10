@@ -1,6 +1,7 @@
 class RolesController < ManagerController
   before_action :set_role, only: [:show, :edit, :update, :destroy]
-  add_breadcrumb Role.model_name.human(count: 2), :data_analysis_roles_path
+  add_breadcrumb helpers.raw("#{helpers.fa_icon('key')} #{Role.model_name.human(count: 2)}"), :roles
+
   # GET /roles
   # GET /roles.json
   def index
@@ -10,7 +11,7 @@ class RolesController < ManagerController
   # GET /roles/1
   # GET /roles/1.json
   def show
-    add_breadcrumb @role.presentation, :manager_role_path
+    add_breadcrumb @role.presentation, :role
   end
 
   # GET /roles/new
@@ -70,7 +71,7 @@ class RolesController < ManagerController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def role_params
-      params.require(:role).permit(:name, :description)
+      params.require(:role).permit(:name, :description, :presentation, :level)
     end
 end
 

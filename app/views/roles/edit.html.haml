@@ -6,7 +6,7 @@
           %h3.card-title
             %i.fa.fa-key
             = t(:edit_resource, resource: Role.model_name.human)
-          .spacer
+          .card-tools= back_link(roles_path)
         .card-body
           = render 'form', f: f
         .card-footer.clearfix

@@ -10,7 +10,7 @@
       %th= Servizio.human_attribute_name(:datainserimento)
       %th= Servizio.human_attribute_name(:lastupdate)
       %th= Servizio.human_attribute_name(:status)
-      %th.action
+      %th.action{data: {orderable: "false"}}
   %tbody
     - servizi.each do |item|
       %tr

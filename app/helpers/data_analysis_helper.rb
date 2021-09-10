@@ -8,6 +8,10 @@ module DataAnalysisHelper
     link_to fa_icon("edit"), [:edit, item], class: "btn btn-xs btn-warning", data: {toggle: "tooltip", title: t(:edit_resource, resource: item.model_name.human)}
   end
 
+  def back_link(path)
+    link_to fa_icon("arrow-left"), path, class: "btn btn-xs btn-info", data: {toggle: "tooltip", title: t(:back, default: "Back")}
+  end
+
   def show_link(item)
     link_to fa_icon("eye"), item, class: "btn btn-xs btn-primary", data: {toggle: "tooltip", title: t(:show_resource, resource: item.model_name.human)}
   end
