@@ -18,7 +18,8 @@ export function getAccountInfo(anagrafica_id, id) {
   let item_id = id.split('-')[1]
   let action = id.split('-')[0]
   $.ajax({
-    url: "/customers/anagrafiche/" + anagrafica_id + "/conti/" + item_id + "/get_" + action + ".json",
+    // url: "/customers/anagrafiche/" + anagrafica_id + "/conti/" + item_id + "/get_" + action + ".json",
+    url: "/data_analysis/conti/" + item_id + "/get_" + action + ".json",
     success: function(data) {
       stopLoading()
       $('td#'+id).html(data)

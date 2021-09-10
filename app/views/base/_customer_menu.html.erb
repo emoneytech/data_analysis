@@ -16,14 +16,6 @@
       </a>
     </li>
     <li class="nav-item">
-      <a href="<%= customers_anagrafica_conti_path(customer) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'movimenticonti' %>">
-        <i class="nav-icon fa fa-wallet"></i>
-        <p>
-          <%= Conto.model_name.human(:count => 2) %>
-        </p>
-      </a>
-    </li>
-    <li class="nav-item">
       <a href="<%= customers_anagrafica_customer_settings_path(customer) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'customer_settings' %>">
         <i class="nav-icon fa fa-wrench"></i>
         <p>

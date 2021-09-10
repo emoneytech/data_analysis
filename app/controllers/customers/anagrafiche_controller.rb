@@ -5,7 +5,7 @@ module Customers
 
     def index
       @anagrafiche = Anagrafica.filter(filtering_params)
-      @anagrafiche = @anagrafiche.alive.active.page(params[:page]).per(params[:per])
+      @anagrafiche = @anagrafiche.alive.active.order(DataLastUpdate: :desc).page(params[:page]).per(params[:per])
     end
 =begin
     def index

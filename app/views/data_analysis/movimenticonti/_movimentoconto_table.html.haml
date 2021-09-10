@@ -1,0 +1,53 @@
+.card.card-success
+  .card-header
+    %h3.card-title
+      %i.fa.fa-exchange-alt
+      #{Movimentoconto.model_name.human} #{movimentoconto.id}
+    .spacer
+  .card-body
+    %table.table.table-striped.table-bordered.table-hover
+      %tr
+        %th= Movimentoconto.human_attribute_name(:idmovimenticonti)
+        %td= movimentoconto.idmovimenticonti
+      %tr
+        %th= Movimentoconto.human_attribute_name(:idtransazione)
+        %td= link_to movimentoconto.idtransazione, [:data_analysis, movimentoconto.servizio] if movimentoconto.servizio
+      %tr
+        %th= Movimentoconto.human_attribute_name(:tipotransazione)
+        %td= movimentoconto.tipotransazione
+      %tr
+        %th= Movimentoconto.human_attribute_name(:causale)
+        %td= movimentoconto.causale
+      %tr
+        %th= Movimentoconto.human_attribute_name(:dare)
+        %td= movimentoconto.dare
+      %tr
+        %th= Movimentoconto.human_attribute_name(:avere)
+        %td= movimentoconto.avere
+      %tr
+        %th= Movimentoconto.human_attribute_name(:importo)
+        %td= movimentoconto.importo
+      %tr
+        %th= Movimentoconto.human_attribute_name(:datamovimento)
+        %td= movimentoconto.datamovimento
+      %tr
+        %th= Movimentoconto.human_attribute_name(:point)
+        %td= movimentoconto.point
+
+      %tr
+        %th= Movimentoconto.human_attribute_name(:numeroConto)
+        %td= link_to movimentoconto.numeroConto, data_analysis_conto_path(movimentoconto.numeroConto)
+      %tr
+        %th= Movimentoconto.human_attribute_name(:contodiprovenienza)
+        %td= movimentoconto.contodiprovenienza
+      %tr
+        %th= Movimentoconto.human_attribute_name(:contodestinazione)
+        %td= movimentoconto.contodestinazione
+      %tr
+        %th= Movimentoconto.human_attribute_name(:anagrafica)
+        %td= link_to movimentoconto.anagrafica.full_name, [:customers, movimentoconto.anagrafica] if movimentoconto.anagrafica
+      %tr
+        %th= Movimentoconto.human_attribute_name(:idcausale)
+        %td= movimentoconto.idcausale
+        
+

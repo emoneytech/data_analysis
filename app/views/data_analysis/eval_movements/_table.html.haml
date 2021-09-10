@@ -21,7 +21,7 @@
     - eval_movements.each do |item|
       %tr
         %td= item.id
-        %td= item.service_id
+        %td= link_to item.service_id, data_analysis_servizio_path(item.service_id)
         %td= item.movement_created_at
         %td= link_to item.customer_full_name, customers_anagrafica_path(item.customer_id)
         %td= item.product_name

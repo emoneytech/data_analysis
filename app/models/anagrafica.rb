@@ -337,7 +337,7 @@ class Anagrafica < ApplicationCoreRecord
   end
 
   def to_s 
-    "#{full_name} - #{self.Attivo}"
+    "#{full_name}"
   end
   
   def time_lapse_factor

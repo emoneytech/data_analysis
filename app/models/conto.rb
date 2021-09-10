@@ -41,7 +41,8 @@
 #
 
 class Conto < ApplicationCoreRecord
-
+  include Filterable
+  
   self.table_name = "conti"
   self.primary_key = 'Pan'
 
@@ -55,6 +56,15 @@ class Conto < ApplicationCoreRecord
 
   delegate :product_name, to: :tipo_conto
   has_many :movimenticonti, primary_key: "Pan", foreign_key: "numeroConto", class_name: 'Movimentoconto'
+
+  scope :filter_by_customer_id, -> (value) { where(IdUtente: value) }
+  scope :filter_by_status_id, -> (value) { where(ProductState: value) }
+  scope :filter_by_product_type_id, -> (value) { where(ProductType: value) }
+  scope :filter_by_min_amount, -> (value) { where("conti.Saldo >= ?", value) }
+  scope :filter_by_max_amount, -> (value) { where("conti.Saldo <= ?", value) }
+  scope :filter_by_last_movement_daterange, -> (daterange) { where(
+    "DATE_FORMAT(conti.lastMovimento , '%Y-%m-%d') between ? and ?", daterange.split(' - ')[0].to_date.strftime('%Y-%m-%d'), daterange.split(' - ')[1].to_date.strftime('%Y-%m-%d')
+  )}
 
   scope :alive, -> { where(ProductState: 1) }
   def self.last_id

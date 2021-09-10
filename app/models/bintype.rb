@@ -24,6 +24,7 @@ class Bintype < ApplicationCoreRecord
   self.primary_key = 'id'
 
   alias_attribute :product_name, "descrprod"
+  alias_attribute :name, "descrprod"
 
   has_many :conti, foreign_key: "tipoprodotto", primary_key: "ProductType", class_name: "Conto"
 

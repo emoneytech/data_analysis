@@ -15,6 +15,22 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="<%= customers_anagrafiche_path %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'anagrafiche' %>">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                  <%= Anagrafica.model_name.human(count: 2) %>
+                </p>
+              </a>
+            </li>
+            <%= render 'base/customer_menu', customer: @anagrafica if @module_name === 'Customers' && @anagrafica %>
+            <li class="nav-item">
+              <a href="<%= data_analysis_conti_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'conti' %>">
+                <i class="nav-icon fas fa-wallet"></i>
+                <p>
+                  <%= Conto.model_name.human(count: 2) %>
+                </p>
+              </a>
+            </li>            <li class="nav-item">
               <a href="<%= compliance_check_sanction_lists_path %>" class="nav-link<%= ' active' if @module_name === 'ComplianceCheck' && controller_name == 'sanction_lists' %>">
                 <i class="nav-icon fas fa-user-check"></i>
                 <p>
@@ -102,16 +118,7 @@
                 </p>
               </a>
             </li>
-            <%- end %>
-          <li class="nav-item">
-            <a href="<%= customers_anagrafiche_path %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'anagrafiche' %>">
-              <i class="nav-icon fas fa-users"></i>
-              <p>
-                <%= Anagrafica.model_name.human(count: 2) %>
-              </p>
-            </a>
-          </li>
-          <%= render 'base/customer_menu', customer: @anagrafica if @module_name === 'Customers' && @anagrafica %>
+          <%- end %>
           <%= render 'base/menu_admin' %>
           <li class="nav-item">
             <%= link_to destroy_user_session_path, :method=>'delete', class: 'nav-link' do %>

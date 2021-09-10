@@ -3,16 +3,15 @@
     .card-header
       %h3.card-title
         %i.fa.fa-exchange-alt
-        = "#{Conto.model_name.human(:count => 2)} - "
-        = "ID: #{@anagrafica.IdUtente} - #{@anagrafica.full_name}"
+        = "#{Conto.model_name.human(:count => 2)}"
       .card-tools
         %button{type: "button", class: "btn btn-tool", "data-card-widget" => "maximize"}
           %i.fas.fa-expand
         %button{type: "button", class: "btn btn-tool", "data-card-widget" => "collapse"}
           %i.fas.fa-minus
     .card-body
-      = render "table", conti: @conti
+      = render "table", conti: conti
     .card-footer.clearfix
       .row
         .col-md-12
-          = paginate @conti, theme: 'twitter-bootstrap-4', nav_class: "float-right", pagination_class: 'm-0', total_pages: @cached_total_pages
+          = paginate conti, theme: 'twitter-bootstrap-4', nav_class: "float-right", pagination_class: 'm-0', total_pages: @cached_total_pages

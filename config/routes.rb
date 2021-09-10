@@ -36,15 +36,7 @@ Rails.application.routes.draw do
           get :details
         end
       end
-      resources :conti, only: [:show, :index] do
-        member do
-          get 'get_average'
-          get 'get_max_amount'
-          get 'get_average_amount'
-        end
-      end
       resources :eval_riskinesses, only: [:show, :index]
-
       resources :eval_customers, only: [:show, :index]
       resources :eval_movements do
         collection do
@@ -75,6 +67,13 @@ Rails.application.routes.draw do
       collection do
         get :all_risk_movements
         get 'average_stocks/:id' => :average_stocks, as: :average_stocks
+      end
+    end
+    resources :conti, only: [:show, :index] do
+      member do
+        get 'get_average'
+        get 'get_max_amount'
+        get 'get_average_amount'
       end
     end
     resources :dashboard, only: :index
