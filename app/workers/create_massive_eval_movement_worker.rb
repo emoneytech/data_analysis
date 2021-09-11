@@ -26,7 +26,7 @@ class CreateMassiveEvalMovementWorker
     em.build_for_service(service)
     em.set_product_base_risk(service.product, default_product_base_risk)
     em.save
-    if internal_beneficiary = service.bonifico.internal_beneficiary
+    if internal_beneficiary = service.try(:bonifico).try(:internal_beneficiary)
       em2 = EvalMovement.where(service_id: service.id, customer_id: internal_beneficiary.id).first_or_initialize
       em2.customer_full_name = internal_beneficiary.full_name
       em2.service_status =  em.service_status
