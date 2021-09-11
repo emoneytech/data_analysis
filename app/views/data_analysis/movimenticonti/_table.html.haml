@@ -10,6 +10,7 @@
       %th= Movimentoconto.human_attribute_name(:importo)
       %th= Movimentoconto.human_attribute_name(:data_movimento)
       %th= Movimentoconto.human_attribute_name(:point)
+      %th= Movimentoconto.human_attribute_name(:numeroConto)
       %th= Movimentoconto.human_attribute_name(:anagrafica)
       %th= Movimentoconto.human_attribute_name(:causale)
       %th= Movimentoconto.human_attribute_name(:idCausale)
@@ -26,6 +27,7 @@
         %td= item.importo
         %td= item.datamovimento
         %td= item.point
+        %td= link_to item.numeroConto, data_analysis_conto_path(item.numeroConto)
         %td= link_to item.anagrafica.full_name, [:customers, item.anagrafica] if item.anagrafica
         %td= item.causale
         %td= item.idcausale

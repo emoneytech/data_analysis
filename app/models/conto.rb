@@ -56,7 +56,7 @@ class Conto < ApplicationCoreRecord
 
   delegate :product_name, to: :tipo_conto
   has_many :movimenticonti, primary_key: "Pan", foreign_key: "numeroConto", class_name: 'Movimentoconto'
-
+  scope :only_customers, -> { where.not(IdUtente: %w[70 75]) }
   scope :filter_by_customer_id, -> (value) { where(IdUtente: value) }
   scope :filter_by_status_id, -> (value) { where(ProductState: value) }
   scope :filter_by_product_type_id, -> (value) { where(ProductType: value) }

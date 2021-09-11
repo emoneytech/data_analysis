@@ -188,7 +188,7 @@ class EvalMovement < CorePgRecord
   def all_next
     EvalMovement.where("movement_created_at > ?", self.movement_created_at).order(movement_created_at: :asc).first
   end
-
+=begin
   def set_properties(service,
     default_product_base_risk = Configurable.default_product_base_risk.to_f,
     max_base_risk = Configurable.max_base_risk.to_f,
@@ -197,16 +197,16 @@ class EvalMovement < CorePgRecord
 
     self.set_customer(service.anagrafica)
     self.set_service(service)
-    self.set_movement(service)
+    self.set_movement_for_out(service)
     self.set_beneficiary(service)
     self.set_product_base_risk(service.product, default_product_base_risk)
     self.set_evaluated_customer_factor(service.anagrafica, factor_for_amount, divisor_amount_for_factor)
   end
-
+=end
   def build_for_service(service)
     self.set_customer(service.anagrafica)
     self.set_service(service)
-    self.set_movement(service)
+    self.set_movement_for_out(service)
     self.set_beneficiary(service)
   end
 
@@ -227,7 +227,7 @@ class EvalMovement < CorePgRecord
     self.amount = service.importo.to_f
   end
 
-  def set_movement(service)
+  def set_movement_for_out(service)
     movement = service.movimenticonti.where(Point: service.anagrafica.id).where(contodiprovenienza: service.anagrafica.conti.pluck(:Pan)).first
     return unless movement
     self.movement_id = movement.id

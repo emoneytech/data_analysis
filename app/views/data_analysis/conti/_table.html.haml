@@ -14,12 +14,12 @@
     - conti.each do |item|
       %tr
         %td= item.idConti # $('td#'+id).html("#{humanized_money_with_symbol item.average_stock}");
-        %td= item.bank_user 
+        %td= link_to item.bank_user, [:customers, item.bank_user] 
         %td= item.Pan 
         %td= item.product_name
         %td= item.Saldo
         %td= item.stato
-        %td.text-center{id: "average-#{item.id}"}= link_to_function 'Load data', "getAverageStock('#{item.IdUtente}', 'average-#{item.id}')"
+        %td.text-center{id: "average-#{item.id}"}= link_to_function 'load', "getAccountInfo('#{item.IdUtente}', 'average-#{item.id}')"
         %td= item.lastMovimento
         - if can? :manage, Conto
           %td.text-center

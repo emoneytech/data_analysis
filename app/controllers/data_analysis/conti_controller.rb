@@ -4,7 +4,7 @@ module DataAnalysis
 
     def index
       @daterange = params[:filter] && params[:filter][:last_movement_daterange] ? params[:filter][:last_movement_daterange] : "#{(Date.today - 3.years).strftime("%d/%m/%Y")} - #{Date.today.strftime("%d/%m/%Y")}"
-      conti = Conto.filter(filtering_params).includes(:bank_user, :tipo_conto, :stato)
+      conti = Conto.filter(filtering_params).only_customers.includes(:bank_user, :tipo_conto, :stato)
       @conti = conti.order(lastMovimento: :desc).page(params[:page]).per(params[:per])
     end
 

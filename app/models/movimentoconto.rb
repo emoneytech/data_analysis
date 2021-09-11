@@ -27,7 +27,7 @@ class Movimentoconto < ApplicationCoreRecord
   include Filterable
 
   self.table_name = 'movimenticonti'
-  self.primary_key = 'idmovimenticonti'
+  self.primary_key = 'idMovimentiConti'
 
   alias_attribute :id, "idMovimentiConti"
   alias_attribute :movimentoconto_id, "idMovimentiConti"

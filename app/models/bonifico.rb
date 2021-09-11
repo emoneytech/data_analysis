@@ -29,4 +29,12 @@ class Bonifico < ApplicationCoreRecord
   self.table_name = 'bonifici'
   self.primary_key = 'idbonifico'
 
+  def internal?
+    Iban.where(Iban: self.ibandest).any?
+  end
+
+  def internal_beneficiary
+    Iban.find_by_Iban(self.ibandest).try(:anagrafica)
+  end
+
 end
