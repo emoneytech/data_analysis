@@ -267,6 +267,7 @@ class EvalMovement < CorePgRecord
       self.destination_country = "MT"
     when 'bonifici'
       if service.bonifico
+        self.internal = true if service.bonifico.internal?
         self.beneficiary = "#{service.bonifico.destinatario}"
         self.beneficiary_iban = "#{service.bonifico.ibandest}"
         self.set_beneficiary_point

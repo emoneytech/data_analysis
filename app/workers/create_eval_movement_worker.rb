@@ -57,7 +57,7 @@ class CreateEvalMovementWorker
       em2.destination_lonlat = em.destination_lonlat
       em2.origin_country = em.origin_country
       em2.destination_country = em.destination_country
-      em2.internal = em.internal = true
+      em2.internal = true
       em2.in_out = "IN"
       em2.save
     end
