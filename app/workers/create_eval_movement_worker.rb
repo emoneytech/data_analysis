@@ -33,7 +33,7 @@ class CreateEvalMovementWorker
       em2.service_updated_at = em.service_updated_at
       em2.service_created_at = em.service_created_at
 
-      in_movement = service.movimenticonti.where(numeroconto: Iban.find_by_Iban(service.bonifico.ibandest).try(:Conto)).first
+      in_movement = service.movimenticonti.where(numeroconto: internal_beneficiary.conti.pluck(:Pan)).first
       em2.movement_id = in_movement.id
       em2.movement_created_at = in_movement.dataMovimento
 
