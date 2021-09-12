@@ -33,7 +33,7 @@ class CreateMassiveEvalMovementWorker
       em2.service_updated_at = em.service_updated_at
       em2.service_created_at = em.service_created_at
 
-      in_movement = service.movimenticonti.where(numeroconto: Iban.find_by_Iban(service.bonifico.ibandest).try(:Conto)).first
+      in_movement = service.movimenticonti.where(numeroconto: internal_beneficiary.conti.pluck(:Pan)).first
       em2.movement_id = in_movement.id
       em2.movement_created_at = in_movement.dataMovimento
 
@@ -44,7 +44,7 @@ class CreateMassiveEvalMovementWorker
       em2.product_base_risk = em.product_base_risk
       
       em2.beneficiary = em.beneficiary
-      em2.beneficiary_iban = em.beneficiary_other
+      em2.beneficiary_iban = em.beneficiary_iban
       em2.beneficiary_other = em.beneficiary_other
       em2.beneficiary_card = em.beneficiary_card
       
@@ -57,10 +57,10 @@ class CreateMassiveEvalMovementWorker
       em2.destination_lonlat = em.destination_lonlat
       em2.origin_country = em.origin_country
       em2.destination_country = em.destination_country
-      em2.internal = em.internal = true
+      em2.internal = true
       em2.in_out = "IN"
       em2.save
-    end
+
   end
 end
 # service = Servizio.joins(:product,:anagrafica,:movimenticonti).preload(:product,{anagrafica: :conti},:movimenticonti,:ricarica,:ricaricacarta,:bonifico,:assegnovirtuale,:incassoassegno).where('movimenticonti.Point = ?', point).references(:movimenticonti).where(point: point,idservizio: service_id).where.not('SUBSTRING(prodotto, -3, 3) IN (?)',ExcludedProduct.all.pluck(:last_3_numbers)).uniq.first
