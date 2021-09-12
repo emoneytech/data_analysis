@@ -9,9 +9,10 @@
   .card-body
     = simple_form_for :filter, url: [:data_analysis, :eval_movements], method: :get, remote: false do |f|
       .row
-        .col-md-3= f.input :in_out, as: :select, collection: %w[IN OUT], required: false, input_html: {class: "select2"}, selected: "#{params[:filter][:in_out] if params[:filter]}", include_blank: true
         .col-md-3
-          = f.input :internal, as: :boolean, required: false, input_html: {class: 'check-box', checked: (params[:filter] && params[:filter][:internal] == "1")}
+          = f.input :in_out, as: :select, collection: %w[IN OUT], required: false, input_html: {class: "select2"}, selected: "#{params[:filter][:in_out] if params[:filter]}", include_blank: true
+        .col-md-3
+          = f.input :internal, as: :select, collection: [true, false], required: false, input_html: {class: "select2"}, selected: "#{params[:filter][:internal] if params[:filter]}", include_blank: true
       .row
         .col-md-3= f.input :daterange, label: 'Date range', input_html: { class: 'local-daterange', checked: params[:filter] && params[:filter][:daterange] }, required: true
         .col-md-3= f.input :service_id, label: 'Service ID', required: false, input_html: {value: "#{params[:filter][:service_id] if params[:filter]}"}

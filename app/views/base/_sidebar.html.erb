@@ -63,6 +63,14 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="<%= data_analysis_mandati_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'mandati' %>">
+                <i class="nav-icon fas fa-microchip"></i>
+                <p>
+                  <%= Mandato.model_name.human(count: 2) %>
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="<%= data_analysis_movimenticonti_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'movimenticonti' %>">
                 <i class="nav-icon fas fa-exchange-alt"></i>
                 <p>

@@ -1,0 +1,44 @@
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_movements', data: {order: '[[7, "desc"]]'}}
+  %thead
+    %tr
+      %th= Mandato.human_attribute_name(:id)
+      %th= Mandato.human_attribute_name(:Data)
+      %th= Mandato.human_attribute_name(:Tipo)
+      %th= Mandato.human_attribute_name(:Importo)
+      %th= Mandato.human_attribute_name(:Beneficiario)
+      %th= Mandato.human_attribute_name(:ContoBeneficiario)
+      %th= Mandato.human_attribute_name(:Ordinante)
+      %th= Mandato.human_attribute_name(:ContoRiferimento)
+      %th= Mandato.human_attribute_name(:Note)
+      %th= Mandato.human_attribute_name(:Stato)
+      %th= Mandato.human_attribute_name(:Operatore)
+      %th= Mandato.human_attribute_name(:IdMovimentoTecnico)
+      %th= Mandato.human_attribute_name(:IdMovimentoValidazione)
+      %th= Mandato.human_attribute_name(:Intestatario)
+      %th= Mandato.human_attribute_name(:idCaPassivisale)
+      %th= Mandato.human_attribute_name(:Blocco)
+      %th= Mandato.human_attribute_name(:Iban)
+      %th.action{data: {orderable: "false"}}
+  %tbody
+    - mandati.each do |item|
+      %tr
+        %td= item.IdMandato
+        %td= item.Data
+        %td= item.Tipo
+        %td= item.Importo
+        %td= item.Beneficiario
+        %td= item.ContoBeneficiario
+        %td= item.Ordinante
+        %td= item.ContoRiferimento
+        %td= item.Note
+        %td= item.Stato
+        %td= item.Operatore
+        %td= item.IdMovimentoTecnico
+        %td= item.IdMovimentoValidazione
+        %td= item.Intestatario
+        %td= item.Passivi
+        %td= item.Blocco
+        %td= item.Iban
+        - if can? :manage, Mandato
+          %td.text-center
+            = link_to fa_icon('eye'), data_analysis_mandato_path(item), class: "btn btn-xs btn-primary"

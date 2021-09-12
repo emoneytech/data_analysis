@@ -1,9 +1,11 @@
-.card.card-success
+.card.card-success.card-outline
   .card-header
     %h3.card-title
       %i.fa.fa-microchip
       #{Servizio.model_name.human} #{servizio.id}
-    .spacer
+    .card-tools
+      = link_to fa_icon('stopwatch'), update_eval_movements_data_analysis_servizio_path(servizio.id), class: "btn btn-xs btn-danger", method: :post
+            
   .card-body
     %dl.row
       - for attribute in servizio.attributes.keys

@@ -1,0 +1,6 @@
+.row
+  .col-md-12= render "mandato", mandato: @mandato
+- if @mandato.try(:servizio)
+  .row
+    .col-md-12= render @mandato.servizio
+

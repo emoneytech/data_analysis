@@ -22,9 +22,10 @@
 #
 
 class Mandato < ApplicationCoreRecord
+  include Filterable
 
   self.table_name = 'mandati'
-  self.primary_key = 'idmandato'
+  self.primary_key = 'IdMandato'
 
   belongs_to :movimento, class_name: "Movimentoconto", foreign_key: "idmovimentovalidazione", optional: true
   delegate :datanumerica, to: :movimento

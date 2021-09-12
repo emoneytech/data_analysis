@@ -61,7 +61,7 @@ class Servizio < ApplicationCoreRecord
   has_one :ricarica, foreign_key: "idservizio", class_name: "Ricarica"
 
 
-  has_one :eval_movement, foreign_key: :service_id, primary_key: 'idservizio'
+  has_many :eval_movements, foreign_key: :service_id, primary_key: 'idservizio'
 
   scope :with_movements, -> { joins(:movimenticonti).uniq }
   scope :active_status, -> { where(status: ['5','6','7','8'])}

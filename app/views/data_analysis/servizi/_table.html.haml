@@ -24,6 +24,6 @@
         %td= item.lastupdate
         %td= item.statoservizio
         - if can? :manage, Servizio
-          %td.text-center
-            = link_to data_analysis_servizio_path(item), class: "btn btn-xs btn-primary" do
-              %i.fa.fa-eye
+          %td.text-center{nowrap: true}
+            = link_to fa_icon('stopwatch'), update_eval_movements_data_analysis_servizio_path(item), class: "btn btn-xs btn-danger", method: :post
+            = link_to fa_icon('eye'), data_analysis_servizio_path(item), class: "btn btn-xs btn-primary"

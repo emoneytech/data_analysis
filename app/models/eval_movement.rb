@@ -64,7 +64,7 @@ class EvalMovement < CorePgRecord
   delegate :current_place, to: :customer
   alias_method :origin, :current_place
 
-  validates :service_id, uniqueness: true
+  validates :service_id, uniqueness: {scope: :customer_id}
   
   # attr reader
   attr_reader :recursions
@@ -85,6 +85,7 @@ class EvalMovement < CorePgRecord
     where("movement_created_at BETWEEN '#{daterange.split(' - ')[0].to_date.beginning_of_day}' 
       AND '#{daterange.split(' - ')[1].to_date.end_of_day}'")
   }
+  
   scope :filter_by_origin_country, -> (country) { where("origin_country = ?", "#{country}")}
   scope :filter_by_destination_country, -> (country) { where("destination_country = ?", "#{country}")}
 

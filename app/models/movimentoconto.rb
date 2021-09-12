@@ -2,7 +2,7 @@
 #
 # Table name: movimenticonti
 #
-#  idMovimentiConti   :bigint           not null
+#  idMovimentiConti   :bigint           not null, primary key
 #  idtransazione      :bigint
 #  Point              :integer          not null
 #  ipPoint            :string(15)       not null

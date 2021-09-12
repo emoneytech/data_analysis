@@ -104,6 +104,18 @@ Rails.application.routes.draw do
     end
     resources :rischi
     resources :servizi do
+      member do 
+        post :update_eval_movements
+      end
+      collection do
+        get :map
+        get :reports
+      end
+    end
+    resources :mandati do
+      member do 
+        post :update_eval_movements
+      end
       collection do
         get :map
         get :reports

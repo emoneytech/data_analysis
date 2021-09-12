@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_10_091306) do
+ActiveRecord::Schema.define(version: 2021_09_12_080436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -114,6 +114,7 @@ ActiveRecord::Schema.define(version: 2021_09_10_091306) do
     t.index ["amount_cents"], name: "index_eval_movements_on_amount_cents"
     t.index ["beneficiary_card"], name: "index_eval_movements_on_beneficiary_card"
     t.index ["beneficiary_iban"], name: "index_eval_movements_on_beneficiary_iban"
+    t.index ["customer_id", "service_id"], name: "index_eval_movements_on_customer_id_and_service_id", unique: true
     t.index ["customer_id"], name: "index_eval_movements_on_customer_id"
     t.index ["destination_country"], name: "index_eval_movements_on_destination_country"
     t.index ["destination_lonlat"], name: "index_eval_movements_on_destination_lonlat", using: :gist
@@ -130,7 +131,6 @@ ActiveRecord::Schema.define(version: 2021_09_10_091306) do
     t.index ["recursion_customer_7"], name: "index_eval_movements_on_recursion_customer_7"
     t.index ["service_created_at"], name: "index_eval_movements_on_service_created_at"
     t.index ["service_id"], name: "index_eval_movements_on_service_id"
-    t.index ["service_id"], name: "service_unique_on_eval_movements", unique: true
     t.index ["service_updated_at"], name: "index_eval_movements_on_service_updated_at"
   end
 
