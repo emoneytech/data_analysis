@@ -44,7 +44,7 @@ class CreateEvalMovementWorker
       em2.product_base_risk = em.product_base_risk
       
       em2.beneficiary = em.beneficiary
-      em2.beneficiary_iban = em.beneficiary_other
+      em2.beneficiary_iban = em.beneficiary_iban
       em2.beneficiary_other = em.beneficiary_other
       em2.beneficiary_card = em.beneficiary_card
       
