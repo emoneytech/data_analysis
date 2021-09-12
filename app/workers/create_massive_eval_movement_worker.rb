@@ -60,7 +60,7 @@ class CreateMassiveEvalMovementWorker
       em2.internal = true
       em2.in_out = "IN"
       em2.save
-
+    end
   end
 end
 # service = Servizio.joins(:product,:anagrafica,:movimenticonti).preload(:product,{anagrafica: :conti},:movimenticonti,:ricarica,:ricaricacarta,:bonifico,:assegnovirtuale,:incassoassegno).where('movimenticonti.Point = ?', point).references(:movimenticonti).where(point: point,idservizio: service_id).where.not('SUBSTRING(prodotto, -3, 3) IN (?)',ExcludedProduct.all.pluck(:last_3_numbers)).uniq.first
