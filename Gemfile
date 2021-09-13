@@ -104,6 +104,7 @@ gem 'geocoder'
 gem 'net-http'
 
 gem "normalize_country"
+gem 'iban-tools'
 
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'activerecord-postgis-adapter'

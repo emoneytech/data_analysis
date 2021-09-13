@@ -9,6 +9,8 @@
   .card-body
     = simple_form_for :filter, method: :get, remote: false do |f|
       .row
+        .col-md-3
+          = f.input :in_out, as: :select, collection: %w[IN OUT], required: false, input_html: {class: "select2"}, selected: "#{params[:filter][:in_out] if params[:filter]}", include_blank: true
         .col-md-3= f.input :daterange, label: 'Date range', input_html: { class: 'local-daterange' }, required: false
         .col-md-3= f.input :service_id, label: 'Service ID', required: false, input_html: {value: "#{params[:filter][:service_id] if params[:filter]}"}
         .col-md-3= f.input :customer_id, label: "Customer ID", required: false, input_html: {value: "#{params[:filter][:customer_id] if params[:filter]}"}

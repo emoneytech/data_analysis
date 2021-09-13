@@ -10,8 +10,8 @@
         %th= Movimentoconto.human_attribute_name(:idmovimenticonti)
         %td= movimentoconto.idmovimenticonti
       %tr
-        %th= Movimentoconto.human_attribute_name(:payment_order_id)
-        %td= movimentoconto.payment_order_id
+        %th= Movimentoconto.human_attribute_name(:mandato)
+        %td= link_to movimentoconto.payment_order_id, data_analysis_mandato_path(movimentoconto.payment_order_id)
       %tr
         %th= Movimentoconto.human_attribute_name(:idtransazione)
         %td= link_to movimentoconto.idtransazione, [:data_analysis, movimentoconto.servizio] if movimentoconto.servizio
@@ -20,7 +20,11 @@
         %td= movimentoconto.tipotransazione
       %tr
         %th= Movimentoconto.human_attribute_name(:causale)
-        %td= movimentoconto.causale
+        %td
+          - if movimentoconto.mandato
+            = ordinante_proc movimentoconto.mandato
+          - else
+            = movimentoconto.causale
       %tr
         %th= Movimentoconto.human_attribute_name(:dare)
         %td= movimentoconto.dare

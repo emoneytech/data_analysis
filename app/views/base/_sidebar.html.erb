@@ -15,6 +15,14 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="<%= data_analysis_check_ibans_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'check_ibans' %>">
+                <i class="nav-icon fas fa-search"></i>
+                <p>
+                  <%= t(:check_ibans, default: "Check Ibans") %>
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="<%= customers_anagrafiche_path %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'anagrafiche' %>">
                 <i class="nav-icon fas fa-users"></i>
                 <p>
@@ -30,7 +38,8 @@
                   <%= Conto.model_name.human(count: 2) %>
                 </p>
               </a>
-            </li>            <li class="nav-item">
+            </li>
+            <li class="nav-item">
               <a href="<%= compliance_check_sanction_lists_path %>" class="nav-link<%= ' active' if @module_name === 'ComplianceCheck' && controller_name == 'sanction_lists' %>">
                 <i class="nav-icon fas fa-user-check"></i>
                 <p>

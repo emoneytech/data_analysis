@@ -1,0 +1,19 @@
+.row
+  .col-md-12
+    .card
+      = simple_form_for :filter, method: :get, remote: false do |f|
+        .card-header
+          %h3.card-title
+            %i.fa.fa-search
+            = t(:check_ibans, default: "Check Ibans")
+        .card-body
+          .row
+            .col-md-6= f.input :iban, hint: "Type Iban to check", required: false, input_html: {value: "#{params[:filter][:iban] if params[:filter]}"}
+          - if @iban_info
+            .row
+              .col-md-12
+                %pre
+                  %code= JSON.pretty_generate(@iban_info)
+        .card-footer
+          = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-success'
+

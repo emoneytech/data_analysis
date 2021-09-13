@@ -55,7 +55,7 @@ class Movimentoconto < ApplicationCoreRecord
  # has_one :anagrafica, through: :servizio, class_name: "Anagrafica"
   has_one :anagrafica, through: :conto, class_name: "Anagrafica", source: :bank_user
 
-  belongs_to :mandato, foreign_key: "idmandato", class_name: "Mandato", optional: true
+  belongs_to :mandato, foreign_key: "IdMandato", class_name: "Mandato", optional: true
   has_one :product, through: :main_service
 
   # default_scope -> { order(idmovimenticonti: :desc)}

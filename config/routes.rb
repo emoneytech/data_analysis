@@ -77,6 +77,7 @@ Rails.application.routes.draw do
       end
     end
     resources :dashboard, only: :index
+    resources :check_ibans, only: :index
     resources :dashboard2, only: :index
     resources :eval_movements do
       collection do

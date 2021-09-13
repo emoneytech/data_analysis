@@ -26,15 +26,16 @@
         %td= item.Data
         %td= item.Tipo
         %td= item.Importo
-        %td= item.Beneficiario
-        %td= item.ContoBeneficiario
-        %td= item.Ordinante
-        %td= item.ContoRiferimento
+        %td
+          = link_to item.bank_user, customers_anagrafica_path(item.Beneficiario) unless item.Beneficiario === 0
+        %td= link_to item.ContoBeneficiario, data_analysis_conto_path(item.ContoBeneficiario) unless item.ContoBeneficiario.strip.to_i === 0
+        %td= ordinante_proc item
+        %td= link_to item.ContoRiferimento, data_analysis_conto_path(item.ContoRiferimento) unless item.ContoRiferimento === 0
         %td= item.Note
         %td= item.Stato
         %td= item.Operatore
-        %td= item.IdMovimentoTecnico
-        %td= item.IdMovimentoValidazione
+        %td= link_to item.IdMovimentoTecnico, data_analysis_movimentoconto_path(item.IdMovimentoTecnico)
+        %td= link_to item.IdMovimentoValidazione, data_analysis_movimentoconto_path(item.IdMovimentoValidazione)
         %td= item.Intestatario
         %td= item.Passivi
         %td= item.Blocco

@@ -4,8 +4,9 @@
       %i.fa.fa-microchip
       #{Servizio.model_name.human} #{servizio.id}
     .card-tools
+      - opts = {filter: {service_id: servizio.id, daterange: year_to_daterange(servizio.lastupdate.year)}}
       = link_to fa_icon('stopwatch'), update_eval_movements_data_analysis_servizio_path(servizio.id), class: "btn btn-xs btn-danger", method: :post
-            
+      = link_to fa_icon('search-dollar'), data_analysis_eval_movements_path(params: opts), class: "btn btn-xs btn-success" 
   .card-body
     %dl.row
       - for attribute in servizio.attributes.keys

@@ -1,8 +1,3 @@
 .row
-  .col-md-8
-    = render "statistics", conto: @conto
-.row
-  .col-md-12= render "conto", conto: @conto
-- if @movimenticonti
-  .row= render "data_analysis/movimenticonti/movimenticonti", movimenticonti: @movimenticonti
+  .col-md-12= render "iban", iban: @iban
 

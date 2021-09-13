@@ -27,9 +27,19 @@ class Mandato < ApplicationCoreRecord
   self.table_name = 'mandati'
   self.primary_key = 'IdMandato'
 
-  belongs_to :movimento, class_name: "Movimentoconto", foreign_key: "idmovimentovalidazione", optional: true
+  belongs_to :movimento, class_name: "Movimentoconto", foreign_key: "IdMovimentoValidazione", optional: true
+  belongs_to :bank_user, class_name: "Anagrafica", foreign_key: "Beneficiario", optional: true
   delegate :datanumerica, to: :movimento
   delegate :dataMovimento, to: :movimento
+
+  scope :filter_by_customer_id, -> (customer_id) { where(Beneficiario: customer_id) }
+  scope :filter_by_service_id, -> (service_id) { where("Ordinante like ?", "% #{service_id}")}
+
+  scope :filter_by_in_out, -> (value) { where( value == 'IN' ? "Beneficiario != 0" : "Beneficiario = 0" ) }
+
+  scope :filter_by_daterange, -> (daterange) { where(
+    "DATE_FORMAT(mandati.Data , '%Y-%m-%d') between ? and ?", daterange.split(' - ')[0].to_date.strftime('%Y-%m-%d'), daterange.split(' - ')[1].to_date.strftime('%Y-%m-%d')
+  )}
 
   # alias_attribute :codspinoff2dest, "ContoBeneficiario"
   def self.last_id

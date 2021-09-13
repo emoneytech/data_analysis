@@ -1,6 +1,6 @@
 module DataAnalysis
   class MovimenticontiController < DataAnalysisController
-    add_breadcrumb helpers.raw("#{helpers.fa_icon('exchange-alt')} #{Movimentoconto.model_name.human(count: 2)}"), :data_analysis_servizi
+    add_breadcrumb helpers.raw("#{helpers.fa_icon('exchange-alt')} #{Movimentoconto.model_name.human(count: 2)}"), :data_analysis_movimenticonti
 
     def index
       @daterange = params[:filter] && params[:filter][:daterange] ? params[:filter][:daterange] : "#{(Date.today - 1.month).strftime("%d/%m/%Y")} - #{Date.today.strftime("%d/%m/%Y")}"
@@ -13,6 +13,7 @@ module DataAnalysis
 
     def show
       @movimentoconto = Movimentoconto.where(id: params[:id]).first
+      add_breadcrumb @movimentoconto.id, :data_analysis_movimentoconto
     end
   
   private
