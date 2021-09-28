@@ -47,11 +47,11 @@ class Place < CorePgRecord
   }
 
   def latitude
-    self.lonlat.lat
+    self.lonlat.try(:lat)
   end
 
   def longitude
-    self.lonlat.lon
+    self.lonlat.try(:lon)
   end
 
 end
