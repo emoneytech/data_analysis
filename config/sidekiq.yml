@@ -9,15 +9,15 @@
 
 :limits:
   massive: 25
-  default: 10
+  default: 15
   mailers: 5
   critical: 1
-  serial: 1
+  serial: 10
 
 :process_limits:
   massive: 25
   critical: 1
-  serial: 1
+  serial: 10
 
 :schedule:
   enqueuer_worker:
