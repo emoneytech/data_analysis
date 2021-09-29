@@ -46,7 +46,7 @@
         %td= link_to movimentoconto.numeroConto, data_analysis_conto_path(movimentoconto.numeroConto)
       %tr
         %th= Movimentoconto.human_attribute_name(:contodiprovenienza)
-        %td= movimentoconto.contodiprovenienza
+        %td= link_to movimentoconto.contodiprovenienza, data_analysis_conto_path(movimentoconto.contodiprovenienza) if movimentoconto.contodiprovenienza != ""
       %tr
         %th= Movimentoconto.human_attribute_name(:contodestinazione)
         %td= movimentoconto.contodestinazione

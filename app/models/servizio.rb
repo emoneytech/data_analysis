@@ -42,7 +42,7 @@
 #
 class Servizio < ApplicationCoreRecord
   self.table_name = 'servizi'
-  self.primary_key = 'idservizio'
+  self.primary_key = :idservizio
 
   alias_attribute :servizio_id, :idservizio
   alias_attribute :gruppo_id, :gruppo
@@ -62,6 +62,7 @@ class Servizio < ApplicationCoreRecord
 
 
   has_many :eval_movements, foreign_key: :service_id, primary_key: 'idservizio'
+  has_many :triggered, class_name: "EvalMovement", as: :triggerable, primary_key: :idservizio, inverse_of: :triggerable
 
   scope :with_movements, -> { joins(:movimenticonti).uniq }
   scope :active_status, -> { where(status: ['5','6','7','8'])}

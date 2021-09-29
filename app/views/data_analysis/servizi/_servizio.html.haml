@@ -12,4 +12,5 @@
       - for attribute in servizio.attributes.keys
         %dt.col-md-4.text-right= attribute.humanize
         %dd.col-md-8= servizio.attributes[attribute] && servizio.attributes[attribute] != '' && servizio.attributes[attribute] != '""'? servizio.attributes[attribute].to_s : ' - '
+    = render "data_analysis/eval_movements/table", eval_movements: servizio.eval_movements
     = render "data_analysis/movimenticonti/table", movimenticonti: servizio.movimenticonti

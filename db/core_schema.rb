@@ -788,6 +788,23 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "datestartcheck"
     t.string "typecompliance", limit: 1, comment: "M = manula, A = automated"
     t.integer "od", default: 0
+    t.integer "verified", default: 0
+    t.integer "idoperator", default: 0
+    t.datetime "dateverified", default: "0001-01-01 00:00:00"
+  end
+
+  create_table "compliance_check_wl", primary_key: "idcompliance_check", id: :integer, charset: "latin1", force: :cascade do |t|
+    t.integer "IdUtente"
+    t.text "datasend", size: :long
+    t.text "result_search", size: :long, collation: "utf8_unicode_ci"
+    t.string "result", limit: 2
+    t.datetime "dataeoraverifica", default: -> { "CURRENT_TIMESTAMP" }
+    t.date "datestartcheck"
+    t.string "typecompliance", limit: 1, comment: "M = manula, A = automated"
+    t.integer "od", default: 0
+    t.integer "verified", default: 0
+    t.integer "idoperator", default: 0
+    t.datetime "dateverified", default: "0001-01-01 00:00:00"
   end
 
   create_table "comuni", primary_key: "IdComune", id: :integer, default: nil, charset: "utf8", force: :cascade do |t|
@@ -1900,6 +1917,13 @@ ActiveRecord::Schema.define(version: 0) do
     t.text "Nota"
     t.index ["DescrizioneStato"], name: "DescrizioneStato_UNIQUE", unique: true
     t.index ["id"], name: "id_UNIQUE", unique: true
+  end
+
+  create_table "reason_sepa_payments", primary_key: "idReason", id: :integer, charset: "latin1", force: :cascade do |t|
+    t.string "reasonIta", limit: 45
+    t.string "reasonEng", limit: 45
+    t.string "relazione", limit: 45, null: false
+    t.index ["idReason"], name: "idReason_UNIQUE", unique: true
   end
 
   create_table "registrazioni_anagrafiche", primary_key: "IdRegistrazioni", id: :integer, charset: "latin1", force: :cascade do |t|

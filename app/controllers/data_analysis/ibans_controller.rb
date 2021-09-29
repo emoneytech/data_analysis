@@ -7,7 +7,8 @@ module DataAnalysis
     respond_to :json, only: :map
 
     def index
-      @ibans = @ibans.includes(:anagrafica, :conto).page(params[:page]).per(params[:per])
+      ibans = Iban.filter(filtering_params).includes(:anagrafica, :conto)
+      @ibans = ibans.page(params[:page]).per(params[:per])
     end
 
     def show
@@ -23,7 +24,10 @@ module DataAnalysis
     def filtering_params
       params[:filter] ? params[:filter].slice(
         :customer_id,
-        :conto
+        :conto,
+        :iban,
+        :type,
+        :c
       ).permit! : {}
     end
 

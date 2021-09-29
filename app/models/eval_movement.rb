@@ -42,7 +42,8 @@ class EvalMovement < CorePgRecord
   include PGEnum(eval_movement_type: %w[IN OUT])
   monetize :amount_cents
   
-
+  belongs_to :triggerable, polymorphic: true, optional: true
+  
   belongs_to :customer,
              class_name: 'Anagrafica',
              foreign_key: 'customer_id',

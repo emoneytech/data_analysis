@@ -2,55 +2,60 @@
   .card-header
     %h3.card-title
       %i.fa.fa-exchange-alt
-      #{Movimentoconto.model_name.human} #{movimentoconto.id}
+      #{Mandato.model_name.human} #{mandato.id}
     .spacer
   .card-body
     %table.table.table-striped.table-bordered.table-hover
       %tr
-        %th= Movimentoconto.human_attribute_name(:idmovimenticonti)
-        %td= movimentoconto.idmovimenticonti
+        %th= Mandato.human_attribute_name(:IdMandato)
+        %td= mandato.IdMandato
       %tr
-        %th= Movimentoconto.human_attribute_name(:payment_order_id)
-        %td= movimentoconto.payment_order_id
+        %th= Mandato.human_attribute_name(:Data)
+        %td= mandato.Data
       %tr
-        %th= Movimentoconto.human_attribute_name(:idtransazione)
-        %td= link_to movimentoconto.idtransazione, [:data_analysis, movimentoconto.servizio] if movimentoconto.servizio
+        %th= Mandato.human_attribute_name(:Tipo)
+        %td= mandato.Tipo
       %tr
-        %th= Movimentoconto.human_attribute_name(:tipotransazione)
-        %td= movimentoconto.tipotransazione
+        %th= Mandato.human_attribute_name(:Importo)
+        %td= mandato.Importo
       %tr
-        %th= Movimentoconto.human_attribute_name(:causale)
-        %td= movimentoconto.causale
+        %th= Mandato.human_attribute_name(:Beneficiario)
+        %td= link_to mandato.bank_user, customers_anagrafica_path(mandato.Beneficiario) unless mandato.Beneficiario === 0
       %tr
-        %th= Movimentoconto.human_attribute_name(:dare)
-        %td= movimentoconto.dare
+        %th= Mandato.human_attribute_name(:ContoBeneficiario)
+        %td= link_to mandato.ContoBeneficiario, data_analysis_conto_path(mandato.ContoBeneficiario) unless mandato.ContoBeneficiario.strip.to_i === 0
       %tr
-        %th= Movimentoconto.human_attribute_name(:avere)
-        %td= movimentoconto.avere
+        %th= Mandato.human_attribute_name(:Ordinante)
+        %td= ordinante_proc mandato
       %tr
-        %th= Movimentoconto.human_attribute_name(:importo)
-        %td= movimentoconto.importo
+        %th= Mandato.human_attribute_name(:ContoRiferimento)
+        %td= link_to mandato.ContoRiferimento, data_analysis_conto_path(mandato.ContoRiferimento) unless mandato.ContoRiferimento.strip.to_i === 0
       %tr
-        %th= Movimentoconto.human_attribute_name(:datamovimento)
-        %td= movimentoconto.datamovimento
+        %th= Mandato.human_attribute_name(:Note)
+        %td= mandato.Note
       %tr
-        %th= Movimentoconto.human_attribute_name(:point)
-        %td= movimentoconto.point
-
+        %th= Mandato.human_attribute_name(:Stato)
+        %td= mandato.Stato
       %tr
-        %th= Movimentoconto.human_attribute_name(:numeroConto)
-        %td= link_to movimentoconto.numeroConto, data_analysis_conto_path(movimentoconto.numeroConto)
+        %th= Mandato.human_attribute_name(:Operatore)
+        %td= mandato.Operatore
       %tr
-        %th= Movimentoconto.human_attribute_name(:contodiprovenienza)
-        %td= movimentoconto.contodiprovenienza
+        %th= Mandato.human_attribute_name(:IdMovimentoValidazione)
+        %td= link_to mandato.IdMovimentoValidazione, data_analysis_movimentoconto_path(mandato.IdMovimentoValidazione)
       %tr
-        %th= Movimentoconto.human_attribute_name(:contodestinazione)
-        %td= movimentoconto.contodestinazione
+        %th= Mandato.human_attribute_name(:IdMovimentoTecnico)
+        %td= link_to mandato.IdMovimentoTecnico, data_analysis_movimentoconto_path(mandato.IdMovimentoTecnico)
       %tr
-        %th= Movimentoconto.human_attribute_name(:anagrafica)
-        %td= link_to movimentoconto.anagrafica.full_name, [:customers, movimentoconto.anagrafica] if movimentoconto.anagrafica
+        %th= Mandato.human_attribute_name(:Intestatario)
+        %td= mandato.Intestatario
       %tr
-        %th= Movimentoconto.human_attribute_name(:idcausale)
-        %td= movimentoconto.idcausale
+        %th= Mandato.human_attribute_name(:Passivi)
+        %td= mandato.Passivi
+      %tr
+        %th= Mandato.human_attribute_name(:Blocco)
+        %td= mandato.Blocco
+      %tr
+        %th= Mandato.human_attribute_name(:Iban)
+        %td= link_to mandato.Iban, data_analysis_iban_path(mandato.Iban) if mandato.Iban
         
 

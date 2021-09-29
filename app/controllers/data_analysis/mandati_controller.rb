@@ -23,7 +23,9 @@ module DataAnalysis
         :daterange,
         :in_out,
         :min_amount,
-        :max_amount
+        :max_amount,
+        :ordinante,
+        :iban
       ).permit! : {}
     end
   end

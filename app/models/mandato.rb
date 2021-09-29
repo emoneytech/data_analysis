@@ -25,7 +25,9 @@ class Mandato < ApplicationCoreRecord
   include Filterable
 
   self.table_name = 'mandati'
-  self.primary_key = 'IdMandato'
+  self.primary_key = :IdMandato
+
+  has_many :eval_movements, as: :triggerable, primary_key: :IdMandato, inverse_of: :triggerable
 
   belongs_to :movimento, class_name: "Movimentoconto", foreign_key: "IdMovimentoValidazione", optional: true
   belongs_to :bank_user, class_name: "Anagrafica", foreign_key: "Beneficiario", optional: true
@@ -33,7 +35,9 @@ class Mandato < ApplicationCoreRecord
   delegate :dataMovimento, to: :movimento
 
   scope :filter_by_customer_id, -> (customer_id) { where(Beneficiario: customer_id) }
+  scope :filter_by_iban, -> (value) { where(Iban: value) }
   scope :filter_by_service_id, -> (service_id) { where("Ordinante like ?", "% #{service_id}")}
+  scope :filter_by_ordinante, -> (value) { where("Ordinante like ?", "%#{value}%")}
 
   scope :filter_by_in_out, -> (value) { where( value == 'IN' ? "Beneficiario != 0" : "Beneficiario = 0" ) }
 

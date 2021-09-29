@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_12_080436) do
+ActiveRecord::Schema.define(version: 2021_09_29_081542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -111,6 +111,8 @@ ActiveRecord::Schema.define(version: 2021_09_12_080436) do
     t.integer "recursion_customer_7"
     t.integer "recursion_customer_30"
     t.enum "in_out", default: "OUT", as: "eval_movement_type"
+    t.string "triggerable_type"
+    t.bigint "triggerable_id"
     t.index ["amount_cents"], name: "index_eval_movements_on_amount_cents"
     t.index ["beneficiary_card"], name: "index_eval_movements_on_beneficiary_card"
     t.index ["beneficiary_iban"], name: "index_eval_movements_on_beneficiary_iban"
@@ -132,6 +134,7 @@ ActiveRecord::Schema.define(version: 2021_09_12_080436) do
     t.index ["service_created_at"], name: "index_eval_movements_on_service_created_at"
     t.index ["service_id"], name: "index_eval_movements_on_service_id"
     t.index ["service_updated_at"], name: "index_eval_movements_on_service_updated_at"
+    t.index ["triggerable_type", "triggerable_id"], name: "index_eval_movements_on_triggerable_type_and_triggerable_id"
   end
 
   create_table "places", force: :cascade do |t|
