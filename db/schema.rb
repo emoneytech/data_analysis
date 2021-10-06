@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_04_072833) do
+ActiveRecord::Schema.define(version: 2021_10_05_091928) do
 
   create_table "active_admin_comments", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "namespace"
@@ -97,6 +97,12 @@ ActiveRecord::Schema.define(version: 2021_08_04_072833) do
     t.index ["customer_id"], name: "index_notes_on_customer_id"
     t.index ["deleted_at"], name: "index_notes_on_deleted_at"
     t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
+  create_table "queue_movements", charset: "latin1", force: :cascade do |t|
+    t.integer "movement_id", null: false
+    t.timestamp "last_update", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["movement_id"], name: "index_queue_movements_on_movement_id"
   end
 
   create_table "roles", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|

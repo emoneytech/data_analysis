@@ -2,7 +2,7 @@
 #
 # Table name: mandati
 #
-#  IdMandato              :integer          not null
+#  IdMandato              :integer          not null, primary key
 #  Data                   :date
 #  Tipo                   :string(45)
 #  Importo                :decimal(12, 2)   default(0.0)

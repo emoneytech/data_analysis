@@ -36,6 +36,8 @@
 #  recursion_customer_7  :integer
 #  recursion_customer_30 :integer
 #  in_out                :enum             default("OUT")
+#  triggerable_type      :string
+#  triggerable_id        :bigint
 #
 require "test_helper"
 

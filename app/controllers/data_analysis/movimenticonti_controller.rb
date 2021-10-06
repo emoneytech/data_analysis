@@ -3,7 +3,9 @@ module DataAnalysis
     add_breadcrumb helpers.raw("#{helpers.fa_icon('exchange-alt')} #{Movimentoconto.model_name.human(count: 2)}"), :data_analysis_movimenticonti
 
     def index
-      @daterange = params[:filter] && params[:filter][:daterange] ? params[:filter][:daterange] : "#{(Date.today - 1.month).strftime("%d/%m/%Y")} - #{Date.today.strftime("%d/%m/%Y")}"
+      unless params[:filter] && params[:filter][:daterange]
+        params[:filter] = { :daterange => "#{(Date.today - 1.month).strftime("%d/%m/%Y")} - #{Date.today.strftime("%d/%m/%Y")}"}
+      end
       # @cached_total_pages = (RowCount.where(relname: 'movimenticonti').pluck(:reltuples).first / 30.0).ceil
       movimenticonti = Movimentoconto.filter(filtering_params).only_customers.includes(:servizio, :anagrafica)
       #@count = 

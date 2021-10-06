@@ -1,36 +1,41 @@
 %table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_movements', data: {order: '[[7, "desc"]]'}}
   %thead
     %tr
-      %th= Movimentoconto.human_attribute_name(:id)
+      %th= "#{Movimentoconto.human_attribute_name(:id)} | #{Movimentoconto.human_attribute_name(:tipo_transazione)}"
       %th= Movimentoconto.human_attribute_name(:servizio)
-      %th= Movimentoconto.human_attribute_name(:tipo_transazione)
-      %th.text-center= Movimentoconto.human_attribute_name(:causale)
+      %th= Movimentoconto.human_attribute_name(:mandato)
       %th= Movimentoconto.human_attribute_name(:dare)
       %th= Movimentoconto.human_attribute_name(:avere)
       %th= Movimentoconto.human_attribute_name(:importo)
       %th= Movimentoconto.human_attribute_name(:data_movimento)
       %th= Movimentoconto.human_attribute_name(:point)
       %th= Movimentoconto.human_attribute_name(:numeroConto)
+      %th= Movimentoconto.human_attribute_name(:contodiprovenienza)
+      %th= Movimentoconto.human_attribute_name(:contodestinazione)
       %th= Movimentoconto.human_attribute_name(:anagrafica)
       %th= Movimentoconto.human_attribute_name(:causale)
-      %th= Movimentoconto.human_attribute_name(:idCausale)
       %th.action{data: {orderable: "false"}}
   %tbody
     - movimenticonti.each do |item|
       %tr
-        %td= item.idmovimenticonti
+        %td= "#{item.idmovimenticonti} | #{item.tipotransazione}"
         %td= link_to item.idtransazione, [:data_analysis, item.servizio] if item.servizio
-        %td= item.tipotransazione
-        %td= item.causale
+        %td= link_to item.IdMandato, data_analysis_mandato_path(item.IdMandato) if item.IdMandato != 0
         %td= item.dare
         %td= item.avere
         %td= item.importo
         %td= item.datamovimento
         %td= item.point
         %td= link_to item.numeroConto, data_analysis_conto_path(item.numeroConto)
+        %td= link_to item.contodiprovenienza, data_analysis_conto_path(item.contodiprovenienza) if item.contodiprovenienza && item.contodiprovenienza != ''
+        %td= link_to item.contodestinazione, data_analysis_conto_path(item.contodestinazione) if item.contodestinazione && item.contodestinazione != ''
         %td= link_to item.anagrafica.full_name, [:customers, item.anagrafica] if item.anagrafica
-        %td= item.causale
-        %td= item.idcausale
+        %td
+          = "<strong>Id Causale:</strong> #{item.idcausale}<br />".html_safe
+          - if item.IdMandato != 0
+            = ordinante_proc item.mandato
+          - else
+            = item.causale
         - if can? :manage, Movimentoconto
           %td.text-center
             = link_to data_analysis_movimentoconto_path(item), class: "btn btn-xs btn-primary" do

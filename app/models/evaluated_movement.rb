@@ -1,81 +1,80 @@
 # == Schema Information
 #
-# Table name: eval_movements
+# Table name: evaluated_movements
 #
 #  id                    :bigint           not null, primary key
+#  triggerable_id        :bigint           not null
+#  triggerable_type      :string           not null
+#  triggerable_status    :string           not null
+#  in_out                :enum             default("OUT")
+#  internal              :boolean          default(FALSE), not null
 #  customer_id           :integer          not null
-#  customer_full_name    :string
-#  service_id            :integer          not null
-#  service_status        :string
-#  service_updated_at    :datetime
-#  service_created_at    :datetime
 #  movement_id           :integer          not null
 #  movement_created_at   :datetime         not null
-#  product_net_id        :integer
 #  product_id            :integer
+#  product_net_id        :integer
 #  product_table_code    :integer
 #  product_name          :string
 #  product_base_risk     :float
+#  payer                 :string
+#  payer_iban            :string(50)
+#  payer_card            :string(50)
+#  payer_other           :string
 #  beneficiary           :string
-#  beneficiary_iban      :string
+#  beneficiary_iban      :string(50)
+#  beneficiary_card      :string(50)
 #  beneficiary_other     :string
 #  risk_factor           :float
 #  risk_description      :string
-#  amount_cents          :integer          default(0), not null
-#  amount_currency       :string           default("EUR"), not null
-#  destination_lonlat    :geography        point, 4326
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  beneficiary_card      :string(50)
-#  lock_version          :integer          default(0), not null
-#  origin_country        :string
-#  destination_country   :string
-#  internal              :boolean          default(FALSE), not null
-#  recursion_all_7       :integer
-#  recursion_all_30      :integer
 #  recursion_customer_7  :integer
 #  recursion_customer_30 :integer
-#  in_out                :enum             default("OUT")
-#  triggerable_type      :string
-#  triggerable_id        :bigint
+#  recursion_all_7       :integer
+#  recursion_all_30      :integer
+#  amount_cents          :integer          default(0), not null
+#  amount_currency       :string           default("EUR"), not null
+#  origin_lonlat         :geography        point, 4326
+#  destination_lonlat    :geography        point, 4326
+#  origin_country        :string           not null
+#  destination_country   :string           not null
+#  lock_version          :integer          default(0), not null
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
 #
-class EvalMovement < CorePgRecord
+class EvaluatedMovement < CorePgRecord
   include Filterable
   include PGEnum(eval_movement_type: %w[IN OUT])
   monetize :amount_cents
-  
+
+  # triggerable Service or Mandato
   belongs_to :triggerable, polymorphic: true, optional: true
+  validates :triggerable_id, uniqueness: { scope: [:customer_id, :triggerable_type] }
   
+  # customer
   belongs_to :customer,
              class_name: 'Anagrafica',
              foreign_key: 'customer_id',
              primary_key: 'IdUtente'
-  belongs_to :service,
-             class_name: 'Servizio',
-             foreign_key: 'service_id',
-             primary_key: 'idservizio'
+  # movement
   belongs_to :movement,
              class_name: 'Movimentoconto',
              foreign_key: 'movement_id',
              primary_key: 'idMovimentiConti'
+  # product
   belongs_to :product,
              class_name: 'Prodotto',
              foreign_key: 'product_id',
              primary_key: 'idprodotto',
              optional: true
-       
-  delegate :current_place, to: :customer
-  alias_method :origin, :current_place
 
-  validates :service_id, uniqueness: {scope: :customer_id}
-  
   # attr reader
   attr_reader :recursions
+  
   before_save :set_recursion
-  # after_save :set_destination, if: :is_bankwire?
 
-  scope :filter_by_customer_full_name, -> (name) { where("customer_full_name ilike ?", "%#{name}%")}
+
+  # filters
   scope :filter_by_customer_id, -> (customer_id) { where(customer_id: customer_id)}
+  scope :filter_by_payer, -> (name) { where("customer_payer ilike ?", "%#{name}%")}
   scope :filter_by_service_id, -> (service_id) { where(service_id: service_id)}
 
   scope :filter_by_beneficiary, -> (name) { where("beneficiary ilike ?", "%#{name}%")}
@@ -84,11 +83,10 @@ class EvalMovement < CorePgRecord
   scope :filter_by_beneficiary_other, -> (beneficiary_other) { where("beneficiary_other ilike ?", "%#{beneficiary_other}%")}
 
   scope :filter_by_product_name, -> (product_name) { where("product_name ilike ?", "%#{product_name}%")}
-  scope :filter_by_daterange, ->(daterange) {
-    where("movement_created_at BETWEEN '#{daterange.split(' - ')[0].to_date.beginning_of_day}' 
-      AND '#{daterange.split(' - ')[1].to_date.end_of_day}'")
-  }
-  
+  scope :filter_by_daterange, -> (daterange) { where(
+    "DATE_FORMAT(evaluated_movements.movement_created_at , '%Y-%m-%d') between ? and ?", daterange.split(' - ')[0].to_date.strftime('%Y-%m-%d'), daterange.split(' - ')[1].to_date.strftime('%Y-%m-%d')
+  )}
+
   scope :filter_by_origin_country, -> (country) { where("origin_country = ?", "#{country}")}
   scope :filter_by_destination_country, -> (country) { where("destination_country = ?", "#{country}")}
 
@@ -115,29 +113,6 @@ class EvalMovement < CorePgRecord
   scope :filter_by_internal, -> (internal) { where(internal: internal)}
   scope :filter_by_in_out, -> (value) { where(in_out: value)}
 
-  scope :for_evaluation, -> { order(movement_created_at: :asc)}
-
-  scope :for_day, ->(day) {
-    where("movement_created_at BETWEEN '#{day.beginning_of_day}' 
-    AND '#{day.end_of_day}'")
-  }
-
-  scope :with_all_for_day, ->(day) {
-    for_day(day).order(movement_created_at: :asc)
-  }
-  scope :with_all_for_month, ->(day) {
-    where("movement_created_at BETWEEN '#{day.beginning_of_month}' 
-    AND '#{day.at_end_of_month}'").order(movement_created_at: :asc)
-  }
-  scope :for_month, ->(day) {
-    where("movement_created_at BETWEEN '#{day.beginning_of_month.beginning_of_day}' 
-    AND '#{day.at_end_of_month.end_of_day}'")
-  }
-
-  
-
-  scope :all_bankwire, -> { where(product_table_code: Codicetabella.find_by_nometabella('bonifici').codtab)}
-
   # PostGIS SPATIAL QUERIES
   # for finding place X distance from a particular point (i.e. radius)
   scope :geocoded, -> { where.not( destination_lonlat: nil) }
@@ -161,70 +136,86 @@ class EvalMovement < CorePgRecord
     where('ST_Intersects(destination_lonlat, :bbox)', bbox: bbox)
   }
 
-  def latitude
-    self.destination_lonlat.try(:lat)
+  def self.build_from_movement_id(movement_id)
+    movement = Movimentoconto.only_customers.find movement_id rescue nil
+    return unless movement
+    point = movement.Point
+
+    return if [70, 75].include?(point.to_i)
+    if movement.IdMandato && movement.IdMandato != 0
+      EvaluatedMovement.build_from_mandato_id(movement.IdMandato)
+    else
+      service_id = movement.idtransazione
+      EvaluatedMovement.build_from_service_id(service_id, point)
+    end
   end
 
-  def longitude
-    self.destination_lonlat.try(:lon)
+  def self.build_from_mandato_id(mandato_id)
+    mandato = Mandato.find mandato_id rescue nil
+    return mandato
   end
 
-  def is_bankwire?
-    self.product_table_code.to_i === Codicetabella.find_by_nometabella('bonifici').codtab
+  def self.build_from_service_id(service_id, point)
+    service = Servizio.joins(:product,:anagrafica,:movimenticonti)
+                .preload(:product,{anagrafica: :conti},:movimenticonti,:ricarica,:ricaricacarta,:bonifico,:assegnovirtuale,:incassoassegno)
+                .where('movimenticonti.Point = ?', point)
+                .references(:movimenticonti)
+                .where(point: point, idservizio: service_id)
+                .where
+                .not(
+                  'SUBSTRING(prodotto, -3, 3) IN (?)',
+                  ExcludedProduct.all.pluck(:last_3_numbers)
+                )
+                .uniq.first
+    return unless service
+    return if service.anagrafica.Attivo.try(:to_i) == 6
+
+    default_product_base_risk = Configurable.default_product_base_risk.to_f
+    em = EvaluatedMovement.where(triggerable_type: "Servizio", triggerable_id: service.id, customer_id: service.point).first_or_initialize
+    em.build_for_service(service)
+    em.set_product_base_risk(service.product, default_product_base_risk)
+    em.save
+    return em
   end
 
-  def self.last_service_id
-    select(:service_id).order(service_id: :desc).first.try(:service_id) || 0
+  def recursions
+    {
+      all_7: self.recursion_all_7,
+      all_30: self.recursion_all_30,
+      customer_7: self.recursion_customer_7,
+      customer_30: self.recursion_customer_30
+    }
   end
 
-  def previous
-    EvalMovement.where("customer_id = ? AND movement_created_at < ? ", self.customer_id, self.movement_created_at).order(movement_created_at: :desc).first
-  end
-  
-  def next
-    EvalMovement.where("customer_id = ? AND movement_created_at > ?", self.customer_id, self.movement_created_at).order(movement_created_at: :asc).first
-  end
-  
   def all_previous
-    EvalMovement.where("movement_created_at < ? ", self.movement_created_at).order(movement_created_at: :desc).first
+    EvaluatedMovement.where("movement_created_at < ? ", self.movement_created_at).order(movement_created_at: :desc).first
   end
 
   def all_next
-    EvalMovement.where("movement_created_at > ?", self.movement_created_at).order(movement_created_at: :asc).first
+    EvaluatedMovement.where("movement_created_at > ?", self.movement_created_at).order(movement_created_at: :asc).first
   end
-=begin
-  def set_properties(service,
-    default_product_base_risk = Configurable.default_product_base_risk.to_f,
-    max_base_risk = Configurable.max_base_risk.to_f,
-    factor_for_amount = Configurable.factor_for_amount.to_f,
-    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f)
 
-    self.set_customer(service.anagrafica)
-    self.set_service(service)
-    self.set_movement_for_out(service)
-    self.set_beneficiary(service)
-    self.set_product_base_risk(service.product, default_product_base_risk)
-    self.set_evaluated_customer_factor(service.anagrafica, factor_for_amount, divisor_amount_for_factor)
-  end
-=end
+  #private
+
   def build_for_service(service)
-    self.set_customer(service.anagrafica)
+    self.set_payer_from_customer(service.anagrafica)
     self.set_service(service)
     self.set_movement_for_out(service)
     self.set_beneficiary(service)
   end
 
-  def set_customer(anagrafica)
-    self.customer_id = anagrafica.id
-    self.customer_full_name = anagrafica.full_name
+  def set_payer_from_customer(customer)
+    self.payer = customer.full_name
+    unless customer.current_place
+      customer.set_current_place 
+      customer.reload
+    end
+    self.origin_lonlat = customer.current_place.lonlat
     self.origin_country = "MT"
   end
 
   def set_service(service)
-    self.service_id = service.id
-    self.service_status = service.status
-    self.service_created_at = service.datainserimento
-    self.service_updated_at = service.lastupdate
+    self.triggerable_status = service.status
     self.product_id = service.prodotto
     self.product_name = service.nomeprodotto
     self.product_table_code = service.product.codtabella
@@ -274,6 +265,9 @@ class EvalMovement < CorePgRecord
         self.internal = true if service.bonifico.internal?
         self.beneficiary = "#{service.bonifico.destinatario}"
         self.beneficiary_iban = "#{service.bonifico.ibandest}"
+        self.payer = "#{service.bonifico.ordinante}"
+        self.payer_iban = "#{service.bonifico.ibanOrdinante}"
+        self.payer_other = "#{service.bonifico.causale}"
         self.set_beneficiary_point
       end
     when 'assegnovirtuale'
@@ -307,53 +301,6 @@ class EvalMovement < CorePgRecord
       result = Geocoder.search("#{address}, #{country}").first unless result
       self.beneficiary_other = "#{address} - #{city}, #{country}"
       self.destination_lonlat = "POINT(#{result.longitude} #{result.latitude})" if result
-    end
-  end
-
-  def set_product_base_risk(
-    product,
-    default_product_base_risk = Configurable.default_product_base_risk.to_f)
-    self.product_base_risk =
-      product.try(:base_risk) ? product.base_risk : default_product_base_risk
-  end
-
-  def set_evaluated_customer_factor(anagrafica,
-                                factor_for_amount = Configurable.factor_for_amount.to_f,
-                                divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f)
-
-    recursive = self.count_recursive(30)
-    unless recursive > 0
-      self.risk_factor =
-        (
-          (
-            (
-              (
-                ((self.product_base_risk.percentage_of(1)) - 100) *
-                  self.product_base_risk
-              ) *
-                (
-                  factor_for_amount *
-                    ((self.amount_cents / 100).to_f / divisor_amount_for_factor)
-                )
-            ) + 100
-          ) / 100
-        ).to_f
-      self.risk_description = "Operation factor: #{self.risk_factor}"
-    else
-      self.risk_factor =
-        (
-          (
-            (
-              (((self.product_base_risk.percentage_of(1)) - 100) * recursive) *
-                (
-                  factor_for_amount *
-                    ((self.amount_cents / 100).to_f / divisor_amount_for_factor)
-                )
-            ) + 100
-          ) / 100
-        ).to_f
-      self.risk_description =
-        "Repeated: #{recursive} - Factor: #{self.risk_factor}"
     end
   end
 
@@ -393,13 +340,12 @@ class EvalMovement < CorePgRecord
     self.recursion_customer_7  = count_recursive_for_customer(days=7)
     self.recursion_customer_30 = count_recursive_for_customer(days=30)
   end
- 
-  def recursions
-    {
-      all_7: self.recursion_all_7,
-      all_30: self.recursion_all_30,
-      customer_7: self.recursion_customer_7,
-      customer_30: self.recursion_customer_30
-    }
+
+  def set_product_base_risk(
+    product,
+    default_product_base_risk = Configurable.default_product_base_risk.to_f)
+    self.product_base_risk =
+      product.try(:base_risk) ? product.base_risk : default_product_base_risk
   end
+
 end
