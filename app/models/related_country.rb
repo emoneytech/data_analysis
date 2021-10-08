@@ -22,7 +22,7 @@
 class RelatedCountry < CorePgRecord
 
   validates :score, numericality: { greater_than_or_equal_to: 1.0 }
-
+  
   def previous
     self.class.unscoped.where('alpha2 < ?', alpha2).order('alpha2 DESC').first
   end

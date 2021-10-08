@@ -1,5 +1,6 @@
 module DataAnalysis
   class RelatedCountriesController < DataAnalysisController
+    before_action :fix_fields, only: :update
     add_breadcrumb helpers.raw("#{helpers.fa_icon('globe')} #{RelatedCountry.model_name.human(count: 2)}"), :data_analysis_related_countries
 
     def index
@@ -35,6 +36,12 @@ module DataAnalysis
 
     def related_country_params
       params.require(:related_country).permit(:score)
+    end
+
+    def fix_fields
+      if params[:related_country].present?
+        params[:related_country][:score] = params[:related_country][:score].to_s.gsub(',', '.').to_f
+      end
     end
 
   end
