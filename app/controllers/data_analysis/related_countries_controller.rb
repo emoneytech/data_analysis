@@ -23,8 +23,12 @@ module DataAnalysis
         if @related_country.update(related_country_params)
           format.html { redirect_to [:data_analysis, @related_country], notice: 'Country was successfully updated.' }
           format.json { render :show, status: :ok, location: @related_country }
+          format.js {}
         else
+          binding.pry
           format.html { render :edit }
+
+          format.js { render :edit }
           format.json { render json: @related_country.errors, status: :unprocessable_entity }
         end
       end

@@ -32,9 +32,9 @@
         %td.text-center{style: "background-color: #{item.in_eu ? 'lightgreen' : ''}"}= item.in_eu
         %td.text-center{style: "background-color: #{item.in_eea ? 'lightblue' : ''}"}= item.in_eea
         %td.text-center{style: "background-color: #{item.in_esm ? 'cyan' : ''}"}= item.in_esm
-        %td.text-center= item.score
+        %td.text-center{id: "td-score-#{item.id}"}= render 'data_analysis/related_countries/item_score', related_country: item
         %td.col-md-1.text-center{nowrap: true}
           = link_to fa_icon('eye'), [:data_analysis, item], class: "btn btn-xs btn-primary", data:{toggle: "tooltip"}, title: 'Show'
-          = link_to fa_icon('edit'), [:edit, :data_analysis, item], class: "btn btn-xs btn-warning", data:{toggle: "tooltip"}, title: 'Edit'
+          = link_to fa_icon('edit'), [:edit, :data_analysis, item], class: "btn btn-xs btn-warning", data:{toggle: "tooltip"}, title: 'Edit', remote: true
           
 
