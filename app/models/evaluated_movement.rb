@@ -201,7 +201,7 @@ class EvaluatedMovement < CorePgRecord
     self.set_payer_from_customer(service.anagrafica)
     self.set_service(service)
     self.set_movement_for_out(service)
-    self.set_beneficiary(service)
+    self.set_beneficiary_from_service(service)
   end
 
   def set_payer_from_customer(customer)
@@ -229,7 +229,7 @@ class EvaluatedMovement < CorePgRecord
     self.movement_created_at = movement.dataMovimento
   end
 
-  def set_beneficiary(service = self.service)
+  def set_beneficiary_from_service(service = self.service)
     self.beneficiary = 'Beneficiary not identifiable'
     return unless service.product.try(:nometabella)
     case service.product.nometabella
@@ -268,7 +268,7 @@ class EvaluatedMovement < CorePgRecord
         self.payer = "#{service.bonifico.ordinante}"
         self.payer_iban = "#{service.bonifico.ibanOrdinante}"
         self.payer_other = "#{service.bonifico.causale}"
-        self.set_beneficiary_point
+        self.set_destination_lonlat
       end
     when 'assegnovirtuale'
       if service.prodotto.to_s == "1614" || service.prodotto.to_s == "1612"
@@ -288,7 +288,7 @@ class EvaluatedMovement < CorePgRecord
     end
   end
 
-  def set_beneficiary_point
+  def set_destination_lonlat
     if self.beneficiary_iban != ''
       iban = self.beneficiary_iban
       iban_info = IbanUtils.validate_iban(iban)
