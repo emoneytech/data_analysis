@@ -297,7 +297,7 @@ class EvaluatedMovement < CorePgRecord
       country = bank_data_hash["country"]
       self.destination_country = NormalizeCountry(country, :to => :alpha2)
       address = bank_data_hash["address"]
-      result = Geocoder.search(city, params: {country: country, address: address}).first
+      result = Geocoder.search(country, params: {city: city, address: address}).first
       result = Geocoder.search("#{address}, #{country}").first unless result
       self.beneficiary_other = "#{address} - #{city}, #{country}"
       self.destination_lonlat = "POINT(#{result.longitude} #{result.latitude})" if result

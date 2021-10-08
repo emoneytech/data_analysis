@@ -19,7 +19,7 @@ class SetEvalMovementCardWorker
       else
         city, country, address = customer.Citta, NormalizeCountry(customer.NazioneResidenza), customer.Indirizzo
       end
-      result = Geocoder.search(city, params: {country: country, address: address}).first
+      result = Geocoder.search(country, params: {city: city, address: address}).first
       eval_movement.beneficiary_other = "#{address} - #{city}, #{country}"
       eval_movement.destination_lonlat = "POINT(#{result.longitude} #{result.latitude})"
       eval_movement.save
