@@ -25,9 +25,7 @@ module DataAnalysis
           format.json { render :show, status: :ok, location: @related_country }
           format.js {}
         else
-          binding.pry
           format.html { render :edit }
-
           format.js { render :edit }
           format.json { render json: @related_country.errors, status: :unprocessable_entity }
         end
