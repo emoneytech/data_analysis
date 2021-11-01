@@ -19,7 +19,7 @@
   critical: 1
   serial: 10
 
-:schedule:
-  enqueuer_worker:
-    every: '1m'
-    class: EnqueuerWorker
+#:schedule:
+#  enqueuer_worker:
+#    every: '1m'
+#    class: EnqueuerWorker

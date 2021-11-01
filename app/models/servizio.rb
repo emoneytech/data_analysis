@@ -327,7 +327,7 @@ class Servizio < ApplicationCoreRecord
   end
 
   def beneficiary_internal
-    self.get_beneficiary[:internal] ? self.get_beneficiary[:internal] : nil
+    self.get_beneficiary ? self.get_beneficiary[:internal] : nil
   end
 
   def get_principal_movement_in

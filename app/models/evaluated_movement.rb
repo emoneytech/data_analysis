@@ -77,31 +77,18 @@ class EvaluatedMovement < CorePgRecord
   after_initialize :build_from_movement
 
 
-  def self.build_from_movement_id(movement_id)
-    movement = Movimentoconto.only_customers.find movement_id rescue nil
-    return unless movement
-    point = movement.Point
-
-    return if [70, 75].include?(point.to_i)
-    if movement.IdMandato && movement.IdMandato != 0
-      EvaluatedMovement.build_from_mandato_id(movement.IdMandato)
-    else
-      service_id = movement.idtransazione
-      EvaluatedMovement.build_from_service_id(service_id, point)
-    end
-  end
-
-  
   def build_from_movement
     return unless new_record?
     movement = Movimentoconto.only_customers.find movement_id rescue nil
     return unless movement
+    return if movement.anagrafica.Attivo.try(:to_i) == 6
+
     if movement.out?
       self.in_out = 'OUT'
       self.customer_id = point = movement.Point
       return if [70, 75].include?(point.to_i)
       if movement.IdMandato && movement.IdMandato != 0
-        EvaluatedMovement.build_from_mandato_id(movement.IdMandato)
+        binding.pry
       else
         out_from_service_id(movement.idtransazione, point)
       end
@@ -282,35 +269,7 @@ class EvaluatedMovement < CorePgRecord
     end
   end
 
-=begin
-  def self.build_from_mandato_id(mandato_id)
-    mandato = Mandato.find mandato_id rescue nil
-    return mandato
-  end
 
-  def self.build_from_service_id(service_id, point)
-    service = Servizio.joins(:product,:anagrafica,:movimenticonti)
-                .preload(:product,{anagrafica: :conti},:movimenticonti,:ricarica,:ricaricacarta,:bonifico,:assegnovirtuale,:incassoassegno)
-                .where('movimenticonti.Point = ?', point)
-                .references(:movimenticonti)
-                .where(point: point, idservizio: service_id)
-                .where
-                .not(
-                  'SUBSTRING(prodotto, -3, 3) IN (?)',
-                  ExcludedProduct.all.pluck(:last_3_numbers)
-                )
-                .uniq.first
-    return unless service
-    return if service.anagrafica.Attivo.try(:to_i) == 6
-
-    default_product_base_risk = Configurable.default_product_base_risk.to_f
-
-    # self.build_for_service(service)
-    # self.set_product_base_risk(service.product, default_product_base_risk)
-    # em.save
-    return em
-  end
-=end
   def recursions
     {
       all_7: self.recursion_all_7,
@@ -329,32 +288,6 @@ class EvaluatedMovement < CorePgRecord
   end
 
   #private
-=begin
-  def build_for_service(service)
-    self.set_payer_from_customer(service.anagrafica)
-    self.set_from_service(service)
-    # self.set_movement_for_out(service)
-    self.set_beneficiary_from_service(service)
-  end
-
-  def set_payer_from_customer(customer)
-    self.payer = customer.full_name
-    unless customer.current_place
-      customer.set_current_place 
-      customer.reload
-    end
-    self.origin_lonlat = customer.current_place.lonlat
-    self.origin_country = "MT"
-  end
-
-  def set_movement_for_out(service)
-    movement = service.movimenticonti.where(Point: service.anagrafica.id).where(contodiprovenienza: service.anagrafica.conti.pluck(:Pan)).first
-    return unless movement
-    self.movement_id = movement.id
-    self.movement_created_at = movement.dataMovimento
-  end
-=end
-
 
   def set_destination_lonlat
     if self.beneficiary_iban != ''

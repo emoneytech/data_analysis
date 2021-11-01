@@ -107,7 +107,7 @@ class Movimentoconto < ApplicationCoreRecord
   def to_trigger?
     if self.out?
       servizio.get_principal_movement_out.try(:ids).include?(self.id) && 
-        !ExcludedProduct.all.pluck(:last_3_numbers).include?(product.idprodotto.to_s[1...])
+        (product ? !ExcludedProduct.all.pluck(:last_3_numbers).include?(product.idprodotto.to_s[1...]) : false) 
     else
       return true unless servizio
       return servizio.get_principal_movement_in.try(:id) === self.id if servizio
@@ -117,7 +117,6 @@ class Movimentoconto < ApplicationCoreRecord
   def trigger!
     evaluated_movement.destroy if evaluated_movement
     em = build_evaluated_movement(movement_created_at: self.dataMovimento)
-    
     em.save rescue nil
   end
 end
