@@ -9,7 +9,7 @@ class TriggerMovementWorker
 
   def perform(movement_id) 
     movement = Movimentoconto.find movement_id
-    movement.trigger!
+    movement.trigger! if movement.to_trigger?
   end
 
 end
