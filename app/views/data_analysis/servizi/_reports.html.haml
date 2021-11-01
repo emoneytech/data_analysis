@@ -27,7 +27,6 @@
           %tr
             %th
               = t(:nr_of_services, default: 'Nr Services')
-              -# binding.pry
               = service[1].sum(&:nr_of_services)
             %th
               = t(:total_amount, default: 'Total Amount')

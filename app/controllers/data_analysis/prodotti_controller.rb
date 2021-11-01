@@ -12,7 +12,6 @@ module DataAnalysis
       respond_to do |format|
         format.html
         format.json { 
-          # binding.pry
           render json: ProdottoDatatable.new(params)
         }
       end

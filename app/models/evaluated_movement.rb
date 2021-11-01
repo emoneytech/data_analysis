@@ -142,7 +142,6 @@ class EvaluatedMovement < CorePgRecord
       self.destination_country = "MT"
     end
     self.internal = false
-    binding.pry
     self.payer = "#{mandato.info[:name]}"
     self.payer_iban = "#{mandato.info[:iban]}"
     self.payer_other = "#{mandato.info[:to_other]}"

@@ -490,12 +490,10 @@ class Anagrafica < ApplicationCoreRecord
     risk_dictionary =
       eval_risk_for_tuple(t, danger_movement_ids, danger_movements_to_html)
 
-    #binding.pry if number_of_movements > 0
     e.trend = Anagrafica.get_trend(risk_dictionary)
     e.eval_score = risk_dictionary[:risk]
     e.details_operations = risk_dictionary[:details_operations]
 
-    # binding.pry if number_of_movements > 0
     e.save
   end
 
@@ -586,7 +584,6 @@ class Anagrafica < ApplicationCoreRecord
                 ) / 100
               ).to_f
 
-            # binding.pry
             risk_dictionary[:risk] =
               (risk_dictionary[:risk] * current_factor).to_f
           end
@@ -867,7 +864,6 @@ class Anagrafica < ApplicationCoreRecord
 
 
     # APPLY DECREASE FACTOR
-    # binding.pry
     current_risk_decreased = {}
     current_risk_decreased[:day_7] = (current_risk[:day_7] * tlf).to_f
     current_risk_decreased[:day_7] = current_risk_decreased[:day_7] <= default_risk ? default_risk : current_risk_decreased[:day_7]

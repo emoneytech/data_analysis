@@ -119,9 +119,7 @@ class Movimentoconto < ApplicationCoreRecord
     em = build_evaluated_movement(movement_created_at: self.dataMovimento)
     
     em.save rescue nil
-    binding.pry
   end
-# 13026168
 end
 
 

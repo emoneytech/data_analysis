@@ -57,7 +57,6 @@ private
       return
     end
     sum = 0
-    # binding.pry
     self.eval_days.values.each { |v| sum += v[0].symbolize_keys[:details].symbolize_keys[:nr_movements] }
     self.nr_movements = sum
   end
