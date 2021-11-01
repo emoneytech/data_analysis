@@ -42,13 +42,16 @@
 #
 class EvaluatedMovement < CorePgRecord
   include Filterable
+  include EvaluatedMovementFilters
+
   include PGEnum(eval_movement_type: %w[IN OUT])
   monetize :amount_cents
 
   # triggerable Service or Mandato
-  belongs_to :triggerable, polymorphic: true, optional: true
+  belongs_to :triggerable, polymorphic: true#, optional: true
   validates :triggerable_id, uniqueness: { scope: [:customer_id, :triggerable_type] }
   
+  validates :origin_country, :destination_country, presence: true
   # customer
   belongs_to :customer,
              class_name: 'Anagrafica',
@@ -70,71 +73,9 @@ class EvaluatedMovement < CorePgRecord
   attr_reader :recursions
   
   before_save :set_recursion
+  
+  after_initialize :build_from_movement
 
-
-  # filters
-  scope :filter_by_customer_id, -> (customer_id) { where(customer_id: customer_id)}
-  scope :filter_by_payer, -> (name) { where("customer_payer ilike ?", "%#{name}%")}
-  scope :filter_by_service_id, -> (service_id) { where(service_id: service_id)}
-
-  scope :filter_by_beneficiary, -> (name) { where("beneficiary ilike ?", "%#{name}%")}
-  scope :filter_by_beneficiary_card, -> (beneficiary_card) { where("beneficiary_card ilike ?", "%#{beneficiary_card}%")}
-  scope :filter_by_beneficiary_iban, -> (beneficiary_iban) { where("beneficiary_iban ilike ?", "%#{beneficiary_iban}%")}
-  scope :filter_by_beneficiary_other, -> (beneficiary_other) { where("beneficiary_other ilike ?", "%#{beneficiary_other}%")}
-
-  scope :filter_by_product_name, -> (product_name) { where("product_name ilike ?", "%#{product_name}%")}
-  scope :filter_by_daterange, -> (daterange) { where(
-    "DATE_FORMAT(evaluated_movements.movement_created_at , '%Y-%m-%d') between ? and ?", daterange.split(' - ')[0].to_date.strftime('%Y-%m-%d'), daterange.split(' - ')[1].to_date.strftime('%Y-%m-%d')
-  )}
-
-  scope :filter_by_origin_country, -> (country) { where("origin_country = ?", "#{country}")}
-  scope :filter_by_destination_country, -> (country) { where("destination_country = ?", "#{country}")}
-
-  scope :filter_by_amount,     -> (amount_cents) { where("amount_cents  = ?", amount_cents)}
-  scope :filter_by_min_amount, -> (amount_cents) { where("amount_cents >= ?", amount_cents)}
-  scope :filter_by_max_amount, -> (amount_cents) { where("amount_cents <= ?", amount_cents)}
-
-  scope :filter_by_recursion_all_7,       -> (recursion_all_7) { where("recursion_all_7  = ?", recursion_all_7)}
-  scope :filter_by_min_recursion_all_7,   -> (recursion_all_7) { where("recursion_all_7 >= ?", recursion_all_7)}
-  scope :filter_by_max_recursion_all_7,   -> (recursion_all_7) { where("recursion_all_7 <= ?", recursion_all_7)}
-
-  scope :filter_by_recursion_all_30,      -> (recursion_all_30) { where("recursion_all_30  = ?", recursion_all_30)}
-  scope :filter_by_min_recursion_all_30,  -> (recursion_all_30) { where("recursion_all_30 >= ?", recursion_all_30)}
-  scope :filter_by_max_recursion_all_30,  -> (recursion_all_30) { where("recursion_all_30 <= ?", recursion_all_30)}
-
-  scope :filter_by_recursion_customer_7,     -> (recursion_customer_7) { where("recursion_customer_7  = ?", recursion_customer_7)}
-  scope :filter_by_min_recursion_customer_7, -> (recursion_customer_7) { where("recursion_customer_7 >= ?", recursion_customer_7)}
-  scope :filter_by_max_recursion_customer_7, -> (recursion_customer_7) { where("recursion_customer_7 <= ?", recursion_customer_7)}
-
-  scope :filter_by_recursion_customer_30,     -> (recursion_customer_30) { where("recursion_customer_30  = ?", recursion_customer_30)}
-  scope :filter_by_min_recursion_customer_30, -> (recursion_customer_30) { where("recursion_customer_30 >= ?", recursion_customer_30)}
-  scope :filter_by_max_recursion_customer_30, -> (recursion_customer_30) { where("recursion_customer_30 <= ?", recursion_customer_30)}
-
-  scope :filter_by_internal, -> (internal) { where(internal: internal)}
-  scope :filter_by_in_out, -> (value) { where(in_out: value)}
-
-  # PostGIS SPATIAL QUERIES
-  # for finding place X distance from a particular point (i.e. radius)
-  scope :geocoded, -> { where.not( destination_lonlat: nil) }
-
-  scope :within, -> (lon, lat, meter) {
-    where(%{
-     ST_Distance(destination_lonlat, 'POINT(%f %f)') < %d
-    } % [lon, lat, meter])
-  }
-
-  # for finding trees within a certain bounding box
-  scope :bbox, -> (sw_lon, sw_lat, ne_lon, ne_lat) {
-    factory = RGeo::Geographic.spherical_factory(srid: 4326, geo_type: 'point')
-    sw = factory.point(sw_lon, sw_lat)
-    nw = factory.point(sw_lon, ne_lat)
-    ne = factory.point(ne_lon, ne_lat)
-    se = factory.point(ne_lon, sw_lat)
-
-    ring = factory.linear_ring([sw, nw, ne, se])
-    bbox = factory.polygon(ring)
-    where('ST_Intersects(destination_lonlat, :bbox)', bbox: bbox)
-  }
 
   def self.build_from_movement_id(movement_id)
     movement = Movimentoconto.only_customers.find movement_id rescue nil
@@ -150,58 +91,118 @@ class EvaluatedMovement < CorePgRecord
     end
   end
 
-  def self.build_from_mandato_id(mandato_id)
-    mandato = Mandato.find mandato_id rescue nil
-    return mandato
+  
+  def build_from_movement
+    return unless new_record?
+    movement = Movimentoconto.only_customers.find movement_id rescue nil
+    return unless movement
+    if movement.out?
+      self.in_out = 'OUT'
+      self.customer_id = point = movement.Point
+      return if [70, 75].include?(point.to_i)
+      if movement.IdMandato && movement.IdMandato != 0
+        EvaluatedMovement.build_from_mandato_id(movement.IdMandato)
+      else
+        out_from_service_id(movement.idtransazione, point)
+      end
+    else
+      self.in_out = 'IN'
+      self.customer_id = point = movement.anagrafica.id
+      if movement.IdMandato && movement.IdMandato != 0
+        in_from_mandato_id(movement.IdMandato)
+      else
+        in_from_service_id(movement.idtransazione, point)
+      end
+
+    end
   end
 
-  def self.build_from_service_id(service_id, point)
-    service = Servizio.joins(:product,:anagrafica,:movimenticonti)
-                .preload(:product,{anagrafica: :conti},:movimenticonti,:ricarica,:ricaricacarta,:bonifico,:assegnovirtuale,:incassoassegno)
-                .where('movimenticonti.Point = ?', point)
-                .references(:movimenticonti)
-                .where(point: point, idservizio: service_id)
-                .where
-                .not(
-                  'SUBSTRING(prodotto, -3, 3) IN (?)',
-                  ExcludedProduct.all.pluck(:last_3_numbers)
-                )
-                .uniq.first
+  def in_from_mandato_id(mandato_id)
+    mandato = Mandato.find mandato_id rescue nil
+    return unless mandato
+    default_product_base_risk = Configurable.default_product_base_risk.to_f
+    self.product_base_risk = Configurable.default_bankwire_in_base_risk
+    build_for_mandato(mandato)
+  end
+  
+  def build_for_mandato(mandato)
+    # set_payer_from_customer(mandato.bank_user)
+    set_from_mandato(mandato)
+    set_beneficiary_from_mandato(mandato)
+  end
+  
+  def set_beneficiary_from_mandato(mandato = self.mandato)
+    self.beneficiary = "#{mandato.bank_user.full_name}"
+    self.beneficiary_iban = "#{mandato.Iban}"
+    self.beneficiary_other = "#{mandato.Ordinante}"
+    destination_account = mandato.try(:bank_user)
+    if destination_account
+      destination_account.set_current_place unless destination_account.current_place
+      self.destination_lonlat = destination_account.reload.current_place.lonlat
+      self.destination_country = "MT"
+    end
+    self.internal = false
+    binding.pry
+    self.payer = "#{mandato.info[:name]}"
+    self.payer_iban = "#{mandato.info[:iban]}"
+    self.payer_other = "#{mandato.info[:to_other]}"
+    set_origin_lonlat()
+  end
+
+
+  def set_from_mandato(mandato)
+    self.triggerable = mandato
+    self.triggerable_status = mandato.Stato
+    self.product_id = ''
+    self.product_name = 'Bank Wire From Mandato'
+    self.product_table_code = ''
+    self.amount = mandato.Importo.to_f
+  end
+
+  def in_from_service_id(service_id, point)
+    service = Servizio.joins(:product,:anagrafica, :movimenticonti)
+      .preload(:product,{anagrafica: :conti},:movimenticonti,:ricarica,:ricaricacarta,:bonifico,:assegnovirtuale,:incassoassegno)
+      .where(idservizio: service_id)
+      .where
+      .not(
+        'SUBSTRING(prodotto, -3, 3) IN (?)',
+        ExcludedProduct.all.pluck(:last_3_numbers)
+      )
+      .uniq.first
     return unless service
     return if service.anagrafica.Attivo.try(:to_i) == 6
-
     default_product_base_risk = Configurable.default_product_base_risk.to_f
-    em = EvaluatedMovement.where(triggerable_type: "Servizio", triggerable_id: service.id, customer_id: service.point).first_or_initialize
-    em.build_for_service(service)
-    em.set_product_base_risk(service.product, default_product_base_risk)
-    em.save
-    return em
+    set_product_base_risk(service.product, default_product_base_risk)
+    build_for_service(service)
   end
 
-  def recursions
-    {
-      all_7: self.recursion_all_7,
-      all_30: self.recursion_all_30,
-      customer_7: self.recursion_customer_7,
-      customer_30: self.recursion_customer_30
-    }
+  def out_from_service_id(service_id, point)
+    service = set_service(service_id, point)
+    return unless service
+    return if service.anagrafica.Attivo.try(:to_i) == 6
+    default_product_base_risk = Configurable.default_product_base_risk.to_f
+    set_product_base_risk(service.product, default_product_base_risk)
+    build_for_service(service)
   end
 
-  def all_previous
-    EvaluatedMovement.where("movement_created_at < ? ", self.movement_created_at).order(movement_created_at: :desc).first
+  def set_service(service_id, point)
+    service = Servizio.joins(:product,:anagrafica,:movimenticonti)
+      .preload(:product,{anagrafica: :conti},:movimenticonti,:ricarica,:ricaricacarta,:bonifico,:assegnovirtuale,:incassoassegno)
+      .where('movimenticonti.Point = ?', point)
+      .references(:movimenticonti)
+      .where(point: point, idservizio: service_id)
+      .where
+      .not(
+        'SUBSTRING(prodotto, -3, 3) IN (?)',
+        ExcludedProduct.all.pluck(:last_3_numbers)
+      )
+      .uniq.first
   end
-
-  def all_next
-    EvaluatedMovement.where("movement_created_at > ?", self.movement_created_at).order(movement_created_at: :asc).first
-  end
-
-  #private
 
   def build_for_service(service)
-    self.set_payer_from_customer(service.anagrafica)
-    self.set_service(service)
-    self.set_movement_for_out(service)
-    self.set_beneficiary_from_service(service)
+    set_payer_from_customer(service.anagrafica)
+    set_from_service(service)
+    set_beneficiary_from_service(service)
   end
 
   def set_payer_from_customer(customer)
@@ -214,19 +215,13 @@ class EvaluatedMovement < CorePgRecord
     self.origin_country = "MT"
   end
 
-  def set_service(service)
+  def set_from_service(service)
+    self.triggerable = service
     self.triggerable_status = service.status
     self.product_id = service.prodotto
     self.product_name = service.nomeprodotto
     self.product_table_code = service.product.codtabella
     self.amount = service.importo.to_f
-  end
-
-  def set_movement_for_out(service)
-    movement = service.movimenticonti.where(Point: service.anagrafica.id).where(contodiprovenienza: service.anagrafica.conti.pluck(:Pan)).first
-    return unless movement
-    self.movement_id = movement.id
-    self.movement_created_at = movement.dataMovimento
   end
 
   def set_beneficiary_from_service(service = self.service)
@@ -288,6 +283,80 @@ class EvaluatedMovement < CorePgRecord
     end
   end
 
+=begin
+  def self.build_from_mandato_id(mandato_id)
+    mandato = Mandato.find mandato_id rescue nil
+    return mandato
+  end
+
+  def self.build_from_service_id(service_id, point)
+    service = Servizio.joins(:product,:anagrafica,:movimenticonti)
+                .preload(:product,{anagrafica: :conti},:movimenticonti,:ricarica,:ricaricacarta,:bonifico,:assegnovirtuale,:incassoassegno)
+                .where('movimenticonti.Point = ?', point)
+                .references(:movimenticonti)
+                .where(point: point, idservizio: service_id)
+                .where
+                .not(
+                  'SUBSTRING(prodotto, -3, 3) IN (?)',
+                  ExcludedProduct.all.pluck(:last_3_numbers)
+                )
+                .uniq.first
+    return unless service
+    return if service.anagrafica.Attivo.try(:to_i) == 6
+
+    default_product_base_risk = Configurable.default_product_base_risk.to_f
+
+    # self.build_for_service(service)
+    # self.set_product_base_risk(service.product, default_product_base_risk)
+    # em.save
+    return em
+  end
+=end
+  def recursions
+    {
+      all_7: self.recursion_all_7,
+      all_30: self.recursion_all_30,
+      customer_7: self.recursion_customer_7,
+      customer_30: self.recursion_customer_30
+    }
+  end
+
+  def all_previous
+    EvaluatedMovement.where("movement_created_at < ? ", self.movement_created_at).order(movement_created_at: :desc).first
+  end
+
+  def all_next
+    EvaluatedMovement.where("movement_created_at > ?", self.movement_created_at).order(movement_created_at: :asc).first
+  end
+
+  #private
+=begin
+  def build_for_service(service)
+    self.set_payer_from_customer(service.anagrafica)
+    self.set_from_service(service)
+    # self.set_movement_for_out(service)
+    self.set_beneficiary_from_service(service)
+  end
+
+  def set_payer_from_customer(customer)
+    self.payer = customer.full_name
+    unless customer.current_place
+      customer.set_current_place 
+      customer.reload
+    end
+    self.origin_lonlat = customer.current_place.lonlat
+    self.origin_country = "MT"
+  end
+
+  def set_movement_for_out(service)
+    movement = service.movimenticonti.where(Point: service.anagrafica.id).where(contodiprovenienza: service.anagrafica.conti.pluck(:Pan)).first
+    return unless movement
+    self.movement_id = movement.id
+    self.movement_created_at = movement.dataMovimento
+  end
+=end
+
+
   def set_destination_lonlat
     if self.beneficiary_iban != ''
       iban = self.beneficiary_iban
@@ -304,17 +373,32 @@ class EvaluatedMovement < CorePgRecord
     end
   end
 
+  def set_origin_lonlat
+    if self.payer_iban != ''
+      iban = self.payer_iban
+      iban_info = IbanUtils.validate_iban(iban)
+      bank_data_hash = iban_info["bank_data"]
+      city = bank_data_hash["city"]
+      country = bank_data_hash["country"]
+      self.origin_country = NormalizeCountry(country, :to => :alpha2)
+      address = bank_data_hash["address"]
+      result = Geocoder.search(country, params: {city: city, address: address}).first
+      result = Geocoder.search("#{address}, #{country}").first unless result
+      self.origin_lonlat = "POINT(#{result.longitude} #{result.latitude})" if result
+    end
+  end
+
   def count_recursive_for_customer(days=7)
     start_date = self.movement_created_at.to_date - days.days
     end_date = self.movement_created_at
-    EvalMovement.where(
+    EvaluatedMovement.where(
       customer_id: self.customer_id
     ).where(
-      "eval_movements.beneficiary = ? 
-      OR (eval_movements.beneficiary_iban != '' AND eval_movements.beneficiary_iban = ?)
-      OR (eval_movements.beneficiary_card != '' AND eval_movements.beneficiary_card = ?)", self.beneficiary, self.beneficiary_iban, self.beneficiary_card
+      "evaluated_movements.beneficiary = ? 
+      OR (evaluated_movements.beneficiary_iban != '' AND evaluated_movements.beneficiary_iban = ?)
+      OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?)", self.beneficiary, self.beneficiary_iban, self.beneficiary_card
     ).where(
-      "eval_movements.movement_created_at 
+      "evaluated_movements.movement_created_at 
         BETWEEN '#{start_date.to_date.beginning_of_day}' 
         AND '#{end_date}'"
     ).count
@@ -323,12 +407,12 @@ class EvaluatedMovement < CorePgRecord
   def count_recursive(days=7)
     start_date = self.movement_created_at.to_date - days.days
     end_date = self.movement_created_at
-    EvalMovement.where(
-      "eval_movements.beneficiary = ? 
-      OR (eval_movements.beneficiary_iban != '' AND eval_movements.beneficiary_iban = ?)
-      OR (eval_movements.beneficiary_card != '' AND eval_movements.beneficiary_card = ?)", self.beneficiary, self.beneficiary_iban, self.beneficiary_card
+    EvaluatedMovement.where(
+      "evaluated_movements.beneficiary = ? 
+      OR (evaluated_movements.beneficiary_iban != '' AND evaluated_movements.beneficiary_iban = ?)
+      OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?)", self.beneficiary, self.beneficiary_iban, self.beneficiary_card
    ).where(
-      "eval_movements.movement_created_at 
+      "evaluated_movements.movement_created_at 
         BETWEEN '#{start_date.to_date.beginning_of_day}' 
         AND '#{end_date}'"
     ).count

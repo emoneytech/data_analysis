@@ -3,15 +3,21 @@ require 'sidekiq/enqueuer'
 
 Sidekiq::Enqueuer.configure do |config|
   config.jobs = [
-    CreateEvalMovementPerYearWorker,
-    SetInitRecursionWorker,
-    SyncEvalMovementsWorker,
-    PurgeForExcludedProductsWorker,
-    InitEvaluatedRiskWorker,
-    InitCustomerPlacesWorker,
-    UpdateCustomerPlacesWorker,
-    UpdateCustomerBusinessWorker,
-    UpdateEvalMovementsDestinationsWorker,
-    UpdateEvalMovementsIbansWorker
+    InitEvaluatedMovementsWorker
   ]
 end
+
+=begin
+
+  CreateEvalMovementPerYearWorker,
+  SetInitRecursionWorker,
+  SyncEvalMovementsWorker,
+  PurgeForExcludedProductsWorker,
+  InitEvaluatedRiskWorker,
+  InitCustomerPlacesWorker,
+  UpdateCustomerPlacesWorker,
+  UpdateCustomerBusinessWorker,
+  UpdateEvalMovementsDestinationsWorker,
+  UpdateEvalMovementsIbansWorker,
+   
+=end

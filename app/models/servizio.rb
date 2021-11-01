@@ -215,7 +215,7 @@ class Servizio < ApplicationCoreRecord
       date_begin = date_begin.advance(months: 1)
     end
   end
-
+=begin
   def get_beneficiary
     beneficiary = {
       beneficiary: 'Beneficiary not identifiable',
@@ -264,9 +264,82 @@ class Servizio < ApplicationCoreRecord
     end
     return beneficiary
   end
+=end
+  def get_beneficiary
+    beneficiary = {
+      beneficiary: 'Beneficiary not identifiable',
+      beneficiary_iban: '',
+      beneficiary_card: '',
+      beneficiary_other: '',
+      internal: nil
+    }
 
-  def get_principal_movement
-    self.movimenticonti.where(Point: self.anagrafica.id).where(contodiprovenienza: self.anagrafica.conti.pluck(:Pan)).first
+    return unless self.product.try(:nometabella)
+    case self.product.nometabella
+    when 'Ricariche'
+      if self.ricarica
+        beneficiary[:beneficiary] = "#{self.ricarica.numerotelefono}"
+        beneficiary[:beneficiary_iban] = ""
+        beneficiary[:beneficiary_other] = "#{self.ricarica.action}"
+      end
+    when 'ricarichecarta'
+      if self.anagrafica.conti.where(Pan: self.ricaricacarta.numerocarta).count > 0
+        beneficiary[:beneficiary] = "#{self.anagrafica.full_name}"
+        beneficiary[:beneficiary_iban] = ''
+        beneficiary[:beneficiary_card] = "#{self.ricaricacarta.numerocrip}"
+        beneficiary[:beneficiary_other] = "#{self.anagrafica.full_address}"
+      else
+        destination_account = Conto.find_by_Pan(self.ricaricacarta.numerocarta).try(:bank_user)
+        unless destination_account
+          beneficiary[:beneficiary_other] = "check for #{self.prodotto}: #{self.nomeprodotto}"
+        else
+          beneficiary[:beneficiary] = "#{destination_account.full_name}"
+          beneficiary[:beneficiary_iban] = ''
+          beneficiary[:beneficiary_card] = "#{self.ricaricacarta.numerocrip}"
+          beneficiary[:beneficiary_other] = "#{destination_account.full_address}"
+          beneficiary[:internal] = destination_account.id
+        end
+      end
+      self.destination_country = "MT"
+    when 'bonifici'
+      if self.bonifico
+        beneficiary[:internal] = self.bonifico.internal_beneficiary.id if self.bonifico.internal?
+        beneficiary[:beneficiary] = "#{self.bonifico.destinatario}"
+        beneficiary[:beneficiary_iban] = "#{self.bonifico.ibandest}"
+      end
+    when 'assegnovirtuale'
+      if self.prodotto.to_s == "1614" || self.prodotto.to_s == "1612"
+        movement = self.movimenticonti.where(Point: self.anagrafica.id).where(contodiprovenienza: self.anagrafica.conti.pluck(:Pan)).first
+        beneficiary[:beneficiary] = "#{movement.Causale}"
+      elsif self.prodotto.to_s == "200618" || self.prodotto.to_s == "200619" || self.prodotto.to_s == "200620"
+        beneficiary[:beneficiary] = "Beneficiary not identifiable"
+      else
+        beneficiary[:beneficiary] = "#{self.assegnovirtuale.beneficiary_name}"
+      end
+    when 'incassoAssegno'
+      beneficiary[:beneficiary] = "#{self.incassoassegno.beneficiary_name}"
+      beneficiary[:beneficiary_iban] = "#{self.incassoassegno.beneficiary_iban}"
+      beneficiary[:beneficiary_other] = "#{self.incassoassegno.beneficiary_other}"
+    else
+      beneficiary[:beneficiary] = 'Beneficiary not identifiable'
+    end
+    return beneficiary
+  end
+
+  def beneficiary_internal
+    self.get_beneficiary[:internal] ? self.get_beneficiary[:internal] : nil
+  end
+
+  def get_principal_movement_in
+    if beneficiary_internal
+      self.movimenticonti.where(numeroconto: Anagrafica.find(beneficiary_internal).conti.pluck(:Pan)).first
+    end
+  end
+
+  def get_principal_movement_out
+    self.movimenticonti.where(Point: self.anagrafica.id)
+      .where(numeroconto: self.anagrafica.conti.pluck(:Pan))
+      .where.not("idCausale like ?", '%dcomm%')#.first
   end
 
 end

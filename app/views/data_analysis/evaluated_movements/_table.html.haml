@@ -20,14 +20,14 @@
       %th{data: {priority: "1", orderable: "false"},nowrap: true}
   %tbody
     - evaluated_movements.each do |item|
-      %tr
+      %tr{style: "color: #{item.in_out === 'IN' ? 'green' : '#600'}"}
         %td= item.id
         %td= link_to item.triggerable_id, [:data_analysis, item.triggerable]
         %td= item.movement_created_at
         %td= link_to item.customer.full_name, customers_anagrafica_path(item.customer_id)
         %td= item.payer
         %td= item.product_name
-        %td= link_to item.product_id, data_analysis_prodotto_path(item.product_id)
+        %td= link_to item.product_id, data_analysis_prodotto_path(item.product_id) if item.product_id
         %td
           = item.beneficiary
           %br

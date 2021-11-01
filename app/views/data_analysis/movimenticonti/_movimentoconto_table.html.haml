@@ -43,10 +43,10 @@
 
       %tr
         %th= Movimentoconto.human_attribute_name(:numeroConto)
-        %td= link_to movimentoconto.numeroConto, data_analysis_conto_path(movimentoconto.numeroConto)
+        %td= link_to movimentoconto.numeroConto, data_analysis_conto_path(movimentoconto.numeroConto) if movimentoconto.numeroConto
       %tr
         %th= Movimentoconto.human_attribute_name(:contodiprovenienza)
-        %td= link_to movimentoconto.contodiprovenienza, data_analysis_conto_path(movimentoconto.contodiprovenienza) if movimentoconto.contodiprovenienza != ""
+        %td= link_to movimentoconto.contodiprovenienza, data_analysis_conto_path(movimentoconto.contodiprovenienza) if movimentoconto.contodiprovenienza && movimentoconto.contodiprovenienza != ""
       %tr
         %th= Movimentoconto.human_attribute_name(:contodestinazione)
         %td= movimentoconto.contodestinazione

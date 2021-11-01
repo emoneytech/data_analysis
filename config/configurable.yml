@@ -40,6 +40,11 @@ default_product_base_risk:
   default: 1.01
   type: float
 
+default_bankwire_in_base_risk:
+  name: Default risk factor for bankwire
+  default: 1.01
+  type: float
+
 time_lapse_factor:
   name: Default factor for time lapse
   default: 0.98

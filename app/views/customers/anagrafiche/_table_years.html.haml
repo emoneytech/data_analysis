@@ -1,14 +1,10 @@
 .card.card-success.card-outline
   .card-header
     %h3.card-title
-      %i.fa.fa-file-excel
-      Reports
+      %i.fa.fa-calendar
+      = t(:year, default: "Year")
   .card-body.p-0
     %table.table.table-striped.table-hover
-      %thead
-        %tr
-          %th= t(:year, default: "Year")
-          %th{data: {orderable: "false"}, nowrap: true}
       %tbody
         - years = item.servizi.select( "DATE_FORMAT(lastupdate , '%Y') AS year").distinct
         - years.each do |year|
@@ -18,7 +14,7 @@
               - opts = {filter: {customer_id: @anagrafica.id, daterange: year_to_daterange(year.year)}}
               = link_to fa_icon('exchange-alt'), data_analysis_movimenticonti_path(params: opts), class: "btn btn-xs btn-success"
               = link_to fa_icon('microchip'), data_analysis_servizi_path(params: opts), class: "btn btn-xs btn-success"
-              = link_to fa_icon('search-dollar'), data_analysis_eval_movements_path(params: opts), class: "btn btn-xs btn-success"
+              = link_to fa_icon('search-dollar'), data_analysis_evaluated_movements_path(params: opts), class: "btn btn-xs btn-success"
               = link_to fa_icon('file-excel'), reports_data_analysis_servizi_path(params: opts), class: "btn btn-xs btn-success"
               =# render 'form_report', daterange: daterange
 

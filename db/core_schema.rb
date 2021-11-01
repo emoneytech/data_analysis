@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer "Stato", default: 0
     t.datetime "DataValidazione"
     t.bigint "OperatoreValidazione"
+    t.string "IbanExt", limit: 45
     t.index ["Iban"], name: "Iban_UNIQUE", unique: true
     t.index ["idAnagraficheIban"], name: "idAnagraficheIban_UNIQUE", unique: true
   end
@@ -338,6 +339,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.text "TestoDomandaBG", collation: "utf8_general_ci"
     t.integer "TipoDomanda", limit: 1, null: false
     t.integer "NumeroOrdinamento", default: 0
+    t.text "descriptionIT", size: :long
+    t.text "descriptionENG", size: :long
     t.index ["IdQuestionario"], name: "IdCampagna_idx"
   end
 
@@ -572,6 +575,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.index ["Citta"], name: "idx_anagrafiche_Citta"
     t.index ["IdTipo"], name: "Tipo"
     t.index ["IdUtente"], name: "IdUtente_UNIQUE", unique: true
+    t.index ["NextRevision"], name: "nextrevision"
     t.index ["Provincia"], name: "provincia"
     t.index ["SubStato"], name: "substato"
     t.index ["TipoKYC"], name: "kyc"
@@ -744,6 +748,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.date "start_review"
     t.date "end_review"
     t.integer "status", default: 1
+    t.index ["idUtente"], name: "idutente"
     t.index ["idcdd_review"], name: "idcdd_review_UNIQUE", unique: true
   end
 
@@ -1004,10 +1009,15 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "title", limit: 150
     t.text "description", size: :long
     t.integer "creator"
-    t.string "destinatary", limit: 100
+    t.integer "destinatary"
     t.text "notepostpone", size: :long
     t.string "ideventfather", limit: 45
     t.integer "numberofadviseexpire", default: 0
+    t.text "uniqueidentify", size: :long
+    t.integer "typerepeat", default: 0, comment: "0 = normale -  1 = settimale - 2 = mensile - 3 = annuale"
+    t.integer "numberrepeat", default: 0
+    t.integer "idoperator", default: 0, comment: "indica l'id di chi chiude l'evento"
+    t.datetime "dateend"
     t.index ["destinatary"], name: "destinatari"
   end
 
@@ -1230,6 +1240,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "Causale"
     t.bigint "IdMovimentoValidazione"
     t.integer "CheckTransaction", default: 0
+    t.index ["IbanCreditore"], name: "ibancreditore"
+    t.index ["IbanDebitore"], name: "ibandebitore"
     t.index ["IdMovimentoValidazione"], name: "idvalidazione"
   end
 
@@ -1612,6 +1624,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.index ["ContoRiferimento"], name: "Contoriferimento"
     t.index ["IdMovimentoTecnico"], name: "movTecnico"
     t.index ["IdMovimentoValidazione"], name: "validazione"
+    t.index ["Stato"], name: "Stato"
   end
 
   create_table "messaggi", primary_key: "idmessaggi", charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
@@ -2412,6 +2425,11 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer "iddepartment"
     t.integer "sorting"
     t.index ["idtopic"], name: "idtopic_UNIQUE", unique: true
+  end
+
+  create_table "topiccalendar", primary_key: "idtopiccalendar", id: :integer, charset: "latin1", force: :cascade do |t|
+    t.text "topic", size: :long
+    t.integer "owner", default: 0
   end
 
   create_table "trader", primary_key: "idtrader", id: :integer, charset: "latin1", force: :cascade do |t|

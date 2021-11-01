@@ -56,14 +56,15 @@ class Movimentoconto < ApplicationCoreRecord
   has_one :anagrafica, through: :conto, class_name: "Anagrafica", source: :bank_user
 
   belongs_to :mandato, foreign_key: "IdMandato", class_name: "Mandato", optional: true
-  has_one :product, through: :main_service
+  has_one :product, through: :servizio
 
+  has_one :evaluated_movement, primary_key: 'idMovimentiConti', foreign_key: 'movement_id'
   # default_scope -> { order(idmovimenticonti: :desc)}
 
   scope :for_month, -> (month) { where("MONTH(datamovimento) = ?", month) }
 
   scope :order_asc, -> {order(idmovimenticonti: :asc)}
-  scope :fast_service, -> {includes(:main_service, :mandato, :product => :codicetabella).references(:main_service).order_asc}
+  scope :fast_service, -> {includes(:servizio, :mandato, :product => :codicetabella).references(:servizio).order_asc}
   scope :fast_out, -> {fast_service.where("movimenticonti.dare > ?", 0.0)}
   scope :fast_out_for_user, -> (user_id) {fast_out.where("point" => user_id).order_asc}
  
@@ -82,6 +83,15 @@ class Movimentoconto < ApplicationCoreRecord
   scope :filter_by_out, -> (value) { where("Dare >= ?", value)}
 
   scope :only_customers, -> { where.not( numeroConto: Conto.where(IdUtente: %w[70 75]).pluck(:Pan) ) }
+
+  def in?
+    self.Avere > self.Dare
+  end
+
+  def out?
+    self.Dare > self.Avere
+  end
+
   def main_service
     Movimentoconto.includes(:servizio).where("servizi.status IN (?)", %w{5 6 7 8}).references(:servizio).find (self.id)
   end
@@ -94,6 +104,24 @@ class Movimentoconto < ApplicationCoreRecord
     order(dataMovimento: :desc).select(:dataMovimento).first.dataMovimento
   end
 
+  def to_trigger?
+    if self.out?
+      servizio.get_principal_movement_out.try(:ids).include?(self.id) && 
+        !ExcludedProduct.all.pluck(:last_3_numbers).include?(product.idprodotto.to_s[1...])
+    else
+      return true unless servizio
+      return servizio.get_principal_movement_in.try(:id) === self.id if servizio
+    end
+  end
+
+  def trigger!
+    evaluated_movement.destroy if evaluated_movement
+    em = build_evaluated_movement(movement_created_at: self.dataMovimento)
+    
+    em.save rescue nil
+    binding.pry
+  end
+# 13026168
 end
 
 

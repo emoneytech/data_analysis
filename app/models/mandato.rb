@@ -50,4 +50,33 @@ class Mandato < ApplicationCoreRecord
     order(idmandato: :desc).select(:idmandato).first.idmandato
   end
 
+  def info
+    info = {
+      form: '',
+      name: '',
+      iban: '',
+      to_name: '',
+      to_iban: '',
+      to_other: ''      
+    }
+    if " - ".in?(self.Ordinante)
+      marker1 = 'From'
+      marker2 = 'To'
+      from = self.Ordinante.string_between_markers(marker1, marker2)
+      name, iban = from.split(' - ')
+      to = self.Ordinante.split("#{iban}")[1].strip[3..]
+      to_name, to_iban, to_other = to.split(' - ')
+
+      info = {
+        from: from.strip,
+        name: name.strip,
+        iban: iban.strip,
+        to_name: to_name.strip,
+        to_iban: to_iban.strip,
+        to_other: to_other.strip
+      }
+    end
+    return info
+  end
+
 end

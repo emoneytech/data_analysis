@@ -66,6 +66,9 @@ class Conto < ApplicationCoreRecord
     "DATE_FORMAT(conti.lastMovimento , '%Y-%m-%d') between ? and ?", daterange.split(' - ')[0].to_date.strftime('%Y-%m-%d'), daterange.split(' - ')[1].to_date.strftime('%Y-%m-%d')
   )}
 
+  scope :only_fees_ary, -> {
+    where(IdUtente: 70).pluck(:Pan)
+  }
   scope :alive, -> { where(ProductState: 1) }
   def self.last_id
     order(idconti: :desc).select(:idconti).first.idconti
