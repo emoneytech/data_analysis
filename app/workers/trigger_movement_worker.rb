@@ -5,7 +5,7 @@ class TriggerMovementWorker
   sidekiq_options queue: 'massive', retry: false, backtrace: true
   
   # PARAMS
-  # movement_id
+  # movement_id = 568572
 
   def perform(movement_id) 
     movement = Movimentoconto.find movement_id

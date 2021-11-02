@@ -300,7 +300,6 @@ class Servizio < ApplicationCoreRecord
           beneficiary[:internal] = destination_account.id
         end
       end
-      self.destination_country = "MT"
     when 'bonifici'
       if self.bonifico
         beneficiary[:internal] = self.bonifico.internal_beneficiary.id if self.bonifico.internal?
@@ -337,8 +336,8 @@ class Servizio < ApplicationCoreRecord
   end
 
   def get_principal_movement_out
-    self.movimenticonti.where(Point: self.anagrafica.id)
-      .where(numeroconto: self.anagrafica.conti.pluck(:Pan))
+    self.movimenticonti.where(Point: self.point)
+      .where(numeroconto: Conto.where(IdUtente: self.point).pluck(:Pan))
       .where.not("idCausale like ?", '%dcomm%')#.first
   end
 

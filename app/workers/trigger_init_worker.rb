@@ -1,4 +1,4 @@
-class InitEvaluatedMovementsWorker
+class TriggerInitWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
 
@@ -7,7 +7,7 @@ class InitEvaluatedMovementsWorker
   # PARAMS
 
   def perform()
-    Movimentoconto.only_customers.order(dataMovimento: :asc).select(:idMovimentiConti).find_in_batches(batch_size: 500) do |movements|
+    Movimentoconto.to_trigger.select(:idMovimentiConti).find_in_batches(batch_size: 50) do |movements|
       movements.each do |movement|
         TriggerMovementWorker.perform_async(movement.idMovimentiConti)
       end

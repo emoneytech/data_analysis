@@ -81,7 +81,6 @@ class EvaluatedMovement < CorePgRecord
     return unless new_record?
     movement = Movimentoconto.only_customers.find movement_id rescue nil
     return unless movement
-    return if movement.anagrafica.Attivo.try(:to_i) == 6
 
     if movement.out?
       self.in_out = 'OUT'

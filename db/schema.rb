@@ -101,7 +101,9 @@ ActiveRecord::Schema.define(version: 2021_10_05_091928) do
 
   create_table "queue_movements", charset: "latin1", force: :cascade do |t|
     t.integer "movement_id", null: false
+    t.string "action", limit: 20, null: false
     t.timestamp "last_update", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["action"], name: "index_queue_movements_on_action"
     t.index ["movement_id"], name: "index_queue_movements_on_movement_id"
   end
 
@@ -162,13 +164,6 @@ ActiveRecord::Schema.define(version: 2021_10_05_091928) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
-  end
-
-  create_table "worker_queues", charset: "latin1", force: :cascade do |t|
-    t.integer "service_id", null: false
-    t.timestamp "last_update", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["last_update"], name: "last_update"
-    t.index ["service_id"], name: "index_worker_queues_on_service_id"
   end
 
   add_foreign_key "notes", "users"

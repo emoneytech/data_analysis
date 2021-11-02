@@ -25,7 +25,8 @@
 
 class Movimentoconto < ApplicationCoreRecord
   include Filterable
-
+  include MovimentocontoFilters
+  
   self.table_name = 'movimenticonti'
   self.primary_key = 'idMovimentiConti'
 
@@ -44,6 +45,7 @@ class Movimentoconto < ApplicationCoreRecord
   alias_attribute :tipotransazione, "TipoTransazione"
   alias_attribute :payment_order_id, "IdMandato"
 
+  EXCLUDED = ExcludedProduct.all.pluck(:last_3_numbers)
 
   #belongs_to :bank_user_part, -> {select [:idutente, :nome, :cognome, :ragionesociale, :vendor] }, foreign_key: "point", class_name: "Anagrafica"
   belongs_to :servizio, class_name: "Servizio", foreign_key: "idtransazione", optional: true
@@ -59,30 +61,6 @@ class Movimentoconto < ApplicationCoreRecord
   has_one :product, through: :servizio
 
   has_one :evaluated_movement, primary_key: 'idMovimentiConti', foreign_key: 'movement_id'
-  # default_scope -> { order(idmovimenticonti: :desc)}
-
-  scope :for_month, -> (month) { where("MONTH(datamovimento) = ?", month) }
-
-  scope :order_asc, -> {order(idmovimenticonti: :asc)}
-  scope :fast_service, -> {includes(:servizio, :mandato, :product => :codicetabella).references(:servizio).order_asc}
-  scope :fast_out, -> {fast_service.where("movimenticonti.dare > ?", 0.0)}
-  scope :fast_out_for_user, -> (user_id) {fast_out.where("point" => user_id).order_asc}
- 
-  scope :with_service, -> { where('movimenticonti.idtransazione IS NOT NULL AND movimenticonti.idtransazione != ?',0) }
-
-  scope :filter_by_customer_id, -> (customer_id) { where(numeroConto: Conto.where(IdUtente: customer_id).pluck(:Pan)) }
-  scope :filter_by_service_id, -> (service_id) { where(idtransazione: service_id)}
-  
-  scope :filter_by_daterange, -> (daterange) { where(
-    "DATE_FORMAT(movimenticonti.dataMovimento , '%Y-%m-%d') between ? and ?", daterange.split(' - ')[0].to_date.strftime('%Y-%m-%d'), daterange.split(' - ')[1].to_date.strftime('%Y-%m-%d')
-  )}
-  scope :filter_by_min_amount, -> (amount) { where("Importo >= ?", amount)}
-  scope :filter_by_max_amount, -> (amount) { where("Importo <= ?", amount)}
-
-  scope :filter_by_in, -> (value) { where("Avere >= ?", value)}
-  scope :filter_by_out, -> (value) { where("Dare >= ?", value)}
-
-  scope :only_customers, -> { where.not( numeroConto: Conto.where(IdUtente: %w[70 75]).pluck(:Pan) ) }
 
   def in?
     self.Avere > self.Dare
@@ -105,9 +83,11 @@ class Movimentoconto < ApplicationCoreRecord
   end
 
   def to_trigger?
+    return false if anagrafica.Attivo.try(:to_i) == 6
     if self.out?
+      return false unless servizio || mandato
       servizio.get_principal_movement_out.try(:ids).include?(self.id) && 
-        (product ? !ExcludedProduct.all.pluck(:last_3_numbers).include?(product.idprodotto.to_s[1...]) : false) 
+        (product ? !EXCLUDED.include?(product.idprodotto.to_s[1...]) : false) 
     else
       return true unless servizio
       return servizio.get_principal_movement_in.try(:id) === self.id if servizio
@@ -117,7 +97,17 @@ class Movimentoconto < ApplicationCoreRecord
   def trigger!
     evaluated_movement.destroy if evaluated_movement
     em = build_evaluated_movement(movement_created_at: self.dataMovimento)
-    em.save rescue nil
+    em.save
+  end
+
+  def self.init_trigger
+    self.to_trigger.select(:idMovimentiConti).find_in_batches(batch_size: 50) do |movements|
+      movements.each do |m|
+        movement = self.find m.idMovimentiConti
+        movement.trigger! if movement.to_trigger?
+        # movement.to_trigger?
+      end
+    end
   end
 end
 
