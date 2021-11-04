@@ -52,9 +52,9 @@ module DataAnalysisHelper
     if mandato.Beneficiario === 0 && ":".in?(mandato.Ordinante)
       pre, service_id = mandato.Ordinante.split(":")
       str = "#{pre}: #{link_to service_id, data_analysis_servizio_path(service_id.strip)}"
-    elsif "From".in?(mandato.Ordinante) && "To".in?(mandato.Ordinante)
-      marker1 = 'From'
-      marker2 = 'To'
+    elsif "From ".in?(mandato.Ordinante) && "To ".in?(mandato.Ordinante)
+      marker1 = 'From '
+      marker2 = 'To '
       from = mandato.Ordinante.string_between_markers(marker1, marker2)
       name, iban = from.split(' - ')
       to = mandato.Ordinante.split("#{iban}")[1].strip[3..]

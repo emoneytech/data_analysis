@@ -59,9 +59,9 @@ class Mandato < ApplicationCoreRecord
       to_iban: '',
       to_other: ''      
     }
-    if " - ".in?(self.Ordinante) && "From".in?(self.Ordinante) && "To".in?(self.Ordinante)
-      marker1 = 'From'
-      marker2 = 'To'
+    if " - ".in?(self.Ordinante) && "From ".in?(self.Ordinante) && "To ".in?(self.Ordinante)
+      marker1 = 'From '
+      marker2 = 'To '
       from = self.Ordinante.string_between_markers(marker1, marker2)
       name, iban = from.split(' - ')
       to = self.Ordinante.split("#{iban}")[1].strip[3..]
