@@ -87,9 +87,10 @@ class Movimentoconto < ApplicationCoreRecord
     if self.out?
       return false unless servizio || mandato
       servizio.get_principal_movement_out.try(:ids).include?(self.id) && 
-        (product ? !EXCLUDED.include?(product.idprodotto.to_s[1...]) : false) 
+        (product ? !EXCLUDED.include?(product.idprodotto.to_s[3...]) : false) 
     else
       return true unless servizio
+      return false if EXCLUDED.include?(product.idprodotto.to_s[3...])
       return servizio.get_principal_movement_in.try(:id) === self.id if servizio
     end
   end
