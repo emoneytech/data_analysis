@@ -63,17 +63,19 @@ class Mandato < ApplicationCoreRecord
       marker1 = 'From '
       marker2 = 'To '
       from = self.Ordinante.string_between_markers(marker1, marker2)
-      name, iban = from.split(' - ')
+      from_ary = from.split(' - ')
+      iban = from_ary.pop().strip
+      name = from_ary.join(' - ')
       to = self.Ordinante.split("#{iban}")[1].strip[3..]
       to_name, to_iban, to_other = to.split(' - ')
 
       info = {
         from: from.strip,
         name: name.strip,
-        iban: iban.strip,
+        iban: iban,
         to_name: to_name.strip,
-        to_iban: to_iban.strip,
-        to_other: to_other.strip
+        to_iban: to_iban.try(:strip),
+        to_other: to_other.try(:strip)
       }
     end
     return info

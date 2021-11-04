@@ -56,7 +56,9 @@ module DataAnalysisHelper
       marker1 = 'From '
       marker2 = 'To '
       from = mandato.Ordinante.string_between_markers(marker1, marker2)
-      name, iban = from.split(' - ')
+      from_ary = from.split(' - ')
+      iban = from_ary.pop().strip
+      name = from_ary.join(' - ')
       to = mandato.Ordinante.split("#{iban}")[1].strip[3..]
       to_name, to_iban, to_other = to.split(' - ')
 
