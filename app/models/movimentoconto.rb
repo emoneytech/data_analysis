@@ -85,9 +85,14 @@ class Movimentoconto < ApplicationCoreRecord
   def to_trigger?
     return false if anagrafica.Attivo.try(:to_i) == 6
     if self.out?
-      return false unless servizio || mandato
-      servizio.get_principal_movement_out.try(:ids).include?(self.id) && 
-        (product ? !EXCLUDED.include?(product.idprodotto.to_s[-3...]) : false) 
+      if servizio 
+        servizio.get_principal_movement_out.try(:ids).include?(self.id) && 
+        (product ? !EXCLUDED.include?(product.idprodotto.to_s[-3...]) : false)
+      elsif mandato
+        return mandato.Iban ? true : false 
+      else
+        return false
+      end
     else
       unless servizio
         return mandato.try(:Iban) ? true : false 
