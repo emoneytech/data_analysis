@@ -48,10 +48,11 @@ module DataAnalysisHelper
   end
 
   def ordinante_proc(mandato)
+    str = ""
     if mandato.Beneficiario === 0 && ":".in?(mandato.Ordinante)
       pre, service_id = mandato.Ordinante.split(":")
       str = "#{pre}: #{link_to service_id, data_analysis_servizio_path(service_id.strip)}"
-    else
+    elsif "From".in?(mandato.Ordinante) && "To".in?(mandato.Ordinante)
       marker1 = 'From'
       marker2 = 'To'
       from = mandato.Ordinante.string_between_markers(marker1, marker2)
@@ -65,6 +66,6 @@ module DataAnalysisHelper
       str += "Iban dest: #{link_to to_iban.strip, data_analysis_iban_path(to_iban.strip)}<br/>"
       str += "Informations: #{to_other}<br/>"
     end
-    return str.html_safe
+    return str === "" ? mandato.Ordinante : str.html_safe
   end
 end

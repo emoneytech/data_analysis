@@ -87,7 +87,7 @@ class EvaluatedMovement < CorePgRecord
       self.customer_id = point = movement.Point
       return if [70, 75].include?(point.to_i)
       if movement.IdMandato && movement.IdMandato != 0
-        binding.pry
+        # binding.pry
       else
         out_from_service_id(movement.idtransazione, point)
       end
