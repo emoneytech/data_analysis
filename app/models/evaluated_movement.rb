@@ -104,6 +104,8 @@ class EvaluatedMovement < CorePgRecord
   
   after_initialize :build_from_movement
 
+  after_create :send_notification
+
   def self.last_id
     order(movement_created_at: :desc).select(:movement_id).first.movement_id
   end
@@ -392,6 +394,12 @@ class EvaluatedMovement < CorePgRecord
     default_product_base_risk = Configurable.default_product_base_risk.to_f)
     self.product_base_risk =
       product.try(:base_risk) ? product.base_risk : default_product_base_risk
+  end
+
+  def send_notification
+    type = self.in_out === 'IN' ? 'success' : 'error'
+    content = "#{self.product_name}: #{}self.amount"
+    NotifyWorker.perform_async(type, content)
   end
 
 end

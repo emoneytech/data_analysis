@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_05_094709) do
+ActiveRecord::Schema.define(version: 2021_11_05_084400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -199,6 +199,12 @@ ActiveRecord::Schema.define(version: 2021_10_05_094709) do
     t.index ["recursion_customer_30"], name: "index_evaluated_movements_on_recursion_customer_30"
     t.index ["recursion_customer_7"], name: "index_evaluated_movements_on_recursion_customer_7"
     t.index ["triggerable_type", "triggerable_id"], name: "index_triggerable_on_evaluated_movements"
+  end
+
+  create_table "messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "content", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "places", force: :cascade do |t|

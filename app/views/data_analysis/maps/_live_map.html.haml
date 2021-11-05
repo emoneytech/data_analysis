@@ -7,6 +7,9 @@
   .card-body
     .row.mb-1
       .col-md-12
+        = form_for Message.new, remote: true do |f|
+          = f.text_field :content
+          = f.submit
         %p
           Query params:
           %br
@@ -24,23 +27,9 @@
           \ - 
           step:
           %span#current_step
-
-      .col-md-6
-        .form-group
-          %select#showrange.form-control.select2bs4{style: "width: 100%;"}
-            %option{value: 'year'} Year
-            %option{value: 'month', selected: "selected"} Month
-            %option{value: 'day'} Day
-            %option{value: 'hour'} Hour
-            %option{value: 'range'} Range
-      .col-md-6
-        .form-group.mb-0
-          .input-group
-            .input-group-prepend
-              %span.input-group-text
-                %i.far.fa-clock
-            %input#showtime.form-control.float-right{type: "text"}
     .row
+      .col-md-12
+        #msg
       .col-md-12
         #live_map{ style: "height: 830px;" }
 

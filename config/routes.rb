@@ -2,6 +2,7 @@
 #
 
 Rails.application.routes.draw do
+  
   root 'data_analysis/dashboard#index'
   devise_for :users
 
@@ -149,7 +150,8 @@ Rails.application.routes.draw do
   authenticate :user, lambda { |u| u.include_role?("admin") } do
     mount Sidekiq::Web => '/sidekiq'
   end
-
+  
+  resources :messages, only: [:new, :create]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
 

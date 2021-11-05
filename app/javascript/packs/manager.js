@@ -48,6 +48,8 @@ window.stopLoading = stopLoading
 window.getAccountInfo = getAccountInfo
 window.moment = moment
 
+global.toastr = require("toastr")
+
 import * as d3 from "d3"
 window.d3 = d3
 // Uncomment to copy all static images under ../images to the output folder and reference
