@@ -398,7 +398,7 @@ class EvaluatedMovement < CorePgRecord
 
   def send_notification
     type = self.in_out === 'IN' ? 'success' : 'error'
-    content = "#{self.product_name}: #{}self.amount"
+    content = "#{self.product_name}: #{self.amount}"
     NotifyWorker.perform_async(type, content)
   end
 
