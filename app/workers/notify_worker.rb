@@ -7,8 +7,8 @@ class NotifyWorker
   # PARAMS
   # type, content
 
-  def perform(icon, content)
-    ActionCable.server.broadcast("notification_channel", {icon: icon, content: "#{content}"})
+  def perform(icon, content, coords)
+    ActionCable.server.broadcast("notification_channel", {icon: icon, content: "#{content}", coords: coords})
   end
 
 end

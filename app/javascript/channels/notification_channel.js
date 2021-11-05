@@ -13,7 +13,8 @@ consumer.subscriptions.create(
       console.log("Recieving: ", data.icon)
       let str = data.icon
       toastr[`${str}`](`${data.content}`)
-      console.log(data)
+      let coords = data.coords
+      var marker = L.marker(coords).addTo(map);
     }
   }
 )

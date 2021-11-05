@@ -399,7 +399,15 @@ class EvaluatedMovement < CorePgRecord
   def send_notification
     type = self.in_out === 'IN' ? 'success' : 'error'
     content = "#{self.product_name}: #{self.amount}"
-    NotifyWorker.perform_async(type, content)
+    if self.in_out === 'IN' && self.origin_lonlat
+      coords = [self.origin_lonlat.lat, self.origin_lonlat.lon]
+    elsif self.in_out === 'out' && self.destination_lonlat
+      coords = [self.destination_lonlat.lat, self.destination_lonlat.lon]
+    else
+      coords = [35.9480742, 14.3973929]
+    end
+
+    NotifyWorker.perform_async(type, content, coords)
   end
 
 end
