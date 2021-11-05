@@ -20,6 +20,6 @@
   serial: 10
 
 :schedule:
-  enqueuer_worker:
+  trigger_worker:
     every: '5m'
     class: TriggerWorker
