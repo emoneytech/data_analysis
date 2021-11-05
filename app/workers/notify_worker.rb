@@ -5,7 +5,7 @@ class NotifyWorker
   sidekiq_options queue: 'massive', retry: true, backtrace: true
   
   # PARAMS
-  # type, content
+  # type, content, coords
 
   def perform(icon, content, coords)
     ActionCable.server.broadcast("notification_channel", {icon: icon, content: "#{content}", coords: coords})

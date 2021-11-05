@@ -37,6 +37,7 @@
     "leaflet": "^1.7.1",
     "leaflet-arc": "^1.0.2",
     "leaflet-defaulticon-compatibility": "^0.1.1",
+    "leaflet-transitionedicon": "^0.2.1",
     "leaflet.markercluster": "^1.5.0",
     "leaflet.timeline.control": "^1.0.2",
     "moment": "^2.29.1",

@@ -5169,6 +5169,11 @@ leaflet-defaulticon-compatibility@^0.1.1:
   resolved "https://registry.yarnpkg.com/leaflet-defaulticon-compatibility/-/leaflet-defaulticon-compatibility-0.1.1.tgz#ab72257b3da66fb48dab69a10c3824012a15a20a"
   integrity sha512-vDBFdlUAwjSEGep9ih8kfJilf6yN8V9zTbF5NC/1ZwLeGko3RUQepspPnGCRMFV51dY3Lb3hziboicrFz+rxQA==
 
+leaflet-transitionedicon@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/leaflet-transitionedicon/-/leaflet-transitionedicon-0.2.1.tgz#cf77b75a4ae513b87e9c3e3603cf7d8ec3fc6b95"
+  integrity sha1-z3e3WkrlE7h+nD42A899jsP8a5U=
+
 leaflet.markercluster@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/leaflet.markercluster/-/leaflet.markercluster-1.5.0.tgz#54db42485da32fc3d92c7ae22d0d7982879e0b67"

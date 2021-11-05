@@ -29,17 +29,7 @@ import "select2-bootstrap4-theme/dist/select2-bootstrap4.min.css"
 
 require('./plugins/datatables.js')
 
-import 'leaflet/dist/leaflet.css'
-import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css' // Re-uses images from ~leaflet package
-import * as L from 'leaflet'
-import 'leaflet-defaulticon-compatibility'
-import '@elfalem/leaflet-curve'
-import 'leaflet-arc/bin/leaflet-arc.min.js'
-
-import 'leaflet.markercluster/dist/MarkerCluster.css'
-import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
-import 'leaflet.markercluster/dist/leaflet.markercluster.js'
-import 'leaflet.timeline.control'
+require('./plugins/maplive.js')
 
 import moment from 'moment/moment'
 import {initLoading, stopLoading, getAccountInfo} from './plugins/loading'
@@ -60,7 +50,6 @@ window.d3 = d3
 // const imagePath = (name) => images(name, true)
 window.jQuery = $
 window.$ = $
-window.L = L
 const tables = []
 
 document.addEventListener("turbolinks:load", () => {
