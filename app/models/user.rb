@@ -3,30 +3,45 @@
 # Table name: users
 #
 #  id                     :integer          not null, primary key
-#  nickname               :string(255)
-#  role_id                :integer
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  email                  :string(255)      default(""), not null
-#  encrypted_password     :string(255)      default(""), not null
-#  reset_password_token   :string(255)
-#  reset_password_sent_at :datetime
-#  remember_created_at    :datetime
-#  sign_in_count          :integer          default(0), not null
-#  current_sign_in_at     :datetime
-#  last_sign_in_at        :datetime
-#  current_sign_in_ip     :string(255)
-#  last_sign_in_ip        :string(255)
+#  confirmation_sent_at   :datetime
 #  confirmation_token     :string(255)
 #  confirmed_at           :datetime
-#  confirmation_sent_at   :datetime
-#  unconfirmed_email      :string(255)
-#  failed_attempts        :integer          default(0), not null
-#  unlock_token           :string(255)
-#  locked_at              :datetime
-#  last_name              :string(255)
-#  first_name             :string(255)
+#  current_sign_in_at     :datetime
+#  current_sign_in_ip     :string(255)
 #  deleted_at             :datetime
+#  email                  :string(255)      default(""), not null
+#  encrypted_password     :string(255)      default(""), not null
+#  failed_attempts        :integer          default(0), not null
+#  first_name             :string(255)
+#  last_name              :string(255)
+#  last_sign_in_at        :datetime
+#  last_sign_in_ip        :string(255)
+#  locked_at              :datetime
+#  nickname               :string(255)
+#  remember_created_at    :datetime
+#  reset_password_sent_at :datetime
+#  reset_password_token   :string(255)
+#  sign_in_count          :integer          default(0), not null
+#  unconfirmed_email      :string(255)
+#  unlock_token           :string(255)
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  role_id                :integer
+#
+# Indexes
+#
+#  index_users_on_deleted_at            (deleted_at)
+#  index_users_on_email                 (email) UNIQUE
+#  index_users_on_first_name            (first_name)
+#  index_users_on_last_name             (last_name)
+#  index_users_on_nickname              (nickname)
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_role_id               (role_id)
+#  index_users_on_unlock_token          (unlock_token) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (role_id => roles.id)
 #
 
 class User < RiskRecord

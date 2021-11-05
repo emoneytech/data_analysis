@@ -3,53 +3,62 @@
 # Table name: prodotti
 #
 #  id                 :integer          not null, primary key
-#  idprodotto         :integer          not null
-#  prodottolistino    :integer          not null
-#  gruppo             :integer          not null
-#  codtabella         :integer          default(0)
-#  nome               :string(250)
-#  provider           :string(5)
-#  scontrino          :integer          default(0), not null
-#  srv                :string(25)
-#  srvidCO            :string(9)
-#  srvid              :string(25)
-#  srvidEU            :string(25)
-#  OfferCode          :string(20)
 #  Action             :string(25)
-#  Operatore          :string(12)
-#  prodottoapi        :string(12)
-#  fornitore          :string(5)
-#  xmltype            :string(12)
-#  TipoOpCog          :string(5)
-#  stampa             :string(5)
-#  attivo             :string(5)
+#  Commissioni        :decimal(10, 2)
 #  Costo              :decimal(10, 2)
-#  TipoSpese          :integer          default(0)
+#  OfferCode          :string(20)
+#  Operatore          :string(12)
 #  Spese              :decimal(10, 2)
 #  TipoCommissioni    :integer          default(0)
-#  Commissioni        :decimal(10, 2)
-#  prezzo             :decimal(10, 2)
-#  acquisto           :decimal(10, 3)
-#  TipoRevPoint       :integer          default(0)
-#  revenuepoint       :decimal(10, 2)
+#  TipoOpCog          :string(5)
 #  TipoRevAg          :integer          default(0)
-#  revenueagenti      :decimal(18, 8)
-#  TipoRevAgReg       :integer          default(0)
-#  revenueagregionale :decimal(18, 8)
-#  TipoRevAgNaz       :integer          default(0)
-#  revenueagnazionale :decimal(18, 8)
 #  TipoRevAgEur       :integer          default(0)
-#  revenueageuropa    :decimal(18, 8)
 #  TipoRevAgMast      :integer          default(0)
-#  revenueagmaster    :decimal(18, 8)
-#  visualizza         :integer
-#  create             :date             default(NULL)
-#  notifica           :string(5)
-#  modifica           :bigint           default(0)
-#  idlastupdate       :bigint           default(0)
-#  iplastupdate       :string(45)       default("0")
-#  dataupdate         :date             default(NULL)
+#  TipoRevAgNaz       :integer          default(0)
+#  TipoRevAgReg       :integer          default(0)
+#  TipoRevPoint       :integer          default(0)
+#  TipoSpese          :integer          default(0)
+#  acquisto           :decimal(10, 3)
+#  attivo             :string(5)
 #  base_risk          :decimal(10, 2)   default(1.01)
+#  codtabella         :integer          default(0)
+#  create             :date             default(NULL)
+#  dataupdate         :date             default(NULL)
+#  fornitore          :string(5)
+#  gruppo             :integer          not null
+#  idlastupdate       :bigint           default(0)
+#  idprodotto         :integer          not null
+#  iplastupdate       :string(45)       default("0")
+#  modifica           :bigint           default(0)
+#  nome               :string(250)
+#  notifica           :string(5)
+#  prezzo             :decimal(10, 2)
+#  prodottoapi        :string(12)
+#  prodottolistino    :integer          not null
+#  provider           :string(5)
+#  revenueagenti      :decimal(18, 8)
+#  revenueageuropa    :decimal(18, 8)
+#  revenueagmaster    :decimal(18, 8)
+#  revenueagnazionale :decimal(18, 8)
+#  revenueagregionale :decimal(18, 8)
+#  revenuepoint       :decimal(10, 2)
+#  scontrino          :integer          default(0), not null
+#  srv                :string(25)
+#  srvid              :string(25)
+#  srvidCO            :string(9)
+#  srvidEU            :string(25)
+#  stampa             :string(5)
+#  visualizza         :integer
+#  xmltype            :string(12)
+#
+# Indexes
+#
+#  Costo_idx            (Costo)
+#  gruppo_idx           (gruppo)
+#  idprodotto_idx       (idprodotto) UNIQUE
+#  prodottolistino_idx  (prodottolistino)
+#  scontrino_idx        (scontrino)
+#  visualizza_idx       (visualizza)
 #
 
 class Prodotto < ApplicationCoreRecord

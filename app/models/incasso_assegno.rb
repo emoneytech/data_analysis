@@ -2,21 +2,26 @@
 #
 # Table name: incassoAssegno
 #
-#  idincassoAssegno :integer          not null, primary key
-#  idservizio       :bigint           not null
-#  idAssegno        :string(45)
-#  Nome             :string(145)
 #  Cognome          :string(45)
+#  Nome             :string(145)
+#  causale          :string(100)
 #  codicefiscale    :string(45)
-#  metodoIncasso    :string(50)
-#  numeroCartaConto :string(45)
-#  iban             :string(45)
-#  stato            :integer
-#  feeIncasso       :decimal(10, 2)
-#  importo          :decimal(10, 2)
 #  dataEmissione    :date
 #  dataIncasso      :datetime
-#  causale          :string(100)
+#  feeIncasso       :decimal(10, 2)
+#  iban             :string(45)
+#  idAssegno        :string(45)
+#  idincassoAssegno :integer          not null, primary key
+#  idservizio       :bigint           not null
+#  importo          :decimal(10, 2)
+#  metodoIncasso    :string(50)
+#  numeroCartaConto :string(45)
+#  stato            :integer
+#
+# Indexes
+#
+#  idincassoAssegno_UNIQUE  (idincassoAssegno) UNIQUE
+#  idservizio_UNIQUE        (idservizio) UNIQUE
 #
 class IncassoAssegno < ApplicationCoreRecord
 

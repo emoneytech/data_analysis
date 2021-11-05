@@ -27,6 +27,7 @@ module MovimentocontoFilters
     scope :only_customers, -> { where.not( numeroConto: Conto.where(IdUtente: %w[70 75]).pluck(:Pan) ) }
 
     scope :to_trigger, -> { joins(:anagrafica).where('anagrafiche.Attivo != 6 AND anagrafiche.IdUtente NOT IN (?)', %w[70 75]).references(:anagrafica) } 
+    
   end
 
 end

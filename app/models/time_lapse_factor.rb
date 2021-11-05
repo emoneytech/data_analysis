@@ -3,10 +3,14 @@
 # Table name: anagrafica_time_lapse_factors
 #
 #  id                :integer          not null, primary key
-#  anagrafica_id     :integer          not null
 #  time_lapse_factor :float(24)        default(0.98), not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  anagrafica_id     :integer          not null
+#
+# Indexes
+#
+#  index_anagrafica_time_lapse_factors_on_anagrafica_id  (anagrafica_id)
 #
 
 class TimeLapseFactor < RiskRecord

@@ -2,171 +2,185 @@
 #
 # Table name: anagrafiche
 #
-#  IdUtente                  :bigint           not null
+#  AbilitaTokenApp           :boolean          default(TRUE)
+#  AbilitaWebPin             :integer          default(0)
+#  Agente                    :bigint
+#  AltreAtt                  :string(250)
+#  AttSec                    :string(250)
+#  AttSvolte                 :string(250)
+#  Attivo                    :integer
+#  AutEmail                  :string(2)
+#  Autorizzazioni            :string(20)
+#  Avanzamento               :integer          default(0)
+#  AziendaRuolo              :string(150)
+#  CAB                       :string(10)
+#  CAP                       :string(18)
+#  CapAzienda                :string(18)
+#  CapPoint                  :string(18)
+#  Cellulare                 :string(20)
+#  Citta                     :string(100)
+#  Cittadinanza              :string(45)
+#  CivSedeLegale             :string(20)
+#  Civico                    :string(55)
 #  CodSpinoff                :string(5)
 #  CodSpinoff2               :string(5)
-#  Attivo                    :integer
-#  DataPassword              :datetime
-#  Username                  :string(100)
-#  Password                  :string(100)
-#  Contratto                 :integer          default(0)
-#  Vendor                    :integer          default(0)
-#  IdConcession              :bigint           default(0)
-#  Agente                    :bigint
-#  RagioneSociale            :string(100)
-#  CodicefiscaleAzienda      :string(86)
-#  Rea                       :string(50)
-#  CivSedeLegale             :string(20)
-#  SedeLegale                :string(100)
-#  ComuneAzienda             :string(100)
-#  CapAzienda                :string(18)
-#  ProvinciaAzienda          :string(2)
-#  TelefonoAzienda           :string(20)
-#  FaxAzienda                :string(20)
-#  SitoAzienda               :string(100)
-#  EmailLegalerappresentante :string(100)
-#  Nome                      :string(100)
-#  Cognome                   :string(100)
+#  Codalt                    :string(6)
 #  Codicefiscale             :string(26)
-#  Sesso                     :string(1)
-#  DataNascita               :date
-#  LuogoNascita              :string(100)
-#  ProvinciaNascita          :string(2)
-#  NazioneNascita            :string(3)
-#  Indirizzo                 :string(100)
-#  Civico                    :string(55)
-#  Citta                     :string(100)
-#  CAP                       :string(18)
-#  Provincia                 :string(2)
-#  NazioneResidenza          :string(3)
-#  Telefono                  :string(20)
-#  Fax                       :string(20)
-#  Cellulare                 :string(20)
-#  Email                     :string(50)
-#  IdTipo                    :integer          default(0)
-#  IdTipoDocumento           :integer
-#  NumeroDocumento           :string(20)
-#  DataRilascio              :datetime
-#  DataScadenza              :datetime
-#  EnteRilascio              :string(150)
-#  AziendaRuolo              :string(150)
-#  DataCostituzioneSocieta   :date
-#  PartitaIva                :string(86)
-#  TipoAzienda               :string(150)
-#  FunzionarioResponsabile   :string(100)
-#  TerminiCondizioni         :string(2)
-#  Datiok                    :string(2)
-#  PrimaConnessione          :integer
-#  Created                   :datetime
-#  AttSvolte                 :string(250)
-#  AttSec                    :string(250)
-#  AltreAtt                  :string(250)
-#  PacchettoPoint            :string(20)
-#  Insegna                   :string(100)
-#  IndirizzoPoint            :string(100)
-#  CapPoint                  :string(18)
+#  CodicefiscaleAzienda      :string(86)
+#  Cognome                   :string(100)
+#  ComuneAzienda             :string(100)
 #  ComunePoint               :string(100)
-#  ProvinciaPoint            :string(5)
-#  NazionePoint              :string(3)
-#  ModPagamento              :string(50)
-#  Note                      :text(4294967295)
-#  OkUIC                     :string(2)        default("0")
-#  OkAgente                  :string(2)
-#  OkUffcontratti            :string(2)
-#  OkUffamm                  :string(2)
-#  OkMagazzino               :integer          default(0)
-#  Avanzamento               :integer          default(0)
 #  ContoPoint                :string(50)
 #  ContoPoint2               :string(50)
-#  LastUpdate                :string(10)
-#  DataLastUpdate            :datetime
-#  Livello                   :integer          default(0)
-#  Padre                     :bigint           default(0)
-#  Autorizzazioni            :string(20)
-#  InvioEmail                :integer
-#  AutEmail                  :string(2)
-#  SerialCog                 :string(6)
-#  OpHelpdesk                :string(5)
-#  Toponimo                  :string(8)
-#  DataAttivazione           :datetime
-#  LinkDoc                   :integer          default(0)
-#  LinkCF                    :integer          default(0)
-#  LinkBill                  :integer          default(0)
-#  LinkContratto             :integer          default(0)
-#  LinkVisura                :integer          default(0)
-#  LinkPointAccount          :integer          default(0)
-#  LinkDistributorAgreement  :integer          default(0)
-#  LinkAltriDocumenti        :integer          default(0)
-#  LinkSelfie                :integer          default(0)
-#  LinkFacta                 :integer          default(0)
-#  OkKyc                     :string(2)
-#  TipoKYC                   :integer          default(0)
-#  DataOkKyc                 :datetime
-#  DataNumOkKyc              :string(8)
-#  OpHelpDeskKyc             :string(7)
-#  IdLastUpdateKYC           :bigint           default(0)
-#  DataLastUpdateKYC         :datetime
-#  EmailSollecito            :string(150)
-#  NumeroEmailSollecito      :integer          default(0)
-#  Messaggio                 :text(65535)
-#  DataUltimoSollecito       :datetime
-#  DateSollecito             :string(250)
-#  Codalt                    :string(6)
-#  CAB                       :string(10)
-#  Subconcession             :string(7)
-#  IdToken                   :integer          default(0)
-#  NazioneAzienda            :string(3)
 #  ContoTecnico              :string(30)
-#  Toponimo1                 :string(15)
-#  Toponimo2                 :string(15)
-#  WebPin                    :string(6)
-#  AbilitaWebPin             :integer          default(0)
-#  UtilizziWebPin            :integer          default(0)
-#  Supervisor                :integer          default(0)
+#  Contratto                 :integer          default(0)
+#  Created                   :datetime
+#  DataAgreement             :date
+#  DataArchiviazione         :date
+#  DataAttivazione           :datetime
+#  DataCostituzioneSocieta   :date
+#  DataLastUpdate            :datetime
+#  DataLastUpdateKYC         :datetime
+#  DataNascita               :date
+#  DataNumOkKyc              :string(8)
+#  DataOkKyc                 :datetime
+#  DataPassword              :datetime
+#  DataRilascio              :datetime
+#  DataScadenza              :datetime
+#  DataUltimoSollecito       :datetime
 #  DataVerificaEmail         :date
 #  DataVerificaSms           :date
-#  TokenApp                  :string(45)
-#  ScadenzaTokenApp          :date
-#  AbilitaTokenApp           :boolean          default(TRUE)
-#  Cittadinanza              :string(45)
-#  Lingua                    :string(45)
-#  VersioneAgreement         :string(45)
-#  StatoAgreement            :integer
-#  ScadenzaAgreement         :date
-#  DataAgreement             :date
+#  DateSollecito             :string(250)
+#  Datiok                    :string(2)
+#  DisplayOnly               :integer          default(0)
+#  Email                     :string(50)
+#  EmailLegalerappresentante :string(100)
+#  EmailSollecito            :string(150)
+#  EnteRilascio              :string(150)
+#  ExPep                     :integer          default(0)
+#  Fatca                     :integer          default(0)
+#  Fax                       :string(20)
+#  FaxAzienda                :string(20)
+#  FunzionarioResponsabile   :string(100)
+#  IdConcession              :bigint           default(0)
+#  IdLastUpdateKYC           :bigint           default(0)
+#  IdOpArchiviazione         :bigint           default(0)
+#  IdTipo                    :integer          default(0)
+#  IdTipoDocumento           :integer
+#  IdToken                   :integer          default(0)
+#  IdUtente                  :bigint           not null
+#  Indirizzo                 :string(100)
+#  IndirizzoPoint            :string(100)
+#  Insegna                   :string(100)
+#  InvioEmail                :integer
+#  LastRevision              :date
+#  LastUpdate                :string(10)
+#  Lastcheckcompliance       :date
 #  LimiteMastercard          :integer          default(1)
+#  Lingua                    :string(45)
+#  LinkAltriDocumenti        :integer          default(0)
+#  LinkBill                  :integer          default(0)
+#  LinkCF                    :integer          default(0)
+#  LinkContratto             :integer          default(0)
+#  LinkDistributorAgreement  :integer          default(0)
+#  LinkDoc                   :integer          default(0)
+#  LinkFacta                 :integer          default(0)
+#  LinkPointAccount          :integer          default(0)
+#  LinkSelfie                :integer          default(0)
+#  LinkVisura                :integer          default(0)
+#  Livello                   :integer          default(0)
+#  LuogoNascita              :string(100)
+#  Messaggio                 :text(65535)
+#  ModPagamento              :string(50)
+#  NationDocument            :string(45)
+#  NazioneAzienda            :string(3)
+#  NazioneNascita            :string(3)
+#  NazionePoint              :string(3)
+#  NazioneResidenza          :string(3)
+#  NextRevision              :date
+#  Nextcheckcompliance       :date
+#  Nome                      :string(100)
+#  Note                      :text(4294967295)
+#  NumeroDocumento           :string(20)
+#  NumeroDocumentoEuropeo    :string(255)
+#  NumeroEmailSollecito      :integer          default(0)
+#  Occasionale               :integer          default(0)
+#  OkAgente                  :string(2)
+#  OkKyc                     :string(2)
+#  OkMagazzino               :integer          default(0)
+#  OkUIC                     :string(2)        default("0")
+#  OkUffamm                  :string(2)
+#  OkUffcontratti            :string(2)
+#  OpHelpDeskKyc             :string(7)
+#  OpHelpdesk                :string(5)
+#  OutsideMalta              :integer          default(0)
+#  PacchettoPoint            :string(20)
+#  Padre                     :bigint           default(0)
+#  PartitaIva                :string(86)
+#  Password                  :string(100)
+#  Pep                       :integer          default(0)
+#  PrimaConnessione          :integer
 #  Provider                  :string(6)        default("COG")
 #  ProviderDefault           :string(6)        default("COG")
+#  Provincia                 :string(2)
+#  ProvinciaAzienda          :string(2)
+#  ProvinciaNascita          :string(2)
+#  ProvinciaPoint            :string(5)
+#  RagioneSociale            :string(100)
+#  Rea                       :string(50)
+#  ScadenzaAgreement         :date
+#  ScadenzaDocumentoEuropeo  :date
+#  ScadenzaTokenApp          :date
+#  SedeLegale                :string(100)
+#  SerialCog                 :string(6)
+#  Sesso                     :string(1)
+#  SitoAzienda               :string(100)
+#  Skipdatecompliance        :date
+#  StatoAgreement            :integer
+#  SubStato                  :integer          default(0)
+#  Subconcession             :string(7)
+#  Supervisor                :integer          default(0)
+#  Telefono                  :string(20)
+#  TelefonoAzienda           :string(20)
+#  TerminiCondizioni         :string(2)
+#  TipoAzienda               :string(150)
+#  TipoDocumentoEuropeo      :string(255)
+#  TipoKYC                   :integer          default(0)
+#  TokenApp                  :string(45)
+#  Toponimo                  :string(8)
+#  Toponimo1                 :string(15)
+#  Toponimo2                 :string(15)
+#  Username                  :string(100)
+#  UtilizziWebPin            :integer          default(0)
+#  Vendor                    :integer          default(0)
+#  VersioneAgreement         :string(45)
+#  WebPin                    :string(6)
+#  base_risk                 :decimal(10, 2)   default(4.0)
+#  base_risk_calc            :decimal(10, 2)   default(0.0)
+#  bonifico                  :integer          default(0)
+#  classificazione           :string(45)       default("ZZ")
 #  dataNominaPoint           :date
+#  dataSendPergamena         :date
+#  dateForcedIdQuestionaire  :datetime
+#  forcedIdQuestionaire      :integer          default(0)
 #  linguaPergamena           :string(45)
 #  nazionePorting            :string(45)
-#  dataSendPergamena         :date
-#  base_risk                 :decimal(10, 2)   default(4.0)
-#  bonifico                  :integer          default(0)
-#  base_risk_calc            :decimal(10, 2)   default(0.0)
-#  tipobusiness              :string(255)
 #  organizzazioneazienda     :string(255)
-#  SubStato                  :integer          default(0)
-#  TipoDocumentoEuropeo      :string(255)
-#  NumeroDocumentoEuropeo    :string(255)
-#  ScadenzaDocumentoEuropeo  :date
-#  Skipdatecompliance        :date
-#  Lastcheckcompliance       :date
-#  Nextcheckcompliance       :date
-#  LastRevision              :date
-#  NextRevision              :date
-#  DataArchiviazione         :date
-#  IdOpArchiviazione         :bigint           default(0)
-#  classificazione           :string(45)       default("ZZ")
-#  NationDocument            :string(45)
-#  DisplayOnly               :integer          default(0)
-#  Fatca                     :integer          default(0)
-#  OutsideMalta              :integer          default(0)
-#  Pep                       :integer          default(0)
-#  ExPep                     :integer          default(0)
-#  Occasionale               :integer          default(0)
-#  forcedIdQuestionaire      :integer          default(0)
-#  dateForcedIdQuestionaire  :datetime
+#  tipobusiness              :string(255)
+#
+# Indexes
+#
+#  IdUtente_UNIQUE         (IdUtente) UNIQUE
+#  Tipo                    (IdTipo)
+#  agente                  (Agente)
+#  idx_anagrafiche_Citta   (Citta)
+#  idx_anagrafiche_Vendor  (Vendor)
+#  kyc                     (TipoKYC)
+#  nextrevision            (NextRevision)
+#  provincia               (Provincia)
+#  stato                   (Attivo)
+#  substato                (SubStato)
+#  vendor                  (Vendor)
 #
 
 class Anagrafica < ApplicationCoreRecord

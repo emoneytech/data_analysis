@@ -3,16 +3,23 @@
 # Table name: places
 #
 #  id                :bigint           not null, primary key
-#  positionable_type :string           not null
-#  positionable_id   :bigint           not null
-#  name              :string
 #  address           :string
 #  city              :string
-#  region            :string
 #  country           :string
 #  lonlat            :geography        point, 4326
+#  name              :string
+#  positionable_type :string           not null
+#  region            :string
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  positionable_id   :bigint           not null
+#
+# Indexes
+#
+#  index_places_on_lonlat                                 (lonlat) USING gist
+#  index_places_on_positionable                           (positionable_type,positionable_id)
+#  index_places_on_positionable_type                      (positionable_type)
+#  index_places_on_positionable_type_and_positionable_id  (positionable_type,positionable_id)
 #
 class Place < CorePgRecord
   attr_reader :latitude, :longitude

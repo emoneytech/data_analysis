@@ -3,13 +3,23 @@
 # Table name: notes
 #
 #  id          :integer          not null, primary key
-#  user_id     :integer
-#  customer_id :integer          not null
-#  subject     :string(255)      not null
 #  body        :text(65535)
 #  deleted_at  :datetime
+#  subject     :string(255)      not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  customer_id :integer          not null
+#  user_id     :integer
+#
+# Indexes
+#
+#  index_notes_on_customer_id  (customer_id)
+#  index_notes_on_deleted_at   (deleted_at)
+#  index_notes_on_user_id      (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => users.id)
 #
 
 class Note < RiskRecord

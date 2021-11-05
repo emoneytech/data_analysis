@@ -2,23 +2,31 @@
 #
 # Table name: mandati
 #
-#  IdMandato              :integer          not null, primary key
-#  Data                   :date
-#  Tipo                   :string(45)
-#  Importo                :decimal(12, 2)   default(0.0)
 #  Beneficiario           :bigint
+#  Blocco                 :integer          default(0)
 #  ContoBeneficiario      :string(45)       default("0")
-#  Ordinante              :text(65535)
 #  ContoRiferimento       :string(45)
-#  Note                   :string(250)
-#  Stato                  :string(45)
-#  Operatore              :integer          default(0)
+#  Data                   :date
+#  Iban                   :string(45)
+#  IdMandato              :integer          not null, primary key
 #  IdMovimentoTecnico     :bigint
 #  IdMovimentoValidazione :bigint           default(0)
+#  Importo                :decimal(12, 2)   default(0.0)
 #  Intestatario           :integer          default(0)
+#  Note                   :string(250)
+#  Operatore              :integer          default(0)
+#  Ordinante              :text(65535)
 #  Passivi                :integer          default(0)
-#  Blocco                 :integer          default(0)
-#  Iban                   :string(45)
+#  Stato                  :string(45)
+#  Tipo                   :string(45)
+#
+# Indexes
+#
+#  Beneficiario      (Beneficiario)
+#  Contoriferimento  (ContoRiferimento)
+#  Stato             (Stato)
+#  movTecnico        (IdMovimentoTecnico)
+#  validazione       (IdMovimentoValidazione)
 #
 
 class Mandato < ApplicationCoreRecord

@@ -2,43 +2,53 @@
 #
 # Table name: servizi
 #
-#  idservizio      :bigint           not null, primary key
-#  point           :bigint           default(0)
+#  addebito        :decimal(10, )
 #  ccaddebito      :string(45)       default("0")
-#  prodotto        :bigint           default(0)
-#  gruppo          :integer          default(0)
-#  nomeprodotto    :string(250)      default("0")
-#  status          :integer          default(0)
-#  importo         :decimal(10, 2)   default(0.0)
 #  commissioni     :decimal(10, 2)   default(0.0)
-#  spese           :decimal(10, 2)   default(0.0)
-#  revenuepoint    :decimal(10, 2)
-#  revAgenti       :decimal(10, 2)   default(0.0)
-#  revRegionali    :decimal(10, 2)   default(0.0)
-#  revNazionali    :decimal(10, 2)   default(0.0)
-#  revMaster       :decimal(10, 2)   default(0.0)
-#  validazione     :string(45)       default("\"\"")
-#  note            :text(65535)
+#  confermata      :integer
 #  datainserimento :datetime
 #  datanumerica    :string(45)
 #  datapagamento   :datetime
+#  gruppo          :integer          default(0)
+#  idcausale       :bigint
+#  idservizio      :bigint           not null, primary key
+#  importo         :decimal(10, 2)   default(0.0)
 #  lastupdate      :datetime
-#  addebito        :decimal(10, )
-#  saldooperazione :decimal(10, )
+#  nomeprodotto    :string(250)      default("0")
+#  note            :text(65535)
 #  operatore       :bigint           default(0)
-#  scaricata       :integer
-#  confermata      :integer
 #  optval          :string(45)       default("\"\"")
-#  vendor          :bigint
-#  url             :string(150)      default("\"\"")
+#  point           :bigint           default(0)
+#  point_operator  :string(255)      default("\"\"")
+#  prodotto        :bigint           default(0)
+#  provenienza     :bigint
 #  provider        :string(45)       default("\"\"")
+#  revAgenti       :decimal(10, 2)   default(0.0)
+#  revMaster       :decimal(10, 2)   default(0.0)
+#  revNazionali    :decimal(10, 2)   default(0.0)
+#  revRegionali    :decimal(10, 2)   default(0.0)
+#  revenuepoint    :decimal(10, 2)
+#  riscog          :string(45)       default("\"\"")
+#  saldooperazione :decimal(10, )
+#  scaricata       :integer
+#  spese           :decimal(10, 2)   default(0.0)
+#  status          :integer          default(0)
+#  timestampcog    :string(30)
+#  url             :string(150)      default("\"\"")
+#  validazione     :string(45)       default("\"\"")
+#  vendor          :bigint
 #  xmlin           :text(65535)
 #  xmlout          :text(65535)
-#  riscog          :string(45)       default("\"\"")
-#  timestampcog    :string(30)
-#  provenienza     :bigint
-#  idcausale       :bigint
-#  point_operator  :string(255)      default("\"\"")
+#
+# Indexes
+#
+#  datainserimento  (datainserimento)
+#  importo          (importo)
+#  nomeprodotto     (nomeprodotto)
+#  operatore        (operatore)
+#  point            (point)
+#  prodotto         (prodotto)
+#  status           (status)
 #
 class Servizio < ApplicationCoreRecord
   self.table_name = 'servizi'

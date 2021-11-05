@@ -2,20 +2,25 @@
 #
 # Table name: bintype
 #
-#  id            :integer          unsigned, not null, primary key
-#  idBinType     :string(8)        not null
-#  tipoprodotto  :integer          not null
-#  descrprod     :string(60)       default("descrive il prodotto")
-#  mascheramento :string(8)
-#  tiposervizio  :string(45)
-#  subprodotto   :string(5)
-#  Giornaliero   :decimal(10, 2)   default(0.0)
-#  Settimanale   :decimal(10, 2)   default(0.0)
-#  Mensile       :decimal(10, 2)   default(0.0)
-#  Annuale       :decimal(10, 2)   default(0.0)
-#  Singola       :decimal(10, 2)   default(0.0)
-#  TurnOver      :decimal(10, 2)   default(0.0)
-#  Balance       :decimal(10, 2)   default(0.0)
+#  id                                                                              :integer          unsigned, not null, primary key
+#  Annuale                                                                         :decimal(10, 2)   default(0.0)
+#  Balance                                                                         :decimal(10, 2)   default(0.0)
+#  Giornaliero                                                                     :decimal(10, 2)   default(0.0)
+#  Mensile                                                                         :decimal(10, 2)   default(0.0)
+#  Settimanale                                                                     :decimal(10, 2)   default(0.0)
+#  Singola                                                                         :decimal(10, 2)   default(0.0)
+#  TurnOver                                                                        :decimal(10, 2)   default(0.0)
+#  descrprod(corrisponde al vecchio campo "Tipo" della tabella BinType)            :string(60)       default("descrive il prodotto")
+#  idBinType(corrisponde al "Firstbin" della vecchia tabella "BinType")            :string(8)        not null
+#  mascheramento(coincide col campo "mascheramento" della vecchia tabella BinType) :string(8)
+#  subprodotto                                                                     :string(5)
+#  tipoprodotto(corrisponde al campo "Descrizione" della vecchia tab "BinType")    :integer          not null
+#  tiposervizio(coincide con l'anaologo campo della vecchia tabella BinType)       :string(45)
+#
+# Indexes
+#
+#  id_UNIQUE            (id) UNIQUE
+#  tipoprodotto_UNIQUE  (tipoprodotto) UNIQUE
 #
 
 class Bintype < ApplicationCoreRecord

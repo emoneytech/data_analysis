@@ -2,11 +2,16 @@
 #
 # Table name: iban
 #
-#  IdUtente :bigint           not null, primary key
-#  Iban     :string(45)       default(""), not null, primary key
-#  Conto    :string(45)       default(""), not null, primary key
-#  Tipo     :integer          default(0)
 #  C        :integer          default(1)
+#  Conto    :string(45)       default(""), not null, primary key
+#  Iban     :string(45)       default(""), not null, primary key
+#  IdUtente :bigint           not null, primary key
+#  Tipo     :integer          default(0)
+#
+# Indexes
+#
+#  conto  (Conto)
+#  iban   (Iban)
 #
 class Iban < ApplicationCoreRecord
   include Filterable

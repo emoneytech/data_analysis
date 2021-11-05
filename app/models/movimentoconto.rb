@@ -2,25 +2,40 @@
 #
 # Table name: movimenticonti
 #
-#  idMovimentiConti   :bigint           not null, primary key
-#  idtransazione      :bigint
-#  Point              :integer          not null
-#  ipPoint            :string(15)       not null
-#  TipoTransazione    :string(1)        not null
-#  numeroConto        :string(16)       not null
-#  contodiprovenienza :string(16)
-#  contodestinazione  :string(16)
-#  dataMovimento      :datetime         not null
-#  datanumerica       :integer          unsigned
-#  Dare               :decimal(10, 2)   default(0.0), unsigned, not null
-#  Avere              :decimal(10, 2)   default(0.0), unsigned, not null
-#  Importo            :decimal(10, 2)   default(0.0), not null
-#  Valuta             :string(6)        not null
-#  SaldoProg          :decimal(12, 2)   default(0.0), not null
-#  idCausale          :string(45)
-#  Causale            :text(65535)
-#  Cro                :string(45)
-#  IdMandato          :bigint           default(0)
+#  Avere                                                                        :decimal(10, 2)   default(0.0), unsigned, not null
+#  Causale(Causale del cliente del movimento )                                  :text(65535)
+#  Cro                                                                          :string(45)
+#  Dare                                                                         :decimal(10, 2)   default(0.0), unsigned, not null
+#  IdMandato                                                                    :bigint           default(0)
+#  Importo                                                                      :decimal(10, 2)   default(0.0), not null
+#  Point(Identifica l'utente = idutente)                                        :integer          not null
+#  SaldoProg(Saldo aggiornato con l'ultimo movimento andato a buon fine)        :decimal(12, 2)   default(0.0), not null
+#  TipoTransazione(Indica se il movimento è stato richiesto tramite IPAN o PAN) :string(1)        not null
+#  Valuta                                                                       :string(6)        not null
+#  contodestinazione                                                            :string(16)
+#  contodiprovenienza                                                           :string(16)
+#  dataMovimento(data ed ora del movimento)                                     :datetime         not null
+#  datanumerica                                                                 :integer          unsigned
+#  idCausale(Causale interna)                                                   :string(45)
+#  idMovimentiConti                                                             :bigint           not null, primary key
+#  idtransazione                                                                :bigint
+#  ipPoint(Indirizzo del cliente chiamante)                                     :string(15)       not null
+#  numeroConto(riferimento pan o ipan)                                          :string(16)       not null
+#
+# Indexes
+#
+#  Avere                 (Avere)
+#  Dare                  (Dare)
+#  SaldoProg             (SaldoProg)
+#  data                  (dataMovimento)
+#  fk_Idtransazione_idx  (idtransazione)
+#  fk_numeroconto_idx    (numeroConto)
+#  fk_point_idx          (Point)
+#  fk_tipotransazione    (TipoTransazione)
+#
+# Foreign Keys
+#
+#  fk_tipotransazione  (TipoTransazione => tipotrans.TipoTrans)
 #
 
 class Movimentoconto < ApplicationCoreRecord

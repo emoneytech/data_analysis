@@ -2,42 +2,54 @@
 #
 # Table name: conti
 #
-#  idConti             :integer          not null
-#  IdUtente            :bigint           not null
-#  idpoint             :bigint           default(0), not null
-#  Pan                 :string(46)       not null, primary key
-#  IPan                :string(16)       default("0000000000000000"), not null
-#  alias               :string(50)
-#  Saldo               :decimal(12, 2)   default(0.0), not null
-#  nazione             :string(3)        default("ND")
-#  BinType             :string(8)
-#  ProductState        :integer          default(1), not null
-#  ProductType         :integer          not null
-#  family              :integer          default(4), not null
-#  subtypeprod         :integer
-#  Valuta              :string(6)        default("EUR"), not null
-#  Inserimento         :datetime         not null
-#  Attivazione         :datetime
-#  Webpin              :string(6)        default("999999"), not null
-#  scadwebpin          :datetime         not null
-#  lastMovimento       :datetime
-#  datanumerica        :integer          unsigned
-#  Hour                :time
-#  ipDskUser           :string(45)       default("nd")
-#  DeskUser            :string(10)       default("nd")
-#  lastUpdateuser      :datetime
-#  webpin2             :string(6)        default("000000")
-#  scadenza_wp2        :date
-#  Nota1               :string(255)      default("no note")
-#  Nota2               :string(255)      default("no note")
-#  fido                :boolean          default(FALSE)
-#  limite              :decimal(10, 2)   default(0.0)
-#  datascadenzaservizi :date
-#  AccessoConto        :integer          default(0)
-#  StatoKyc            :integer          default(0)
-#  Scadenza            :date
-#  Visualizza          :integer          default(0)
-#  Preferito           :integer          default(0)
+#  AccessoConto                                                                  :integer          default(0)
+#  Attivazione(Data di attivazione conto)                                        :datetime
+#  BinType                                                                       :string(8)
+#  DeskUser(oepratore che interviene sulla tabella)                              :string(10)       default("nd")
+#  Hour(ora dell'ultimo addebito sul conto)                                      :time
+#  IPan(Identificativo conto carta)                                              :string(16)       default("0000000000000000"), not null
+#  IdUtente(Identificativo utente collegato alla tabella ANAGRAFICA)             :bigint           not null
+#  Inserimento(Data di inserimento conto)                                        :datetime         not null
+#  Nota1                                                                         :string(255)      default("no note")
+#  Nota2                                                                         :string(255)      default("no note")
+#  Pan(Identificativo numero di conto)                                           :string(46)       not null, primary key
+#  Preferito                                                                     :integer          default(0)
+#  ProductState(Stato dei prodotti (vecchio Service code))                       :integer          default(1), not null
+#  ProductType(Tipo prodotto)                                                    :integer          not null
+#  Saldo                                                                         :decimal(12, 2)   default(0.0), not null
+#  Scadenza                                                                      :date
+#  StatoKyc                                                                      :integer          default(0)
+#  Valuta(Tipo di moneta (collegato alla tab moneta))                            :string(6)        default("EUR"), not null
+#  Visualizza                                                                    :integer          default(0)
+#  Webpin(Webpin generato dal cliente)                                           :string(6)        default("999999"), not null
+#  alias                                                                         :string(50)
+#  datanumerica(Data dell'ultimo addebito in conto in formato numerico unsigned) :integer          unsigned
+#  datascadenzaservizi                                                           :date
+#  family(Tipo di conto (Tesoreria (TES)o Tecnico(TEC)))                         :integer          default(4), not null
+#  fido                                                                          :boolean          default(FALSE)
+#  idConti(Contatore)                                                            :integer          not null
+#  idpoint                                                                       :bigint           default(0), not null
+#  ipDskUser                                                                     :string(45)       default("nd")
+#  lastMovimento(Data ed ora dell'ultimo addebito sul conto)                     :datetime
+#  lastUpdateuser(Data dell'ultimo intervento di un operatore)                   :datetime
+#  limite                                                                        :decimal(10, 2)   default(0.0)
+#  nazione                                                                       :string(3)        default("ND")
+#  scadenza_wp2                                                                  :date
+#  scadwebpin                                                                    :datetime         not null
+#  subtypeprod                                                                   :integer
+#  webpin2                                                                       :string(6)        default("000000")
+#
+# Indexes
+#
+#  IPan                          (IPan)
+#  IdPoint                       (idpoint)
+#  IdUtente                      (IdUtente)
+#  fk_Conti_ProductState_idx     (ProductState)
+#  fk_Conti_valuta_idx           (Valuta)
+#  fk_conti_caratt_prodotti_idx  (ProductType)
+#  fk_conti_subtype_idx          (subtypeprod)
+#  fk_tipoconto_idx              (family)
+#  idConti_UNIQUE                (idConti) UNIQUE
 #
 
 class Conto < ApplicationCoreRecord

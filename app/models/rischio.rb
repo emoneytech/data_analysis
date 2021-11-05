@@ -2,9 +2,14 @@
 #
 # Table name: rischio
 #
+#  Data     :datetime         not null, primary key
 #  IdUtente :bigint           not null, primary key
 #  Rischio  :decimal(10, 2)   default(0.0)
-#  Data     :datetime         not null, primary key
+#
+# Indexes
+#
+#  Rischio                 (Rischio)
+#  rischio_and_data_index  (Data,Rischio)
 #
 class Rischio < ApplicationCoreRecord
 

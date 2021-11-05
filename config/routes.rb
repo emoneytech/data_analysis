@@ -1,3 +1,6 @@
+# == Route Map
+#
+
 Rails.application.routes.draw do
   root 'data_analysis/dashboard#index'
   devise_for :users

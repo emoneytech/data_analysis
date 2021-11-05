@@ -2,20 +2,32 @@
 #
 # Table name: table_risk_movements
 #
-#  movement_id         :bigint           default(0), primary key
-#  service_id          :bigint
-#  user_id             :integer
+#  beneficiary         :string(191)
+#  movement_amount     :decimal(10, 2)   default(0.0)
 #  movement_created_at :datetime
+#  product_base_risk   :decimal(10, 2)   default(1.01)
+#  product_name        :string(250)
 #  service_status      :integer          default(0)
 #  service_updated_at  :datetime
-#  movement_amount     :decimal(10, 2)   default(0.0)
-#  product_net_id      :integer          not null
-#  product_id          :integer          not null
-#  product_name        :string(250)
 #  table_code          :integer          default(0)
-#  product_base_risk   :decimal(10, 2)   default(1.01)
 #  table_name          :string(45)
-#  beneficiary         :string(191)
+#  movement_id         :bigint           default(0), primary key
+#  product_id          :integer          not null
+#  product_net_id      :integer          not null
+#  service_id          :bigint
+#  user_id             :integer
+#
+# Indexes
+#
+#  full_index                                   (user_id,beneficiary,product_net_id,movement_created_at)
+#  movement_created_index                       (movement_created_at)
+#  movement_id_and_mov_created_and_beneficiary  (movement_id,movement_created_at,beneficiary)
+#  movement_id_index                            (movement_id)
+#  product_name_index                           (product_name)
+#  product_net_and_beneficiary                  (product_net_id,beneficiary)
+#  product_net_and_user_index                   (product_net_id,user_id)
+#  user_and_movement_created                    (user_id,movement_created_at)
+#  user_index                                   (user_id)
 #
 
 class RiskMovement < ApplicationCoreRecord
