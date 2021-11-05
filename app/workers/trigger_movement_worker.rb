@@ -2,7 +2,7 @@ class TriggerMovementWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
   # sidekiq_options queue: 'critical', retry: false, backtrace: true
-  sidekiq_options queue: 'massive', retry: false, backtrace: true
+  sidekiq_options queue: 'serial', retry: true, backtrace: true
   
   # PARAMS
   # movement_id = 1293485

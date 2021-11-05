@@ -2,7 +2,7 @@ class TriggerWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
 
-  sidekiq_options queue: 'massive', retry: true, backtrace: true
+  sidekiq_options queue: 'serial', retry: true, backtrace: true
   
   # PARAMS
 

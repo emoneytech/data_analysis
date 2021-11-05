@@ -1,0 +1,70 @@
+.card.card-outline.card-primary
+  .card-header
+    .card-title
+      %i.fas.fa-map-marker-alt
+      #{EvalMovement.model_name.human(count: 2)}: 
+      %span#places_count= @places.count
+  .card-body
+    .row.mb-1
+      .col-md-12
+        %p
+          Query params:
+          %br
+          bbox:
+          %span#bbox
+          %br
+          start_date:
+          %span#start_date
+          \ - 
+          end_date:
+          %span#end_date
+          %br
+          range:
+          %span#current_range
+          \ - 
+          step:
+          %span#current_step
+
+      .col-md-6
+        .form-group
+          %select#showrange.form-control.select2bs4{style: "width: 100%;"}
+            %option{value: 'year'} Year
+            %option{value: 'month', selected: "selected"} Month
+            %option{value: 'day'} Day
+            %option{value: 'hour'} Hour
+            %option{value: 'range'} Range
+      .col-md-6
+        .form-group.mb-0
+          .input-group
+            .input-group-prepend
+              %span.input-group-text
+                %i.far.fa-clock
+            %input#showtime.form-control.float-right{type: "text"}
+    .row
+      .col-md-12
+        #live_map{ style: "height: 830px;" }
+
+:javascript
+  var format1 = "YYYY-MM-DD HH:mm:ss"
+  var bbox
+    , map
+    , timelineControl
+    , markers
+    , current_range
+    , start_date
+    , end_date
+    , props
+    , start_query_date
+    , end_query_date
+  const divID = 'live_map'
+  var current_date = moment("#{@day}")
+  coords = [35.9480742, 14.3973929]
+  map = new L.map(divID);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    minZoom: 3,
+    attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+  }).addTo(map);
+  map.setView(new L.LatLng(coords[0], coords[1]), 5);
+  
+
