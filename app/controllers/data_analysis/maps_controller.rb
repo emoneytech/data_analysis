@@ -5,6 +5,10 @@ module DataAnalysis
     DEFAULT_COORDS = [35.9480742, 14.3973929] # latitude,longitude or y,x
     
     def index
+      @places = EvaluatedMovement.geocoded.order(created_at: :desc).limit(QUERY_LIMIT)
+    end
+
+    def index_old
       if params[:day].present?
         @day = params[:day].to_date
       else
