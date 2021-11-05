@@ -7,9 +7,6 @@
   .card-body
     .row.mb-1
       .col-md-12
-        = form_for Message.new, remote: true do |f|
-          = f.text_field :content
-          = f.submit
         %p
           Query params:
           %br
