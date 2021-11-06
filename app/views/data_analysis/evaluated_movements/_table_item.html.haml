@@ -1,0 +1,64 @@
+%table.table.table-striped.table-bordered.table-hover
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:id)
+    %td= evaluated_movement.id
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:in_out)
+    %td= evaluated_movement.in_out
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:internal)
+    %td= evaluated_movement.internal
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:triggerable)
+    %td= link_to evaluated_movement.triggerable, [:data_analysis, evaluated_movement.triggerable]
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:movement)
+    %td= link_to evaluated_movement.movement_id, [:data_analysis, evaluated_movement.movement]
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:movement_created_at)
+    %td= evaluated_movement.movement_created_at
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:customer)
+    %td= evaluated_movement.customer
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:beneficiary)
+    %td= evaluated_movement.beneficiary
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:beneficiary_other)
+    %td= evaluated_movement.beneficiary_other
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:payer)
+    %td= evaluated_movement.payer
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:payer_other)
+    %td= evaluated_movement.payer_other
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:product_id)
+    %td= evaluated_movement.product_id
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:product_name)
+    %td= evaluated_movement.product_name
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:product_base_risk)
+    %td= evaluated_movement.product_base_risk
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:origin_country)
+    %td= evaluated_movement.origin_country
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:origin_lonlat)
+    %td= evaluated_movement.origin_lonlat
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:destination_country)
+    %td= evaluated_movement.destination_country
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:destination_lonlat)
+    %td= evaluated_movement.destination_lonlat
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:amount_cents)
+    %td= humanized_money_with_symbol evaluated_movement.amount
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:recursion_all_7)
+    %td= evaluated_movement.recursion_all_7
+  %tr
+    %th= EvaluatedMovement.human_attribute_name(:recursion_all_30)
+    %td= evaluated_movement.recursion_all_30

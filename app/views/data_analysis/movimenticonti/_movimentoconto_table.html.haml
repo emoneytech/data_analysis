@@ -9,6 +9,10 @@
       %tr
         %th= Movimentoconto.human_attribute_name(:idmovimenticonti)
         %td= movimentoconto.idmovimenticonti
+      - if movimentoconto.evaluated_movement
+        %tr
+          %th= Movimentoconto.human_attribute_name(:evaluated_movement)
+          %td= link_to movimentoconto.evaluated_movement.id, [:data_analysis, movimentoconto.evaluated_movement]
       %tr
         %th= Movimentoconto.human_attribute_name(:mandato)
         %td= link_to movimentoconto.payment_order_id, data_analysis_mandato_path(movimentoconto.payment_order_id)
@@ -40,7 +44,6 @@
       %tr
         %th= Movimentoconto.human_attribute_name(:point)
         %td= movimentoconto.point
-
       %tr
         %th= Movimentoconto.human_attribute_name(:numeroConto)
         %td= link_to movimentoconto.numeroConto, data_analysis_conto_path(movimentoconto.numeroConto) if movimentoconto.numeroConto

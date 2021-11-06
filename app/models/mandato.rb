@@ -58,6 +58,10 @@ class Mandato < ApplicationCoreRecord
     order(idmandato: :desc).select(:idmandato).first.idmandato
   end
 
+  def to_s
+    "Mandato"
+  end
+  
   def info
     info = {
       form: '',

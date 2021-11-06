@@ -106,6 +106,34 @@ class EvaluatedMovement < CorePgRecord
 
   after_create :send_notification
 
+  def self.reports(daterange)
+    items = self.filter_by_daterange(daterange)
+    ary = {
+      count: items.count,
+      max: items.maximum(:amount_cents),
+      min: items.minimum(:amount_cents),
+      average: items.average(:amount_cents),
+      balanced_average: items.for_medium(3).average(:amount_cents),
+      in: {
+        count: items.filter_by_in_out('IN').count,
+        max: items.filter_by_in_out('IN').maximum(:amount_cents),
+        min: items.filter_by_in_out('IN').minimum(:amount_cents),
+        average: items.filter_by_in_out('IN').average(:amount_cents),
+      },
+      out: {
+        count: items.filter_by_in_out('OUT').count,
+        max: items.filter_by_in_out('OUT').maximum(:amount_cents),
+        min: items.filter_by_in_out('OUT').minimum(:amount_cents),
+        average: items.filter_by_in_out('OUT').average(:amount_cents),
+      }
+    }
+    return ary
+  end
+
+  def customer_full_name
+    self.in_out === 'IN' ? "#{beneficiary}" : "#{payer}"
+  end
+
   def self.last_id
     order(movement_created_at: :desc).select(:movement_id).first.movement_id
   end
@@ -132,8 +160,8 @@ class EvaluatedMovement < CorePgRecord
       else
         in_from_service_id(movement.idtransazione, point)
       end
-
     end
+    self.amount = movement.Importo.to_f.abs
   end
 
   def in_from_mandato_id(mandato_id)
@@ -174,7 +202,7 @@ class EvaluatedMovement < CorePgRecord
     self.product_id = ''
     self.product_name = 'Bank Wire From Mandato'
     self.product_table_code = ''
-    self.amount = mandato.Importo.to_f
+    # self.amount = mandato.Importo.to_f
   end
 
   def in_from_service_id(service_id, point)
@@ -239,7 +267,7 @@ class EvaluatedMovement < CorePgRecord
     self.product_id = service.prodotto
     self.product_name = service.nomeprodotto
     self.product_table_code = service.product.codtabella
-    self.amount = service.importo.to_f
+    # self.amount = service.importo.to_f
   end
 
   def set_beneficiary_from_service(service = self.service)

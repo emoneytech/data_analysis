@@ -132,6 +132,10 @@ class Servizio < ApplicationCoreRecord
     "DATE_FORMAT(servizi.lastupdate , '%Y-%m-%d') between ? and ?", daterange.split(' - ')[0].to_date.strftime('%Y-%m-%d'), daterange.split(' - ')[1].to_date.strftime('%Y-%m-%d')
   )}
 
+  def to_s
+    "Servizio"
+  end
+
   def self.status_active
     ['5','6','7','8']
   end

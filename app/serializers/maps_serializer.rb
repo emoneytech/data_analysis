@@ -6,8 +6,8 @@ class MapsSerializer < ActiveModel::Serializer
   end
 
   def features
-    object.map do |eval_movement|
-      EvalMovementSerializer.new(eval_movement)
+    object.map do |evaluated_movement|
+      EvaluatedMovementSerializer.new(evaluated_movement)
     end
   end
 end

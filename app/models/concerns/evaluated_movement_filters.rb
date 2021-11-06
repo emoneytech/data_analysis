@@ -19,6 +19,12 @@ module EvaluatedMovementFilters
         AND '#{daterange.split(' - ')[1].to_date.end_of_day}'")
     }
 
+    scope :with_all_for_day, -> (day) {
+      where(
+        "movement_created_at BETWEEN '#{day.beginning_of_day}' 
+        AND '#{day.end_of_day}'"
+      ).order(movement_created_at: :asc)
+    }
     scope :filter_by_origin_country, -> (country) { where("origin_country = ?", "#{country}")}
     scope :filter_by_destination_country, -> (country) { where("destination_country = ?", "#{country}")}
 
@@ -45,6 +51,10 @@ module EvaluatedMovementFilters
     scope :filter_by_internal, -> (internal) { where(internal: internal)}
     scope :filter_by_in_out, -> (value) { where(in_out: value)}
 
+    scope :remove_max, -> (size) { where.not(id: EvaluatedMovement.order(amount_cents: :desc).limit(size).pluck(:id)) }
+    scope :remove_min, -> (size) { where.not(id: EvaluatedMovement.order(amount_cents: :asc).limit(size).pluck(:id)) }
+
+    scope :for_medium, -> (size) { remove_max(size).remove_min(size) }
     # PostGIS SPATIAL QUERIES
     # for finding place X distance from a particular point (i.e. radius)
     scope :geocoded, -> { where.not( destination_lonlat: nil) }

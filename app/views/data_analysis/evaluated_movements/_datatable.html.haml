@@ -1,0 +1,63 @@
+%table.table.table-striped.table-bordered.table-hover{id: 'table_evaluated_movements', data: {source: "#{data_analysis_evaluated_movements_path(format: :json)}"}}
+  %thead
+    %tr
+      %th{data: {priority: "10"}}= EvaluatedMovement.human_attribute_name(:id)
+      %th{data: {priority: "10"}}= EvaluatedMovement.human_attribute_name(:internal)
+      %th{data: {priority: "9"}}= EvaluatedMovement.human_attribute_name(:triggerable)
+      %th{data: {priority: "8"}}= EvaluatedMovement.human_attribute_name(:movement_created_at)
+      %th{data: {priority: "1"}}= EvaluatedMovement.human_attribute_name(:customer)
+      %th{data: {priority: "2"}}= EvaluatedMovement.human_attribute_name(:beneficiary)
+      %th{data: {priority: "1"}}= EvaluatedMovement.human_attribute_name(:payer)
+      %th{data: {priority: "11"}}= EvaluatedMovement.human_attribute_name(:product_id)
+      %th{data: {priority: "5"}}= EvaluatedMovement.human_attribute_name(:product_name)
+      %th{data: {priority: "13"}}= EvaluatedMovement.human_attribute_name(:product_base_risk)
+      %th{data: {priority: "7"}}= EvaluatedMovement.human_attribute_name(:origin_country)
+      %th{data: {priority: "12"}}= EvaluatedMovement.human_attribute_name(:origin_lonlat)
+      %th{data: {priority: "6"}}= EvaluatedMovement.human_attribute_name(:destination_country)
+      %th{data: {priority: "12"}}= EvaluatedMovement.human_attribute_name(:destination_lonlat)
+      %th{data: {priority: "4"}}= EvaluatedMovement.human_attribute_name(:amount_cents)
+      %th{data: {priority: "3"}}= EvaluatedMovement.human_attribute_name(:recursion_all_7)
+      %th{data: {priority: "3"}}= EvaluatedMovement.human_attribute_name(:recursion_all_30)
+      %th{data: {priority: "1", orderable: "false"},nowrap: true}
+  %tbody
+
+
+:javascript
+  $(document).ready(function() {
+    $('#table_evaluated_movements').DataTable({
+      processing: true,
+      serverSide: true,
+      columnDefs: [
+        {"orderable": false, "targets": [-1]},
+        {"serachable": false, "targets": [-1]},
+      ],
+      ajax: {
+        "url": $('#table_evaluated_movements').data('source')
+      },
+      pagingType: "full_numbers",
+      columns: [
+        {"data": "id"},
+        {"data": "internal"},
+        {"data": "triggerable"},
+        {"data": "movement_created_at"},
+        {"data": "customer"},
+        {"data": "beneficiary"},
+        {"data": "payer"},
+        {"data": "product_id"},
+        {"data": "product_name"},
+        {"data": "product_base_risk"},
+        {"data": "origin_country"},
+        {"data": "origin_lonlat"},
+        {"data": "destination_country"},
+        {"data": "destination_lonlat"},
+        {"data": "amount_cents"},
+        {"data": "recursion_all_7"},
+        {"data": "recursion_all_30"},
+        {"data": "actions"}
+      ],
+      lengthChange: true,
+      pageLength: 25,
+      autoWidth: false,
+      responsive: true
+    })
+  })

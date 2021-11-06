@@ -1,3 +1,49 @@
 .row
   .col-md-12
-    = render "live_map"
+    .card.card-outline.card-primary
+      .card-header
+        .card-title
+          %i.fas.fa-map-marker-alt
+          #{EvaluatedMovement.model_name.human(count: 2)}: 
+          %span#places_count= @places.count
+      .card-body
+        .row
+          .col-md-12
+            = @day
+        .row.mb-1
+          .col-md-12
+            %p
+              Query params:
+              %br
+              bbox:
+              %span#bbox
+              %br
+              start_date:
+              %span#start_date
+              \ - 
+              end_date:
+              %span#end_date
+              %br
+              range:
+              %span#current_range
+              \ - 
+              step:
+              %span#current_step
+
+          .col-md-6
+            .form-group
+              %select#showrange.form-control.select2bs4{style: "width: 100%;"}
+                %option{value: 'year'} Year
+                %option{value: 'month', selected: "selected"} Month
+                %option{value: 'day'} Day
+                %option{value: 'hour'} Hour
+                %option{value: 'range'} Range
+          .col-md-6
+            .form-group.mb-0
+              .input-group
+                .input-group-prepend
+                  %span.input-group-text
+                    %i.far.fa-clock
+                %input#showtime.form-control.float-right{type: "text"}
+        
+        = render "map"

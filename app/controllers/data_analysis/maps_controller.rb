@@ -5,14 +5,10 @@ module DataAnalysis
     DEFAULT_COORDS = [35.9480742, 14.3973929] # latitude,longitude or y,x
     
     def index
-      @places = EvaluatedMovement.geocoded.order(created_at: :desc).limit(QUERY_LIMIT)
-    end
-
-    def index_old
       if params[:day].present?
         @day = params[:day].to_date
       else
-        @day = Date.today - 1.month + 3.days
+        @day = Date.today
       end
 
       if params[:bbox].present?
@@ -26,7 +22,7 @@ module DataAnalysis
       if params[:end_date].present?
         end_date = params[:end_date].to_datetime
       end
-      @places = EvalMovement.geocoded.with_all_for_day(@day).order(created_at: :desc).limit(QUERY_LIMIT)
+      @places = EvaluatedMovement.geocoded.with_all_for_day(@day).order(created_at: :desc).limit(QUERY_LIMIT)
       respond_to do |format|
         format.html
         format.json do
@@ -39,14 +35,14 @@ module DataAnalysis
     end
   private
     def spatial_query(coords, day)
-      EvalMovement.with_all_for_day(day).bbox(coords[0], coords[1], coords[2], coords[3]).limit(QUERY_LIMIT)
+      EvaluatedMovement.with_all_for_day(day).bbox(coords[0], coords[1], coords[2], coords[3]).limit(QUERY_LIMIT)
     end
 
     def spatial_datetime_query(start_date, end_date, coords)
-      EvalMovement.geocoded.where("movement_created_at between ? and ?", start_date, end_date).bbox(coords[0], coords[1], coords[2], coords[3]).limit(QUERY_LIMIT)
+      EvaluatedMovement.geocoded.where("movement_created_at between ? and ?", start_date, end_date).bbox(coords[0], coords[1], coords[2], coords[3]).limit(QUERY_LIMIT)
     end
     def datetime_query(start_date, end_date)
-      EvalMovement.geocoded.where("movement_created_at between ? and ?", start_date, end_date).limit(QUERY_LIMIT)
+      EvaluatedMovement.geocoded.where("movement_created_at between ? and ?", start_date, end_date).limit(QUERY_LIMIT)
     end
   end
 end
@@ -66,7 +62,7 @@ module DataAnalysis
       
       # checks if bbox is among params and generates either combined spatial query or single spatial query
       if params[:bbox].present?
-        render json: spatial_query(coords, query), serializer: EvalMovementsSerializer
+        render json: spatial_query(coords, query), serializer: EvaluatedMovementsSerializer
       end
     end
 
@@ -78,7 +74,7 @@ module DataAnalysis
 
     # simple single query
     def normal_query(query)
-      EvalMovement.geocoded.where(query).limit(QUERY_LIMIT)
+      EvaluatedMovement.geocoded.where(query).limit(QUERY_LIMIT)
     end
 
     # query generator
