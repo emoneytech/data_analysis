@@ -6,7 +6,7 @@ module DataAnalysis
       if params[:filter] && filtering_params[:iban] != ""
         iban = IBANTools::IBAN.new(filtering_params[:iban])
         unless iban.validation_errors.any?
-           @iban_info = IbanUtils.validate_iban(iban.code)
+           @iban_info = IbanCheck.validate_iban(iban.code)
         else
           @iban_info = iban.validation_errors
         end

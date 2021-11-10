@@ -352,31 +352,27 @@ class EvaluatedMovement < CorePgRecord
   def set_destination_lonlat
     if self.beneficiary_iban != ''
       iban = self.beneficiary_iban
-      iban_info = IbanUtils.validate_iban(iban)
+      iban_info = IbanCheck.validate_iban(iban)
       bank_data_hash = iban_info["bank_data"]
       city = bank_data_hash["city"]
       country = bank_data_hash["country"]
       self.destination_country = NormalizeCountry(country, :to => :alpha2)
       address = bank_data_hash["address"]
-      result = Geocoder.search(country, params: {city: city, address: address}).first
-      result = Geocoder.search("#{address}, #{country}").first unless result
       self.beneficiary_other = "#{address} - #{city}, #{country}"
-      self.destination_lonlat = "POINT(#{result.longitude} #{result.latitude})" if result
+      self.destination_lonlat = "POINT(#{iban_info["position"]["longitude"]} #{iban_info["position"]["latitude"]})"
     end
   end
 
   def set_origin_lonlat
     if self.payer_iban != ''
       iban = self.payer_iban
-      iban_info = IbanUtils.validate_iban(iban)
+      iban_info = IbanCheck.validate_iban(iban)
       bank_data_hash = iban_info["bank_data"]
       city = bank_data_hash["city"]
       country = bank_data_hash["country"]
       self.origin_country = NormalizeCountry(country, :to => :alpha2)
       address = bank_data_hash["address"]
-      result = Geocoder.search(country, params: {city: city, address: address}).first
-      result = Geocoder.search("#{address}, #{country}").first unless result
-      self.origin_lonlat = "POINT(#{result.longitude} #{result.latitude})" if result
+      self.origin_lonlat = "POINT(#{iban_info["position"]["longitude"]} #{iban_info["position"]["latitude"]})"
     end
   end
 
