@@ -112,7 +112,7 @@ class Movimentoconto < ApplicationCoreRecord
       unless servizio
         return mandato.try(:Iban) ? true : false 
       end
-      return false if EXCLUDED.include?(product.idprodotto.to_s[-3...])
+      return false if product && EXCLUDED.include?(product.idprodotto.to_s[-3...])
       return servizio.get_principal_movement_in.try(:id) === self.id if servizio
     end
   end
