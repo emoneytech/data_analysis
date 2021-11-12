@@ -366,7 +366,7 @@ class EvaluatedMovement < CorePgRecord
   #private
 
   def set_destination_lonlat
-    if self.beneficiary_iban != ''
+    if self.beneficiary_iban && self.beneficiary_iban != ''
       iban = self.beneficiary_iban
       iban_info = IbanCheck.validate_iban(iban)
       bank_data_hash = iban_info["bank_data"]
@@ -380,7 +380,7 @@ class EvaluatedMovement < CorePgRecord
   end
 
   def set_origin_lonlat
-    if self.payer_iban != ''
+    if self.payer_iban && self.payer_iban != ''
       iban = self.payer_iban
       iban_info = IbanCheck.validate_iban(iban)
       bank_data_hash = iban_info["bank_data"]
