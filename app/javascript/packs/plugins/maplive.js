@@ -8,10 +8,27 @@ import 'leaflet-arc/bin/leaflet-arc.min.js'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import 'leaflet.markercluster/dist/leaflet.markercluster.js'
+
 import 'leaflet.timeline.control'
+
+import 'leaflet-extra-markers/dist/js/leaflet.extra-markers.min.js'
+import 'leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css'
 
 window.L = L
 L.TransitionedIcon = require('leaflet-transitionedicon')
+
+window.redMarker = L.ExtraMarkers.icon({
+  icon: 'fa-file-export',
+  markerColor: 'red',
+  shape: 'square',
+  prefix: 'fa',
+})
+window.greenMarker = L.ExtraMarkers.icon({
+  icon: 'fa-file-import',
+  markerColor: 'green',
+  shape: 'square',
+  prefix: 'fa',
+})
 
 window.MyIcon = L.TransitionedIcon.extend({
   options: {

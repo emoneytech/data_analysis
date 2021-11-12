@@ -122,11 +122,18 @@ function setCluster(geoJsonData) {
     map.removeLayer(markers);
   }
   var geoJsonLayer = L.geoJson(geoJsonData, {
+    pointToLayer: function (feature, latlng) {
+      if (feature.properties.in_out === 'IN') {
+        return L.marker(latlng, { icon: greenMarker })
+      } else {
+        return L.marker(latlng, { icon: redMarker })
+      }
+    },
     onEachFeature: function (feature, layer) {
       str = compilePopup(feature.properties)
-      layer.bindPopup(str);
-    }
-  });
+      layer.bindPopup(str)
+    },
+  })
   markers = L.markerClusterGroup();
   markers.addLayer(geoJsonLayer);
   map.addLayer(markers);

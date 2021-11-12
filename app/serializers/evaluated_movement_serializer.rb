@@ -8,6 +8,7 @@ class EvaluatedMovementSerializer < ActiveModel::Serializer
   def properties
     return {
       id: object.id,
+      in_out: object.in_out,
       address: object.beneficiary_other,
       risk_factor: object.risk_factor,
       recursions: object.recursions,
