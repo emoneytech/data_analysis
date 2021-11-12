@@ -3,14 +3,14 @@
     .card-header
       %h3.card-title
         %i.fas.fa-search-dollar
-        = t(:listing_resource, resource: EvalMovement.model_name.human(:count => 2))
+        = t(:listing_resource, resource: EvaluatedMovement.model_name.human(:count => 2))
       .card-tools
         %button{type: "button", class: "btn btn-tool", "data-card-widget" => "maximize"}
           %i.fas.fa-expand
         %button{type: "button", class: "btn btn-tool", "data-card-widget" => "collapse"}
           %i.fas.fa-plus
     .card-body
-      = render "datatable", evaluated_movements: evaluated_movements
+      = render "table", evaluated_movements: evaluated_movements
     .card-footer.clearfix
       .row
         .col-md-4

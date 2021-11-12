@@ -4,6 +4,9 @@ class EvaluatedMovementDatatable < AjaxDatatablesRails::ActiveRecord
 
   def initialize(params, opts = {})
     @view = opts[:view_context]
+    @filtering_params = opts[:filtering_params]
+    binding.pry
+
     super
   end
 
@@ -59,30 +62,9 @@ class EvaluatedMovementDatatable < AjaxDatatablesRails::ActiveRecord
 
   def get_raw_records
     # insert query here
-    EvaluatedMovement.filter(filtering_params).order(movement_created_at: :desc)
+    EvaluatedMovement.filter(@filtering_params).order(movement_created_at: :desc)
   end
 private
-  def filtering_params
-    params[:filter] ? params[:filter].slice(
-      :beneficiary,
-      :beneficiary_card,
-      :beneficiary_iban,
-      :beneficiary_other,
-      :customer_id,
-      :payer,
-      :daterange,
-      :destination_country,
-      :in_out,
-      :internal,
-      :min_recursion_all_7,
-      :min_recursion_all_30,
-      :min_recursion_customer_7,
-      :min_recursion_customer_30,
-      :origin_country,
-      :product_name,
-      :recursion_all_7,
-      :service_id
-    ).permit! : {}
-  end
+  
 
 end

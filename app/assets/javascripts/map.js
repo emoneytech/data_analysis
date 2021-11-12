@@ -9,9 +9,24 @@ var bbox
   , props
   , start_query_date
   , end_query_date
+  , query_limit
 
 // functions
+/*
+var inIcon = L.icon({
+  iconSize: [27, 27],
+  iconAnchor: [13, 27],
+  popupAnchor: [1, -24],
+  iconUrl: 'icone/chapel-2.png',
+})
 
+var outIcon = L.icon({
+  iconSize: [27, 27],
+  iconAnchor: [13, 27],
+  popupAnchor: [1, -24],
+  iconUrl: 'icone/chapel-2.png',
+})
+*/
 function initMap(divID) {
   coords = [35.9480742, 14.3973929]
   map = new L.map(divID);
@@ -35,6 +50,10 @@ function setBbox() {
   bbox += ',' + map.getBounds()._northEast.lng 
   bbox += ',' + map.getBounds()._northEast.lat;
   $('span#bbox').html(bbox)
+}
+
+function setQueryLimit() {
+  query_limit = $('select#query_limit').val()
 }
 
 function setProps() {
@@ -78,14 +97,24 @@ function setQueryDate(props) {
 }
 
 function getMovements() {
-  setBbox();
+  setBbox()
+  setQueryLimit()
   $.ajax({
-    url: '/data_analysis/maps.json?bbox=' + this.bbox + '&start_date=' + this.start_query_date + '&end_date=' + this.end_query_date,
-    success: function(data) {
+    url:
+      '/data_analysis/maps.json?bbox=' +
+      this.bbox +
+      '&start_date=' +
+      this.start_query_date +
+      '&end_date=' +
+      this.end_query_date +
+      '&limit=' +
+      this.query_limit,
+    success: function (data) {
       setCluster(data)
+      $('span#limit').html(query_limit)
       $('span#places_count').html(data.features.length)
-    }
-  });
+    },
+  })
 }
 
 function setCluster(geoJsonData) {
@@ -105,7 +134,7 @@ function setCluster(geoJsonData) {
 
 function compilePopup(properties) {
   str = '<h5>'
-  str += '<a href="/data_analysis/eval_movements/' + properties.id + '">'
+  str += '<a href="/data_analysis/evaluated_movements/' + properties.id + '">'
   str += properties.customer_full_name + ' -> '
   str += properties.beneficiary 
   str += '</a></h5>'

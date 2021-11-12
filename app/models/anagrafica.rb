@@ -284,9 +284,11 @@ class Anagrafica < ApplicationCoreRecord
            -> { order(movement_created_at: :asc) },
            foreign_key: :user_id
 
-  has_many :eval_movements,
+  # Evaluated Movements on Pg
+  has_many :evaluated_movements,
            primary_key: 'IdUtente',
            foreign_key: :customer_id
+
   # Eval Customer on Pg
   has_many :eval_customers,
            primary_key: 'IdUtente',
@@ -680,25 +682,6 @@ class Anagrafica < ApplicationCoreRecord
     }
   end
 
-  def set_init_eval_movement
-    max_base_risk = Configurable.max_base_risk.to_f
-    factor_for_amount = Configurable.factor_for_amount.to_f
-    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
-    self
-      .servizi
-      .for_evaluation
-      .each do |s|
-        em =
-          s.build_eval_movement(
-            max_base_risk,
-            factor_for_amount,
-            divisor_amount_for_factor,
-          )
-        em.risk_factor = em.risk_factor.to_f.round(6)
-        em.save
-      end
-  end
-
   def last_evaluated_customer
     evaluated_customers
       .order(eval_year: :desc, eval_month: :desc)
@@ -710,58 +693,7 @@ class Anagrafica < ApplicationCoreRecord
     self.conti.pluck(:Pan)
   end
 
-=begin
-  def set_evaluated_customers
-    # self.evaluated_customers.destroy_all
-    default_risk = Configurable.min_base_risk.to_f
-    default_product_base_risk = Configurable.default_product_base_risk.to_f
-    max_base_risk = Configurable.max_base_risk.to_f
-    factor_for_amount = Configurable.factor_for_amount.to_f
-    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
-    tlf = self.time_lapse_factor.time_lapse_factor
-    base_risk = self.base_risk
-    date = self.data_creazione.to_date
-    date_begin = date.to_date.beginning_of_month
-    stop = Date.today.beginning_of_month
-    # stop = date.at_end_of_month
-    while (date_begin <= stop)
-      evaluated_customer = self.evaluated_customers.where(
-        anagrafica_id: self.id,
-        eval_year: date_begin.year,
-        eval_month: date_begin.month
-      ).first_or_initialize
-      evaluated_customer.eval_days = {}
-      days_begin = date_begin.beginning_of_month < date ? date : date_begin.beginning_of_month
-      days_stop = days_begin.at_end_of_month
-      while (days_begin <= days_stop)
-        services = Servizio.with_all_for_day(days_begin, self.id)
-        current_risk_factor = 1
-        services.each do |service|
-          em = EvalMovement.where(service_id: service.id).first_or_initialize
-          em.set_properties(
-            service,
-            default_product_base_risk,
-            max_base_risk,
-            factor_for_amount,
-            divisor_amount_for_factor)
-          em.save
-        end
-        # APPLY DECREASE FACTOR
-        current_risk_decreased = (current_risk * tlf).to_f
-        current_risk_decreased = current_risk_decreased >= base_risk ? current_risk_decreased : base_risk
-        evaluated_customer.eval_days[days_begin] = {
-          "current_risk": current_risk,
-          "nr_movements": services.count,
-          "current_risk_decreased": current_risk_decreased
-        }
-        days_begin = days_begin.advance(days: 1)
-      end
-      evaluated_customer.save!
-      date_begin = date_begin.advance(months: 1)
-    end
-    return self.evaluated_customers
-  end
-=end
+
   def evaluated_customer_for_day(day, default_risk)
     default_min_base_risk = {
       day_7: default_risk,
@@ -776,30 +708,6 @@ class Anagrafica < ApplicationCoreRecord
     end
     return default_min_base_risk unless b = a["#{day}"]
     b[0]["details"]["current_risk_decreased"] || b[0]["details"]["current_risk"]
-  end
-
-  def set_eval_movements
-    default_product_base_risk = Configurable.default_product_base_risk.to_f
-    self
-      .servizi
-      .for_evaluation
-      .select(:idservizio, :point)
-      .where
-      .not(
-        'SUBSTRING(prodotto, -3, 3) IN (?)',
-        ExcludedProduct.all.pluck(:last_3_numbers),
-      )
-      .order(datainserimento: :asc)
-      .each_slice(100) do |services|
-        services.each do |s|
-          worker_id =
-            CreateEvalMovementWorker.perform_async(
-              s.idservizio,
-              s.point,
-              default_product_base_risk,
-            )
-        end
-      end
   end
 
   def set_evaluated_customers(
@@ -847,17 +755,17 @@ class Anagrafica < ApplicationCoreRecord
     ).first_or_initialize
     evaluated_customer.eval_days = {} if evaluated_customer.new_record?
     evaluated_customer.eval_days[day] = []
-    eval_movements = customer.eval_movements.with_all_for_day(day.to_date)
+    evaluated_movements = customer.evaluated_movements.with_all_for_day(day.to_date)
     hash = {}
-    eval_movements.each do |eval_movement|
-      recursion = eval_movement.recursion ? eval_movement.recursion["customer_id"].symbolize_keys : {day_7: 0, day_30: 0}
+    evaluated_movements.each do |evaluated_movement|
+      recursion = evaluated_movement.recursion ? evaluated_movement.recursion["customer_id"].symbolize_keys : {day_7: 0, day_30: 0}
 
       recursion7 = recursion[:day_7]
       recursion30 = recursion[:day_30]
-      hash7 = set_evaluated_by_recursion(recursion7, eval_movement, divisor_amount_for_factor, factor_for_amount)
-      hash30 = set_evaluated_by_recursion(recursion30, eval_movement, divisor_amount_for_factor, factor_for_amount)
+      hash7 = set_evaluated_by_recursion(recursion7, evaluated_movement, divisor_amount_for_factor, factor_for_amount)
+      hash30 = set_evaluated_by_recursion(recursion30, evaluated_movement, divisor_amount_for_factor, factor_for_amount)
       h2 = {
-        "#{eval_movement.movement_id}": {
+        "#{evaluated_movement.movement_id}": {
           day_7: hash7,
           day_30: hash30 
         }
@@ -887,26 +795,26 @@ class Anagrafica < ApplicationCoreRecord
 
     hash2 = {
       "current_risk": current_risk,
-      "nr_movements": eval_movements.count,
+      "nr_movements": evaluated_movements.count,
       "current_risk_decreased": current_risk_decreased
     }
     evaluated_customer.eval_days[day] << {details: hash2}
     evaluated_customer.save
   end
 
-  def set_evaluated_by_recursion(recursion, eval_movement, divisor_amount_for_factor, factor_for_amount)
+  def set_evaluated_by_recursion(recursion, evaluated_movement, divisor_amount_for_factor, factor_for_amount)
     unless recursion > 0
       evaluated_factor =
         (
           (
             (
               (
-                ((eval_movement.product_base_risk.percentage_of(1)) - 100) *
-                eval_movement.product_base_risk
+                ((evaluated_movement.product_base_risk.percentage_of(1)) - 100) *
+                evaluated_movement.product_base_risk
               ) *
                 (
                   factor_for_amount *
-                    ((eval_movement.amount_cents / 100).to_f / divisor_amount_for_factor)
+                    ((evaluated_movement.amount_cents / 100).to_f / divisor_amount_for_factor)
                 )
             ) + 100
           ) / 100
@@ -917,10 +825,10 @@ class Anagrafica < ApplicationCoreRecord
         (
           (
             (
-              (((eval_movement.product_base_risk.percentage_of(1)) - 100) * recursion) *
+              (((evaluated_movement.product_base_risk.percentage_of(1)) - 100) * recursion) *
                 (
                   factor_for_amount *
-                    ((eval_movement.amount_cents / 100).to_f / divisor_amount_for_factor)
+                    ((evaluated_movement.amount_cents / 100).to_f / divisor_amount_for_factor)
                 )
             ) + 100
           ) / 100
@@ -929,7 +837,7 @@ class Anagrafica < ApplicationCoreRecord
         "Repeated: #{recursion} - Factor: #{evaluated_factor}"
     end
     hash = {
-      eval_movement: eval_movement.id,
+      evaluated_movement: evaluated_movement.id,
       evaluated_factor: evaluated_factor,
       evaluated_description: evaluated_description,
       recursion: recursion 
@@ -956,28 +864,3 @@ class Anagrafica < ApplicationCoreRecord
     p.save
   end
 end
-
-=begin
-USE `dbconti_prod`;
-CREATE  OR REPLACE VIEW `customers` AS 
-  SELECT 
-    anagrafiche.IdUtente as id,
-    anagrafiche.IdTipo as type_id,
-    anagrafiche.Nome as first_name,
-    anagrafiche.Cognome as last_name,
-    anagrafiche.Codicefiscale as fiscal_code,
-    anagrafiche.RagioneSociale as company_name,
-    anagrafiche.Email as email,
-    anagrafiche.Cellulare as mobile,
-    anagrafiche.Attivo as active,
-    anagrafiche.Username as username,
-    anagrafiche.Vendor as vendor,
-    anagrafiche.Agente as agente,
-    anagrafiche.Livello as level,
-    anagrafiche.base_risk as base_risk,
-    anagrafiche.base_risk_calc as base_risk_calc,
-    anagrafiche.DataAttivazione AS data_attivazione,
-    anagrafiche.Created as created,
-    anagrafiche.LastUpdate as updated
-  FROM anagrafiche;
-=end

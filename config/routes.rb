@@ -6,8 +6,6 @@ Rails.application.routes.draw do
   root 'data_analysis/dashboard#index'
   devise_for :users
 
-  get "/triggers/services/:id" => "triggers#services", :as => :triggers_service
-
   namespace :compliance_check do
     resources :sanction_lists do
       member do 
@@ -27,11 +25,10 @@ Rails.application.routes.draw do
       
       resources :charts do
         collection do
-          get 'eval_movements_for_month/:year/:month' => :eval_movements_for_month, as: :eval_movements_for_month
+          get 'evaluated_movements_for_month/:year/:month' => :evaluated_movements_for_month, as: :evaluated_movements_for_month
         end
       end
       member do
-        post :set_eval_movements
         get 'reports/:time_lapse' => :reports, as: :reports
       end
       resources :risk_movements, only: [:show, :index] do
@@ -42,7 +39,7 @@ Rails.application.routes.draw do
       end
       resources :eval_riskinesses, only: [:show, :index]
       resources :eval_customers, only: [:show, :index]
-      resources :eval_movements do
+      resources :evaluated_movements do
         collection do
           get 'for_day/:day' => :for_day, as: :for_day
           get 'for_month/:year/:month' => :for_month, as: :for_month
@@ -83,12 +80,6 @@ Rails.application.routes.draw do
     resources :dashboard, only: :index
     resources :check_ibans, only: :index
     resources :dashboard2, only: :index
-    resources :eval_movements do
-      collection do
-        get 'for_day/:day' => :for_day, as: :for_day
-        get 'for_month/:year/:month' => :for_month, as: :for_month
-      end
-    end
     resources :evaluated_movements do
       collection do
         get 'for_day/:day' => :for_day, as: :for_day
@@ -115,9 +106,6 @@ Rails.application.routes.draw do
     end
     resources :rischi
     resources :servizi do
-      member do 
-        post :update_eval_movements
-      end
       collection do
         get :map
         get :reports
@@ -125,7 +113,7 @@ Rails.application.routes.draw do
     end
     resources :mandati do
       member do 
-        post :update_eval_movements
+        post :update_evaluated_movements
       end
       collection do
         get :map

@@ -11,7 +11,7 @@
       %dt.col-md-4.text-right= EvaluatedRisk.human_attribute_name(:nr_movements)
       %dd.col-md-8
         - if eval_customer.nr_movements.to_i > 0
-          = link_to for_month_customers_anagrafica_eval_movements_path(@anagrafica, eval_customer.eval_year, eval_customer.eval_month), class: "btn btn-xs btn-info", title: 'Open popup', remote: true do
+          = link_to for_month_customers_anagrafica_evaluated_movements_path(@anagrafica, eval_customer.eval_year, eval_customer.eval_month), class: "btn btn-xs btn-info", title: 'Open popup', remote: true do
             %i.fa.fa-exchange-alt
             Show #{eval_customer.nr_movements} movements
         - else 
@@ -40,7 +40,7 @@
                   = "#{key.humanize}: #{value}"
           %td.action
             - if eval_customer.eval_days[key][0]["details"]["nr_movements"] > 0
-              = link_to for_day_customers_anagrafica_eval_movements_path(@anagrafica, key), class: "btn btn-xs btn-info", title: 'Open popup', remote: true do
+              = link_to for_day_customers_anagrafica_evaluated_movements_path(@anagrafica, key), class: "btn btn-xs btn-info", title: 'Open popup', remote: true do
                 %i.fa.fa-exchange-alt
   .card-footer
     .row

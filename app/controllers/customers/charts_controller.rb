@@ -4,9 +4,9 @@ module Customers
     authorize_resource class: false
     respond_to :json
 
-    def eval_movements_for_month
+    def evaluated_movements_for_month
       month = DateTime.new(params[:year].to_i, params[:month].to_i, 1)
-      render json: @anagrafica.eval_movements.for_month(month).group(:product_name).group_by_day(:service_updated_at).count.chart_json
+      render json: @anagrafica.evaluated_movements.for_month(month).group(:product_name).group_by_day(:service_updated_at).count.chart_json
     end
     
   end

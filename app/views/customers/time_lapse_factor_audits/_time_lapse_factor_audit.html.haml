@@ -3,7 +3,7 @@
     %h3.card-title
       %i.fas.fa-exclamation-triangle
       #{time_lapse_factor.customer.full_name} - 
-      = t(:show_resource, resource: EvalMovement.model_name.human)
+      = t(:show_resource, resource: EvaluatedMovement.model_name.human)
   .card-body
     %dl.row
       - for attribute in time_lapse_factor.attributes.keys

@@ -3,7 +3,7 @@
     .card-header
       %h3.card-title
         %i.fas.fa-exchange-alt
-        = t(:listing_resource, resource: EvalMovement.model_name.human(:count => 2))
+        = t(:listing_resource, resource: EvaluatedMovement.model_name.human(:count => 2))
     .card-body
       = render "table", places: @places
     .card-footer.clearfix

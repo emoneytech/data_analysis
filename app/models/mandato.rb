@@ -35,7 +35,7 @@ class Mandato < ApplicationCoreRecord
   self.table_name = 'mandati'
   self.primary_key = :IdMandato
 
-  has_many :eval_movements, as: :triggerable, primary_key: :IdMandato, inverse_of: :triggerable
+  has_many :evaluated_movements, as: :triggerable, primary_key: :IdMandato, inverse_of: :triggerable
 
   belongs_to :movimento, class_name: "Movimentoconto", foreign_key: "IdMovimentoValidazione", optional: true
   belongs_to :bank_user, class_name: "Anagrafica", foreign_key: "Beneficiario", optional: true

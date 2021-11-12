@@ -55,13 +55,5 @@
         </p>
       </a>
     </li>
-    <li class="nav-item">
-      <a href="<%= customers_anagrafica_eval_movements_path(customer) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'eval_movements' %>">
-        <i class="nav-icon fa fa-box"></i>
-        <p>
-          <%= EvalMovement.model_name.human(:count => 2) %>
-        </p>
-      </a>
-    </li>
   </ul>
 </li>

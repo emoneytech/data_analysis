@@ -72,7 +72,7 @@ class EvaluatedMovement < CorePgRecord
   include Filterable
   include EvaluatedMovementFilters
 
-  include PGEnum(eval_movement_type: %w[IN OUT])
+  include PGEnum(evaluated_movement_type: %w[IN OUT])
   monetize :amount_cents
 
   # triggerable Service or Mandato
@@ -136,6 +136,22 @@ class EvaluatedMovement < CorePgRecord
 
   def self.last_id
     order(movement_created_at: :desc).select(:movement_id).first.movement_id
+  end
+
+  def previous
+    EvaluatedMovement.where("customer_id = ? AND movement_created_at < ? ", self.customer_id, self.movement_created_at).order(movement_created_at: :desc).first
+  end
+  
+  def next
+    EvaluatedMovement.where("customer_id = ? AND movement_created_at > ?", self.customer_id, self.movement_created_at).order(movement_created_at: :asc).first
+  end
+  
+  def all_previous
+    EvaluatedMovement.where("movement_created_at < ? ", self.movement_created_at).order(movement_created_at: :desc).first
+  end
+
+  def all_next
+    EvaluatedMovement.where("movement_created_at > ?", self.movement_created_at).order(movement_created_at: :asc).first
   end
 
   def build_from_movement

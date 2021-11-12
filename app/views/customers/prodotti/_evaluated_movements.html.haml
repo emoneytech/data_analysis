@@ -6,10 +6,10 @@
           %i.fas.fa-microchip
           = "#{Anagrafica.model_name.human}: #{@anagrafica.full_name} - "
           = "#{Prodotto.model_name.human}: #{@prodotto.nome} - "
-          = EvalMovement.model_name.human(:count => 2)
+          = EvaluatedMovement.model_name.human(:count => 2)
       .card-body
-        = render "table_eval_movements", eval_movements: @eval_movements
+        = render "table_evaluated_movements", evaluated_movements: @evaluated_movements
       .card-footer.clearfix
         .row
           .col-md-12
-            = paginate @eval_movements, theme: 'twitter-bootstrap-4', nav_class: "float-right", pagination_class: 'm-0'
+            = paginate @evaluated_movements, theme: 'twitter-bootstrap-4', nav_class: "float-right", pagination_class: 'm-0'

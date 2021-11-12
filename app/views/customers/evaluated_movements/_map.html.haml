@@ -2,7 +2,8 @@
   .card-header
     .card-title
       %i.fas.fa-map-marker-alt
-      #{EvaluatedMovement.model_name.human}
+      #{EvaluatedMovement.model_name.human} #{evaluated_movement.customer_full_name}
+
   .card-body
     #mapid{ style: "height: 680px;" }
 :javascript
@@ -14,9 +15,8 @@
     maxZoom: 19,
     attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
   }).addTo(map);
-  L.marker([#{evaluated_movement.origin.latitude}, #{evaluated_movement.origin.longitude}]).addTo(map)
+  L.marker([#{evaluated_movement.origin_lonlat.latitude}, #{evaluated_movement.origin_lonlat.longitude}]).addTo(map)
   L.marker([#{evaluated_movement.destination_lonlat.latitude}, #{evaluated_movement.destination_lonlat.longitude}]).addTo(map)
-  L.Polyline.Arc([#{evaluated_movement.origin.latitude}, #{evaluated_movement.origin.longitude}], [#{evaluated_movement.destination_lonlat.latitude}, #{evaluated_movement.destination_lonlat.longitude}], {
+  L.Polyline.Arc([#{evaluated_movement.origin_lonlat.latitude}, #{evaluated_movement.origin_lonlat.longitude}], [#{evaluated_movement.destination_lonlat.latitude}, #{evaluated_movement.destination_lonlat.longitude}], {
     color: 'red'
   }).bindPopup('#{to_popup(evaluated_movement)}').addTo(map).openPopup();
-

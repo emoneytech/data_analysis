@@ -18,11 +18,6 @@ module DataAnalysis
       @services = Servizio.filter(filtering_params).grouped_by_month(format_daterange()).group_by(&:month_group)
     end
 
-    def update_eval_movements
-      CreateEvalMovementWorker.perform_async(@servizio.idservizio,@servizio.point,Configurable.default_product_base_risk.to_f)
-      redirect_to [:data_analysis, @servizio], notice: 'Worker was successfully started.'
-    end
-
     def map
     end
   private

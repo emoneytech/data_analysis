@@ -1,0 +1,16 @@
+.card.card-outline.card-success
+  .card-header
+    %h3.card-title
+      %i.fas.fa-search-dollar
+      #{@anagrafica.full_name} - 
+      = t(:show_resource, resource: EvaluatedMovement.model_name.human)
+  .card-body
+    = render 'data_analysis/evaluated_movements/table_item', evaluated_movement: evaluated_movement
+  .card-footer
+    .row
+      .col-md-6
+        = link_to 'Prev', customers_anagrafica_evaluated_movement_path(@anagrafica, @prev) unless @prev.blank?
+      .col-md-6.text-right
+        = link_to 'Next', customers_anagrafica_evaluated_movement_path(@anagrafica, @next) unless @next.blank?
+
+=# render 'data_analysis/servizi/servizio', servizio: evaluated_movement.service

@@ -2,6 +2,6 @@
   .card-header
     .card-title
       %i.fa.fa-chart-bar
-      = t(:listing_resource, resource: EvalMovement.model_name.human(:count => 2))
+      = t(:listing_resource, resource: EvaluatedMovement.model_name.human(:count => 2))
   .card-body
-    = column_chart eval_movements_for_month_customers_anagrafica_charts_path(@anagrafica, eval_customer.eval_year, eval_customer.eval_month), remote: true, download: true
+    = column_chart evaluated_movements_for_month_customers_anagrafica_charts_path(@anagrafica, eval_customer.eval_year, eval_customer.eval_month), remote: true, download: true

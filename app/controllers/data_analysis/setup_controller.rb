@@ -6,7 +6,7 @@ module DataAnalysis
     add_breadcrumb "Sync", :data_analysis_sync_index_path
     
     def index
-      @evaluated_products = EvalMovement.select(:product_id, :product_name).distinct
+      @evaluated_products = EvaluatedMovement.select(:product_id, :product_name).distinct
     end
 
   end

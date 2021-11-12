@@ -1,4 +1,4 @@
-%table.table.table-striped.table-bordered.table-hover{id: 'table_evaluated_movements', data: {source: "#{data_analysis_evaluated_movements_path(format: :json)}"}}
+%table.table.table-striped.table-bordered.table-hover{id: 'table_evaluated_movements', data: {source: "#{data_analysis_evaluated_movements_path(format: :json, params: params)}"}}
   %thead
     %tr
       %th{data: {priority: "10"}}= EvaluatedMovement.human_attribute_name(:id)

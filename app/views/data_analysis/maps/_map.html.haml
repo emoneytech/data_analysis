@@ -11,7 +11,10 @@
   setDateRange()
   initTimeControl(this.props)
   pickerInit(datepicker, 'month')
-
+  $('select#query_limit').change(function() {
+    console.log('Clicked option value => ' + $(this).val())
+    getMovements()
+  })
   /*
   setSelector()
   setBbox(current_date)
