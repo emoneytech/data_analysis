@@ -12,12 +12,12 @@
   default: 15
   mailers: 5
   critical: 1
-  serial: 10
+  serial: 1
 
 :process_limits:
   massive: 25
   critical: 1
-  serial: 10
+  serial: 1
 
 :schedule:
   trigger_worker:
