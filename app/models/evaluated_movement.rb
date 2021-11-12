@@ -392,6 +392,12 @@ class EvaluatedMovement < CorePgRecord
     end
   end
 
+  def recalculate_position
+    self.set_origin_lonlat
+    self.set_destination_lonlat
+    self.save
+  end
+
   def count_recursive_for_customer(days=7)
     start_date = self.movement_created_at.to_date - days.days
     end_date = self.movement_created_at
