@@ -10,7 +10,7 @@ module DataAnalysis
       movimenticonti = Movimentoconto.filter(filtering_params).only_customers.includes(:servizio, :anagrafica)
       #@count = 
       # @cached_total_pages = (movimenticonti.count / 30.0).ceil
-      @movimenticonti = movimenticonti.order(movimentoconto_id: :desc).page(params[:page]).per(30)#.without_count
+      @movimenticonti = movimenticonti.order(movimentoconto_id: :desc).page(params[:page]).per(30).without_count
     end
 
     def show
