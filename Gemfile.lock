@@ -194,7 +194,7 @@ GEM
       ruby_parser (~> 3.5)
     http-cookie (1.0.4)
       domain_name (~> 0.5)
-    i18n (1.8.10)
+    i18n (1.8.11)
       concurrent-ruby (~> 1.0)
     i18n_data (0.13.0)
     iban-tools (1.1.0)
@@ -448,6 +448,8 @@ GEM
     turbolinks-source (5.2.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2021.5)
+      tzinfo (>= 1.0.0)
     unf (0.1.4)
       unf_ext
     unf (0.1.4-java)
