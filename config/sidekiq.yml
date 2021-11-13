@@ -8,14 +8,14 @@
   - serial
 
 :limits:
-  massive: 25
-  default: 15
-  mailers: 5
+  massive: 1
+  default: 1
+  mailers: 1
   critical: 1
   serial: 1
 
 :process_limits:
-  massive: 25
+  massive: 1
   critical: 1
   serial: 1
 
