@@ -113,6 +113,7 @@ function getMovements() {
       setCluster(data)
       $('span#limit').html(query_limit)
       $('span#places_count').html(data.features.length)
+      reloadGraphics()
     },
   })
 }
@@ -325,4 +326,15 @@ var pickerInit = function(picker, period) {
 
 }
 
-
+function reloadGraphics() {
+  console.log(this.current_range)
+  console.log(this.start_query_date)
+  console.log(this.end_query_date)
+  $.ajax({
+    url:
+      '/data_analysis/maps/reload_graphs?period=' +
+      this.current_range +
+      '&day=' +
+      this.start_query_date
+  })
+}

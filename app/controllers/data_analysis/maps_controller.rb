@@ -6,6 +6,7 @@ module DataAnalysis
     DEFAULT_COORDS = [35.9480742, 14.3973929] # latitude,longitude or y,x
     
     def index
+      @period = 'month'
       if params[:day].present?
         @day = params[:day].to_date
       else
@@ -34,6 +35,16 @@ module DataAnalysis
       end
   
     end
+
+    def reload_graphs
+      @period = params[:period]
+      @day = params[:day].to_date
+      respond_to do |format|
+        format.js do
+        end
+      end
+    end
+
   private
     def set_query_limit
       @query_limit = params[:limit] ||= QUERY_LIMIT

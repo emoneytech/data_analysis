@@ -27,4 +27,19 @@ module MapsHelper
     return str.html_safe
   end
 
+  def sub_period(period)
+    case period
+    when 'year'
+      'month'
+    when 'month'
+      'day'
+    when 'day'
+      'hour'
+    when 'hour'
+      'minute'
+    else
+      'month'
+    end
+  end
+
 end

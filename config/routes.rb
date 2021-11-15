@@ -67,6 +67,8 @@ Rails.application.routes.draw do
     resources :charts do
       collection do
         get :all_risk_movements
+        get :count_evaluated_movements
+        get :sum_evaluated_movements
         get 'average_stocks/:id' => :average_stocks, as: :average_stocks
       end
     end
@@ -89,7 +91,11 @@ Rails.application.routes.draw do
     resources :eval_riskinesses
     resources :ibans
     resources :matviews
-    resources :maps
+    resources :maps do
+      collection do
+        get :reload_graphs
+      end
+    end
     resources :movimenticonti
     resources :places
     resources :prodotti

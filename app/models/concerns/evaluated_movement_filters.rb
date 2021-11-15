@@ -21,10 +21,22 @@ module EvaluatedMovementFilters
 
     scope :with_all_for_day, -> (day) {
       where(
-        "movement_created_at BETWEEN '#{day.beginning_of_day}' 
-        AND '#{day.end_of_day}'"
-      ).order(movement_created_at: :asc)
+        "movement_created_at::date = ?", day
+      )
     }
+
+    scope :with_all_for_month, -> (month) {
+      where(
+        "EXTRACT(MONTH FROM movement_created_at) = ?", month
+      )
+    }
+
+    scope :with_all_for_year, -> (year) {
+      where(
+        "EXTRACT(YEAR FROM movement_created_at) = ?", year
+      )
+    }
+
     scope :filter_by_origin_country, -> (country) { where("origin_country = ?", "#{country}")}
     scope :filter_by_destination_country, -> (country) { where("destination_country = ?", "#{country}")}
 

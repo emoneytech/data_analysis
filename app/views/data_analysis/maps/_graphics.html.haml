@@ -1,0 +1,14 @@
+.row 
+  .col-md-12
+    .card.mt-3
+      .card-body
+        = line_chart count_evaluated_movements_data_analysis_charts_path(day: day, period: period), remote: true, thousands: "'", title: "#{day} #{period}"
+.row 
+  .col-md-6
+    .card.mt-3
+      .card-body
+        = bar_chart sum_evaluated_movements_data_analysis_charts_path(day: day, period: period), remote: true, thousands: "'", title: "#{day} #{period}"
+  .col-md-6
+    .card.mt-3
+      .card-body
+        = bar_chart sum_evaluated_movements_data_analysis_charts_path(day: day, period: sub_period(period)), remote: true, thousands: "'", title: "#{day} #{sub_period period}"
