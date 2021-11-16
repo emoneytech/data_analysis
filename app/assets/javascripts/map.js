@@ -325,16 +325,34 @@ var pickerInit = function(picker, period) {
   })
 
 }
+function subPeriod(period) {
+  let str;
+  switch (period) {
+    case 'year':
+      str = 'month'
+    case 'month':
+      str = 'day'
+    case 'day':
+      str = 'hour'
+    case 'hour':
+      str = 'minute'
+    default:
+      str = 'day'
+  }
+  return str
+}
 
 function reloadGraphics() {
-  console.log(this.current_range)
-  console.log(this.start_query_date)
-  console.log(this.end_query_date)
+  var chart = Chartkick.charts['updatable-chart']
   $.ajax({
     url:
-      '/data_analysis/maps/reload_graphs?period=' +
-      this.current_range +
+      '/data_analysis/charts/sum_evaluated_movements?period=' +
+      subPeriod(this.current_range) +
       '&day=' +
-      this.start_query_date
+      this.start_query_date,
+    success: function (data) {
+      chart.updateData(data)
+      chart.redraw()
+    },
   })
 }

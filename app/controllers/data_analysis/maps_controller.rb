@@ -36,15 +36,6 @@ module DataAnalysis
   
     end
 
-    def reload_graphs
-      @period = params[:period]
-      @day = params[:day].to_date
-      respond_to do |format|
-        format.js do
-        end
-      end
-    end
-
   private
     def set_query_limit
       @query_limit = params[:limit] ||= QUERY_LIMIT
