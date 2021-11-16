@@ -155,12 +155,23 @@ function compilePopup(properties) {
   return str
 }
 
+function getRange() {
+  let end_range
+  var today = new Date()
+  if (this.current_date.endOf(props.range).toDate() > new Date()) {
+    end_range = today
+  } else {
+    end_range = this.current_date.endOf(props.range).toDate()
+  }
+  return [this.current_date.startOf(props.range).toDate(), end_range]
+}
+
 function initTimeControl(props) {
   let btn = document.createElement("button")
   btn.className = "btn btn-primary"
   let slot = document.createElement("p")
   slot.className = "hide"
-
+  let range = getRange()
   timelineControl = L.control.timeline({
     autoplay: false,
     position: "bottomleft",
@@ -173,9 +184,9 @@ function initTimeControl(props) {
     },
     timeline: {
       dateFormat: props.dateFormat,
-      // renderSlot: () => slot,
-      // renderActiveSlot: () => document.createElement("p"),
-      range: [this.current_date.startOf(props.range).toDate(), this.current_date.endOf(props.range).toDate()],
+      renderSlot: () => slot,
+      renderActiveSlot: () => document.createElement("p"),
+      range: range,
       step: props.step
     }
   })
