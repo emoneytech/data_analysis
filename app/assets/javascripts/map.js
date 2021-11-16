@@ -184,8 +184,8 @@ function initTimeControl(props) {
     },
     timeline: {
       dateFormat: props.dateFormat,
-      renderSlot: () => slot,
-      renderActiveSlot: () => document.createElement("p"),
+      // renderSlot: () => slot,
+      // renderActiveSlot: () => document.createElement("p"),
       range: range,
       step: props.step
     }
