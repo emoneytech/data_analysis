@@ -185,7 +185,7 @@
 
 class Anagrafica < ApplicationCoreRecord
   include Filterable
-  self.primary_key = 'idutente'
+  self.primary_key = 'IdUtente'
   self.table_name = 'anagrafiche'
 
   has_many :conti,
@@ -682,10 +682,10 @@ class Anagrafica < ApplicationCoreRecord
     }
   end
 
-  def last_evaluated_customer
-    evaluated_customers
+  def last_eval_customer
+    eval_customers
       .order(eval_year: :desc, eval_month: :desc)
-      .pluck(:last_evaluated_customer)
+      .pluck(:last_eval_customer)
       .first || Configurable.min_base_risk.to_f
   end
 
@@ -694,14 +694,14 @@ class Anagrafica < ApplicationCoreRecord
   end
 
 
-  def evaluated_customer_for_day(day, default_risk)
+  def eval_customer_for_day(day, default_risk)
     default_min_base_risk = {
       day_7: default_risk,
       day_30: default_risk
     }
     unless a =
              self
-               .evaluated_customers
+               .eval_customers
                .find_by_eval_year_and_eval_month(day.year, day.month)
                .try(:eval_days)
       return default_min_base_risk
@@ -710,7 +710,7 @@ class Anagrafica < ApplicationCoreRecord
     b[0]["details"]["current_risk_decreased"] || b[0]["details"]["current_risk"]
   end
 
-  def set_evaluated_customers(
+  def set_eval_customers(
       tlf = self.time_lapse_factor.time_lapse_factor,
       default_risk = Configurable.min_base_risk.to_f,
       divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f,
@@ -726,7 +726,7 @@ class Anagrafica < ApplicationCoreRecord
       days_stop  = days_begin.at_end_of_month > stop ? stop : days_begin.at_end_of_month
       while (days_begin <= days_stop)
         worker_id =
-        set_evaluated_customer_for_day(
+        set_eval_customer_for_day(
             days_begin,
             tlf,
             default_risk,
@@ -740,7 +740,7 @@ class Anagrafica < ApplicationCoreRecord
     end
   end
 
-  def set_evaluated_customer_for_day(day,
+  def set_eval_customer_for_day(day,
     tlf = self.time_lapse_factor.time_lapse_factor,
     default_risk = Configurable.min_base_risk.to_f,
     divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f,
@@ -749,21 +749,17 @@ class Anagrafica < ApplicationCoreRecord
 
     customer = self
 
-    evaluated_customer = customer.evaluated_customers.where(
+    eval_customer = customer.eval_customers.where(
       eval_year: day.to_date.year,
       eval_month: day.to_date.month
     ).first_or_initialize
-    evaluated_customer.eval_days = {} if evaluated_customer.new_record?
-    evaluated_customer.eval_days[day] = []
+    eval_customer.eval_days = {} if eval_customer.new_record?
+    eval_customer.eval_days[day] = []
     evaluated_movements = customer.evaluated_movements.with_all_for_day(day.to_date)
     hash = {}
     evaluated_movements.each do |evaluated_movement|
-      recursion = evaluated_movement.recursion ? evaluated_movement.recursion["customer_id"].symbolize_keys : {day_7: 0, day_30: 0}
-
-      recursion7 = recursion[:day_7]
-      recursion30 = recursion[:day_30]
-      hash7 = set_evaluated_by_recursion(recursion7, evaluated_movement, divisor_amount_for_factor, factor_for_amount)
-      hash30 = set_evaluated_by_recursion(recursion30, evaluated_movement, divisor_amount_for_factor, factor_for_amount)
+      hash7 = set_evaluated_by_recursion(evaluated_movement.recursion_customer_7, evaluated_movement, divisor_amount_for_factor, factor_for_amount)
+      hash30 = set_evaluated_by_recursion(evaluated_movement.recursion_customer_30, evaluated_movement, divisor_amount_for_factor, factor_for_amount)
       h2 = {
         "#{evaluated_movement.movement_id}": {
           day_7: hash7,
@@ -772,10 +768,10 @@ class Anagrafica < ApplicationCoreRecord
       }
       hash.merge!(h2)
     end
-    # evaluated_customer.eval_days[day] << {movements: hash}
+    # eval_customer.eval_days[day] << {movements: hash}
 
     
-    current_risk = customer.evaluated_customer_for_day(day.to_date - 1.day, default_risk).symbolize_keys
+    current_risk = customer.eval_customer_for_day(day.to_date - 1.day, default_risk).symbolize_keys
 
     hash.values.each do |v|
       current_risk[:day_7]  = current_risk[:day_7].to_f  * v[:day_7][:evaluated_factor].to_f
@@ -798,8 +794,8 @@ class Anagrafica < ApplicationCoreRecord
       "nr_movements": evaluated_movements.count,
       "current_risk_decreased": current_risk_decreased
     }
-    evaluated_customer.eval_days[day] << {details: hash2}
-    evaluated_customer.save
+    eval_customer.eval_days[day] << {details: hash2}
+    eval_customer.save
   end
 
   def set_evaluated_by_recursion(recursion, evaluated_movement, divisor_amount_for_factor, factor_for_amount)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_05_084400) do
+ActiveRecord::Schema.define(version: 2021_11_16_095223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -75,66 +75,6 @@ ActiveRecord::Schema.define(version: 2021_11_05_084400) do
     t.index ["eval_days"], name: "index_eval_customers_on_eval_days", using: :gin
     t.index ["last_attention_factor30"], name: "index_eval_customers_on_last_attention_factor30"
     t.index ["last_attention_factor7"], name: "index_eval_customers_on_last_attention_factor7"
-  end
-
-  create_table "eval_movements", force: :cascade do |t|
-    t.integer "customer_id", null: false
-    t.string "customer_full_name"
-    t.integer "service_id", null: false
-    t.string "service_status"
-    t.datetime "service_updated_at"
-    t.datetime "service_created_at"
-    t.integer "movement_id", null: false
-    t.datetime "movement_created_at", null: false
-    t.integer "product_net_id"
-    t.integer "product_id"
-    t.integer "product_table_code"
-    t.string "product_name"
-    t.float "product_base_risk"
-    t.string "beneficiary"
-    t.string "beneficiary_iban"
-    t.string "beneficiary_other"
-    t.float "risk_factor"
-    t.string "risk_description"
-    t.integer "amount_cents", default: 0, null: false
-    t.string "amount_currency", default: "EUR", null: false
-    t.geography "destination_lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "beneficiary_card", limit: 50
-    t.integer "lock_version", default: 0, null: false
-    t.string "origin_country"
-    t.string "destination_country"
-    t.boolean "internal", default: false, null: false
-    t.integer "recursion_all_7"
-    t.integer "recursion_all_30"
-    t.integer "recursion_customer_7"
-    t.integer "recursion_customer_30"
-    t.enum "in_out", default: "OUT", as: "eval_movement_type"
-    t.string "triggerable_type"
-    t.bigint "triggerable_id"
-    t.index ["amount_cents"], name: "index_eval_movements_on_amount_cents"
-    t.index ["beneficiary_card"], name: "index_eval_movements_on_beneficiary_card"
-    t.index ["beneficiary_iban"], name: "index_eval_movements_on_beneficiary_iban"
-    t.index ["customer_id", "service_id"], name: "index_eval_movements_on_customer_id_and_service_id", unique: true
-    t.index ["customer_id"], name: "index_eval_movements_on_customer_id"
-    t.index ["destination_country"], name: "index_eval_movements_on_destination_country"
-    t.index ["destination_lonlat"], name: "index_eval_movements_on_destination_lonlat", using: :gist
-    t.index ["internal"], name: "index_eval_movements_on_internal"
-    t.index ["lock_version"], name: "index_eval_movements_on_lock_version"
-    t.index ["movement_created_at"], name: "index_eval_movements_on_movement_created_at"
-    t.index ["movement_id"], name: "index_eval_movements_on_movement_id"
-    t.index ["origin_country"], name: "index_eval_movements_on_origin_country"
-    t.index ["product_name"], name: "index_eval_movements_on_product_name"
-    t.index ["product_table_code"], name: "index_eval_movements_on_product_table_code"
-    t.index ["recursion_all_30"], name: "index_eval_movements_on_recursion_all_30"
-    t.index ["recursion_all_7"], name: "index_eval_movements_on_recursion_all_7"
-    t.index ["recursion_customer_30"], name: "index_eval_movements_on_recursion_customer_30"
-    t.index ["recursion_customer_7"], name: "index_eval_movements_on_recursion_customer_7"
-    t.index ["service_created_at"], name: "index_eval_movements_on_service_created_at"
-    t.index ["service_id"], name: "index_eval_movements_on_service_id"
-    t.index ["service_updated_at"], name: "index_eval_movements_on_service_updated_at"
-    t.index ["triggerable_type", "triggerable_id"], name: "index_eval_movements_on_triggerable_type_and_triggerable_id"
   end
 
   create_table "evaluated_movements", force: :cascade do |t|
@@ -264,6 +204,10 @@ ActiveRecord::Schema.define(version: 2021_11_05_084400) do
     t.index ["name"], name: "index_reports_on_name"
     t.index ["opts"], name: "index_reports_on_opts", using: :gin
     t.index ["user_id"], name: "index_reports_on_user_id"
+  end
+
+  create_table "row_counts", primary_key: "relname", id: :text, force: :cascade do |t|
+    t.bigint "reltuples"
   end
 
   create_table "sanction_list_items", force: :cascade do |t|

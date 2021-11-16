@@ -16,7 +16,7 @@ module Customers
 
   private
     def local_breadcrumb
-      add_breadcrumb helpers.raw("#{helpers.fa_icon('exclamation-triangle')} #{EvalCustomer.model_name.human(count: 2)}"), [:customers, @anagrafica, :eval_customers]
+      add_breadcrumb helpers.raw("#{helpers.fa_icon(EvalCustomer.icon)} #{EvalCustomer.model_name.human(count: 2)}"), [:customers, @anagrafica, :eval_customers]
     end
 
   end

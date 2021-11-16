@@ -2,7 +2,7 @@
   .card
     .card-header
       %h3.card-title
-        %i.fas.fa-users
+        = fa_icon EvalCustomer.icon 
         = "#{@anagrafica.full_name} - "
         = t(:listing_resource, resource: EvalCustomer.model_name.human(:count => 2))
     .card-body
