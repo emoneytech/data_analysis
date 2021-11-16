@@ -354,16 +354,30 @@ function subPeriod(period) {
 }
 
 function reloadGraphics() {
-  var chart = Chartkick.charts['updatable-chart']
+  var chartIn = Chartkick.charts['updatable-chart-in']
   $.ajax({
     url:
       '/data_analysis/charts/sum_evaluated_movements?period=' +
       subPeriod(this.current_range) +
       '&day=' +
-      this.start_query_date,
+      this.start_query_date +
+      '&in_out=IN',
     success: function (data) {
-      chart.updateData(data)
-      chart.redraw()
+      chartIn.updateData(data)
+      chartIn.redraw()
+    },
+  })
+  var chartOut = Chartkick.charts['updatable-chart-out']
+  $.ajax({
+    url:
+      '/data_analysis/charts/sum_evaluated_movements?period=' +
+      subPeriod(this.current_range) +
+      '&day=' +
+      this.start_query_date +
+      '&in_out=OUT',
+    success: function (data) {
+      chartOut.updateData(data)
+      chartOut.redraw()
     },
   })
 }

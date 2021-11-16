@@ -18,11 +18,11 @@ module DataAnalysis
       day = params[:day].to_date
       evaluated_movements = case params[:period]
         when 'year'
-          EvaluatedMovement.with_all_for_year(day.year).group_by_month(:movement_created_at).count
+          EvaluatedMovement.filter_by_in_out(params[:in_out]).with_all_for_year(day.year).group(:product_name).group_by_month(:movement_created_at).count
         when 'month'
-          EvaluatedMovement.with_all_for_year(day.year).with_all_for_month(day.month).group_by_day(:movement_created_at).count
+          EvaluatedMovement.filter_by_in_out(params[:in_out]).with_all_for_year(day.year).with_all_for_month(day.month).group(:product_name).group_by_day(:movement_created_at).count
         else 
-          EvaluatedMovement.with_all_for_day(params[:day]).group_by_hour(:movement_created_at).count
+          EvaluatedMovement.filter_by_in_out(params[:in_out]).with_all_for_day(params[:day]).group(:product_name).group_by_hour(:movement_created_at).count
       end
       render json: evaluated_movements.chart_json
     end
@@ -31,11 +31,11 @@ module DataAnalysis
       day = params[:day].to_date
       evaluated_movements = case params[:period]
         when 'year'
-          EvaluatedMovement.with_all_for_year(day.year).group_by_month(:movement_created_at).sum(:amount_cents)
+          EvaluatedMovement.filter_by_in_out(params[:in_out]).with_all_for_year(day.year).group_by_month(:movement_created_at).sum(:amount_cents)
         when 'month'
-          EvaluatedMovement.with_all_for_year(day.year).with_all_for_month(day.month).group_by_day(:movement_created_at).sum(:amount_cents)
+          EvaluatedMovement.filter_by_in_out(params[:in_out]).with_all_for_year(day.year).with_all_for_month(day.month).group_by_day(:movement_created_at).sum(:amount_cents)
         else 
-          EvaluatedMovement.with_all_for_day(params[:day]).group_by_hour(:movement_created_at).sum(:amount_cents).map{|em| [em[0].strftime("%H:%M"), em[1]]}
+          EvaluatedMovement.filter_by_in_out(params[:in_out]).with_all_for_day(params[:day]).group_by_hour(:movement_created_at).sum(:amount_cents).map{|em| [em[0].strftime("%H:%M"), em[1]]}
       end
       render json: evaluated_movements.map{|em| [em[0], (em[1]/100).to_f]}.chart_json
       # render json: evaluated_movements.chart_json
