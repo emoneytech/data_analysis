@@ -7,9 +7,9 @@ class InitEvalCustomersWorker
   # PARAMS
 
   def perform()
-    default_risk = Configurable.min_base_risk.to_f,
-    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f,
-    factor_for_amount = Configurable.factor_for_amount.to_f,
+    default_risk = Configurable.min_base_risk.to_f
+    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
+    factor_for_amount = Configurable.factor_for_amount.to_f
     max_base_risk = Configurable.max_base_risk.to_f
     Anagrafica.alive.select(:IdUtente).find_in_batches(batch_size: 50) do |customers|
       customers.each do |customer|
