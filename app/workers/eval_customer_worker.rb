@@ -14,7 +14,7 @@ class EvalCustomerWorker
     max_base_risk = Configurable.max_base_risk.to_f) 
 
     customer = Anagrafica.includes(:time_lapse_factor).find customer_id
-    tlf = customer.time_lapse_factor.time_lapse_factor
+    tlf = Configurable.time_lapse_factor.to_f
     customer.set_eval_customers(tlf,default_risk,divisor_amount_for_factor,factor_for_amount,max_base_risk)
 
   end

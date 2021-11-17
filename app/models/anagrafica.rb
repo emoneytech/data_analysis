@@ -711,7 +711,7 @@ class Anagrafica < ApplicationCoreRecord
   end
 
   def set_eval_customers(
-      tlf = self.time_lapse_factor.time_lapse_factor,
+      tlf = Configurable.time_lapse_factor.to_f,
       default_risk = Configurable.min_base_risk.to_f,
       divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f,
       factor_for_amount = Configurable.factor_for_amount.to_f,
@@ -741,7 +741,7 @@ class Anagrafica < ApplicationCoreRecord
   end
 
   def set_eval_customer_for_day(day,
-    tlf = self.time_lapse_factor.time_lapse_factor,
+    tlf = Configurable.time_lapse_factor.to_f,
     default_risk = Configurable.min_base_risk.to_f,
     divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f,
     factor_for_amount = Configurable.factor_for_amount.to_f,
