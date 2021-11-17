@@ -1,11 +1,6 @@
 .card.card-outline.card-primary
-  .card-header
-    .card-title
-      %i.fas.fa-map-marker-alt
-      #{Anagrafica.model_name.human} #{anagrafica.full_name}
-
-  .card-body
-    #mapid{ style: "height: 380px;" }
+  .card-body.p-0
+    #mapid{ style: "height: 500px;" }
 :javascript
   var map = L.map('mapid', {
     center: [#{anagrafica.current_place.latitude}, #{anagrafica.current_place.longitude}],

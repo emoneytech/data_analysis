@@ -1,8 +1,8 @@
 .col-md-12
-  .card
+  .card.card-primary.card-outline
     .card-header
       %h3.card-title
-        %i.fas.fa-users
+        = fa_icon Prodotto.icon
         = t(:listing_resource, resource: Prodotto.model_name.human(:count => 2))
     .card-body
       = render "table", prodotti: @prodotti

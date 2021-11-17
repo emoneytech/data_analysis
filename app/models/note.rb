@@ -35,13 +35,13 @@ class Note < RiskRecord
     :subject,
     :body
   ]
-  def self.attr_field
-    ATTR_FIELD
+
+  def self.icon
+    'sticky-note'
   end
 
-
-  def self.fa_icon
-    "sticky-note"
+  def self.attr_field
+    ATTR_FIELD
   end
 
   def to_label

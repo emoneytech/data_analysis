@@ -1,0 +1,8 @@
+.card.card-outline.card-success
+  %h5.card-header
+    .card-title
+      = fa_icon Prodotto.icon
+      = link_to Prodotto.model_name.human(count: 2), [:customers, customer, :prodotti]
+  .card-body
+    = pie_chart latest_products_customers_anagrafica_charts_path(customer), remote: true, download: true, id: "latest-products", height: '500px'
+

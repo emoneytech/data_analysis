@@ -1,17 +1,11 @@
-.row
-  .col-md-4
-    = render "info", current_tuple: @current_tuple, anagrafica: @anagrafica
-    = render "table_years", item: @anagrafica
-  .col-md-8
-    = render "map", anagrafica: @anagrafica
-.row
-  .col-md-6
-    = render "eval_customers_chart", customer: @anagrafica
-  .col-md-6
-    = render "evaluated_movements_chart", customer: @anagrafica
 .row 
-  .col-md-12   
-    = render "conti", anagrafica: @anagrafica
-.row
-  #anagrafiche_item.col-md-12
+  .col-md-4
+    = render "info", current_tuple: @current_tuple, customer: @anagrafica
+    = render "table_years", customer: @anagrafica
+    = render "products_chart", customer: @anagrafica
+    = render "map", anagrafica: @anagrafica
+  .col-md-8
+    = render "evaluated_movements_chart", customer: @anagrafica
+    = render "eval_customers_chart", customer: @anagrafica
+    = render "conti", customer: @anagrafica
     = render "anagrafica", anagrafica: @anagrafica

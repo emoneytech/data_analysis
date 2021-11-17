@@ -2,7 +2,8 @@
   .card-header
     .card-title
       = fa_icon EvaluatedMovement.icon
-      = EvaluatedMovement.model_name.human(count: 2)
+      - opts = {filter: {customer_id: @anagrafica.id}}
+      = link_to EvaluatedMovement.model_name.human(count: 2), data_analysis_evaluated_movements_path(params: opts)
     .card-tools
       %input{type: "checkbox",  name: "my-checkbox", checked: 'checked', data: { inverse: true, toggle: 'switch', off: {color: "danger", text: "OUT"}, on: {color: "success", text: 'IN'} } }
 

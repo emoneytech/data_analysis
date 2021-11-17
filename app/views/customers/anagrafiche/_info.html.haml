@@ -1,16 +1,19 @@
-.card.card-info.card-outline
+.card.card-outline.card-primary
   .card-header
     %h3.card-title
-      %i.fa.fa-user
-      = anagrafica.full_name
-  .card-body
+      = fa_icon Anagrafica.icon
+      = @anagrafica.full_name
+  .card-body.p-3
     %dl.row
       %dt.col-8= Anagrafica.human_attribute_name(:attention_level_base)
-      %dd.col-4.text-right= anagrafica.base_risk.to_f
+      %dd.col-4.text-right= customer.base_risk.to_f
       %dt.col-8= Anagrafica.human_attribute_name(:days_of_activity)
-      %dd.col-4.text-right= anagrafica.days_of_activity(current_tuple)
-      - if GruppiAnagrafica.where("codice_fiscale like ?", anagrafica.codice_fiscale).count >= 1
+      %dd.col-4.text-right= customer.days_of_activity(current_tuple)
+      %dt.col-8= Anagrafica.human_attribute_name(:notes)
+      %dd.col-4.text-right
+        = link_to customer.notes.count, [:customers, customer, :notes]
+      - if GruppiAnagrafica.where("codice_fiscale like ?", customer.codice_fiscale).count >= 1
         %dt.col-8= Anagrafica.human_attribute_name(:group)
-        %dd.col-4.text-right= link_to Anagrafica.human_attribute_name(:group), [:customers, Anagrafica, filter: {fiscal_code: "#{anagrafica.codice_fiscale}"}], class: "btn btn-warning btn-xs", data:{toggle: "tooltip"}, title: Anagrafica.human_attribute_name(:group)
+        %dd.col-4.text-right= link_to Anagrafica.human_attribute_name(:group), [:customers, Anagrafica, filter: {fiscal_code: "#{customer.codice_fiscale}"}], class: "btn btn-warning btn-xs", data:{toggle: "tooltip"}, title: Anagrafica.human_attribute_name(:group)
 
 

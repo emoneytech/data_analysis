@@ -338,6 +338,10 @@ class Anagrafica < ApplicationCoreRecord
   scope :filter_by_max_base_risk      , -> (value) { where("anagrafiche.base_risk <= ?", value)}
   scope :filter_by_min_base_risk_calc , -> (value) { where("anagrafiche.base_risk_calc >= ?", value)}
 
+  def self.icon
+    'user'
+  end
+
   def full_name
     company ? "#{company}" : "#{self.nome} #{self.cognome}"
   end

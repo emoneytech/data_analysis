@@ -63,6 +63,10 @@ class User < RiskRecord
 
   before_save :assign_role
 
+  def to_s
+    full_name
+  end
+  
   def full_name
     "#{first_name.try(:capitalize)} #{last_name.try(:capitalize)}"
   end

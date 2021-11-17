@@ -6,7 +6,7 @@
   .card-body.p-0
     %table.table.table-striped.table-hover
       %tbody
-        - years = item.servizi.select( "DATE_FORMAT(lastupdate , '%Y') AS year").distinct
+        - years = customer.servizi.select( "DATE_FORMAT(lastupdate , '%Y') AS year").distinct
         - years.each do |year|
           %tr
             %td= year.year

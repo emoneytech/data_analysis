@@ -76,6 +76,10 @@ class Prodotto < ApplicationCoreRecord
 
   alias_attribute :name, "nome"
 
+  def self.icon
+    'box'
+  end
+
   def to_s
     "#{name}"
   end

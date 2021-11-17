@@ -2,7 +2,7 @@
   .card.card-outline.card-success
     .card-header
       %h3.card-title
-        %i.fa.fa-exchange-alt
+        = fa_icon Conto.icon
         = "#{Conto.model_name.human(:count => 2)}"
       .card-tools
         %button{type: "button", class: "btn btn-tool", "data-card-widget" => "maximize"}

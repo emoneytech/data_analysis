@@ -16,7 +16,13 @@ module Customers
       render json: result.group(:product_name).group_by_month(:movement_created_at).count.chart_json
     end
 
-    
+    def latest_products
+      prodotti = @anagrafica.prodotti
+      tp = @anagrafica.tutti_prodotti.group(:prodotto).count
+      products = tp.map{|k,v| {prodotti.find_by_idprodotto(k).nome => v}}.reduce(:merge)
+      render json: products.chart_json
+    end
+
     def latest_eval_customers
       eval_customers = 
         @anagrafica.eval_customers.select(
