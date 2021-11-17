@@ -10,8 +10,8 @@ require("channels")
 require('admin-lte')
 
 import 'bootstrap'
-import './plugins/bootstrap-switch/dist/js/bootstrap-switch'
-import './plugins/bootstrap-switch/dist/css/bootstrap4/bootstrap-switch.min.css'
+import './plugins/bootstrap-switch/js/bootstrap-switch'
+import './plugins/bootstrap-switch/css/bootstrap4/bootstrap-switch.min.css'
 
 import '../stylesheets/application'
 import "@fortawesome/fontawesome-free/js/all"
