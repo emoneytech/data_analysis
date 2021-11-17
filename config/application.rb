@@ -37,6 +37,6 @@ module AiRiskMonitor
     config.time_zone = "Europe/Malta"
     config.active_record.default_timezone = :utc
     config.active_record.time_zone_aware_attributes = false
-
+    
   end
 end
