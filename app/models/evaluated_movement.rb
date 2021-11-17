@@ -106,6 +106,10 @@ class EvaluatedMovement < CorePgRecord
 
   after_create :send_notification
 
+  def self.icon
+    'search-dollar'
+  end
+
   def self.reports(daterange)
     items = self.filter_by_daterange(daterange)
     ary = {

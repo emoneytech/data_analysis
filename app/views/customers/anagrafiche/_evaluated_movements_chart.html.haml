@@ -1,0 +1,36 @@
+#card-evaluated-movements.card.card-outline.card-success
+  .card-header
+    .card-title
+      = fa_icon EvaluatedMovement.icon
+      = EvaluatedMovement.model_name.human(count: 2)
+    .card-tools
+      %input{type: "checkbox",  name: "my-checkbox", checked: 'checked', data: { inverse: true, toggle: 'switch', off: {color: "danger", text: "OUT"}, on: {color: "success", text: 'IN'} } }
+
+  .card-body
+    = line_chart latest_evaluated_movements_customers_anagrafica_charts_path(@anagrafica, in_out: 'IN'), remote: true, download: true, id: "latest-evaluated-movements"
+:javascript
+  var chart = Chartkick.charts['latest-evaluated-movements']
+  $('[data-toggle="switch"]').bootstrapSwitch('state', true)
+  $('[data-toggle="switch"]').on('switchChange.bootstrapSwitch', function (e, data) {
+    toggleClass()
+    let direction 
+    if ($('[data-toggle="switch"]').is(':checked')) {
+      direction = 'IN'
+    } else {
+      direction = 'OUT'
+    }
+    $.ajax({
+      // http://localhost:3000/customers/anagrafiche/46449/charts/latest_evaluated_movements
+      url:
+        "/customers/anagrafiche/#{@anagrafica.id}/charts/latest_evaluated_movements?in_out=" +
+        direction,
+      success: function (data) {
+        chart.updateData(data)
+        chart.redraw()
+      },
+    })
+  })
+  function toggleClass(){
+    $('#card-evaluated-movements').toggleClass('card-success')
+    $('#card-evaluated-movements').toggleClass('card-danger')
+  }

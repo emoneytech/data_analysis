@@ -82,6 +82,11 @@ class Conto < ApplicationCoreRecord
     where(IdUtente: 70).pluck(:Pan)
   }
   scope :alive, -> { where(ProductState: 1) }
+
+  def self.icon
+    'wallet'
+  end
+
   def self.last_id
     order(idconti: :desc).select(:idconti).first.idconti
   end

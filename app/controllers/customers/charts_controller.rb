@@ -5,9 +5,35 @@ module Customers
     respond_to :json
 
     def evaluated_movements_for_month
-      month = DateTime.new(params[:year].to_i, params[:month].to_i, 1)
-      render json: @anagrafica.evaluated_movements.for_month(month).group(:product_name).group_by_day(:service_updated_at).count.chart_json
+      period = DateTime.new(params[:year].to_i, params[:month].to_i, 1)
+      render json: @anagrafica.evaluated_movements.with_all_for_year(period.year).with_all_for_year(period.month).group(:product_name).group_by_day(:movement_created_at).count.chart_json
     end
+
+    def latest_evaluated_movements
+      daterange = "#{(Date.today - 1.year).strftime("%d/%m/%Y")} - #{(Date.today).strftime("%d/%m/%Y")}"
+      result = @anagrafica.evaluated_movements.filter_by_daterange(daterange)
+      result = result.filter_by_in_out(params[:in_out]) if params[:in_out]
+      render json: result.group(:product_name).group_by_month(:movement_created_at).count.chart_json
+    end
+
     
+    def latest_eval_customers
+      eval_customers = 
+        @anagrafica.eval_customers.select(
+          "CONCAT(eval_year, '-', eval_month) AS period",
+          :last_attention_factor7,
+          :last_attention_factor30
+        ).order(
+          eval_year: :desc,
+          eval_month: :desc
+        ).limit(12)
+      hsh = {}
+      eval_customers.reverse.each do |eval_customer|
+        hsh[["7 days attention factor", eval_customer.period]] = eval_customer.last_attention_factor7
+        hsh[["30 days attention factor", eval_customer.period]] = eval_customer.last_attention_factor30
+      end
+      render json: hsh.chart_json
+    end
+
   end
 end

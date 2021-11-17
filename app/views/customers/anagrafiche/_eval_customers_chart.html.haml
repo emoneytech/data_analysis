@@ -1,0 +1,7 @@
+.card.card-outline.card-danger
+  .card-header
+    .card-title
+      = fa_icon EvalCustomer.icon
+      = EvalCustomer.model_name.human(count: 2)
+  .card-body
+    = bar_chart latest_eval_customers_customers_anagrafica_charts_path(@anagrafica), remote: true, download: true

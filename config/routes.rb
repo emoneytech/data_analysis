@@ -25,6 +25,8 @@ Rails.application.routes.draw do
       
       resources :charts do
         collection do
+          get :latest_eval_customers
+          get :latest_evaluated_movements
           get 'evaluated_movements_for_month/:year/:month' => :evaluated_movements_for_month, as: :evaluated_movements_for_month
         end
       end
