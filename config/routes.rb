@@ -139,6 +139,7 @@ Rails.application.routes.draw do
   require 'sidekiq-scheduler/web'
   authenticate :user, lambda { |u| u.include_role?("admin") } do
     mount Sidekiq::Web => '/sidekiq'
+    mount Logster::Web => "/logs"
   end
   
   resources :messages, only: [:new, :create]

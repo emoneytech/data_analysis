@@ -126,3 +126,6 @@ gem 'watir', require: false
 
 #gems for datatables
 gem 'ajax-datatables-rails'
+
+#gems fro logs
+gem 'logster'
