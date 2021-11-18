@@ -884,7 +884,8 @@ class Anagrafica < ApplicationCoreRecord
       ).with_all_for_year(eval_year).order(movement_created_at: :asc).as_json
       tuples.select{|t| t[0] == eval_year}.each do |tuple|
         ce = self.customer_evaluations.build(eval_month: tuple[1], eval_year: tuple[0])
-        ce.build_for_tuple(max_base_risk, min_base_risk, tlf, factor_for_amount, divisor_amount_for_factor, evaluated_movements)
+        evaluated_movements_for_date = evaluated_movements.select{|h| h["month"]=="#{tuple[0]}-#{tuple[1]}"}
+        ce.build_for_tuple(max_base_risk, min_base_risk, tlf, factor_for_amount, divisor_amount_for_factor, evaluated_movements_for_date)
         ce.save
       end
     end

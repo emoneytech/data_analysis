@@ -41,10 +41,10 @@ class CustomerEvaluation < CorePgRecord
     date_end = date.end_of_month >= Date.today ? Date.today : date.end_of_month 
     evaluated_days = {}
     while (date <= date_end)
-      evaluated_moevements_for_date = evaluated_movements.select{|h| h["day"]=="#{date}"}
+      evaluated_movements_for_date = evaluated_movements.select{|h| h["day"]=="#{date}"}
       evaluated_days["#{date}"] = []
       hash = {}
-      evaluated_moevements_for_date.each do |evaluated_movement|
+      evaluated_movements_for_date.each do |evaluated_movement|
         hash.merge!({
           "#{evaluated_movement["movement_id"]}": {
             day_7: set_evaluated_by_recursion(evaluated_movement["recursion_customer_7"], evaluated_movement, divisor_amount_for_factor, factor_for_amount),
@@ -65,7 +65,7 @@ class CustomerEvaluation < CorePgRecord
       attention_factor[:day_30] = attention_factor[:day_30] >= max_base_risk ? max_base_risk : attention_factor[:day_30]
       evaluated_days["#{date}"] << {details: {
         "attention_factor": attention_factor,
-        "nr_movements": evaluated_moevements_for_date.count,
+        "nr_movements": evaluated_movements_for_date.count,
         "attention_factor_decreased": decrease_factor(attention_factor, min_base_risk, tlf)
       }}
       date = date.advance(days: 1)
