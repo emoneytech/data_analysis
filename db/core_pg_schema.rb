@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_16_095223) do
+ActiveRecord::Schema.define(version: 2021_11_18_092122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -46,6 +46,23 @@ ActiveRecord::Schema.define(version: 2021_11_16_095223) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "customer_evaluations", force: :cascade do |t|
+    t.integer "anagrafica_id", null: false
+    t.integer "eval_year", null: false
+    t.integer "eval_month", limit: 2, null: false
+    t.integer "nr_movements", default: 0, null: false
+    t.float "last_attention_factor7"
+    t.float "last_attention_factor30"
+    t.jsonb "eval_days", default: "{}", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["anagrafica_id", "eval_year", "eval_month"], name: "evaluated_attention_factor_for_month_index", unique: true
+    t.index ["anagrafica_id"], name: "index_customer_evaluations_on_anagrafica_id"
+    t.index ["eval_days"], name: "index_customer_evaluations_on_eval_days", using: :gin
+    t.index ["last_attention_factor30"], name: "index_customer_evaluations_on_last_attention_factor30"
+    t.index ["last_attention_factor7"], name: "index_customer_evaluations_on_last_attention_factor7"
   end
 
   create_table "customer_settings", force: :cascade do |t|

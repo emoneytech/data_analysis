@@ -1,14 +1,14 @@
 .card.card-outline.card-primary
   .card-header
     .card-title
-      %i.fas.fa-exclamation-triangle
+      = fa_icon EvalCustomer.icon
       #{@anagrafica.full_name} - 
-      = t(:listing_resource, resource: EvalRiskiness.model_name.human(:count => 2))
+      = t(:listing_resource, resource: EvalCustomer.model_name.human(:count => 2))
       \- #{Date::MONTHNAMES[eval_customer.eval_month]} #{eval_customer.eval_year}
     .card-tools
   .card-body
     %dl.row
-      %dt.col-md-4.text-right= EvaluatedRisk.human_attribute_name(:nr_movements)
+      %dt.col-md-4.text-right= EvalCustomer.human_attribute_name(:nr_movements)
       %dd.col-md-8
         - if eval_customer.nr_movements.to_i > 0
           = link_to for_month_customers_anagrafica_evaluated_movements_path(@anagrafica, eval_customer.eval_year, eval_customer.eval_month), class: "btn btn-xs btn-info", title: 'Open popup', remote: true do
@@ -16,17 +16,17 @@
             Show #{eval_customer.nr_movements} movements
         - else 
           0
-      %dt.col-md-4.text-right= EvaluatedRisk.human_attribute_name(:last_eval_customer7)
+      %dt.col-md-4.text-right= EvalCustomer.human_attribute_name(:last_eval_customer7)
       %dd.col-md-8= eval_customer.last_attention_factor7
-      %dt.col-md-4.text-right= EvaluatedRisk.human_attribute_name(:last_eval_customer30)
+      %dt.col-md-4.text-right= EvalCustomer.human_attribute_name(:last_eval_customer30)
       %dd.col-md-8= eval_customer.last_attention_factor30
     
     %table.table.table-striped.table-bordered.table-hover.text-center.data-table
       %thead
         %tr
-          %th= EvaluatedRisk.human_attribute_name(:eval_day)
+          %th= EvalCustomer.human_attribute_name(:eval_day)
           - eval_customer.eval_days[eval_customer.eval_days.keys.first][0]["details"].keys.each do |key2|
-            %th= EvaluatedRisk.human_attribute_name(key2)
+            %th= EvalCustomer.human_attribute_name(key2)
           %th.action
       - eval_customer.eval_days.keys.each do |key|
         %tr

@@ -68,7 +68,7 @@
 #  IdTipo                    :integer          default(0)
 #  IdTipoDocumento           :integer
 #  IdToken                   :integer          default(0)
-#  IdUtente                  :bigint           not null
+#  IdUtente                  :bigint           not null, primary key
 #  Indirizzo                 :string(100)
 #  IndirizzoPoint            :string(100)
 #  Insegna                   :string(100)
@@ -291,6 +291,11 @@ class Anagrafica < ApplicationCoreRecord
 
   # Eval Customer on Pg
   has_many :eval_customers,
+           primary_key: 'IdUtente',
+           foreign_key: :anagrafica_id
+
+  # Customer Evaluation on Pg
+  has_many :customer_evaluations,
            primary_key: 'IdUtente',
            foreign_key: :anagrafica_id
 
@@ -759,7 +764,7 @@ class Anagrafica < ApplicationCoreRecord
     ).first_or_initialize
     eval_customer.eval_days = {} if eval_customer.new_record?
     eval_customer.eval_days[day] = []
-    evaluated_movements = customer.evaluated_movements.with_all_for_day(day.to_date)
+    evaluated_movements = customer.evaluated_movements.with_all_for_day(day.to_date).order(movement_created_at: :asc)
     hash = {}
     evaluated_movements.each do |evaluated_movement|
       hash7 = set_evaluated_by_recursion(evaluated_movement.recursion_customer_7, evaluated_movement, divisor_amount_for_factor, factor_for_amount)
@@ -863,4 +868,13 @@ class Anagrafica < ApplicationCoreRecord
     end
     p.save
   end
+
+  def init_evaluation
+    customer_evaluations.destroy_all
+    self.tuple_activities.each do |tuple|
+      ce = self.customer_evaluations.build(eval_month: tuple[1], eval_year: tuple[0])
+      ce.save
+    end
+  end
+
 end

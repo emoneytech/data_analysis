@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/brainopia/sidekiq-limit_fetch.git
+  revision: bf9cee3b81e49ab8002bb9d564c2002d5b8a4b56
+  specs:
+    sidekiq-limit_fetch (3.4.0)
+      sidekiq (>= 4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -125,7 +132,7 @@ GEM
       xpath (~> 3.2)
     case_transform (0.2)
       activesupport
-    chartkick (4.1.0)
+    chartkick (4.1.2)
     childprocess (4.1.0)
     chronic_duration (0.10.6)
       numerizer (~> 0.1.1)
@@ -199,7 +206,7 @@ GEM
     i18n_data (0.13.0)
     iban-tools (1.1.0)
     io-wait (0.1.0)
-    jbuilder (2.11.2)
+    jbuilder (2.11.3)
       activesupport (>= 5.0.0)
     jsonapi-renderer (0.2.2)
     kaminari (1.2.1)
@@ -225,7 +232,7 @@ GEM
       mini_mime (>= 0.1.1)
     marcel (1.0.2)
     matrix (0.4.2)
-    mechanize (2.8.2)
+    mechanize (2.8.3)
       addressable (~> 2.8)
       domain_name (~> 0.5, >= 0.5.20190701)
       http-cookie (~> 1.0, >= 1.0.3)
@@ -237,9 +244,9 @@ GEM
       webrick (~> 1.7)
       webrobots (~> 0.1.2)
     method_source (1.0.0)
-    mime-types (3.3.1)
+    mime-types (3.4.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2021.0901)
+    mime-types-data (3.2021.1115)
     mini_mime (1.1.2)
     mini_portile2 (2.6.1)
     minitest (5.14.4)
@@ -375,7 +382,7 @@ GEM
       activerecord (>= 5.0)
       rgeo (>= 1.0.0)
     ruby-ole (1.2.12.2)
-    ruby_parser (3.18.0)
+    ruby_parser (3.18.1)
       sexp_processor (~> 4.16)
     rubyntlm (0.6.3)
     rubyzip (2.3.2)
@@ -399,15 +406,13 @@ GEM
       rubyzip (>= 1.2.2)
     semantic_range (3.0.0)
     sexp_processor (4.16.0)
-    sidekiq (6.2.2)
+    sidekiq (6.3.1)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
     sidekiq-enqueuer (2.1.1)
     sidekiq-failures (1.0.1)
       sidekiq (>= 4.0.0)
-    sidekiq-limit_fetch (3.4.0)
-      sidekiq (>= 4)
     sidekiq-scheduler (3.1.0)
       e2mmap
       redis (>= 3, < 5)
@@ -430,9 +435,9 @@ GEM
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sprockets-rails (3.2.2)
-      actionpack (>= 4.0)
-      activesupport (>= 4.0)
+    sprockets-rails (3.4.0)
+      actionpack (>= 5.2)
+      activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     sqlite3 (1.4.2)
     sshkit (1.21.2)
@@ -460,10 +465,10 @@ GEM
     uri (0.11.0)
     warden (1.2.9)
       rack (>= 2.0.9)
-    watir (7.0.0)
+    watir (7.1.0)
       regexp_parser (>= 1.2, < 3)
       selenium-webdriver (~> 4.0)
-    web-console (4.1.0)
+    web-console (4.2.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
@@ -555,7 +560,7 @@ DEPENDENCIES
   sidekiq
   sidekiq-enqueuer
   sidekiq-failures
-  sidekiq-limit_fetch
+  sidekiq-limit_fetch!
   sidekiq-scheduler
   sidekiq-status
   simple_form

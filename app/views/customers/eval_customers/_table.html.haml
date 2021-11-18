@@ -1,4 +1,4 @@
-%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_movements', data: {order: '[[1, "desc"]]'}}
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_movements', data: {order: '[[1, "desc"], [2, "desc"]]'}}
   %thead
     %tr
       %th= EvaluatedRisk.human_attribute_name(:id)
@@ -7,16 +7,16 @@
       %th= EvaluatedRisk.human_attribute_name(:last_attention_factor7)
       %th= EvaluatedRisk.human_attribute_name(:last_attention_factor30)
       %th= EvaluatedRisk.human_attribute_name(:nr_movements)
-      %th.action
+      %th{data: {priority: "1", orderable: "false"},nowrap: true}
   %tbody
     - eval_customers.each do |item|
-      %tr
+      %tr.text-center
         %td= item.id
         %td= item.eval_year
         %td= item.eval_month
-        %td= item.last_attention_factor7
-        %td= item.last_attention_factor30
+        %td= number_with_precision item.last_attention_factor7, precision: 4
+        %td= number_with_precision item.last_attention_factor30, precision: 4
         %td= item.nr_movements
-        %td.text-center
+        %td.text-center{data: {orderable: "false"}}
           = link_to customers_anagrafica_eval_customer_path(@anagrafica,item), class: "btn btn-xs btn-primary" do
             %i.fa.fa-eye

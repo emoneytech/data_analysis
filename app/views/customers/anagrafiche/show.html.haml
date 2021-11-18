@@ -5,7 +5,8 @@
     = render "products_chart", customer: @anagrafica
     = render "map", anagrafica: @anagrafica
   .col-md-8
-    = render "evaluated_movements_chart", customer: @anagrafica
+    - opts = {filter: {customer_id: @anagrafica.id, daterange: "#{(Date.today - 1.year).strftime("%d/%m/%Y")} - #{(Date.today).strftime("%d/%m/%Y")}", in_out: 'IN'}}
+    = render "customers/charts/evaluated_movements", customer: @anagrafica, opts: opts
     = render "eval_customers_chart", customer: @anagrafica
     = render "conti", customer: @anagrafica
     = render "anagrafica", anagrafica: @anagrafica

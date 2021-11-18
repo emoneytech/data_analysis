@@ -71,7 +71,7 @@ gem 'sidekiq-failures'
 gem 'sidekiq-status'
 gem 'sidekiq-scheduler'
 gem 'sidekiq-enqueuer'
-gem 'sidekiq-limit_fetch'
+gem 'sidekiq-limit_fetch', github: "brainopia/sidekiq-limit_fetch"
 
 gem 'redis-rails'
 

@@ -2,13 +2,12 @@
   .card-header
     .card-title
       = fa_icon EvaluatedMovement.icon
-      - opts = {filter: {customer_id: @anagrafica.id}}
       = link_to EvaluatedMovement.model_name.human(count: 2), data_analysis_evaluated_movements_path(params: opts)
     .card-tools
       %input{type: "checkbox",  name: "my-checkbox", checked: 'checked', data: { inverse: true, toggle: 'switch', off: {color: "danger", text: "OUT"}, on: {color: "success", text: 'IN'} } }
 
   .card-body
-    = line_chart latest_evaluated_movements_customers_anagrafica_charts_path(@anagrafica, in_out: 'IN'), remote: true, download: true, id: "latest-evaluated-movements"
+    = line_chart evaluated_movements_customers_anagrafica_charts_path(@anagrafica, params: opts), remote: true, download: true, id: "latest-evaluated-movements"
 :javascript
   var chart = Chartkick.charts['latest-evaluated-movements']
   $('[data-toggle="switch"]').bootstrapSwitch('state', true)
@@ -21,10 +20,13 @@
       direction = 'OUT'
     }
     $.ajax({
-      // http://localhost:3000/customers/anagrafiche/46449/charts/latest_evaluated_movements
+      // http://localhost:3000/customers/anagrafiche/44766/charts/evaluated_movements?filter%5Bcustomer_id%5D=44766&filter%5Bdaterange%5D=18%2F11%2F2020+-+18%2F11%2F2021&filter%5Bin_out%5D=IN
       url:
-        "/customers/anagrafiche/#{@anagrafica.id}/charts/latest_evaluated_movements?in_out=" +
-        direction,
+        "/customers/anagrafiche/#{@anagrafica.id}/charts/evaluated_movements?filter[in_out]=" +
+        direction +
+        "&filter[customer_id]=#{opts[:filter][:customer_id]}" +
+        "&group_by_day=#{opts[:group_by_day]}" +
+        "&filter[daterange]=#{opts[:filter][:daterange]}",
       success: function (data) {
         chart.updateData(data)
         chart.redraw()

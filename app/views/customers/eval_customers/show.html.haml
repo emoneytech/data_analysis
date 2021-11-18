@@ -1,6 +1,9 @@
 .row
   .col-md-6= render "chart_attention_factor", eval_customer: @eval_customer
-  .col-md-6= render "chart_evaluated_movements", eval_customer: @eval_customer
+  .col-md-6
+    - month = Date.new(@eval_customer.eval_year, @eval_customer.eval_month, 1) 
+    - opts = {group_by_day: 1, filter: {customer_id: @anagrafica.id, daterange: "#{month.strftime("%d/%m/%Y")} - #{month.at_end_of_month.strftime("%d/%m/%Y")}", in_out: 'IN'}}
+    = render "customers/charts/evaluated_movements", customer: @anagrafica, opts: opts
 
 .row
   .col-md-12= render "eval_customer", eval_customer: @eval_customer

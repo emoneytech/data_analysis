@@ -1,7 +1,0 @@
-.card.card-outline.card-danger
-  .card-header
-    .card-title
-      %i.fa.fa-chart-bar
-      = t(:listing_resource, resource: EvaluatedMovement.model_name.human(:count => 2))
-  .card-body
-    = column_chart evaluated_movements_for_month_customers_anagrafica_charts_path(@anagrafica, eval_customer.eval_year, eval_customer.eval_month), remote: true, download: true

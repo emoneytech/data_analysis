@@ -4,6 +4,7 @@ require 'sidekiq/enqueuer'
 Sidekiq::Enqueuer.configure do |config|
   config.jobs = [
     InitEvalCustomersWorker,
+    InitCustomerEvaluationsWorker,
     TriggerInitWorker,
     RecalculatePositionsWorker
   ]
