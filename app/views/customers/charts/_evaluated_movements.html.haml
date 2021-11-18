@@ -20,7 +20,6 @@
       direction = 'OUT'
     }
     $.ajax({
-      // http://localhost:3000/customers/anagrafiche/44766/charts/evaluated_movements?filter%5Bcustomer_id%5D=44766&filter%5Bdaterange%5D=18%2F11%2F2020+-+18%2F11%2F2021&filter%5Bin_out%5D=IN
       url:
         "/customers/anagrafiche/#{@anagrafica.id}/charts/evaluated_movements?filter[in_out]=" +
         direction +

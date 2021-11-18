@@ -1,0 +1,7 @@
+.card.card-outline.card-danger
+  .card-header
+    .card-title
+      = fa_icon CustomerEvaluation.icon
+      = link_to CustomerEvaluation.model_name.human(count: 2), [:customers, customer, :customer_evaluations]
+  .card-body
+    = bar_chart latest_customer_evaluations_customers_anagrafica_charts_path(@anagrafica), remote: true, download: true

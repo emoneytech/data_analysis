@@ -7,6 +7,6 @@
   .col-md-8
     - opts = {filter: {customer_id: @anagrafica.id, daterange: "#{(Date.today - 1.year).strftime("%d/%m/%Y")} - #{(Date.today).strftime("%d/%m/%Y")}", in_out: 'IN'}}
     = render "customers/charts/evaluated_movements", customer: @anagrafica, opts: opts
-    = render "eval_customers_chart", customer: @anagrafica
+    = render "customers/charts/latest_customer_evaluations", customer: @anagrafica
     = render "conti", customer: @anagrafica
     = render "anagrafica", anagrafica: @anagrafica

@@ -38,7 +38,7 @@ class CustomerEvaluation < CorePgRecord
   def build_for_tuple(max_base_risk, min_base_risk, tlf, factor_for_amount, divisor_amount_for_factor, evaluated_movements)
     return unless new_record?
     date = Date.new( eval_year, eval_month, 1 )
-    date_end = date.end_of_month
+    date_end = date.end_of_month >= Date.today ? Date.today : date.end_of_month 
     evaluated_days = {}
     while (date <= date_end)
       evaluated_moevements_for_date = evaluated_movements.select{|h| h["day"]=="#{date}"}

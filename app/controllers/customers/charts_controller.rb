@@ -31,9 +31,9 @@ class Customers::ChartsController < ApplicationController
     render json: products.chart_json
   end
 
-  def latest_eval_customers
-    eval_customers = 
-      @anagrafica.eval_customers.select(
+  def latest_customer_evaluations
+    customer_evaluations = 
+      @anagrafica.customer_evaluations.select(
         "CONCAT(eval_year, '-', eval_month) AS period",
         :last_attention_factor7,
         :last_attention_factor30
@@ -42,9 +42,9 @@ class Customers::ChartsController < ApplicationController
         eval_month: :desc
       ).limit(12)
     hsh = {}
-    eval_customers.reverse.each do |eval_customer|
-      hsh[["7 days attention factor", eval_customer.period]] = eval_customer.last_attention_factor7
-      hsh[["30 days attention factor", eval_customer.period]] = eval_customer.last_attention_factor30
+    customer_evaluations.reverse.each do |customer_evaluation|
+      hsh[["7 days attention factor", customer_evaluation.period]] = customer_evaluation.last_attention_factor7
+      hsh[["30 days attention factor", customer_evaluation.period]] = customer_evaluation.last_attention_factor30
     end
     render json: hsh.chart_json
   end

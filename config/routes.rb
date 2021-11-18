@@ -25,7 +25,7 @@ Rails.application.routes.draw do
       
       resources :charts do
         collection do
-          get :latest_eval_customers
+          get :latest_customer_evaluations
           get :latest_evaluated_movements
           get :evaluated_movements
           get :latest_products
@@ -42,7 +42,7 @@ Rails.application.routes.draw do
         end
       end
       resources :eval_riskinesses, only: [:show, :index]
-      resources :eval_customers, only: [:show, :index]
+      # resources :eval_customers, only: [:show, :index]
       resources :customer_evaluations, only: [:show, :index]
       resources :evaluated_movements do
         collection do
