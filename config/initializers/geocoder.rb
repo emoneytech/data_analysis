@@ -2,7 +2,7 @@ Geocoder.configure(
   # Geocoding options
   timeout: 30,                 # geocoding service timeout (secs)
   lookup: :nominatim,
-  nominatim: {host: 'map.mana-communication.com'},         # name of geocoding service (symbol)
+  nominatim: {host: 'nominatim.mana-communication.com/nominatim'},         # name of geocoding service (symbol)
   ip_lookup: :ipinfo_io,      # name of IP address geocoding service (symbol)
   language: :en,              # ISO-639 language code
   use_https: true,           # use HTTPS for lookup requests? (if supported)
