@@ -1,0 +1,51 @@
+.card.card-outline.card-primary
+  .card-header
+    .card-title
+      = fa_icon CustomerEvaluation.icon
+      #{@anagrafica.full_name} - 
+      = t(:listing_resource, resource: CustomerEvaluation.model_name.human(:count => 2))
+      \- #{Date::MONTHNAMES[customer_evaluation.eval_month]} #{customer_evaluation.eval_year}
+    .card-tools
+  .card-body
+    %dl.row
+      %dt.col-md-4.text-right= CustomerEvaluation.human_attribute_name(:nr_movements)
+      %dd.col-md-8
+        - if customer_evaluation.nr_movements.to_i > 0
+          = link_to for_month_customers_anagrafica_evaluated_movements_path(@anagrafica, customer_evaluation.eval_year, customer_evaluation.eval_month), class: "btn btn-xs btn-info", title: 'Open popup', remote: true do
+            %i.fa.fa-exchange-alt
+            Show #{customer_evaluation.nr_movements} movements
+        - else 
+          0
+      %dt.col-md-4.text-right= CustomerEvaluation.human_attribute_name(:last_customer_evaluation7)
+      %dd.col-md-8= customer_evaluation.last_attention_factor7
+      %dt.col-md-4.text-right= CustomerEvaluation.human_attribute_name(:last_customer_evaluation30)
+      %dd.col-md-8= customer_evaluation.last_attention_factor30
+    
+    %table.table.table-striped.table-bordered.table-hover.text-center.data-table
+      %thead
+        %tr
+          %th= CustomerEvaluation.human_attribute_name(:eval_day)
+          - customer_evaluation.eval_days[customer_evaluation.eval_days.keys.first][0]["details"].keys.each do |key2|
+            %th= CustomerEvaluation.human_attribute_name(key2)
+          %th.action
+      - customer_evaluation.eval_days.keys.each do |key|
+        %tr
+          %td= "#{key}"
+          - customer_evaluation.eval_days[key][0]["details"].keys.each do |key2|
+            %td
+              - unless customer_evaluation.eval_days[key][0]["details"][key2].kind_of?(Hash)
+                = "#{customer_evaluation.eval_days[key][0]["details"][key2]}"
+              - else
+                - customer_evaluation.eval_days[key][0]["details"][key2].each do |key, value|
+                  = "#{key.humanize}: #{value}"
+          %td.action
+            - if customer_evaluation.eval_days[key][0]["details"]["nr_movements"] > 0
+              = link_to for_day_customers_anagrafica_evaluated_movements_path(@anagrafica, key), class: "btn btn-xs btn-info", title: 'Open popup', remote: true do
+                %i.fa.fa-exchange-alt
+  .card-footer
+    .row
+      .col-md-6
+        = link_to 'Prev', customers_anagrafica_customer_evaluation_path(@anagrafica, @prev) unless @prev.blank?
+      .col-md-6.text-right
+        = link_to 'Next', customers_anagrafica_customer_evaluation_path(@anagrafica, @next) unless @next.blank?
+

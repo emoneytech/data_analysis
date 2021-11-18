@@ -1,0 +1,7 @@
+.card.card-outline.card-danger
+  .card-header
+    .card-title
+      %i.fa.fa-chart-bar
+      Attention Factor
+  .card-body
+    = line_chart customer_evaluation.to_hsh, download: true

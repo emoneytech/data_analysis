@@ -871,10 +871,34 @@ class Anagrafica < ApplicationCoreRecord
 
   def init_evaluation
     customer_evaluations.destroy_all
-    self.tuple_activities.each do |tuple|
-      ce = self.customer_evaluations.build(eval_month: tuple[1], eval_year: tuple[0])
-      ce.save
+    max_base_risk = Configurable.max_base_risk.to_f
+    min_base_risk = self.try(:base_risk).to_f || Configurable.min_base_risk.to_f
+    tlf = Configurable.time_lapse_factor.to_f
+    factor_for_amount = Configurable.factor_for_amount.to_f
+    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
+    years_of_activity = self.years_of_activity
+    tuples =  self.tuple_activities
+    years_of_activity.each do |eval_year|
+      evaluated_movements = self.evaluated_movements.select(
+        'evaluated_movements.*, movement_created_at::date as day, CONCAT(EXTRACT(YEAR FROM movement_created_at),\'-\',EXTRACT(MONTH FROM movement_created_at)) as month'
+      ).with_all_for_year(eval_year).order(movement_created_at: :asc).as_json
+      tuples.select{|t| t[0] == eval_year}.each do |tuple|
+        ce = self.customer_evaluations.build(eval_month: tuple[1], eval_year: tuple[0])
+        ce.build_for_tuple(max_base_risk, min_base_risk, tlf, factor_for_amount, divisor_amount_for_factor, evaluated_movements)
+        ce.save
+      end
     end
+  end
+
+  def years_of_activity
+    date_start = data_creazione.to_date
+    date_end = Date.today
+    years = []
+    while (date_start <= date_end)
+      years << date_start.year
+      date_start = date_start.advance(years: 1)
+    end
+    return years
   end
 
 end

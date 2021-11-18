@@ -1,0 +1,22 @@
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_movements', data: {order: '[[1, "desc"], [2, "desc"]]'}}
+  %thead
+    %tr
+      %th= EvaluatedRisk.human_attribute_name(:id)
+      %th= EvaluatedRisk.human_attribute_name(:eval_year)
+      %th= EvaluatedRisk.human_attribute_name(:eval_month)
+      %th= EvaluatedRisk.human_attribute_name(:last_attention_factor7)
+      %th= EvaluatedRisk.human_attribute_name(:last_attention_factor30)
+      %th= EvaluatedRisk.human_attribute_name(:nr_movements)
+      %th{data: {priority: "1", orderable: "false"},nowrap: true}
+  %tbody
+    - customer_evaluations.each do |item|
+      %tr.text-center
+        %td= item.id
+        %td= item.eval_year
+        %td= item.eval_month
+        %td= number_with_precision item.last_attention_factor7, precision: 4
+        %td= number_with_precision item.last_attention_factor30, precision: 4
+        %td= item.nr_movements
+        %td.text-center{data: {orderable: "false"}}
+          = link_to customers_anagrafica_customer_evaluation_path(@anagrafica,item), class: "btn btn-xs btn-primary" do
+            %i.fa.fa-eye

@@ -5,7 +5,7 @@ class CustomerEvaluation < CorePgRecord
   scope :for_month, ->(tuple) { where(eval_month: tuple[1], eval_year: tuple[0]) }
   before_save :set_last_values
 
-  after_initialize :build_for_tuple
+  # after_initialize :build_for_tuple
 
   def self.icon
     'user-shield'
@@ -35,16 +35,8 @@ class CustomerEvaluation < CorePgRecord
     return hsh
   end
 
-  def build_for_tuple
+  def build_for_tuple(max_base_risk, min_base_risk, tlf, factor_for_amount, divisor_amount_for_factor, evaluated_movements)
     return unless new_record?
-    anagrafica = Anagrafica.alive.find(anagrafica_id) rescue nil
-    return unless anagrafica
-    evaluated_movements = anagrafica.evaluated_movements.select('evaluated_movements.*, movement_created_at::date as day').with_all_for_year(eval_year).with_all_for_month(eval_month).order(movement_created_at: :asc).as_json
-    max_base_risk = Configurable.max_base_risk.to_f
-    min_base_risk = anagrafica.try(:base_risk).to_f || Configurable.min_base_risk.to_f
-    tlf = Configurable.time_lapse_factor.to_f
-    factor_for_amount = Configurable.factor_for_amount.to_f
-    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
     date = Date.new( eval_year, eval_month, 1 )
     date_end = date.end_of_month
     evaluated_days = {}
@@ -53,48 +45,42 @@ class CustomerEvaluation < CorePgRecord
       evaluated_days["#{date}"] = []
       hash = {}
       evaluated_moevements_for_date.each do |evaluated_movement|
-        hash7 = set_evaluated_by_recursion(evaluated_movement["recursion_customer_7"], evaluated_movement, divisor_amount_for_factor, factor_for_amount)
-        hash30 = set_evaluated_by_recursion(evaluated_movement["recursion_customer_30"], evaluated_movement, divisor_amount_for_factor, factor_for_amount)
-        h2 = {
+        hash.merge!({
           "#{evaluated_movement["movement_id"]}": {
-            day_7: hash7,
-            day_30: hash30 
+            day_7: set_evaluated_by_recursion(evaluated_movement["recursion_customer_7"], evaluated_movement, divisor_amount_for_factor, factor_for_amount),
+            day_30: set_evaluated_by_recursion(evaluated_movement["recursion_customer_30"], evaluated_movement, divisor_amount_for_factor, factor_for_amount) 
           }
-        }
-        hash.merge!(h2)
+        })
       end
       if date == Date.new(eval_year,eval_month,1)
         attention_factor = get_previuos_attention_factor_for_tuple(min_base_risk)
       else
         attention_factor = evaluated_days["#{date - 1.day}"][0][:details][:attention_factor_decreased]
       end
-
       hash.values.each do |v|
         attention_factor[:day_7]  = attention_factor[:day_7].to_f  * v[:day_7][:evaluated_factor].to_f
         attention_factor[:day_30] = attention_factor[:day_30].to_f * v[:day_30][:evaluated_factor].to_f
       end
       attention_factor[:day_7] = attention_factor[:day_7] >= max_base_risk ? max_base_risk : attention_factor[:day_7]
       attention_factor[:day_30] = attention_factor[:day_30] >= max_base_risk ? max_base_risk : attention_factor[:day_30]
-
-      # APPLY DECREASE FACTOR
-      attention_factor_decreased = {}
-      attention_factor_decreased[:day_7] = (attention_factor[:day_7] * tlf).to_f
-      attention_factor_decreased[:day_7] = attention_factor_decreased[:day_7] <= min_base_risk ? min_base_risk : attention_factor_decreased[:day_7]
-
-      attention_factor_decreased[:day_30] = (attention_factor[:day_30] * tlf).to_f
-      attention_factor_decreased[:day_30] = attention_factor_decreased[:day_30] <= min_base_risk ? min_base_risk : attention_factor_decreased[:day_30]
-
-      hash2 = {
+      evaluated_days["#{date}"] << {details: {
         "attention_factor": attention_factor,
         "nr_movements": evaluated_moevements_for_date.count,
-        "attention_factor_decreased": attention_factor_decreased
-      }
-      evaluated_days["#{date}"] << {details: hash2}
+        "attention_factor_decreased": decrease_factor(attention_factor, min_base_risk, tlf)
+      }}
       date = date.advance(days: 1)
     end
     self.eval_days = evaluated_days
   end
 
+  def decrease_factor(attention_factor, min_base_risk, tlf)
+    attention_factor_decreased = {}
+    attention_factor_decreased[:day_7] = (attention_factor[:day_7] * tlf).to_f
+    attention_factor_decreased[:day_7] = attention_factor_decreased[:day_7] <= min_base_risk ? min_base_risk : attention_factor_decreased[:day_7]
+    attention_factor_decreased[:day_30] = (attention_factor[:day_30] * tlf).to_f
+    attention_factor_decreased[:day_30] = attention_factor_decreased[:day_30] <= min_base_risk ? min_base_risk : attention_factor_decreased[:day_30]
+    return attention_factor_decreased
+  end
 
 private
 
