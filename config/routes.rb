@@ -74,6 +74,7 @@ Rails.application.routes.draw do
         get :all_risk_movements
         get :count_evaluated_movements
         get :sum_evaluated_movements
+        get :evaluated_movements
         get 'average_stocks/:id' => :average_stocks, as: :average_stocks
       end
     end

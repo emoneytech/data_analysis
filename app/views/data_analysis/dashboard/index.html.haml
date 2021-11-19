@@ -1,12 +1,7 @@
 .row
   .col-md-8
-    .card.card-danger
-      .card-header
-        %h3.card-title
-          %i.fa.fa-chart-bar
-          = t(:listing_resource, resource: RiskMovement.model_name.human(:count => 2))
-      .card-body
-        = line_chart all_risk_movements_data_analysis_charts_path, remote: true
+    - opts = {filter: {daterange: "#{(Date.today - 1.year).strftime("%d/%m/%Y")} - #{(Date.today).strftime("%d/%m/%Y")}", in_out: 'IN'}}
+    = render 'data_analysis/charts/evaluated_movements', opts: opts
   .col-md-4
     .card.card-primary
       .card-header
@@ -19,4 +14,4 @@
           = f.input :tipo, label: Anagrafica.human_attribute_name(:tipo), as: :select, collection: Tipo.alive.collect {|tipo| [ tipo.name, tipo.id ] }, required: false, input_html: {value: @current_type}
           = f.submit "#{t(:search)}", class: "btn btn-primary"
 
-#eval_riskinesses_items.row= render "data_analysis/eval_riskinesses/eval_riskinesses"
+#customer_evaluations_items.row= render "data_analysis/customer_evaluations/customer_evaluations", customer_evaluations: @customer_evaluations

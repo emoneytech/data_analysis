@@ -18,6 +18,23 @@ class CustomerEvaluation < CorePgRecord
     CustomerEvaluation.where("anagrafica_id = ? AND ((eval_year = ? AND eval_month > ?) OR (eval_year = ? AND eval_month = 1))", self.anagrafica_id, self.eval_year, self.eval_month, self.eval_year + 1).order(eval_year: :asc, eval_month: :asc).first
   end
 
+  def trend
+    size = self.eval_days.count
+    if size > 1
+      param1 = self.eval_days.max(2)[0][1][0]["details"]["attention_factor_decreased"]["day_30"]
+      param2 = self.eval_days.max(2)[1][1][0]["details"]["attention_factor_decreased"]["day_30"]
+      if param1 > param2
+        str = 'up'
+      elsif param1 == param2
+        str = 'equal'
+      elsif param1 < param2
+        str = 'down'
+      end
+    else
+      str = previous ? previous.trend : 'equal'
+    end
+  end
+  
   def evaluated_movements(limit = false)
     result = anagrafica.evaluated_movements.select(
         'evaluated_movements.*, movement_created_at::date as day'

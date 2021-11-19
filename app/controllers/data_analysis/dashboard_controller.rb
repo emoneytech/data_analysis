@@ -6,7 +6,8 @@ module DataAnalysis
 
     def index
       #      @anagrafiche = Anagrafica.where(id: EvalRiskiness.for_type('Anagrafica').all_for_month("[#{Date.today.year}, #{Date.today.month}]").order(eval_score: :desc).pluck(:eval_evaluable_id)).page(params[:page])
-      @current_tuple = "[#{Date.today.year}, #{Date.today.month}]"
+      date = Date.today.day == 1 ? Date.today - 1.days : Date.today 
+      @current_tuple = [date.year, date.month]
       @anagrafiche = Anagrafica.alive
       if params[:filter]
         if params[:filter][:vendor] && ! params[:filter][:vendor].empty?
@@ -23,7 +24,7 @@ module DataAnalysis
         end
         @eval_riskinesses = EvalRiskiness.for_type('Anagrafica').all_for_month("#{@current_tuple}").where(eval_evaluable_id: @anagrafiche.pluck(:id)).order(eval_score: :desc, number_of_movements: :desc).page(params[:page])
       else
-        @eval_riskinesses = EvalRiskiness.for_type('Anagrafica').all_for_month("#{@current_tuple}").order(eval_score: :desc, number_of_movements: :desc).page(params[:page])
+        @customer_evaluations = CustomerEvaluation.includes(:anagrafica).where(eval_year: @current_tuple[0], eval_month: @current_tuple[1]).order(last_attention_factor7: :desc, last_attention_factor7: :desc, nr_movements: :asc).page(params[:page])
       end
     end
       

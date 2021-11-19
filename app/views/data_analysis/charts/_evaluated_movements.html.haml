@@ -1,0 +1,37 @@
+#card-evaluated-movements.card.card-outline.card-success
+  .card-header
+    .card-title
+      = fa_icon EvaluatedMovement.icon
+      = link_to EvaluatedMovement.model_name.human(count: 2), data_analysis_evaluated_movements_path(params: opts)
+    .card-tools
+      %input{type: "checkbox",  name: "my-checkbox", checked: 'checked', data: { inverse: true, toggle: 'switch', off: {color: "danger", text: "OUT"}, on: {color: "success", text: 'IN'} } }
+
+  .card-body
+    = line_chart evaluated_movements_data_analysis_charts_path(params: opts), remote: true, download: true, id: "latest-evaluated-movements"
+:javascript
+  var chart = Chartkick.charts['latest-evaluated-movements']
+  $('[data-toggle="switch"]').bootstrapSwitch('state', true)
+  $('[data-toggle="switch"]').on('switchChange.bootstrapSwitch', function (e, data) {
+    toggleClass()
+    let direction 
+    if ($('[data-toggle="switch"]').is(':checked')) {
+      direction = 'IN'
+    } else {
+      direction = 'OUT'
+    }
+    $.ajax({
+      url:
+        "/data_analysis/charts/evaluated_movements?filter[in_out]=" +
+        direction +
+        "&group_by_day=#{opts[:group_by_day]}" +
+        "&filter[daterange]=#{opts[:filter][:daterange]}",
+      success: function (data) {
+        chart.updateData(data)
+        chart.redraw()
+      },
+    })
+  })
+  function toggleClass(){
+    $('#card-evaluated-movements').toggleClass('card-success')
+    $('#card-evaluated-movements').toggleClass('card-danger')
+  }

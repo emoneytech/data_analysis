@@ -41,5 +41,23 @@ module DataAnalysis
       # render json: evaluated_movements.chart_json
     end
 
+    def evaluated_movements
+      result = EvaluatedMovement.filter(evaluated_movements_filtering_params)
+      if params[:group_by_day] && params[:group_by_day].to_i == 1
+        render json: result.group(:product_name).group_by_day(:movement_created_at).count.chart_json
+      else
+        render json: result.group(:product_name).group_by_month(:movement_created_at).count.chart_json
+      end
+    end
+  private
+
+  def evaluated_movements_filtering_params
+    params[:filter] ? params[:filter].slice(
+      :customer_id,
+      :daterange,
+      :in_out,
+    ).permit! : {}
+  end
+
   end
 end
