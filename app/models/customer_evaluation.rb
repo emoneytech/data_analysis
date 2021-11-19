@@ -1,7 +1,6 @@
 class CustomerEvaluation < CorePgRecord
   
   belongs_to :anagrafica
-
   scope :for_month, ->(tuple) { where(eval_month: tuple[1], eval_year: tuple[0]) }
   before_save :set_last_values
 
@@ -17,6 +16,19 @@ class CustomerEvaluation < CorePgRecord
   
   def next
     CustomerEvaluation.where("anagrafica_id = ? AND ((eval_year = ? AND eval_month > ?) OR (eval_year = ? AND eval_month = 1))", self.anagrafica_id, self.eval_year, self.eval_month, self.eval_year + 1).order(eval_year: :asc, eval_month: :asc).first
+  end
+
+  def evaluated_movements(limit = false)
+    result = anagrafica.evaluated_movements.select(
+        'evaluated_movements.*, movement_created_at::date as day'
+      ).with_all_for_year(self.eval_year).with_all_for_month(self.eval_month)
+    result.limit(limit) if limit
+    return result
+  end
+
+  def evaluated_movements_for_day(day = nil)
+    day = Date.today unless day
+    evaluated_movements.with_all_for_day(day)
   end
 
   def set_last_values
@@ -35,52 +47,63 @@ class CustomerEvaluation < CorePgRecord
     return hsh
   end
 
+  def build_for_date(
+      day = nil,
+      evaluated_movements_for_day = nil,
+      max_base_risk = Configurable.max_base_risk.to_f,
+      min_base_risk = Configurable.min_base_risk.to_f,
+      tlf = Configurable.time_lapse_factor.to_f
+    )
+    day = Date.today unless day
+    evaluated_movements_for_day = evaluated_movements.with_all_for_day(day).as_json unless evaluated_movements_for_day
+    hash = {}
+    evaluated_movements_for_day.each do |evaluated_movement|
+      hash.merge!({
+        "#{evaluated_movement["movement_id"]}": {
+          "day_7" => evaluated_movement["evaluated_factor7"],
+          "day_30" => evaluated_movement["evaluated_factor30"],
+        }
+      })
+    end
+    self.eval_days["#{day}"] = {
+      movements: hash
+    }
+    if day == Date.new(self.eval_year, self.eval_month, 1)
+      attention_factor = get_previuos_attention_factor_for_tuple(min_base_risk)
+    else
+      attention_factor = self.eval_days["#{day - 1.days}"][0]["details"]["attention_factor_decreased"]
+    end
+    hash.values.each do |v|
+      attention_factor["day_7"]  = attention_factor["day_7"].to_f  * v["day_7"]["evaluated_factor"].to_f
+      attention_factor["day_30"] = attention_factor["day_30"].to_f * v["day_30"]["evaluated_factor"].to_f
+    end
+    attention_factor["day_7"] = attention_factor["day_7"] >= max_base_risk ? max_base_risk : attention_factor["day_7"]
+    attention_factor["day_30"] = attention_factor["day_30"] >= max_base_risk ? max_base_risk : attention_factor["day_30"]
+    
+    attention_factor_decreased = {}
+    attention_factor_decreased["day_7"] = (attention_factor["day_7"] * tlf).to_f
+    attention_factor_decreased["day_7"] = attention_factor_decreased["day_7"] <= min_base_risk ? min_base_risk : attention_factor_decreased["day_7"]
+
+    attention_factor_decreased["day_30"] = (attention_factor["day_30"] * tlf).to_f
+    attention_factor_decreased["day_30"] = attention_factor_decreased["day_30"] <= min_base_risk ? min_base_risk : attention_factor_decreased["day_30"]
+    
+    hash2 = {
+      "attention_factor": attention_factor,
+      "nr_movements": evaluated_movements_for_day.count,
+      "attention_factor_decreased": attention_factor_decreased
+    }
+    self.eval_days["#{day}"]["details"] = hash2    
+  end
+
   def build_for_tuple(max_base_risk, min_base_risk, tlf, factor_for_amount, divisor_amount_for_factor, evaluated_movements)
-    # return unless new_record?
     date = Date.new( eval_year, eval_month, 1 )
     date_end = date.end_of_month >= Date.today ? Date.today : date.end_of_month 
     evaluated_days = {}
     while (date <= date_end)
-      evaluated_movements_for_date = evaluated_movements.select{|h| h["day"]=="#{date}"}
-      evaluated_days["#{date}"] = []
-      hash = {}
-      evaluated_movements_for_date.each do |evaluated_movement|
-        hash.merge!({
-          "#{evaluated_movement["movement_id"]}": {
-            day_7: set_evaluated_by_recursion(evaluated_movement["recursion_customer_7"], evaluated_movement, divisor_amount_for_factor, factor_for_amount),
-            day_30: set_evaluated_by_recursion(evaluated_movement["recursion_customer_30"], evaluated_movement, divisor_amount_for_factor, factor_for_amount) 
-          }
-        })
-      end
-      if date == Date.new(eval_year,eval_month,1)
-        attention_factor = get_previuos_attention_factor_for_tuple(min_base_risk)
-      else
-        attention_factor = evaluated_days["#{date - 1.day}"][0][:details][:attention_factor_decreased]
-      end
-      hash.values.each do |v|
-        attention_factor[:day_7]  = attention_factor[:day_7].to_f  * v[:day_7][:evaluated_factor].to_f
-        attention_factor[:day_30] = attention_factor[:day_30].to_f * v[:day_30][:evaluated_factor].to_f
-      end
-      attention_factor[:day_7] = attention_factor[:day_7] >= max_base_risk ? max_base_risk : attention_factor[:day_7]
-      attention_factor[:day_30] = attention_factor[:day_30] >= max_base_risk ? max_base_risk : attention_factor[:day_30]
-    
-    
-      attention_factor_decreased = {}
-      attention_factor_decreased[:day_7] = (attention_factor[:day_7] * tlf).to_f
-      attention_factor_decreased[:day_7] = attention_factor_decreased[:day_7] <= min_base_risk ? min_base_risk : attention_factor_decreased[:day_7]
-
-      attention_factor_decreased[:day_30] = (attention_factor[:day_30] * tlf).to_f
-      attention_factor_decreased[:day_30] = attention_factor_decreased[:day_30] <= min_base_risk ? min_base_risk : attention_factor_decreased[:day_30]
-
-      hash2 = {
-        "attention_factor": attention_factor,
-        "nr_movements": evaluated_movements.count,
-        "attention_factor_decreased": attention_factor_decreased
-      }
-      evaluated_days["#{date}"] << {details: hash2}
+      evaluated_movements_for_day = evaluated_movements.select{|h| h["day"]=="#{date}"}
+      self.build_for_date(date, evaluated_movements_for_day, max_base_risk, min_base_risk, tlf)
       date = date.advance(days: 1)
     end
-    self.eval_days = evaluated_days
   end
 
   def decrease_factor(attention_factor, min_base_risk, tlf)
@@ -97,15 +120,15 @@ private
   def get_previuos_attention_factor_for_tuple(min_base_risk)
     date = Date.new(self.eval_year, self.eval_month, 1) - 1.month
     default_min_base_risk = {
-      day_7: min_base_risk,
-      day_30: min_base_risk
+      "day_7" => min_base_risk,
+      "day_30" => min_base_risk
     }
     unless a = CustomerEvaluation.find_by_anagrafica_id_and_eval_year_and_eval_month(self.anagrafica_id, date.year, date.month)
       return default_min_base_risk
     end
     return {
-      day_7: a.last_attention_factor7,
-      day_30: a.last_attention_factor30
+      "day_7" => a.last_attention_factor7,
+      "day_30" => a.last_attention_factor30
     }
   end
 
@@ -123,49 +146,6 @@ private
     sum = 0
     self.eval_days.values.each { |v| sum += v[0].symbolize_keys[:details].symbolize_keys[:nr_movements] }
     self.nr_movements = sum
-  end
-
-  def set_evaluated_by_recursion(recursion, evaluated_movement, divisor_amount_for_factor, factor_for_amount)
-    unless recursion > 0
-      evaluated_factor =
-        (
-          (
-            (
-              (
-                ((evaluated_movement["product_base_risk"].percentage_of(1)) - 100) *
-                evaluated_movement["product_base_risk"]
-              ) *
-                (
-                  factor_for_amount *
-                    ((evaluated_movement["amount_cents"] / 100).to_f / divisor_amount_for_factor)
-                )
-            ) + 100
-          ) / 100
-        ).to_f
-      evaluated_description = "Operation factor: #{evaluated_factor}"
-    else
-      evaluated_factor =
-        (
-          (
-            (
-              (((evaluated_movement["product_base_risk"].percentage_of(1)) - 100) * recursion) *
-                (
-                  factor_for_amount *
-                    ((evaluated_movement["amount_cents"] / 100).to_f / divisor_amount_for_factor)
-                )
-            ) + 100
-          ) / 100
-        ).to_f
-      evaluated_description =
-        "Repeated: #{recursion} - Factor: #{evaluated_factor}"
-    end
-    hash = {
-      evaluated_movement: evaluated_movement["id"],
-      evaluated_factor: evaluated_factor,
-      evaluated_description: evaluated_description,
-      recursion: recursion 
-    }
-    return hash
   end
 
 end
