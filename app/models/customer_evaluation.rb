@@ -24,9 +24,9 @@ class CustomerEvaluation < CorePgRecord
       param1 = self.eval_days.max(2)[0][1][0]["details"]["attention_factor_decreased"]["day_30"]
       param2 = self.eval_days.max(2)[1][1][0]["details"]["attention_factor_decreased"]["day_30"]
       if param1 > param2
-        str = 'up'
+        str = 'growing'
       elsif param1 == param2
-        str = 'equal'
+        str = 'stable'
       elsif param1 < param2
         str = 'down'
       end
