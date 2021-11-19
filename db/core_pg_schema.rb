@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_18_092122) do
+ActiveRecord::Schema.define(version: 2021_11_19_072922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -131,6 +131,8 @@ ActiveRecord::Schema.define(version: 2021_11_18_092122) do
     t.integer "lock_version", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "evaluated_factor7"
+    t.float "evaluated_factor30"
     t.index ["amount_cents"], name: "index_evaluated_movements_on_amount_cents"
     t.index ["beneficiary"], name: "index_evaluated_movements_on_beneficiary"
     t.index ["beneficiary_card"], name: "index_evaluated_movements_on_beneficiary_card"
@@ -139,6 +141,8 @@ ActiveRecord::Schema.define(version: 2021_11_18_092122) do
     t.index ["customer_id"], name: "index_evaluated_movements_on_customer_id"
     t.index ["destination_country"], name: "index_evaluated_movements_on_destination_country"
     t.index ["destination_lonlat"], name: "index_evaluated_movements_on_destination_lonlat", using: :gist
+    t.index ["evaluated_factor30"], name: "index_evaluated_movements_on_evaluated_factor30"
+    t.index ["evaluated_factor7"], name: "index_evaluated_movements_on_evaluated_factor7"
     t.index ["in_out"], name: "index_evaluated_movements_on_in_out"
     t.index ["internal"], name: "index_evaluated_movements_on_internal"
     t.index ["lock_version"], name: "index_evaluated_movements_on_lock_version"

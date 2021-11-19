@@ -11,6 +11,8 @@
 #  beneficiary_other     :string
 #  destination_country   :string           not null
 #  destination_lonlat    :geography        point, 4326
+#  evaluated_factor30    :float
+#  evaluated_factor7     :float
 #  in_out                :enum             default("OUT")
 #  internal              :boolean          default(FALSE), not null
 #  lock_version          :integer          default(0), not null
@@ -49,6 +51,8 @@
 #  index_evaluated_movements_on_customer_id            (customer_id)
 #  index_evaluated_movements_on_destination_country    (destination_country)
 #  index_evaluated_movements_on_destination_lonlat     (destination_lonlat) USING gist
+#  index_evaluated_movements_on_evaluated_factor30     (evaluated_factor30)
+#  index_evaluated_movements_on_evaluated_factor7      (evaluated_factor7)
 #  index_evaluated_movements_on_in_out                 (in_out)
 #  index_evaluated_movements_on_internal               (internal)
 #  index_evaluated_movements_on_lock_version           (lock_version)

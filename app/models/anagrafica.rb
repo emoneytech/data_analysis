@@ -891,6 +891,21 @@ class Anagrafica < ApplicationCoreRecord
     end
   end
 
+  def evaluate_for_tuple(tuple = self.tuple_activities.last)
+    max_base_risk = Configurable.max_base_risk.to_f
+    min_base_risk = self.try(:base_risk).to_f || Configurable.min_base_risk.to_f
+    tlf = Configurable.time_lapse_factor.to_f
+    factor_for_amount = Configurable.factor_for_amount.to_f
+    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
+
+    items = self.evaluated_movements.select(
+        'evaluated_movements.*, movement_created_at::date as day, CONCAT(EXTRACT(YEAR FROM movement_created_at),\'-\',EXTRACT(MONTH FROM movement_created_at)) as month'
+      ).with_all_for_year(tuple[0]).with_all_for_month(tuple[1]).order(movement_created_at: :asc).as_json
+    ce = self.customer_evaluations.where(eval_month: tuple[1], eval_year: tuple[0]).first_or_initialize
+    ce.build_for_tuple(max_base_risk, min_base_risk, tlf, factor_for_amount, divisor_amount_for_factor, items)
+    ce.save
+  end
+
   def years_of_activity
     date_start = data_creazione.to_date
     date_end = Date.today

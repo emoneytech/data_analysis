@@ -11,6 +11,8 @@
 #  beneficiary_other     :string
 #  destination_country   :string           not null
 #  destination_lonlat    :geography        point, 4326
+#  evaluated_factor30    :float
+#  evaluated_factor7     :float
 #  in_out                :enum             default("OUT")
 #  internal              :boolean          default(FALSE), not null
 #  lock_version          :integer          default(0), not null
@@ -49,6 +51,8 @@
 #  index_evaluated_movements_on_customer_id            (customer_id)
 #  index_evaluated_movements_on_destination_country    (destination_country)
 #  index_evaluated_movements_on_destination_lonlat     (destination_lonlat) USING gist
+#  index_evaluated_movements_on_evaluated_factor30     (evaluated_factor30)
+#  index_evaluated_movements_on_evaluated_factor7      (evaluated_factor7)
 #  index_evaluated_movements_on_in_out                 (in_out)
 #  index_evaluated_movements_on_internal               (internal)
 #  index_evaluated_movements_on_lock_version           (lock_version)
@@ -437,6 +441,7 @@ class EvaluatedMovement < CorePgRecord
     self.recursion_all_30      = count_recursive(days=30)
     self.recursion_customer_7  = count_recursive_for_customer(days=7)
     self.recursion_customer_30 = count_recursive_for_customer(days=30)
+    self.set_evaluated_factors
   end
 
   def set_product_base_risk(
@@ -458,6 +463,15 @@ class EvaluatedMovement < CorePgRecord
     end
 
     NotifyWorker.perform_async(type, content, coords)
+  end
+
+  def set_evaluated_factors
+    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
+    factor_for_amount = Configurable.factor_for_amount.to_f
+    base_calc7 = recursion_customer_7 > 0 ? (((self.product_base_risk.percentage_of(1)) - 100) * recursion_customer_7).to_f : ((self.product_base_risk.percentage_of(1)) - 100).to_f
+    self.evaluated_factor7 = (((base_calc7 * (factor_for_amount * ((self.amount_cents / 100).to_f / divisor_amount_for_factor))) + 100) / 100).to_f
+    base_calc30 = recursion_customer_30 > 0 ? (((self.product_base_risk.percentage_of(1)) - 100) * recursion_customer_30).to_f : ((self.product_base_risk.percentage_of(1)) - 100).to_f
+    self.evaluated_factor30 = (((base_calc30 * (factor_for_amount * ((self.amount_cents / 100).to_f / divisor_amount_for_factor))) + 100) / 100).to_f
   end
 
 end

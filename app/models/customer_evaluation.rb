@@ -36,7 +36,7 @@ class CustomerEvaluation < CorePgRecord
   end
 
   def build_for_tuple(max_base_risk, min_base_risk, tlf, factor_for_amount, divisor_amount_for_factor, evaluated_movements)
-    return unless new_record?
+    # return unless new_record?
     date = Date.new( eval_year, eval_month, 1 )
     date_end = date.end_of_month >= Date.today ? Date.today : date.end_of_month 
     evaluated_days = {}
@@ -63,23 +63,33 @@ class CustomerEvaluation < CorePgRecord
       end
       attention_factor[:day_7] = attention_factor[:day_7] >= max_base_risk ? max_base_risk : attention_factor[:day_7]
       attention_factor[:day_30] = attention_factor[:day_30] >= max_base_risk ? max_base_risk : attention_factor[:day_30]
-      evaluated_days["#{date}"] << {details: {
+    
+    
+      attention_factor_decreased = {}
+      attention_factor_decreased[:day_7] = (attention_factor[:day_7] * tlf).to_f
+      attention_factor_decreased[:day_7] = attention_factor_decreased[:day_7] <= min_base_risk ? min_base_risk : attention_factor_decreased[:day_7]
+
+      attention_factor_decreased[:day_30] = (attention_factor[:day_30] * tlf).to_f
+      attention_factor_decreased[:day_30] = attention_factor_decreased[:day_30] <= min_base_risk ? min_base_risk : attention_factor_decreased[:day_30]
+
+      hash2 = {
         "attention_factor": attention_factor,
-        "nr_movements": evaluated_movements_for_date.count,
-        "attention_factor_decreased": decrease_factor(attention_factor, min_base_risk, tlf)
-      }}
+        "nr_movements": evaluated_movements.count,
+        "attention_factor_decreased": attention_factor_decreased
+      }
+      evaluated_days["#{date}"] << {details: hash2}
       date = date.advance(days: 1)
     end
     self.eval_days = evaluated_days
   end
 
   def decrease_factor(attention_factor, min_base_risk, tlf)
-    attention_factor_decreased = {}
-    attention_factor_decreased[:day_7] = (attention_factor[:day_7] * tlf).to_f
-    attention_factor_decreased[:day_7] = attention_factor_decreased[:day_7] <= min_base_risk ? min_base_risk : attention_factor_decreased[:day_7]
-    attention_factor_decreased[:day_30] = (attention_factor[:day_30] * tlf).to_f
-    attention_factor_decreased[:day_30] = attention_factor_decreased[:day_30] <= min_base_risk ? min_base_risk : attention_factor_decreased[:day_30]
-    return attention_factor_decreased
+    hsh = {}
+    hsh[:day_7] = (attention_factor[:day_7] * tlf).to_f
+    hsh[:day_7] = hsh[:day_7] <= min_base_risk ? min_base_risk : hsh[:day_7]
+    hsh[:day_30] = (attention_factor[:day_30] * tlf).to_f
+    hsh[:day_30] = hsh[:day_30] <= min_base_risk ? min_base_risk : hsh[:day_30]
+    return hsh
   end
 
 private
