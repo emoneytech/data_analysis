@@ -5,7 +5,6 @@ class EvaluatedMovementDatatable < AjaxDatatablesRails::ActiveRecord
   def initialize(params, opts = {})
     @view = opts[:view_context]
     @filtering_params = opts[:filtering_params]
-    binding.pry
 
     super
   end
