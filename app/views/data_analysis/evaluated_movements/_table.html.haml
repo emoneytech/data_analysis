@@ -12,6 +12,8 @@
       %th{data: {priority: "13"}}= EvaluatedMovement.human_attribute_name(:product_base_risk)
       %th{data: {priority: "3"}}= EvaluatedMovement.human_attribute_name(:recursion_all_7)
       %th{data: {priority: "3"}}= EvaluatedMovement.human_attribute_name(:recursion_all_30)
+      %th{data: {priority: "3"}}= EvaluatedMovement.human_attribute_name(:evaluated_factor7)
+      %th{data: {priority: "3"}}= EvaluatedMovement.human_attribute_name(:evaluated_factor30)
       %th{data: {priority: "4"}}= EvaluatedMovement.human_attribute_name(:amount)
       %th{data: {priority: "12"}}= EvaluatedMovement.human_attribute_name(:destination_lonlat)
       %th{data: {priority: "10"}}= EvaluatedMovement.human_attribute_name(:internal)
@@ -35,6 +37,8 @@
         %td= item.product_base_risk
         %td= item.recursion_all_7
         %td= item.recursion_all_30
+        %td= item.evaluated_factor7
+        %td= item.evaluated_factor30
         %td= item.amount
         %td= item.destination_lonlat
         %td= item.internal
