@@ -1,5 +1,5 @@
 ---
-:concurrency: 500
+:concurrency: 100
 :queues:
   - massive
   - critical
@@ -8,14 +8,14 @@
   - serial
 
 :limits:
-  massive: 250
+  massive: 50
   default: 15
   mailers: 5
   critical: 1
   serial: 1
 
 :process_limits:
-  massive: 250
+  massive: 50
   critical: 1
   serial: 1
 
