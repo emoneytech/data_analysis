@@ -1,4 +1,4 @@
-%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_evaluated_movements', data: {order: '[[2, "desc"]]'}}
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_recursions', data: {order: '[[2, "desc"]]'}}
   %thead
     %tr
       %th{data: {priority: "10"}}= EvaluatedMovement.human_attribute_name(:id)
@@ -23,7 +23,7 @@
       %th{data: {priority: "6"}}= EvaluatedMovement.human_attribute_name(:destination_country)
       %th{data: {priority: "1", orderable: "false"},nowrap: true}
   %tbody
-    - evaluated_movements.each do |item|
+    - recursions.each do |item|
       %tr{style: "color: #{item.in_out === 'IN' ? 'green' : '#600'}"}
         %td= item.id
         %td= link_to item.triggerable_id, [:data_analysis, item.triggerable]

@@ -10,6 +10,8 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import 'leaflet.markercluster/dist/leaflet.markercluster.js'
 
 import 'leaflet.timeline.control'
+import 'leaflet.fullscreen/Control.FullScreen.js'
+import 'leaflet.fullscreen/Control.FullScreen.css'
 
 import 'leaflet-extra-markers/dist/js/leaflet.extra-markers.min.js'
 import 'leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css'

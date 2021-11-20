@@ -93,6 +93,9 @@ Rails.application.routes.draw do
         get 'for_day/:day' => :for_day, as: :for_day
         get 'for_month/:year/:month' => :for_month, as: :for_month
       end
+      member do
+        get :recursive
+      end
     end
     resources :eval_riskinesses
     resources :ibans

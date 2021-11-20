@@ -1,17 +1,25 @@
 module DataAnalysis
   class EvaluatedMovementsController < DataAnalysisController
-    add_breadcrumb helpers.raw("#{helpers.fa_icon('exclamation-triangle')} #{EvaluatedMovement.model_name.human(count: 2)}"), [:data_analysis, :evaluated_movements]
+    add_breadcrumb helpers.raw("#{helpers.fa_icon(EvaluatedMovement.icon)} #{EvaluatedMovement.model_name.human(count: 2)}"), [:data_analysis, :evaluated_movements]
+    before_action :set_daterange, only: [:index, :recursive]
 
     def index
-      @daterange = params[:filter] && params[:filter][:daterange] ? params[:filter][:daterange] : "#{(Date.today - 1.month).strftime("%d/%m/%Y")} - #{Date.today.strftime("%d/%m/%Y")}"
       @evaluated_movements = EvaluatedMovement.filter(filtering_params).includes(:customer, :triggerable)
       @evaluated_movements = @evaluated_movements.order(movement_created_at: :desc).page(params[:page]).per(params[:per])
     end
 
     def show
-      add_breadcrumb helpers.raw("#{helpers.fa_icon('exchange-alt')} #{t(:show_resource, resource: EvaluatedMovement.model_name.human)}"), [:data_analysis, :evaluated_movement]
+      add_breadcrumb helpers.raw("#{helpers.fa_icon(EvaluatedMovement.icon)} #{t(:show_resource, resource: EvaluatedMovement.model_name.human)}"), [:data_analysis, :evaluated_movement]
       @prev = @evaluated_movement.all_previous
       @next = @evaluated_movement.all_next
+    end
+
+    def recursive
+      add_breadcrumb helpers.raw("#{helpers.fa_icon(EvaluatedMovement.icon)} #{t(:show_resource, resource: EvaluatedMovement.model_name.human)}"), [:data_analysis, :evaluated_movement]
+      add_breadcrumb helpers.raw("#{t(:show_resource, resource: "Recursions")}"), [:recursion, :data_analysis, :evaluated_movement]
+      method_name = "recursive_for_#{params[:q]}"
+      @recursions = @evaluated_movement.send(method_name.to_sym, params[:days].to_i).includes(:triggerable).page(params[:page])
+      # render 'index'
     end
 
     def for_day
@@ -27,7 +35,10 @@ module DataAnalysis
       render 'index'
     end
 
-    private
+  private
+    def set_daterange
+      @daterange = params[:filter] && params[:filter][:daterange] ? params[:filter][:daterange] : "#{(Date.today - 1.year).strftime("%d/%m/%Y")} - #{Date.today.strftime("%d/%m/%Y")}"
+    end
 
     def filtering_params
       params[:filter] ? params[:filter].slice(
@@ -36,9 +47,8 @@ module DataAnalysis
         :beneficiary_iban,
         :beneficiary_other,
         :customer_id,
-        :payer,
+        :customer_full_name,
         :daterange,
-        :origin_country,
         :destination_country,
         :in_out,
         :internal,
@@ -47,6 +57,8 @@ module DataAnalysis
         :min_recursion_customer_7,
         :min_recursion_customer_30,
         :origin_country,
+        :payer,
+        :payer_iban,
         :product_name,
         :recursion_all_7,
         :service_id

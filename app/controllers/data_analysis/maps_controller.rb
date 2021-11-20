@@ -43,11 +43,13 @@ module DataAnalysis
     end
 
     def spatial_query(coords, day)
-      EvaluatedMovement.with_all_for_day(day).bbox(coords[0], coords[1], coords[2], coords[3]).limit(@query_limit)
+      # EvaluatedMovement.with_all_for_day(day).bbox(coords[0], coords[1], coords[2], coords[3]).limit(@query_limit)
+      EvaluatedMovement.with_all_for_day(day).limit(@query_limit)
     end
 
     def spatial_datetime_query(start_date, end_date, coords)
-      EvaluatedMovement.geocoded.where("movement_created_at between ? and ?", start_date, end_date).bbox(coords[0], coords[1], coords[2], coords[3]).limit(@query_limit)
+      # EvaluatedMovement.geocoded.where("movement_created_at between ? and ?", start_date, end_date).bbox(coords[0], coords[1], coords[2], coords[3]).limit(@query_limit)
+      EvaluatedMovement.geocoded.where("movement_created_at between ? and ?", start_date, end_date).limit(@query_limit)
     end
     def datetime_query(start_date, end_date)
       EvaluatedMovement.geocoded.where("movement_created_at between ? and ?", start_date, end_date).limit(@query_limit)

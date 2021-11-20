@@ -406,34 +406,44 @@ class EvaluatedMovement < CorePgRecord
     self.save
   end
 
-  def count_recursive_for_customer(days=7)
+  def recursive_for_customer(days=7)
     start_date = self.movement_created_at.to_date - days.days
     end_date = self.movement_created_at
-    EvaluatedMovement.where(
+    return EvaluatedMovement.where(
       customer_id: self.customer_id
     ).where(
-      "evaluated_movements.beneficiary = ? 
+      "id != ? AND
+      (evaluated_movements.beneficiary = ? 
       OR (evaluated_movements.beneficiary_iban != '' AND evaluated_movements.beneficiary_iban = ?)
-      OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?)", self.beneficiary, self.beneficiary_iban, self.beneficiary_card
+      OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?))", self.id, self.beneficiary, self.beneficiary_iban, self.beneficiary_card
     ).where(
       "evaluated_movements.movement_created_at 
         BETWEEN '#{start_date.to_date.beginning_of_day}' 
         AND '#{end_date}'"
-    ).count
+    )
+  end
+
+  def count_recursive_for_customer(days=7)
+    recursive_for_customer(days).count
+  end
+
+  def recursive_for_all(days=7)
+    start_date = self.movement_created_at.to_date - days.days
+    end_date = self.movement_created_at
+    EvaluatedMovement.where(
+      "id != ? AND
+      (evaluated_movements.beneficiary = ? 
+      OR (evaluated_movements.beneficiary_iban != '' AND evaluated_movements.beneficiary_iban = ?)
+      OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?))", self.id, self.beneficiary, self.beneficiary_iban, self.beneficiary_card
+    ).where(
+      "evaluated_movements.movement_created_at 
+        BETWEEN '#{start_date.to_date.beginning_of_day}' 
+        AND '#{end_date}'"
+    )
   end
 
   def count_recursive(days=7)
-    start_date = self.movement_created_at.to_date - days.days
-    end_date = self.movement_created_at
-    EvaluatedMovement.where(
-      "evaluated_movements.beneficiary = ? 
-      OR (evaluated_movements.beneficiary_iban != '' AND evaluated_movements.beneficiary_iban = ?)
-      OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?)", self.beneficiary, self.beneficiary_iban, self.beneficiary_card
-   ).where(
-      "evaluated_movements.movement_created_at 
-        BETWEEN '#{start_date.to_date.beginning_of_day}' 
-        AND '#{end_date}'"
-    ).count
+    recursive_for_all(days).count
   end
 
   def set_recursion

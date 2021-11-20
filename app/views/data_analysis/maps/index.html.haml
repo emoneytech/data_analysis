@@ -5,5 +5,7 @@
       .card-body
         .row
           .col-md-12
-        = render "map"
-        = render 'graphics', period: @period, day: @day
+            = render "map"
+.row
+  .col-md-12
+    = render 'graphics', period: @period, day: @day
