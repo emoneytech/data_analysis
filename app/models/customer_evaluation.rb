@@ -76,23 +76,23 @@ class CustomerEvaluation < CorePgRecord
     hash = {}
     evaluated_movements_for_day.each do |evaluated_movement|
       hash.merge!({
-        "#{evaluated_movement["movement_id"]}": {
+        "#{evaluated_movement["movement_id"]}" => {
           "day_7" => evaluated_movement["evaluated_factor7"],
           "day_30" => evaluated_movement["evaluated_factor30"],
         }
       })
     end
-    self.eval_days["#{day}"] = {
-      movements: hash
-    }
+    self.eval_days = {} if self.eval_days == "{}"
+    h2 = { movements: hash }
+    self.eval_days["#{day}"] = { movements: hash }
     if day == Date.new(self.eval_year, self.eval_month, 1)
       attention_factor = get_previuos_attention_factor_for_tuple(min_base_risk)
     else
-      attention_factor = self.eval_days["#{day - 1.days}"][0]["details"]["attention_factor_decreased"]
+      attention_factor = self.eval_days["#{day - 1.days}"]["details"]["attention_factor_decreased"]
     end
     hash.values.each do |v|
-      attention_factor["day_7"]  = attention_factor["day_7"].to_f  * v["day_7"]["evaluated_factor"].to_f
-      attention_factor["day_30"] = attention_factor["day_30"].to_f * v["day_30"]["evaluated_factor"].to_f
+      attention_factor["day_7"]  = attention_factor["day_7"].to_f  * v["day_7"].to_f
+      attention_factor["day_30"] = attention_factor["day_30"].to_f * v["day_30"].to_f
     end
     attention_factor["day_7"] = attention_factor["day_7"] >= max_base_risk ? max_base_risk : attention_factor["day_7"]
     attention_factor["day_30"] = attention_factor["day_30"] >= max_base_risk ? max_base_risk : attention_factor["day_30"]
@@ -119,6 +119,7 @@ class CustomerEvaluation < CorePgRecord
     while (date <= date_end)
       evaluated_movements_for_day = evaluated_movements.select{|h| h["day"]=="#{date}"}
       self.build_for_date(date, evaluated_movements_for_day, max_base_risk, min_base_risk, tlf)
+      self.save
       date = date.advance(days: 1)
     end
   end
@@ -151,8 +152,8 @@ private
 
 
   def set_last_attention_factor
-    self.last_attention_factor7 = self.eval_days.values.last[0].symbolize_keys[:details].symbolize_keys[:attention_factor_decreased].symbolize_keys[:day_7] || self.eval_days.values.last[0].symbolize_keys[:details].symbolize_keys[:attention_factor].symbolize_keys[:day_7]
-    self.last_attention_factor30 = self.eval_days.values.last[0].symbolize_keys[:details].symbolize_keys[:attention_factor_decreased].symbolize_keys[:day_30] || self.eval_days.values.last[0].symbolize_keys[:details].symbolize_keys[:attention_factor].symbolize_keys[:day_30]
+    self.last_attention_factor7 = self.eval_days.values.last.symbolize_keys[:details].symbolize_keys[:attention_factor_decreased].symbolize_keys[:day_7] || self.eval_days.values.last.symbolize_keys[:details].symbolize_keys[:attention_factor].symbolize_keys[:day_7]
+    self.last_attention_factor30 = self.eval_days.values.last.symbolize_keys[:details].symbolize_keys[:attention_factor_decreased].symbolize_keys[:day_30] || self.eval_days.values.last.symbolize_keys[:details].symbolize_keys[:attention_factor].symbolize_keys[:day_30]
   end
 
   def set_nr_movements
@@ -161,7 +162,7 @@ private
       return
     end
     sum = 0
-    self.eval_days.values.each { |v| sum += v[0].symbolize_keys[:details].symbolize_keys[:nr_movements] }
+    self.eval_days.values.each { |v| sum += v.symbolize_keys[:details].symbolize_keys[:nr_movements] }
     self.nr_movements = sum
   end
 
