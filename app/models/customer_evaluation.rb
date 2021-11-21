@@ -21,8 +21,8 @@ class CustomerEvaluation < CorePgRecord
   def trend
     size = self.eval_days.count
     if size > 1
-      param1 = self.eval_days.max(2)[0][1][0]["details"]["attention_factor_decreased"]["day_30"]
-      param2 = self.eval_days.max(2)[1][1][0]["details"]["attention_factor_decreased"]["day_30"]
+      param1 = self.eval_days.max(2)[0][1]["details"]["attention_factor_decreased"]["day_30"]
+      param2 = self.eval_days.max(2)[1][1]["details"]["attention_factor_decreased"]["day_30"]
       if param1 > param2
         str = 'growing'
       elsif param1 == param2
