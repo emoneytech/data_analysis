@@ -31,6 +31,7 @@ module AiRiskMonitor
     config.hosts << "data-analysis.emoney.local"
     config.hosts << "data_analysis.local"
     config.hosts << "192.168.0.26"
+    config.hosts << "213.165.162.51"
     # If you've never dealt with background workers before, this is the Rails
     # way to use them through Active Job. We just need to tell it to use Sidekiq.
     config.active_job.queue_adapter = :sidekiq
