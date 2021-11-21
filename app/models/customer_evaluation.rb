@@ -56,10 +56,10 @@ class CustomerEvaluation < CorePgRecord
   def to_hsh
     hsh = {}
     self.eval_days.each do |k,v|
-      hsh[["7 days attention factor", k]] = self.eval_days[k][0]["details"]["attention_factor"]["day_7"]
-      hsh[["30 days attention factor", k]] = self.eval_days[k][0]["details"]["attention_factor"]["day_30"]
-      hsh[["7 days attention factor at midnight", k]] = self.eval_days[k][0]["details"]["attention_factor_decreased"]["day_7"]
-      hsh[["30 days attention factor at midnight", k]] = self.eval_days[k][0]["details"]["attention_factor_decreased"]["day_30"]
+      hsh[["7 days attention factor", k]] = self.eval_days[k]["details"]["attention_factor"]["day_7"]
+      hsh[["30 days attention factor", k]] = self.eval_days[k]["details"]["attention_factor"]["day_30"]
+      hsh[["7 days attention factor at midnight", k]] = self.eval_days[k]["details"]["attention_factor_decreased"]["day_7"]
+      hsh[["30 days attention factor at midnight", k]] = self.eval_days[k]["details"]["attention_factor_decreased"]["day_30"]
     end
     return hsh
   end
