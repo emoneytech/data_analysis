@@ -4,13 +4,19 @@ module EvaluatedMovementFilters
   included do
     # filters
     scope :filter_by_customer_id, -> (customer_id) { where(customer_id: customer_id)}
-    scope :filter_by_payer, -> (name) { where("customer_payer ilike ?", "%#{name}%")}
     scope :filter_by_service_id, -> (service_id) { where(service_id: service_id)}
+
+    scope :filter_by_customer_full_name, -> (name) { where(customer_id: Anagrafica.filter_by_full_name(name).pluck(:IdUtente))}
 
     scope :filter_by_beneficiary, -> (name) { where("beneficiary ilike ?", "%#{name}%")}
     scope :filter_by_beneficiary_card, -> (beneficiary_card) { where("beneficiary_card ilike ?", "%#{beneficiary_card}%")}
     scope :filter_by_beneficiary_iban, -> (beneficiary_iban) { where("beneficiary_iban ilike ?", "%#{beneficiary_iban}%")}
     scope :filter_by_beneficiary_other, -> (beneficiary_other) { where("beneficiary_other ilike ?", "%#{beneficiary_other}%")}
+
+    scope :filter_by_payer, -> (name) { where("payer ilike ?", "%#{name}%")}
+    scope :filter_by_payer_card, -> (payer_card) { where("payer_card ilike ?", "%#{payer_card}%")}
+    scope :filter_by_payer_iban, -> (payer_iban) { where("payer_iban ilike ?", "%#{payer_iban}%")}
+    scope :filter_by_payer_other, -> (payer_other) { where("payer_other ilike ?", "%#{payer_other}%")}
 
     scope :filter_by_product_name, -> (product_name) { where("product_name ilike ?", "%#{product_name}%")}
 

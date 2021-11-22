@@ -29,6 +29,11 @@
         .col-md-3= f.input :beneficiary_card, required: false, input_html: {value: "#{params[:filter][:beneficiary_card] if params[:filter]}"}
         .col-md-3= f.input :beneficiary_other, required: false, input_html: {value: "#{params[:filter][:beneficiary_other] if params[:filter]}"}
       .row
+        .col-md-3= f.input :payer, required: false, input_html: {value: "#{params[:filter][:payer] if params[:filter]}"}
+        .col-md-3= f.input :payer_iban, required: false, input_html: {value: "#{params[:filter][:payer_iban] if params[:filter]}"}
+        .col-md-3= f.input :payer_card, required: false, input_html: {value: "#{params[:filter][:payer_card] if params[:filter]}"}
+        .col-md-3= f.input :payer_other, required: false, input_html: {value: "#{params[:filter][:payer_other] if params[:filter]}"}
+      .row
         .col-md-3= f.input :min_recursion_all_7, required: false, input_html: {value: "#{params[:filter][:min_recursion_all_7] if params[:filter]}"}
         .col-md-3= f.input :min_recursion_all_30, required: false, input_html: {value: "#{params[:filter][:min_recursion_all_30] if params[:filter]}"}
         .col-md-3= f.input :min_recursion_customer_7, required: false, input_html: {value: "#{params[:filter][:min_recursion_customer_7] if params[:filter]}"}
