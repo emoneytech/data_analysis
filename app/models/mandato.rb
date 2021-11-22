@@ -52,6 +52,10 @@ class Mandato < ApplicationCoreRecord
   scope :filter_by_daterange, -> (daterange) { where(
     "DATE_FORMAT(mandati.Data , '%Y-%m-%d') between ? and ?", daterange.split(' - ')[0].to_date.strftime('%Y-%m-%d'), daterange.split(' - ')[1].to_date.strftime('%Y-%m-%d')
   )}
+  
+  def self.icon
+    'microchip'
+  end
 
   # alias_attribute :codspinoff2dest, "ContoBeneficiario"
   def self.last_id

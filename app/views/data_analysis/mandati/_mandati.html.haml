@@ -2,8 +2,8 @@
   .card
     .card-header
       %h3.card-title
-        %i.fa.fa-exchange-alt
-        = t(:listing_resource, resource: Movimentoconto.model_name.human(:count => 2))
+        = fa_icon Mandato.icon
+        = t(:listing_resource, resource: Mandato.model_name.human(:count => 2))
     .card-body
       = render "data_analysis/mandati/table", mandati: @mandati
     .card-footer.clearfix
