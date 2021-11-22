@@ -45,13 +45,13 @@
           = link_to item.recursion_customer_7, [:recursive, :data_analysis, item, params: {q: 'customer', days: 7}]
           \/
           = link_to item.recursion_customer_30, [:recursive, :data_analysis, item, params: {q: 'customer', days: 30}]
-        %td= item.evaluated_factor7
-        %td= item.evaluated_factor30
-        %td= item.amount
+        %td.text-center= number_with_precision item.evaluated_factor7
+        %td.text-center= number_with_precision item.evaluated_factor30
+        %td.text-center= humanized_money_with_symbol item.amount
         %td= item.destination_lonlat
-        %td= item.internal
-        %td= item.origin_country
-        %td= item.destination_country
+        %td.text-center= item.internal
+        %td.text-center= item.origin_country
+        %td.text-center= item.destination_country
         %td.text-center{data: {orderable: "false"}}
           = link_to [:data_analysis, item], class: "btn btn-xs btn-primary" do
             %i.fa.fa-eye
