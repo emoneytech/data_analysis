@@ -22,9 +22,9 @@ module DataAnalysis
           @current_full_name = params[:filter][:q]
           @anagrafiche = @anagrafiche.search_by_full_name(@current_full_name).order(nome: :asc).order(cognome: :asc)
         end
-        @eval_riskinesses = EvalRiskiness.for_type('Anagrafica').all_for_month("#{@current_tuple}").where(eval_evaluable_id: @anagrafiche.pluck(:id)).order(eval_score: :desc, number_of_movements: :desc).page(params[:page])
+        @customer_evaluations = CustomerEvaluation.includes({anagrafica: :siblings}).where(eval_year: @current_tuple[0], eval_month: @current_tuple[1]).where(anagrafica_id: @anagrafiche.pluck(:id)).order(last_attention_factor7: :desc, last_attention_factor7: :desc, nr_movements: :asc).page(params[:page])
       else
-        @customer_evaluations = CustomerEvaluation.includes(:anagrafica).where(eval_year: @current_tuple[0], eval_month: @current_tuple[1]).order(last_attention_factor7: :desc, last_attention_factor7: :desc, nr_movements: :asc).page(params[:page])
+        @customer_evaluations = CustomerEvaluation.includes({anagrafica: :siblings}).where(eval_year: @current_tuple[0], eval_month: @current_tuple[1]).order(last_attention_factor7: :desc, last_attention_factor7: :desc, nr_movements: :asc).page(params[:page])
       end
     end
       

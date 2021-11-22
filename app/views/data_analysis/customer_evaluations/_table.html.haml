@@ -6,7 +6,7 @@
       %th= CustomerEvaluation.human_attribute_name(:last_attention_factor30)
       %th= CustomerEvaluation.human_attribute_name(:nr_movements)
       %th{data: {orderable: "false"}}= CustomerEvaluation.human_attribute_name(:trend)
-      %th{data: {priority: "1", orderable: "false"},nowrap: true}
+      %th{data: {priority: "1", orderable: "false"}}
   %tbody
     - customer_evaluations.each do |item|
       %tr.text-center
@@ -15,6 +15,8 @@
         %td= number_with_precision item.last_attention_factor30, precision: 4
         %td= item.nr_movements
         %td.text-center= trend_helper(item.trend)
-        %td.text-center
+        %td.text-center{nowrap: true}
+          - if item.anagrafica.siblings.size > 1
+            = link_to fa_icon('user-friends'), [:customers, :anagrafiche, filter: {fiscal_code: "#{item.anagrafica.codice_fiscale}"}], class: "btn btn-warning btn-xs", data:{toggle: "tooltip"}, title: Anagrafica.human_attribute_name(:group)
           = link_to customers_anagrafica_customer_evaluation_path(item.anagrafica,item), class: "btn btn-xs btn-primary" do
             %i.fa.fa-eye

@@ -207,7 +207,6 @@ class Anagrafica < ApplicationCoreRecord
 
   has_many :movimenticonti, through: :conti
   # has_many :movimenticonti, through: :servizi, foreign_key: 'Point'
-
   has_many :prodotti,
            -> { distinct },
            through: :active_servizi,
@@ -232,7 +231,17 @@ class Anagrafica < ApplicationCoreRecord
   alias_attribute :created, 'Created'
 
   # scope :for_type, -> (id) { where(:type_id => id) }
-
+  has_many :siblings, -> {
+    where(
+    "(`anagrafiche`.`Attivo` <> 6) AND (`anagrafiche`.`IdTipo` in (3, 9, 2)) AND (`anagrafiche`.`Codicefiscale` <> '')"
+    )
+  }, class_name: 'Anagrafica', foreign_key: 'Codicefiscale', primary_key: 'Codicefiscale' 
+  
+  scope :for_groups, -> {
+    where(
+    "(`anagrafiche`.`Attivo` <> 6) AND (`anagrafiche`.`IdTipo` in (3, 9, 2)) AND (`anagrafiche`.`Codicefiscale` <> '')"
+    )
+  }
   scope :active, -> { where.not('anagrafiche.IdUtente' => %w[70 75]) }
   scope :alive,
         -> {
@@ -245,7 +254,7 @@ class Anagrafica < ApplicationCoreRecord
             .where
             .not('anagrafiche.created' => nil)
         }
-
+  
   scope :user_or_business,
         -> {
           joins(:conti).distinct

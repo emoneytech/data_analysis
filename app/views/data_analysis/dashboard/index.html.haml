@@ -3,7 +3,7 @@
     - opts = {filter: {daterange: "#{(Date.today - 1.year).strftime("%d/%m/%Y")} - #{(Date.today).strftime("%d/%m/%Y")}", in_out: 'IN'}}
     = render 'data_analysis/charts/evaluated_movements', opts: opts
   .col-md-4
-    .card.card-primary
+    .card.card-info.card-outline
       .card-header
         %h3.card-title
           %i.fa.fa-search
@@ -12,6 +12,6 @@
         = simple_form_for :filter, method: :get, remote: true do |f|
           = f.input :q, label: Anagrafica.human_attribute_name(:full_name), required: false, input_html: {value: @current_full_name}
           = f.input :tipo, label: Anagrafica.human_attribute_name(:tipo), as: :select, collection: Tipo.alive.collect {|tipo| [ tipo.name, tipo.id ] }, required: false, input_html: {value: @current_type}
-          = f.submit "#{t(:search)}", class: "btn btn-primary"
+          = f.submit "#{t(:search)}", class: "btn btn-info"
 
 #customer_evaluations_items.row= render "data_analysis/customer_evaluations/customer_evaluations", customer_evaluations: @customer_evaluations
