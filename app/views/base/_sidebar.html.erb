@@ -4,7 +4,7 @@
     </a>
     <div class="sidebar">
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
           <%- if can? :admin, :dashboard %>
             <li class="nav-item">
               <a href="<%= data_analysis_dashboard_index_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'dashboard' %>">
@@ -29,8 +29,8 @@
                   <%= Anagrafica.model_name.human(count: 2) %>
                 </p>
               </a>
+              <%= render 'base/customer_menu', customer: @anagrafica if @module_name === 'Customers' && @anagrafica %>
             </li>
-            <%= render 'base/customer_menu', customer: @anagrafica if @module_name === 'Customers' && @anagrafica %>
             <li class="nav-item">
               <a href="<%= data_analysis_conti_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'conti' %>">
                 <i class="nav-icon fas fa-wallet"></i>

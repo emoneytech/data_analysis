@@ -6,6 +6,7 @@
       = t(:listing_resource, resource: CustomerEvaluation.model_name.human(:count => 2))
       \- #{Date::MONTHNAMES[customer_evaluation.eval_month]} #{customer_evaluation.eval_year}
     .card-tools
+      = link_to "#{fa_icon('redo-alt')} Recalculate".html_safe, [:recalculate, :customers, @anagrafica, customer_evaluation], class: "btn btn-xs btn-danger"
   .card-body
     %dl.row
       %dt.col-md-4.text-right= CustomerEvaluation.human_attribute_name(:nr_movements)
@@ -14,7 +15,7 @@
           - month = Date.new(customer_evaluation.eval_year, customer_evaluation.eval_month, 1) 
           - opts = {group_by_day: 1, filter: {customer_id: @anagrafica.id, daterange: "#{month.strftime("%d/%m/%Y")} - #{month.at_end_of_month.strftime("%d/%m/%Y")}"}}
           = link_to data_analysis_evaluated_movements_path(params: opts), class: "btn btn-xs btn-info", title: 'Open popup' do
-            %i.fa.fa-exchange-alt
+            = fa_icon EvaluatedMovement.icon
             Show #{customer_evaluation.nr_movements} movements
         - else 
           0
@@ -38,12 +39,12 @@
               - unless customer_evaluation.eval_days[key]["details"][key2].kind_of?(Hash)
                 = "#{customer_evaluation.eval_days[key]["details"][key2]}"
               - else
-                - customer_evaluation.eval_days[key]["details"][key2].each do |key, value|
-                  = "#{key.humanize}: #{value}"
+                - customer_evaluation.eval_days[key]["details"][key2].each do |key3, value|
+                  = "#{key3.humanize}: <strong>#{number_with_precision value}</strong>".html_safe
+                  = " - " unless key3 == customer_evaluation.eval_days[key]["details"][key2].keys.last
           %td.action
             - if customer_evaluation.eval_days[key]["details"]["nr_movements"] > 0
-              = link_to for_day_customers_anagrafica_evaluated_movements_path(@anagrafica, key), class: "btn btn-xs btn-info", title: 'Open popup', remote: true do
-                %i.fa.fa-exchange-alt
+              = link_to fa_icon(EvaluatedMovement.icon), for_day_customers_anagrafica_evaluated_movements_path(@anagrafica, key), class: "btn btn-xs btn-info", title: 'Open popup', remote: true
   .card-footer
     .row
       .col-md-6

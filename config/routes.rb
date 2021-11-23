@@ -43,7 +43,11 @@ Rails.application.routes.draw do
       end
       resources :eval_riskinesses, only: [:show, :index]
       # resources :eval_customers, only: [:show, :index]
-      resources :customer_evaluations, only: [:show, :index]
+      resources :customer_evaluations do
+        member do
+          get :recalculate
+        end
+      end
       resources :evaluated_movements do
         collection do
           get 'for_day/:day' => :for_day, as: :for_day

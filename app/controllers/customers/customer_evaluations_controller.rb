@@ -14,6 +14,14 @@ module Customers
       @next = @customer_evaluation.next
     end
 
+    def recalculate
+      binding.pry
+      respond_to do |format|
+        format.html { redirect_to [:customers, @anagrafica, @customer_evaluation] }
+        format.js
+      end
+    end
+
   private
     def local_breadcrumb
       add_breadcrumb helpers.raw("#{helpers.fa_icon(CustomerEvaluation.icon)} #{CustomerEvaluation.model_name.human(count: 2)}"), [:customers, @anagrafica, :customer_evaluations]
