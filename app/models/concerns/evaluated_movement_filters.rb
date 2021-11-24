@@ -4,7 +4,8 @@ module EvaluatedMovementFilters
   included do
     # filters
     scope :filter_by_customer_id, -> (customer_id) { where(customer_id: customer_id)}
-    scope :filter_by_service_id, -> (service_id) { where(service_id: service_id)}
+    scope :filter_by_service_id, -> (service_id) { where(triggerable_type: 'Servizio', triggerable_id: service_id)}
+    scope :filter_by_movement_id, -> (movement_id) { where(movement_id: movement_id)}
 
     scope :filter_by_customer_full_name, -> (name) { where(customer_id: Anagrafica.filter_by_full_name(name).pluck(:IdUtente))}
 

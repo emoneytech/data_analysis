@@ -60,6 +60,7 @@ module DataAnalysis
         :min_recursion_all_30,
         :min_recursion_customer_7,
         :min_recursion_customer_30,
+        :movement_id,
         :origin_country,
         :payer,
         :payer_iban,
