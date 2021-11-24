@@ -1,14 +1,15 @@
 .col-md-12
-  .card
+  .card.card-outline.card-primary
     .card-header
       %h3.card-title
         %i.fa.fa-exchange-alt
         = t(:listing_resource, resource: Movimentoconto.model_name.human(:count => 2))
     .card-body
-      = render "data_analysis/movimenticonti/table", movimenticonti: @movimenticonti
+      = render "data_analysis/movimenticonti/table", movimenticonti: movimenticonti
     .card-footer.clearfix
       .row
         .col-md-6
-          = link_to_prev_page @movimenticonti, t(:prev_page, default: "Prev"), theme: 'twitter-bootstrap-4'
+          = link_to_next_page movimenticonti, t(:prev_page, default: "Prev"), theme: 'twitter-bootstrap-4'
         .col-md-6.text-right
-          = link_to_next_page @movimenticonti, t(:next_page, default: "Next"), theme: 'twitter-bootstrap-4', class: "navigation"
+          = link_to_next_page movimenticonti, t(:next_page, default: "Next"), theme: 'twitter-bootstrap-4', class: "navigation"
+          =# paginate movimenticonti, theme: 'twitter-bootstrap-4', nav_class: "float-right", pagination_class: 'm-0'
