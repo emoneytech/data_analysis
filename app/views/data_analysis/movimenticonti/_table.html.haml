@@ -14,10 +14,12 @@
       %th= Movimentoconto.human_attribute_name(:point)
       %th= Movimentoconto.human_attribute_name(:anagrafica)
       %th= Movimentoconto.human_attribute_name(:causale)
+      %th IN/OUT
+      %th Trigger?
       %th.action{data: {orderable: "false"}}
   %tbody
     - movimenticonti.each do |item|
-      %tr{style: "color: #{item.in? ? 'green' : '#600'}"}
+      %tr
         %td= "#{item.idmovimenticonti} | #{item.tipotransazione}"
         %td= link_to item.idtransazione, [:data_analysis, item.servizio] if item.servizio
         %td= link_to item.IdMandato, data_analysis_mandato_path(item.IdMandato) if item.IdMandato != 0
@@ -36,6 +38,8 @@
             = ordinante_proc item.mandato
           - else
             = item.causale
+        %td= item.in? ? 'IN' : 'OUT'
+        %td= item.to_trigger? ? 'YES' : 'NO'
         - if can? :manage, Movimentoconto
           %td.text-center
             = link_to data_analysis_movimentoconto_path(item), class: "btn btn-xs btn-primary" do

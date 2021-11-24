@@ -77,6 +77,14 @@ class Movimentoconto < ApplicationCoreRecord
 
   has_one :evaluated_movement, primary_key: 'idMovimentiConti', foreign_key: 'movement_id'
 
+  def self.icon
+    'exchange-alt'
+  end
+
+  def icon
+    self.in? ? 'file-import' : 'file-export'
+  end
+
   def in?
     self.Avere > self.Dare
   end
