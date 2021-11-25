@@ -1,5 +1,6 @@
 module DataAnalysis
   class MapsController < ApplicationController
+    before_action :authenticate_user!
     before_action(only: :index) { authorize! :admin, :dashboard }
     before_action :set_query_limit
     QUERY_LIMIT = 5000
