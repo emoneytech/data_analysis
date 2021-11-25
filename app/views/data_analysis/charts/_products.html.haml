@@ -1,0 +1,37 @@
+#card-products.card.card-outline.card-success
+  %h5.card-header
+    .card-title
+      = fa_icon Prodotto.icon
+      = Prodotto.model_name.human(count: 2)
+    .card-tools
+      %input{type: "checkbox",  name: "products-checkbox", checked: 'checked', data: { inverse: true, toggle: 'switch', off: {color: "danger", text: "OUT"}, on: {color: "success", text: 'IN'} } }
+
+  .card-body
+    = pie_chart products_data_analysis_charts_path(params: opts), remote: true, download: true, height: '710px', id: 'products-chart'
+
+:javascript
+  var chartProducts = Chartkick.charts['products-chart']
+  $('[name="products-checkbox"]').bootstrapSwitch('state', true)
+  $('[name="products-checkbox"]').on('switchChange.bootstrapSwitch', function (e, data) {
+    toggleClass()
+    let direction 
+    if ($('[name="products-checkbox"]').is(':checked')) {
+      direction = 'IN'
+    } else {
+      direction = 'OUT'
+    }
+    $.ajax({
+      url:
+        "/data_analysis/charts/products?filter[in_out]=" +
+        direction +
+        "&filter[daterange]=#{opts[:filter][:daterange]}",
+      success: function (data) {
+        chartProducts.updateData(data)
+        chartProducts.redraw()
+      },
+    })
+  })
+  function toggleClass(){
+    $('#card-products').toggleClass('card-success')
+    $('#card-products').toggleClass('card-danger')
+  }

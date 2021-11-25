@@ -49,6 +49,22 @@ module DataAnalysis
         render json: result.group(:product_name).group_by_month(:movement_created_at).count.chart_json
       end
     end
+  
+    def map_origin_countries
+      result =  EvaluatedMovement.group(:origin_country).count
+      render json: result.as_json
+    end
+
+    def map_destination_countries
+      result =  EvaluatedMovement.group(:destination_country).count
+      render json: result.as_json
+    end
+
+    def products
+      result = EvaluatedMovement.filter(evaluated_movements_filtering_params)
+      render json: result.group(:product_name).count.chart_json
+    end
+
   private
 
   def evaluated_movements_filtering_params

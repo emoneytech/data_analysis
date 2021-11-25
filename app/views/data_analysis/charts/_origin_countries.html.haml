@@ -1,0 +1,7 @@
+#card-map-movements.card.card-outline.card-success
+  .card-header
+    .card-title
+      = fa_icon 'file-export'
+      = EvaluatedMovement.human_attribute_name(:origin_country)
+  .card-body
+    = geo_chart map_origin_countries_data_analysis_charts_path(), remote: true, download: true
