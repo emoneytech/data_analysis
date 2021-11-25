@@ -4,17 +4,17 @@
       %th= "#{Movimentoconto.human_attribute_name(:id)} | #{Movimentoconto.human_attribute_name(:tipo_transazione)}"
       %th= Movimentoconto.human_attribute_name(:servizio)
       %th= Movimentoconto.human_attribute_name(:mandato)
+      %th= Movimentoconto.human_attribute_name(:anagrafica)
+      %th Triggered?
+      %th= Movimentoconto.human_attribute_name(:causale)
+      %th= Movimentoconto.human_attribute_name(:importo)
+      %th= Movimentoconto.human_attribute_name(:dare)
+      %th= Movimentoconto.human_attribute_name(:avere)
+      %th= Movimentoconto.human_attribute_name(:data_movimento)
       %th= Movimentoconto.human_attribute_name(:numeroConto)
       %th= Movimentoconto.human_attribute_name(:contodiprovenienza)
       %th= Movimentoconto.human_attribute_name(:contodestinazione)
-      %th= Movimentoconto.human_attribute_name(:dare)
-      %th= Movimentoconto.human_attribute_name(:avere)
-      %th= Movimentoconto.human_attribute_name(:importo)
-      %th= Movimentoconto.human_attribute_name(:data_movimento)
       %th= Movimentoconto.human_attribute_name(:point)
-      %th= Movimentoconto.human_attribute_name(:anagrafica)
-      %th= Movimentoconto.human_attribute_name(:causale)
-      %th Triggered?
       %th.action{data: {orderable: "false"}}
   %tbody
     - movimenticonti.each do |item|
@@ -22,26 +22,26 @@
         %td{nowrap: true}= "#{fa_icon item.icon} #{item.idmovimenticonti} | #{item.tipotransazione}".html_safe
         %td= link_to item.idtransazione, [:data_analysis, item.servizio] if item.servizio
         %td= link_to item.IdMandato, data_analysis_mandato_path(item.IdMandato) if item.IdMandato != 0
-        %td= link_to item.numeroConto, data_analysis_conto_path(item.numeroConto)
-        %td= link_to item.contodiprovenienza, data_analysis_conto_path(item.contodiprovenienza) if item.contodiprovenienza && item.contodiprovenienza != ''
-        %td= link_to item.contodestinazione, data_analysis_conto_path(item.contodestinazione) if item.contodestinazione && item.contodestinazione != ''
-        %td= item.dare
-        %td= item.avere
-        %td= item.importo
-        %td= item.datamovimento
-        %td= item.point
         %td= link_to item.anagrafica.full_name, [:customers, item.anagrafica] if item.anagrafica
+        %td
+          - if item.evaluated_movement 
+            = link_to 'YES', [:data_analysis, item.evaluated_movement]
+          - else 
+            NO
         %td
           = "<strong>Id Causale:</strong> #{item.idcausale}<br />".html_safe
           - if item.IdMandato != 0
             = ordinante_proc item.mandato
           - else
             = item.causale
-        %td
-          - if item.evaluated_movement 
-            = link_to 'YES', [:data_analysis, item.evaluated_movement]
-          - else 
-            NO
+        %td.text-center= humanized_money_with_symbol item.importo
+        %td.text-center= humanized_money_with_symbol item.dare
+        %td.text-center= humanized_money_with_symbol item.avere
+        %td= item.datamovimento.to_s(:short)
+        %td= link_to item.numeroConto, data_analysis_conto_path(item.numeroConto)
+        %td= link_to item.contodiprovenienza, data_analysis_conto_path(item.contodiprovenienza) if item.contodiprovenienza && item.contodiprovenienza != ''
+        %td= link_to item.contodestinazione, data_analysis_conto_path(item.contodestinazione) if item.contodestinazione && item.contodestinazione != ''
+        %td= item.point
         - if can? :manage, Movimentoconto
           %td.text-center
             = link_to data_analysis_movimentoconto_path(item), class: "btn btn-xs btn-primary" do

@@ -45,6 +45,8 @@ class Mandato < ApplicationCoreRecord
   scope :filter_by_customer_id, -> (customer_id) { where(Beneficiario: customer_id) }
   scope :filter_by_iban, -> (value) { where(Iban: value) }
   scope :filter_by_service_id, -> (service_id) { where("Ordinante like ?", "% #{service_id}")}
+  scope :filter_by_technical_movement_id, -> (technical_movement_id) { where(IdMovimentoTecnico: technical_movement_id)}
+  scope :filter_by_validation_movement_id, -> (validation_movement_id) { where(IdMovimentoValidazione: validation_movement_id)}
   scope :filter_by_ordinante, -> (value) { where("Ordinante like ?", "%#{value}%")}
 
   scope :filter_by_in_out, -> (value) { where( value == 'IN' ? "Beneficiario != 0" : "Beneficiario = 0" ) }

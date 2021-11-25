@@ -19,12 +19,22 @@ module ApplicationHelper
   end
   def flash_class(level)
     case level
-      when 'info' then "alert alert-info"
-      when 'notice','success' then "alert alert-success"
-      when 'error' then "alert alert-danger"
-      when 'alert' then "alert alert-warning"
+      when 'info' then "info"
+      when 'notice','success' then "success"
+      when 'error' then "danger"
+      when 'alert' then "warning"
     end
   end
+
+  def flash_icon(level)
+    case level
+      when 'info' then "info"
+      when 'notice','success' then "check"
+      when 'error' then "ban"
+      when 'alert' then "exclamation-triangle"
+    end
+  end
+
   def boolean_span(field)
     "<span class='label label-#{field ? "success" : "warning"}'><i class='fa fa-#{field ? "check" : "minus"}'></i></span>".html_safe
   end

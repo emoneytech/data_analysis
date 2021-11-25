@@ -102,28 +102,29 @@ class CustomerEvaluation < CorePgRecord
       min_base_risk = Configurable.min_base_risk.to_f,
       tlf = Configurable.time_lapse_factor.to_f
     )
-    evaluated_movements = self.evaluated_movements unless evaluated_movements
+    evaluated_movements = self.evaluated_movements.as_json unless evaluated_movements
     day = Date.new( eval_year, eval_month, 1 )
     date_end = day.end_of_month >= Date.today ? Date.today : day.end_of_month 
     hash_recalculate = {}
     while (day <= date_end)
       evaluated_movements_for_day = evaluated_movements.select{|h| h["day"]=="#{day}"}
-
       hash = hash_factors_for_day(day, evaluated_movements_for_day)
-      hash_recalculate["#{day}"] = { movements: hash }
+      hash_recalculate["#{day}"] = { "movements" => hash }
       if day == Date.new(self.eval_year, self.eval_month, 1)
         attention_factor = get_previuos_attention_factor_for_tuple(min_base_risk)
       else
         attention_factor = hash_recalculate["#{day - 1.days}"]["details"]["attention_factor_decreased"]
       end
-      evaluated_factors_for_day = evaluated_factors_for_day(day, evaluated_movements_for_day)
-      attention_factor["day_7"]  = attention_factor["day_7"].to_f  * evaluated_factors_for_day["day_7"].to_f
-      attention_factor["day_7"] = attention_factor["day_7"] >= max_base_risk ? max_base_risk : attention_factor["day_7"]
-      attention_factor["day_30"] = attention_factor["day_30"].to_f * evaluated_factors_for_day["day_30"].to_f
-      attention_factor["day_30"] = attention_factor["day_30"] >= max_base_risk ? max_base_risk : attention_factor["day_30"]
-      attention_factor_decreased = decrease_factor(attention_factor, min_base_risk, tlf)
+      evaluated_factors_for_day = self.evaluated_factors_for_day(day, evaluated_movements_for_day)
+      value7 = attention_factor["day_7"].to_f  * evaluated_factors_for_day["day_7"].to_f
+      value30 = attention_factor["day_30"].to_f * evaluated_factors_for_day["day_30"].to_f
+      hash_att = {
+        "day_7" => value7 >= max_base_risk ? max_base_risk : value7,
+        "day_30" => value30 >= max_base_risk ? max_base_risk : value30
+      }
+      attention_factor_decreased = decrease_factor(hash_att, min_base_risk, tlf)
       hash2 = {
-        "attention_factor" => attention_factor,
+        "attention_factor" => hash_att,
         "nr_movements" => evaluated_movements_for_day.count,
         "attention_factor_decreased" => attention_factor_decreased
       }
@@ -133,7 +134,7 @@ class CustomerEvaluation < CorePgRecord
     self.eval_days = hash_recalculate
   end
 
-
+=begin
   def build_for_date(
       day = nil,
       evaluated_movements_for_day = nil,
@@ -193,7 +194,7 @@ class CustomerEvaluation < CorePgRecord
       date = date.advance(days: 1)
     end
   end
-
+=end
   def decrease_factor(attention_factor, min_base_risk, tlf)
     hsh = {}
     hsh["day_7"] = (attention_factor["day_7"] * tlf).to_f

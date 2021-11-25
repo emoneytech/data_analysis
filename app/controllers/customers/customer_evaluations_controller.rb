@@ -15,10 +15,15 @@ module Customers
     end
 
     def recalculate
-      binding.pry
+      @customer_evaluation.recalculate
       respond_to do |format|
-        format.html { redirect_to [:customers, @anagrafica, @customer_evaluation] }
-        format.js
+        if @customer_evaluation.save
+          format.html { redirect_to [:customers, @anagrafica, @customer_evaluation], info: 'Evaluation was successfully updated.' }
+          format.js
+        else
+          format.html { redirect_to [:customers, @anagrafica, @customer_evaluation], error: 'Evaluation not updated.' }
+          format.js
+        end
       end
     end
 

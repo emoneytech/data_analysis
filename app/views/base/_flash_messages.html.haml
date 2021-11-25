@@ -1,0 +1,7 @@
+- flash.each do |type, msg|
+  .alert.alert-dismissible{class: "alert-#{flash_class(type)}"}
+    %button.close{type: "button", data: {dismiss: "alert", aria: {hidden: "true"}}}>×
+    %h5
+      = fa_icon "icon fas fa-#{flash_icon(type)}"
+      = type.capitalize
+    = msg

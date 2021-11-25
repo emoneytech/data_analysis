@@ -19,7 +19,8 @@ module DataAnalysis
       params[:filter] ? params[:filter].slice(
         :customer_id,
         :service_id,
-        :movement_id,
+        :technical_movement_id,
+        :validation_movement_id,
         :daterange,
         :in_out,
         :min_amount,
