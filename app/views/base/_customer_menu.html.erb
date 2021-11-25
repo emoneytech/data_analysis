@@ -1,3 +1,4 @@
+<%- opts = {filter: {customer_id: @anagrafica.id}} %>
 <li class="nav-item <%= ' menu-open menu-is-opening' if @module_name === 'Customers' %> mb-2" style="background-color: rgba(255,255,255,.05);;">
   <a href="<%= customers_anagrafica_path(customer.id) %>" class="nav-link">
     <i class="nav-icon fa fa-user"></i>
@@ -24,10 +25,10 @@
       </a>
     </li>
     <li class="nav-item">
-      <a href="<%= customers_anagrafica_risk_movements_path(customer) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'risk_movements' %>">
-        <i class="nav-icon fa fa-exclamation-triangle"></i>
+      <a href="<%= data_analysis_evaluated_movements_path(params: opts) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'risk_movements' %>">
+        <i class="nav-icon fa fa-<%= EvaluatedMovement.icon %>"></i>
         <p>
-          <%= RiskMovement.model_name.human(:count => 2) %>
+          <%= EvaluatedMovement.model_name.human(:count => 2) %>
         </p>
       </a>
     </li>
@@ -40,16 +41,8 @@
       </a>
     </li>
     <li class="nav-item">
-      <a href="<%= customers_anagrafica_eval_riskinesses_path(customer) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'eval_riskinesses' %>">
-        <i class="nav-icon fa fa-box"></i>
-        <p>
-          <%= EvalRiskiness.model_name.human(:count => 2) %>
-        </p>
-      </a>
-    </li>
-    <li class="nav-item">
       <a href="<%= customers_anagrafica_customer_evaluations_path(customer) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'customer_evaluations' %>">
-        <%= fa_icon CustomerEvaluation.icon %>
+        <i class="nav-icon fa fa-<%= CustomerEvaluation.icon %>"></i>
         <p>
           <%= CustomerEvaluation.model_name.human(:count => 2) %>
         </p>
