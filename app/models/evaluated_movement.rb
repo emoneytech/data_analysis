@@ -109,6 +109,7 @@ class EvaluatedMovement < CorePgRecord
   after_initialize :build_from_movement
 
   after_create :send_notification
+  after_save :evaluate_customer
 
   def self.icon
     'search-dollar'
@@ -482,6 +483,10 @@ class EvaluatedMovement < CorePgRecord
     self.evaluated_factor7 = (((base_calc7 * (factor_for_amount * ((self.amount_cents / 100).to_f / divisor_amount_for_factor))) + 100) / 100).to_f
     base_calc30 = recursion_customer_30 > 0 ? (((self.product_base_risk.percentage_of(1)) - 100) * recursion_customer_30).to_f : ((self.product_base_risk.percentage_of(1)) - 100).to_f
     self.evaluated_factor30 = (((base_calc30 * (factor_for_amount * ((self.amount_cents / 100).to_f / divisor_amount_for_factor))) + 100) / 100).to_f
+  end
+
+  def evaluate_customer
+    EvaluateCustomerForDayWorker.perform_async(self.id)
   end
 
 end

@@ -297,17 +297,25 @@ class Anagrafica < ApplicationCoreRecord
   has_many :evaluated_movements,
            primary_key: 'IdUtente',
            foreign_key: :customer_id
-
+=begin
   # Eval Customer on Pg
   has_many :eval_customers,
            primary_key: 'IdUtente',
            foreign_key: :anagrafica_id
-
+=end
   # Customer Evaluation on Pg
   has_many :customer_evaluations,
            primary_key: 'IdUtente',
            foreign_key: :anagrafica_id
 
+  # Current Evaluation on Pg
+  has_one :current_evaluation,
+          -> { where(eval_month: Date.today.month, eval_year: Date.today.year) },
+          class_name: 'CustomerEvaluation',
+          primary_key: 'IdUtente',
+          foreign_key: :anagrafica_id
+
+  # Customer settings on Pg
   has_many :customer_settings,
     primary_key: 'IdUtente',
     foreign_key: :customer_id
@@ -406,7 +414,7 @@ class Anagrafica < ApplicationCoreRecord
     end_date = tuple ? Date.new(tuple[0], tuple[1]).at_end_of_month : Date.today
     days = (end_date - data_creazione.to_date).to_i
   end
-
+=begin
   def risk_base(tuple = nil)
     if tuple
       last_id = eval_riskinesses.where(eval_month: "#{tuple}").last.try(:id)
@@ -487,6 +495,7 @@ class Anagrafica < ApplicationCoreRecord
     end
     return dm_to_html
   end
+=end
 
   def hash_name_products(name_products, idprodotto)
     name_products["#{idprodotto}"] =
@@ -496,6 +505,14 @@ class Anagrafica < ApplicationCoreRecord
         .first unless name_products["#{idprodotto}"]
     return name_products["#{idprodotto}"]
   end
+
+  def tuple_activities
+    date_tuples(
+      [data_creazione.year, data_creazione.month],
+      [Date.today.year, Date.today.month],
+    )
+  end
+=begin
 
   def set_init_risk
     tuple_activities.each do |t|
@@ -508,14 +525,7 @@ class Anagrafica < ApplicationCoreRecord
     number_of_movements = risk_movements.for_month(tuple).count
     risk_for_month(tuple, number_of_movements)
   end
-
-  def tuple_activities
-    date_tuples(
-      [data_creazione.year, data_creazione.month],
-      [Date.today.year, Date.today.month],
-    )
-  end
-
+  
   def risk_for_month(t, number_of_movements)
     danger_movement_ids = danger_movement_ids(t)
     danger_movements_to_html = danger_movements_to_html(t)
@@ -649,15 +659,12 @@ class Anagrafica < ApplicationCoreRecord
   def current_evaluate_risk
     eval_riskinesses.pluck(:eval_score).last
   end
-
+=end
   def set_evaluate_risk
     Emoney::SetEvaluateRisk.new(id, current_evaluate_risk)
   end
 
-=begin
-  def trend
-  end
-=end
+
   def self.set_global_evaluate_risk
     alive.each_slice(20) { |a| a.each { |b| b.set_evaluate_risk } }
   end
@@ -700,17 +707,19 @@ class Anagrafica < ApplicationCoreRecord
     }
   end
 
+
+  def account_numbers
+    self.conti.pluck(:Pan)
+  end
+
+=begin
+
   def last_eval_customer
     eval_customers
       .order(eval_year: :desc, eval_month: :desc)
       .pluck(:last_eval_customer)
       .first || Configurable.min_base_risk.to_f
   end
-
-  def account_numbers
-    self.conti.pluck(:Pan)
-  end
-
 
   def eval_customer_for_day(day, default_risk)
     default_min_base_risk = {
@@ -858,6 +867,7 @@ class Anagrafica < ApplicationCoreRecord
     }
     return hash
   end
+=end
 
   def set_current_place
     p = self.current_place || self.build_current_place
@@ -901,16 +911,27 @@ class Anagrafica < ApplicationCoreRecord
   end
 
   def evaluate_for_tuple(tuple = self.tuple_activities.last)
-
     max_base_risk = Configurable.max_base_risk.to_f
     tlf = Configurable.time_lapse_factor.to_f
     min_base_risk = self.try(:base_risk).to_f || Configurable.min_base_risk.to_f
-    
     evaluated_movements_for_date = self.evaluated_movements.select(
         'evaluated_movements.*, movement_created_at::date as day, CONCAT(EXTRACT(YEAR FROM movement_created_at),\'-\',EXTRACT(MONTH FROM movement_created_at)) as month'
       ).with_all_for_year(tuple[0]).with_all_for_month(tuple[1]).order(movement_created_at: :asc).as_json
     ce = self.customer_evaluations.where(eval_month: tuple[1], eval_year: tuple[0]).first_or_initialize
     ce.recalculate(evaluated_movements_for_date, max_base_risk, min_base_risk, tlf)
+    ce.save
+  end
+
+  def evaluate_for_day(day = Date.today)
+    max_base_risk = Configurable.max_base_risk.to_f
+    tlf = Configurable.time_lapse_factor.to_f
+    min_base_risk = self.try(:base_risk).to_f || Configurable.min_base_risk.to_f
+
+    evaluated_movements_for_date = self.evaluated_movements.select(
+        'evaluated_movements.*, movement_created_at::date as day, CONCAT(EXTRACT(YEAR FROM movement_created_at),\'-\',EXTRACT(MONTH FROM movement_created_at)) as month'
+      ).with_all_for_year(day.year).with_all_for_month(day.month).order(movement_created_at: :asc).as_json
+    ce = self.customer_evaluations.where(eval_month: day.month, eval_year: day.year).first_or_initialize
+    ce.calculate_day(day, ce.eval_days, max_base_risk, min_base_risk, tlf)
     ce.save
   end
 

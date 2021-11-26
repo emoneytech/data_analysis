@@ -134,6 +134,43 @@ class CustomerEvaluation < CorePgRecord
     self.eval_days = hash_recalculate
   end
 
+  def calculate_day(
+      day = nil,
+      hash_recalculate = nil,
+      max_base_risk = Configurable.max_base_risk.to_f,
+      min_base_risk = Configurable.min_base_risk.to_f,
+      tlf = Configurable.time_lapse_factor.to_f
+    )
+    
+    # setting params for today unless params
+    day = Date.today unless day
+    hash_recalculate = self.eval_days unless hash_recalculate
+
+    evaluated_movements_for_day = self.evaluated_movements.as_json.select{|h| h["day"]=="#{day}"}
+    hash = hash_factors_for_day(day, evaluated_movements_for_day)
+    hash_recalculate["#{day}"] = { "movements" => hash }
+    if day == Date.new(self.eval_year, self.eval_month, 1)
+      attention_factor = get_previuos_attention_factor_for_tuple(min_base_risk)
+    else
+      attention_factor = hash_recalculate["#{day - 1.days}"]["details"]["attention_factor_decreased"]
+    end
+    evaluated_factors_for_day = self.evaluated_factors_for_day(day, evaluated_movements_for_day)
+    value7 = attention_factor["day_7"].to_f  * evaluated_factors_for_day["day_7"].to_f
+    value30 = attention_factor["day_30"].to_f * evaluated_factors_for_day["day_30"].to_f
+    hash_att = {
+      "day_7" => value7 >= max_base_risk ? max_base_risk : value7,
+      "day_30" => value30 >= max_base_risk ? max_base_risk : value30
+    }
+    attention_factor_decreased = decrease_factor(hash_att, min_base_risk, tlf)
+    hash2 = {
+      "attention_factor" => hash_att,
+      "nr_movements" => evaluated_movements_for_day.count,
+      "attention_factor_decreased" => attention_factor_decreased
+    }
+    hash_recalculate["#{day}"]["details"] = hash2
+    return hash_recalculate
+  end
+
   def decrease_factor(attention_factor, min_base_risk, tlf)
     hsh = {}
     hsh["day_7"] = (attention_factor["day_7"] * tlf).to_f
