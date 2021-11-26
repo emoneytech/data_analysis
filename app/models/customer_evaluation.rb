@@ -148,6 +148,7 @@ class CustomerEvaluation < CorePgRecord
 
     evaluated_movements_for_day = self.evaluated_movements.as_json.select{|h| h["day"]=="#{day}"}
     hash = hash_factors_for_day(day, evaluated_movements_for_day)
+    hash_recalculate = Hash.new if hash_recalculate == "{}"
     hash_recalculate["#{day}"] = { "movements" => hash }
     if day == Date.new(self.eval_year, self.eval_month, 1)
       attention_factor = get_previuos_attention_factor_for_tuple(min_base_risk)

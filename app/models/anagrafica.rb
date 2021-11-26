@@ -936,14 +936,7 @@ class Anagrafica < ApplicationCoreRecord
   end
 
   def years_of_activity
-    date_start = data_creazione.to_date
-    date_end = Date.today
-    years = []
-    while (date_start <= date_end)
-      years << date_start.year
-      date_start = date_start.advance(years: 1)
-    end
-    return years
+    (self.data_creazione.to_date.year..Date.today.year).to_a
   end
 
 end
