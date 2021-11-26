@@ -1,8 +1,5 @@
 %p.login-box-msg Sign in to start your session
-- flash.each do |key, value|
-  %div{class: "#{flash_class(key)}"}
-    %a{href:"#", class:"close", data: {dismiss: "alert"}}> &times;
-    = value
+= render 'base/flash_messages'
 
 = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   .input-group.mb-3
