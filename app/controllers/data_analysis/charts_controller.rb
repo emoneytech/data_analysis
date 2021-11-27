@@ -78,7 +78,11 @@ module DataAnalysis
     end
 
     def products
-      result = EvaluatedMovement.filter(evaluated_movements_filtering_params)
+      if evaluated_movements_filtering_params["in_out"] == "ALL"
+        result = EvaluatedMovement.filter(evaluated_movements_filtering_params.except("in_out"))
+      else
+        result = EvaluatedMovement.filter(evaluated_movements_filtering_params)
+      end
       render json: result.group(:product_name).count.chart_json
     end
 
