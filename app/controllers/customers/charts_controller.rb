@@ -9,7 +9,11 @@ class Customers::ChartsController < ApplicationController
   end
 
   def evaluated_movements
-    result = EvaluatedMovement.filter(filtering_params)
+    if filtering_params["in_out"] == "ALL"
+      result = EvaluatedMovement.filter(filtering_params.except("in_out"))
+    else
+      result = EvaluatedMovement.filter(filtering_params)
+    end
     if params[:group_by_day] && params[:group_by_day].to_i == 1
       render json: result.group(:product_name).group_by_day(:movement_created_at).count.chart_json
     else

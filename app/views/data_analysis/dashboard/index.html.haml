@@ -1,6 +1,6 @@
 .row
   .col-md-12
-    - opts = {filter: {daterange: "#{(Date.today - 1.year).strftime("%d/%m/%Y")} - #{(Date.today).strftime("%d/%m/%Y")}", in_out: 'IN'}}
+    - opts = {filter: {daterange: "#{(Date.today - 1.year).strftime("%d/%m/%Y")} - #{(Date.today).strftime("%d/%m/%Y")}", in_out: 'ALL'}}
     = render 'data_analysis/charts/evaluated_movements', opts: opts
 .row
   .col-md-8

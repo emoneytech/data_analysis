@@ -1,0 +1,65 @@
+#card-amount-evaluated-movements.card.card-outline.card-warning
+  .card-header
+    .card-title
+      - from,to = opts[:filter][:daterange].split(" - ")
+      %span#amount-opts
+        #{opts[:filter][:in_out]} From #{from} to #{to} 
+    .card-tools
+      .btn-group.btn-group-sm.btn-group-toggle.m-0{"data-toggle" => "buttons"}
+        %label.btn.btn-outline-warning
+          %input#amount-all{:autocomplete => "off", :checked => "checked", :name => "amount-directions", value: "ALL", :type => "radio"}/
+          ALL
+        %label.btn.btn-outline-success
+          %input#amount-in{:autocomplete => "off", :name => "amount-directions", :type => "radio", value: "IN"}/
+          IN
+        %label.btn.btn-outline-danger
+          %input#amount-out{:autocomplete => "off", :name => "amount-directions", :type => "radio", value: "OUT"}/
+          OUT
+  .card-body
+    = column_chart amount_evaluated_movements_data_analysis_charts_path(params: opts), remote: true, stacked: true, thousands: "'", prefix: "€", id: 'amount-evaluated-movements-chart'
+
+:javascript
+
+  var chart = Chartkick.charts['amount-evaluated-movements-chart']
+  $('input[type=radio][name=amount-directions]').change(function() {
+    setClass(this.value)
+    let value = this.value
+    $.ajax({
+      url:
+        "/data_analysis/charts/amount_evaluated_movements?filter[in_out]=" +
+        this.value +
+        "&group_by_day=#{opts[:group_by_day]}" +
+        "&period=#{opts[:period]}" +
+        "&filter[daterange]=#{opts[:filter][:daterange]}",
+      success: function (data) {
+        $("span#amount-opts").html(value + " From #{from} to #{to}")
+        chart.updateData(data)
+        chart.redraw()
+      },
+    })
+  })
+
+  function setClass(direction){
+    console.log(direction)
+    switch(direction) {
+      case 'ALL':
+        $('#card-amount-evaluated-movements').removeClass('card-success')
+        $('#card-amount-evaluated-movements').removeClass('card-danger')
+        $('#card-amount-evaluated-movements').addClass('card-warning')
+        break;
+      case 'IN':
+        $('#card-amount-evaluated-movements').removeClass('card-danger')
+        $('#card-amount-evaluated-movements').removeClass('card-warning')
+        $('#card-amount-evaluated-movements').addClass('card-success')
+        break;
+      case 'OUT':
+        $('#card-amount-evaluated-movements').removeClass('card-success')
+        $('#card-amount-evaluated-movements').removeClass('card-warning')
+        $('#card-amount-evaluated-movements').addClass('card-danger')
+        break;
+      default:
+        $('#card-amount-evaluated-movements').removeClass('card-success')
+        $('#card-amount-evaluated-movements').removeClass('card-danger')
+        $('#card-amount-evaluated-movements').addClass('card-warning')
+    } 
+  }

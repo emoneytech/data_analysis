@@ -77,6 +77,7 @@ Rails.application.routes.draw do
       collection do
         get :all_risk_movements
         get :count_evaluated_movements
+        get :amount_evaluated_movements
         get :sum_evaluated_movements
         get :evaluated_movements
         get :map_origin_countries

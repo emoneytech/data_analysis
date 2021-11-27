@@ -3,10 +3,6 @@ module DataAnalysis
     before_action :authenticate_user!
     before_action(only: :index) { authorize! :admin, :dashboard }
     
-    def all_risk_movements
-      render json: RiskMovement.where("movement_amount > ?", "1".to_f).by_year.group(:table_name).group_by_month(:movement_created_at).count.chart_json
-    end
-
     def average_stocks
       conto = Conto.find(params[:id])
       # conto.movimenticonti.select("avg(SaldoProg) AS avg, DATE_FORMAT(dataMovimento, '%m-%d-%Y') AS date").group("date").to_json
@@ -41,8 +37,29 @@ module DataAnalysis
       # render json: evaluated_movements.chart_json
     end
 
+    def amount_evaluated_movements
+      if evaluated_movements_filtering_params["in_out"] == "ALL"
+        evaluated_movements = EvaluatedMovement.filter(evaluated_movements_filtering_params.except("in_out"))
+      else
+        evaluated_movements = EvaluatedMovement.filter(evaluated_movements_filtering_params)
+      end
+      evaluated_movements = case params[:period]
+        when 'year'
+          evaluated_movements.group_by_month(:movement_created_at).sum(:amount_cents)
+        when 'month'
+          evaluated_movements.group_by_day(:movement_created_at).sum(:amount_cents)
+        else 
+          evaluated_movements.group_by_hour(:movement_created_at).sum(:amount_cents).map{|em| [em[0].strftime("%H:%M"), em[1]]}
+      end
+      render json: evaluated_movements.map{|em| [em[0], (em[1]/100).to_f]}.chart_json
+    end
+
     def evaluated_movements
-      result = EvaluatedMovement.filter(evaluated_movements_filtering_params)
+      if evaluated_movements_filtering_params["in_out"] == "ALL"
+        result = EvaluatedMovement.filter(evaluated_movements_filtering_params.except("in_out"))
+      else
+        result = EvaluatedMovement.filter(evaluated_movements_filtering_params)
+      end
       if params[:group_by_day] && params[:group_by_day].to_i == 1
         render json: result.group(:product_name).group_by_day(:movement_created_at).count.chart_json
       else

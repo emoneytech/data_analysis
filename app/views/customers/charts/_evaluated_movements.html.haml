@@ -4,35 +4,56 @@
       = fa_icon EvaluatedMovement.icon
       = link_to EvaluatedMovement.model_name.human(count: 2), data_analysis_evaluated_movements_path(params: opts)
     .card-tools
-      %input{type: "checkbox",  name: "my-checkbox", checked: 'checked', data: { inverse: true, toggle: 'switch', off: {color: "danger", text: "OUT"}, on: {color: "success", text: 'IN'} } }
-
+      .btn-group.btn-group-sm.btn-group-toggle.m-0{"data-toggle" => "buttons"}
+        %label.btn.btn-outline-warning
+          %input#all{:autocomplete => "off", :checked => "checked", :name => "directions", value: "ALL", :type => "radio"}/
+          ALL
+        %label.btn.btn-outline-success
+          %input#in{:autocomplete => "off", :name => "directions", :type => "radio", value: "IN"}/
+          IN
+        %label.btn.btn-outline-danger
+          %input#out{:autocomplete => "off", :name => "directions", :type => "radio", value: "OUT"}/
+          OUT
   .card-body
     = line_chart evaluated_movements_customers_anagrafica_charts_path(@anagrafica, params: opts), remote: true, download: true, id: "latest-evaluated-movements"
+
 :javascript
   var chart = Chartkick.charts['latest-evaluated-movements']
-  $('[data-toggle="switch"]').bootstrapSwitch('state', true)
-  $('[data-toggle="switch"]').on('switchChange.bootstrapSwitch', function (e, data) {
-    toggleClass()
-    let direction 
-    if ($('[data-toggle="switch"]').is(':checked')) {
-      direction = 'IN'
-    } else {
-      direction = 'OUT'
-    }
+  $('input[type=radio][name=directions]').change(function() {
+    toggleClass(this.value)
     $.ajax({
       url:
         "/customers/anagrafiche/#{@anagrafica.id}/charts/evaluated_movements?filter[in_out]=" +
-        direction +
+        this.value +
         "&filter[customer_id]=#{opts[:filter][:customer_id]}" +
         "&group_by_day=#{opts[:group_by_day]}" +
         "&filter[daterange]=#{opts[:filter][:daterange]}",
       success: function (data) {
         chart.updateData(data)
         chart.redraw()
-      },
+      }
     })
   })
-  function toggleClass(){
-    $('#card-evaluated-movements').toggleClass('card-success')
-    $('#card-evaluated-movements').toggleClass('card-danger')
+  function toggleClass(direction){
+    switch(direction) {
+      case 'ALL':
+        $('#card-evaluated-movements').removeClass('card-success')
+        $('#card-evaluated-movements').removeClass('card-danger')
+        $('#card-evaluated-movements').addClass('card-warning')
+        break;
+      case 'IN':
+        $('#card-evaluated-movements').removeClass('card-danger')
+        $('#card-evaluated-movements').removeClass('card-warning')
+        $('#card-evaluated-movements').addClass('card-success')
+        break;
+      case 'OUT':
+        $('#card-evaluated-movements').removeClass('card-success')
+        $('#card-evaluated-movements').removeClass('card-warning')
+        $('#card-evaluated-movements').addClass('card-danger')
+        break;
+      default:
+        $('#card-evaluated-movements').removeClass('card-success')
+        $('#card-evaluated-movements').removeClass('card-danger')
+        $('#card-evaluated-movements').addClass('card-warning')
+    } 
   }
