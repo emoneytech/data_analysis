@@ -1,9 +1,10 @@
 #card-amount-evaluated-movements.card.card-outline.card-warning
   .card-header
     .card-title
-      - from,to = opts[:filter][:daterange].split(" - ")
-      %span#amount-opts
-        #{opts[:filter][:in_out]} From #{from} to #{to} 
+      .input-group.input-group-sm{style: "width: 220px"}
+        .input-group-prepend
+          %span#amount-opts.input-group-text= opts[:filter][:in_out]
+        %input#daterange.form-control{type: 'text', readonly: true, value: "#{opts[:filter][:daterange]}", width: "40"}
     .card-tools
       .btn-group.btn-group-sm.btn-group-toggle.m-0{"data-toggle" => "buttons"}
         %label.btn.btn-outline-warning
@@ -20,23 +21,28 @@
 
 :javascript
 
-  var chart = Chartkick.charts['amount-evaluated-movements-chart']
-  $('input[type=radio][name=amount-directions]').change(function() {
-    setClass(this.value)
-    let value = this.value
+  var chartAmount = Chartkick.charts['amount-evaluated-movements-chart']
+  
+  function getAmountData(in_out) {
     $.ajax({
       url:
         "/data_analysis/charts/amount_evaluated_movements?filter[in_out]=" +
-        this.value +
+        in_out +
         "&group_by_day=#{opts[:group_by_day]}" +
         "&period=#{opts[:period]}" +
         "&filter[daterange]=#{opts[:filter][:daterange]}",
       success: function (data) {
-        $("span#amount-opts").html(value + " From #{from} to #{to}")
-        chart.updateData(data)
-        chart.redraw()
+        $("span#amount-opts").html(in_out)
+        chartAmount.updateData(data)
+        chartAmount.redraw()
       },
     })
+  }
+
+  $('input[type=radio][name=amount-directions]').change(function() {
+    setClass(this.value)
+    let in_out = this.value
+    getAmountData(in_out)
   })
 
   function setClass(direction){
