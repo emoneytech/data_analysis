@@ -122,11 +122,7 @@ class CustomerEvaluation < CorePgRecord
         "day_7" => value7 >= max_base_risk ? max_base_risk : value7,
         "day_30" => value30 >= max_base_risk ? max_base_risk : value30
       }
-      if (day > Date.today) 
-        attention_factor_decreased = decrease_factor(hash_att, min_base_risk, tlf)
-      else
-        attention_factor_decreased = hash_att
-      end
+      attention_factor_decreased = decrease_factor(hash_att, min_base_risk, tlf)
       hash2 = {
         "attention_factor" => hash_att,
         "nr_movements" => evaluated_movements_for_day.count,
@@ -166,13 +162,7 @@ class CustomerEvaluation < CorePgRecord
       "day_7" => value7 >= max_base_risk ? max_base_risk : value7,
       "day_30" => value30 >= max_base_risk ? max_base_risk : value30
     }
-    
-    if (day > Date.today) 
-      attention_factor_decreased = decrease_factor(hash_att, min_base_risk, tlf)
-    else
-      attention_factor_decreased = hash_att
-    end
-
+    attention_factor_decreased = decrease_factor(hash_att, min_base_risk, tlf)
     hash2 = {
       "attention_factor" => hash_att,
       "nr_movements" => evaluated_movements_for_day.count,
