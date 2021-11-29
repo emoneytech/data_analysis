@@ -1,0 +1,15 @@
+.row
+  .col-md-12
+    = simple_form_for [:customers, @anagrafica, @note] do |f|
+      .card.card-success.card-outline
+        .card-header
+          %h3.card-title
+            = fa_icon Note.icon
+            = t(:add_resource, resource: Note.model_name.human)
+          .card-tools= back_link([:customers, @anagrafica, :notes])
+        .card-body
+          = render 'form', f: f
+        .card-footer.clearfix
+          = link_to t(:cancel, default: "Cancel"), [:customers, @anagrafica, :notes], class: "btn btn-warning"
+          = f.submit class: "btn btn-success"
+

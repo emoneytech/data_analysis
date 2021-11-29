@@ -27,6 +27,7 @@ class Note < RiskRecord
   belongs_to :user
   belongs_to :anagrafica, foreign_key: :customer_id
 
+  validates :subject, :body, presence: true
   acts_as_paranoid
 
   ATTR_FIELD = [
@@ -54,6 +55,14 @@ class Note < RiskRecord
 
   def presentation
     to_label
+  end
+
+  def previous
+    Note.where(customer_id: self.customer_id).where("id < ?", self.id).order(id: :desc).first
+  end
+  
+  def next
+    Note.where(customer_id: self.customer_id).where("id > ?", self.id).order(id: :asc).first
   end
 
 end

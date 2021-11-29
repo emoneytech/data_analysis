@@ -25,6 +25,16 @@
       </a>
     </li>
     <li class="nav-item">
+      <a href="<%= customers_anagrafica_notes_path(customer) %>"
+        class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'notes' %>">
+        <i class="nav-icon fa fa-<%= Note.icon %>"></i>
+        <p>
+          <%= Note.model_name.human(:count=> 2) %>
+        </p>
+      </a>
+    </li>
+
+    <li class="nav-item">
       <a href="<%= data_analysis_evaluated_movements_path(params: opts) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'risk_movements' %>">
         <i class="nav-icon fa fa-<%= EvaluatedMovement.icon %>"></i>
         <p>

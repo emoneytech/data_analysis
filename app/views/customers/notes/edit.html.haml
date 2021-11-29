@@ -1,0 +1,15 @@
+.row
+  .col-md-12
+    = simple_form_for @role do |f|
+      .card.card-warning.card-outline
+        .card-header
+          %h3.card-title
+            %i.fa.fa-key
+            = t(:edit_resource, resource: Role.model_name.human)
+          .card-tools= back_link(roles_path)
+        .card-body
+          = render 'form', f: f
+        .card-footer.clearfix
+          = link_to t(:cancel, default: "Cancel"), roles_path, class: "btn btn-warning"
+          = f.submit class: "btn btn-success"
+

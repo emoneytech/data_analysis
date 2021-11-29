@@ -8,34 +8,7 @@
     .card-tools
       = link_to "#{fa_icon('redo-alt')} Recalculate".html_safe, [:recalculate, :customers, @anagrafica, customer_evaluation], class: "btn btn-xs btn-danger"
   .card-body
-    - month = Date.new(customer_evaluation.eval_year, customer_evaluation.eval_month, 1)
-    - daterange = "#{month.strftime("%d/%m/%Y")} - #{month.at_end_of_month.strftime("%d/%m/%Y")}"
-    %dl.row
-      %dt.col-md-4.text-right= CustomerEvaluation.human_attribute_name(:nr_movements_evaluated)
-      %dd.col-md-8
-        - if customer_evaluation.nr_movements.to_i > 0
-          - opts = {group_by_day: 1, filter: {customer_id: @anagrafica.id, daterange: daterange}}
-          = link_to data_analysis_evaluated_movements_path(params: opts), class: "btn btn-xs btn-info", title: 'Open popup' do
-            = fa_icon EvaluatedMovement.icon
-            Show #{customer_evaluation.nr_movements} evaluated movements
-        - else 
-          0
-      %dt.col-md-4.text-right= CustomerEvaluation.human_attribute_name(:nr_movements)
-      %dd.col-md-8
-        - movements = @anagrafica.movimenticonti.filter_by_daterange(daterange)
-        - if movements.count > 0
-          - opts = {group_by_day: 1, filter: {customer_id: @anagrafica.id, daterange: "#{month.strftime("%d/%m/%Y")} - #{month.at_end_of_month.strftime("%d/%m/%Y")}"}}
-          = link_to data_analysis_movimenticonti_path(params: opts), class: "btn btn-xs btn-info", title: 'Open popup' do
-            = fa_icon EvaluatedMovement.icon
-            Show #{movements.count} movements
-        - else 
-          0
-      %dt.col-md-4.text-right= CustomerEvaluation.human_attribute_name(:last_customer_evaluation7)
-      %dd.col-md-8= customer_evaluation.last_attention_factor7
-      %dt.col-md-4.text-right= CustomerEvaluation.human_attribute_name(:last_customer_evaluation30)
-      %dd.col-md-8= customer_evaluation.last_attention_factor30
-    
-    %table.table.table-striped.table-bordered.table-hover.text-center.data-table
+    %table.table.table-striped.table-bordered.table-hover.text-center.data-table{id: 'table_customer_evaluation', data: {order: '[0, "desc"]'}}
       %thead
         %tr
           %th= CustomerEvaluation.human_attribute_name(:eval_day)

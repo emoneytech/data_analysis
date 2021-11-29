@@ -5,5 +5,11 @@
     - opts = {group_by_day: 1, filter: {customer_id: @anagrafica.id, daterange: "#{month.strftime("%d/%m/%Y")} - #{month.at_end_of_month.strftime("%d/%m/%Y")}", in_out: 'ALL'}}
     = render "customers/charts/evaluated_movements", customer: @anagrafica, opts: opts
 .row
-  .col-md-12= render "customer_evaluation", customer_evaluation: @customer_evaluation
+  .col-md-6
+    = render 'customers/customer_evaluations/details', customer_evaluation: @customer_evaluation
+  #note.col-md-6
+    = render 'customers/notes/note', note: @anagrafica.notes.last
+.row
+  .col-md-12
+    = render "customer_evaluation", customer_evaluation: @customer_evaluation
 
