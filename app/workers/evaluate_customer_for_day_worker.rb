@@ -5,7 +5,7 @@ class EvaluateCustomerForDayWorker
   sidekiq_options queue: 'massive', retry: true, backtrace: true
   
   # PARAMS
-  # evaluated_movement_id
+  # evaluated_movement_id = 2098745
 
   def perform(evaluated_movement_id)
     evaluated_movement = EvaluatedMovement.includes(:customer).find(evaluated_movement_id)

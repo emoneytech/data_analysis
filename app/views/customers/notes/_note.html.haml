@@ -9,11 +9,11 @@
   .card-body
     .card-comment
       .comment-text
-        %span.username= note.user
-        %span.text-muted.float-right= note.created_at.to_s(:short)
-        %hr
         %strong= note.subject
         %p= note.body
+        %hr
+        %span.username= note.user
+        %span.text-muted.float-right= note.created_at.to_s
   .card-footer
     .row
       .col-md-6
