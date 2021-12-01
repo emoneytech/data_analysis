@@ -44,8 +44,8 @@ module EvaluatedMovementFilters
       )
     }
 
-    scope :filter_by_origin_country, -> (country) { where("origin_country = ?", "#{country}")}
-    scope :filter_by_destination_country, -> (country) { where("destination_country = ?", "#{country}")}
+    scope :filter_by_origin_country, -> (country) { where("origin_country ilike ?", "#{country}")}
+    scope :filter_by_destination_country, -> (country) { where("destination_country ilike ?", "#{country}")}
 
     scope :filter_by_amount,     -> (amount_cents) { where("amount_cents  = ?", amount_cents)}
     scope :filter_by_min_amount, -> (amount_cents) { where("amount_cents >= ?", amount_cents)}
