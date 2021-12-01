@@ -29,7 +29,7 @@ class CustomerSetting < CorePgRecord
     optional: true
 
   validate :validate_product
-  validate :validate_tollerance
+  validate(on: :create) :validate_tollerance
 
   validates :tollerance, presence: true, numericality: { only_integer: false,  greater_than_or_equal_to: 0.78 }
   
