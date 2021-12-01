@@ -365,6 +365,10 @@ class Anagrafica < ApplicationCoreRecord
     'user'
   end
 
+  def tollerance
+    customer_settings.global.any? ? customer_settings.global.first.tollerance : 1
+  end
+
   def full_name
     company ? "#{company}" : "#{self.nome} #{self.cognome}"
   end

@@ -52,7 +52,7 @@ module Customers
     end
 
     def customer_setting_params
-      params.require(:customer_setting).permit(:active, :product_id, :attention_factor)
+      params.require(:customer_setting).permit(:active, :product_id, :tollerance)
     end
   end
 end

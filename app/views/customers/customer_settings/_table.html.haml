@@ -5,7 +5,7 @@
       %th= CustomerSetting.human_attribute_name(:active)
       %th= CustomerSetting.human_attribute_name(:customer)
       %th= CustomerSetting.human_attribute_name(:product)
-      %th= CustomerSetting.human_attribute_name(:attention_factor)
+      %th= CustomerSetting.human_attribute_name(:tollerance)
       %th.action{data: {orderable: "false"}}
   %tbody
     - customer_settings.each do |item|
@@ -14,7 +14,7 @@
         %td= item.active
         %td= item.customer
         %td= item.product_id === 0 ? 'All' : item.product
-        %td= item.attention_factor
+        %td= item.tollerance
         %td.text-center
           = link_to fa_icon('eye'), [:customers, @anagrafica, item], class: "btn btn-xs btn-primary", data:{toggle: "tooltip"}, title: 'Show'
           = link_to fa_icon('edit'), [:edit, :customers, @anagrafica, item], class: "btn btn-xs btn-warning", data:{toggle: "tooltip"}, title: 'Edit'

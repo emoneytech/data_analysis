@@ -4,7 +4,7 @@
 #
 #  id               :bigint           not null, primary key
 #  active           :boolean          default(TRUE), not null
-#  attention_factor :float            default(1.0), not null
+#  tollerance :float            default(1.0), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  customer_id      :integer          not null
@@ -29,9 +29,13 @@ class CustomerSetting < CorePgRecord
     optional: true
 
   validate :validate_product
-  validate :validate_factor
+  validate :validate_tollerance
+
+  validates :tollerance, presence: true, numericality: { only_integer: false,  greater_than_or_equal_to: 0.78 }
+  
   validates :product_id, uniqueness: {scope: :customer_id}
 
+  scope :global, -> { where(product_id: 0) }
 private
 
   def validate_product
@@ -41,9 +45,9 @@ private
     end
   end
 
-  def validate_factor
-    if self.attention_factor === 1.0
-      errors.add(:attention_factor, "You're trying to insert a useless record") unless product
+  def validate_tollerance
+    if self.tollerance === 1.0
+      errors.add(:tollerance, "You're trying to insert a useless record") unless product
     end
   end
 end

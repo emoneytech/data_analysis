@@ -1,6 +1,13 @@
 .row 
   .col-md-4
     = render "info", current_tuple: @current_tuple, customer: @anagrafica
+    #note
+      - if @anagrafica.notes.any?
+        = render 'customers/notes/note', note: @anagrafica.notes.last
+      - else
+        .card
+          .card-body
+            = link_to(t(:add_resource, resource: Note.model_name.human), [:new, :customers, @anagrafica, :note], class: "btn btn-success btn-sm btn-block") if can? :create, Note
     = render "table_years", customer: @anagrafica
     = render "products_chart", customer: @anagrafica
     = render "map", anagrafica: @anagrafica

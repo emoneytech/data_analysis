@@ -9,9 +9,20 @@
       %dd.col-4.text-right= customer.base_risk.to_f
       %dt.col-8= Anagrafica.human_attribute_name(:days_of_activity)
       %dd.col-4.text-right= customer.days_of_activity(current_tuple)
-      %dt.col-8= Anagrafica.human_attribute_name(:notes)
+      %dt.col-8= Anagrafica.human_attribute_name(:attention_factor_7)
+      %dd.col-4.text-right= number_with_precision customer.current_evaluation.last_attention_factor7
+      %dt.col-8= Anagrafica.human_attribute_name(:attention_factor_30)
+      %dd.col-4.text-right= number_with_precision customer.current_evaluation.last_attention_factor30
+      %dt.col-8= Anagrafica.human_attribute_name(:tollerance)
       %dd.col-4.text-right
-        = link_to customer.notes.count, [:customers, customer, :notes]
+        - if customer.customer_settings.global.any?
+          = link_to [:edit, :customers, customer, customer.customer_settings.global.first] do
+            = number_to_percentage((1 - customer.tollerance).percentage_of(1), precision: 1)
+        - else
+          = link_to [:new, :customers, customer, :customer_setting] do
+            = number_to_percentage((1 - customer.tollerance).percentage_of(1), precision: 1)
+      %dt.col-8= Anagrafica.human_attribute_name(:sent)
+      %dd.col-4.text-right= number_with_precision(customer.current_evaluation.last_attention_factor30 * customer.tollerance)
       - if GruppiAnagrafica.where("codice_fiscale like ?", customer.codice_fiscale).count >= 1
         %dt.col-8= Anagrafica.human_attribute_name(:group)
         %dd.col-4.text-right= link_to Anagrafica.human_attribute_name(:group), [:customers, Anagrafica, filter: {fiscal_code: "#{customer.codice_fiscale}"}], class: "btn btn-warning btn-xs", data:{toggle: "tooltip"}, title: Anagrafica.human_attribute_name(:group)

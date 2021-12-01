@@ -69,12 +69,12 @@ ActiveRecord::Schema.define(version: 2021_12_01_103507) do
     t.boolean "active", default: true, null: false
     t.integer "customer_id", null: false
     t.integer "product_id", default: 0, null: false
-    t.float "attention_factor", default: 1.0, null: false
+    t.float "tollerance", default: 1.0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["active"], name: "index_customer_settings_on_active"
     t.index ["customer_id"], name: "index_customer_settings_on_customer_id"
-    t.index ["product_id"], name: "index_customer_settings_on_product_id", unique: true
+    t.index ["product_id", "customer_id"], name: "product_customer_index", unique: true
   end
 
   create_table "eval_customers", force: :cascade do |t|
