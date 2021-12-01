@@ -31,7 +31,7 @@ class CustomerSetting < CorePgRecord
   validate :validate_product
   validate(on: :create) :validate_tollerance
 
-  validates :tollerance, presence: true, numericality: { only_integer: false,  greater_than_or_equal_to: 0.78 }
+  validates :tollerance, presence: true, numericality: { only_integer: false,  greater_than_or_equal_to: 0.78, less_than_or_equal_to: 3.0 }
   
   validates :product_id, uniqueness: {scope: :customer_id}
 
