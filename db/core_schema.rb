@@ -318,6 +318,17 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer "MLRO", default: 0
   end
 
+  create_table "aml_ToCheck", primary_key: "idaml_ToCheck", id: :integer, charset: "latin1", force: :cascade do |t|
+    t.integer "idUtente"
+    t.integer "risk_calc"
+    t.integer "risk_anag"
+    t.datetime "data_insert", default: -> { "CURRENT_TIMESTAMP" }
+    t.decimal "questionaire_score", precision: 2
+    t.integer "stato", default: 1
+    t.integer "idOperatore"
+    t.datetime "data_closed"
+  end
+
   create_table "aml_cronologia_questionario", primary_key: "idaml_cronologia_questionario", id: :integer, charset: "latin1", force: :cascade do |t|
     t.integer "IdQuestionario"
     t.bigint "IdUtente"
@@ -573,6 +584,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.index ["Agente"], name: "agente"
     t.index ["Attivo"], name: "stato"
     t.index ["Citta"], name: "idx_anagrafiche_Citta"
+    t.index ["Codicefiscale"], name: "Codicefiscale"
     t.index ["IdTipo"], name: "Tipo"
     t.index ["IdUtente"], name: "IdUtente_UNIQUE", unique: true
     t.index ["NextRevision"], name: "nextrevision"
@@ -1573,6 +1585,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.text "chiamata"
     t.text "risposta", size: :long
     t.datetime "data", default: -> { "CURRENT_TIMESTAMP" }
+    t.index ["card"], name: "card"
   end
 
   create_table "loglamda", primary_key: "idlogLamda", charset: "latin1", force: :cascade do |t|

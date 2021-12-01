@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_19_072922) do
+ActiveRecord::Schema.define(version: 2021_12_01_103507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -183,6 +183,15 @@ ActiveRecord::Schema.define(version: 2021_11_19_072922) do
     t.index ["positionable_type", "positionable_id"], name: "index_places_on_positionable"
     t.index ["positionable_type", "positionable_id"], name: "index_places_on_positionable_type_and_positionable_id"
     t.index ["positionable_type"], name: "index_places_on_positionable_type"
+  end
+
+  create_table "queue_customers", force: :cascade do |t|
+    t.integer "customer_id", null: false
+    t.datetime "evaluated_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_id", "evaluated_at"], name: "evaluated_at_index", unique: true
+    t.index ["evaluated_at"], name: "index_queue_customers_on_evaluated_at"
   end
 
   create_table "related_countries", force: :cascade do |t|

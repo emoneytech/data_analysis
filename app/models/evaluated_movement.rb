@@ -109,7 +109,7 @@ class EvaluatedMovement < CorePgRecord
   after_initialize :build_from_movement
 
   after_create :send_notification
-  # after_save :evaluate_customer
+  after_save :set_queue_customer
 
   def self.icon
     'search-dollar'
@@ -487,6 +487,10 @@ class EvaluatedMovement < CorePgRecord
 
   def evaluate_customer
     EvaluateCustomerForDayWorker.perform_async(self.id)
+  end
+
+  def set_queue_customer
+    QueueCustomer.where(customer_id: self.customer_id).first_or_create
   end
 
 end

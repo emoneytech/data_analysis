@@ -1,0 +1,2 @@
+class QueueCustomer < CorePgRecord
+end
