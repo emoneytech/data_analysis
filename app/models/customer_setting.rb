@@ -29,7 +29,7 @@ class CustomerSetting < CorePgRecord
     optional: true
 
   validate :validate_product
-  validate(on: :create) :validate_tollerance
+  validate :validate_tollerance
 
   validates :tollerance, presence: true, numericality: { only_integer: false,  greater_than_or_equal_to: 0.78, less_than_or_equal_to: 3.0 }
   
@@ -46,7 +46,7 @@ private
   end
 
   def validate_tollerance
-    if self.tollerance === 1.0
+    if self.new_record? && self.tollerance === 1.0
       errors.add(:tollerance, "You're trying to insert a useless record") unless product
     end
   end
