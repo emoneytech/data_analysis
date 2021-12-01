@@ -170,6 +170,7 @@
 #
 # Indexes
 #
+#  Codicefiscale           (Codicefiscale)
 #  IdUtente_UNIQUE         (IdUtente) UNIQUE
 #  Tipo                    (IdTipo)
 #  agente                  (Agente)
