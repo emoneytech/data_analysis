@@ -23,6 +23,6 @@
   trigger_worker:
     every: '1m'
     class: TriggerWorker
-#  trigger_customer_worker:
-#    every: '2m'
-#    class: TriggerCustomerWorker
+  trigger_customer_worker:
+    every: '2m'
+    class: TriggerCustomerWorker
