@@ -2,7 +2,7 @@
   .card-header
     %h3.card-title
       = fa_icon Note.icon
-      #{Note.model_name.human}
+      = link_to "#{Note.model_name.human}", [:customers, @anagrafica, :notes]
       1 of #{@anagrafica.notes.count}
     .card-tools
       = link_to(t(:add_resource, resource: Note.model_name.human), [:new, :customers, @anagrafica, :note], class: "btn btn-success btn-xs") if can? :create, Note 
