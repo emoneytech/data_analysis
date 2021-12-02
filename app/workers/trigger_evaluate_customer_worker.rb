@@ -7,10 +7,11 @@ class TriggerEvaluateCustomerWorker
   # PARAMS
   # customer_id = 
   # day = 
+  # queue_id = 
 
-  def perform(customer_id, day) 
+  def perform(customer_id, day, queue_id) 
     customer = Anagrafica.find customer_id
-    customer.evaluate_for_day(day.to_date)
+    QueueCustomer.find(queue_id).destroy if customer.evaluate_for_day(day.to_date)
   end
 
 end

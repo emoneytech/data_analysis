@@ -8,7 +8,7 @@ class TriggerCustomerWorker
 
   def perform()
     QueueCustomer.unqueued.order(updated_at: :asc).each do |queue|
-      queue.update(evaluated_at: Time.now) if TriggerEvaluateCustomerWorker.perform_async(queue.customer_id, queue.created_at.to_date)
+      TriggerEvaluateCustomerWorker.perform_async(queue.customer_id, queue.created_at.to_date, queue.id)
     end
   end
 
