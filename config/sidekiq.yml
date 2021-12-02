@@ -19,7 +19,7 @@
   critical: 14
   serial: 1
 
-:schedule:
+# :schedule:
 #  trigger_worker:
 #    every: '1m'
 #    class: TriggerWorker
