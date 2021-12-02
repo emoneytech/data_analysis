@@ -418,6 +418,10 @@ class EvaluatedMovement < CorePgRecord
       OR (evaluated_movements.beneficiary_iban != '' AND evaluated_movements.beneficiary_iban = ?)
       OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?))", self.id, self.beneficiary, self.beneficiary_iban, self.beneficiary_card
     ).where(
+      "(evaluated_movements.payer = ? 
+      OR (evaluated_movements.payer_iban != '' AND evaluated_movements.payer_iban = ?)
+      OR (evaluated_movements.payer_card != '' AND evaluated_movements.payer_card = ?))", self.payer, self.payer_iban, self.payer_card
+    ).where(
       "evaluated_movements.movement_created_at 
         BETWEEN '#{start_date.to_date.beginning_of_day}' 
         AND '#{end_date}'"
@@ -436,6 +440,10 @@ class EvaluatedMovement < CorePgRecord
       (evaluated_movements.beneficiary = ? 
       OR (evaluated_movements.beneficiary_iban != '' AND evaluated_movements.beneficiary_iban = ?)
       OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?))", self.id, self.beneficiary, self.beneficiary_iban, self.beneficiary_card
+    ).where(
+      "(evaluated_movements.payer = ? 
+      OR (evaluated_movements.payer_iban != '' AND evaluated_movements.payer_iban = ?)
+      OR (evaluated_movements.payer_card != '' AND evaluated_movements.payer_card = ?))", self.payer, self.payer_iban, self.payer_card
     ).where(
       "evaluated_movements.movement_created_at 
         BETWEEN '#{start_date.to_date.beginning_of_day}' 
