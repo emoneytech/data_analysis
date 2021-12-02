@@ -50,7 +50,7 @@ module Customers
         else
           format.html { render :edit }
           format.json { render json: @customer_setting.errors, status: :unprocessable_entity }
-          format.js
+          format.js { render :edit }
         end
       end
     end
