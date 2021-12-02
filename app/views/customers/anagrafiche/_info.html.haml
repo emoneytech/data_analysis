@@ -3,6 +3,8 @@
     %h3.card-title
       = fa_icon Anagrafica.icon
       = @anagrafica.full_name
+    .card-tools
+      = link_to 'Open into Management', "https://management.emoneyplc.biz/Mod_Anagrafica.aspx?op=upd&IdUtente=#{@anagrafica.id}", target: '_management', class: "btn btn-xs btn-success"
   .card-body.p-3
     %dl.row
       %dt.col-8= Anagrafica.human_attribute_name(:attention_level_base)
