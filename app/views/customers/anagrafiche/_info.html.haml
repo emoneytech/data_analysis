@@ -12,9 +12,9 @@
       %dt.col-8= Anagrafica.human_attribute_name(:days_of_activity)
       %dd.col-4.text-right= customer.days_of_activity(current_tuple)
       %dt.col-8= Anagrafica.human_attribute_name(:attention_factor_7)
-      %dd.col-4.text-right= number_with_precision customer.current_evaluation.last_attention_factor7
+      %dd.col-4.text-right= number_with_precision customer.current_evaluation.last_attention_factor7 if customer.current_evaluation
       %dt.col-8= Anagrafica.human_attribute_name(:attention_factor_30)
-      %dd.col-4.text-right= number_with_precision customer.current_evaluation.last_attention_factor30
+      %dd.col-4.text-right= number_with_precision customer.current_evaluation.last_attention_factor30 if customer.current_evaluation
       - if GruppiAnagrafica.where("codice_fiscale like ?", customer.codice_fiscale).count >= 1
         %dt.col-8= Anagrafica.human_attribute_name(:group)
         %dd.col-4.text-right= link_to Anagrafica.human_attribute_name(:group), [:customers, Anagrafica, filter: {fiscal_code: "#{customer.codice_fiscale}"}], class: "btn btn-warning btn-xs", data:{toggle: "tooltip"}, title: Anagrafica.human_attribute_name(:group)

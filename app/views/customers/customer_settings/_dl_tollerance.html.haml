@@ -7,4 +7,4 @@
     = link_to [:new, :customers, customer, :customer_setting], remote: true do
       = number_to_percentage((1 - customer.tollerance).percentage_of(1), precision: 1)
 %dt.col-8= Anagrafica.human_attribute_name(:sent)
-%dd.col-4.text-right= number_with_precision(customer.current_evaluation.last_attention_factor30 * customer.tollerance)
+%dd.col-4.text-right= number_with_precision(customer.current_evaluation.last_attention_factor30 * customer.tollerance)  if customer.current_evaluation
