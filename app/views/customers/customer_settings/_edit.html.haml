@@ -1,0 +1,9 @@
+.row
+  .col-md-12
+    = simple_form_for [:customers, anagrafica, customer_setting], remote: true do |f|
+      .card.card-outline.card-success
+        .card-body
+          = render 'form_remote', f: f
+        .card-footer.clearfix
+          = f.submit class: "btn btn-success"
+

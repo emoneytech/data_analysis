@@ -16,21 +16,28 @@ module Customers
       @customer_setting = @anagrafica.customer_settings.build
     end
 
+
     def create
       @customer_setting = @anagrafica.customer_settings.build(customer_setting_params)
       respond_to do |format|
         if @customer_setting.save
           format.html { redirect_to [:customers, @anagrafica], notice: 'CustomerSetting was successfully created.' }
           format.json { render :show, status: :created, location: @customer_setting }
+          format.js
         else
           format.html { render :new }
           format.json { render json: @customer_setting.errors, status: :unprocessable_entity }
+          format.js { render :new }
         end
       end
     end
 
     def edit
       @customer_setting = @anagrafica.customer_settings.find(params[:id])
+      respond_to do |format|
+        format.html
+        format.js
+      end
     end
 
     def update
@@ -39,9 +46,11 @@ module Customers
         if @customer_setting.update(customer_setting_params)
           format.html { redirect_to [:customers, @anagrafica], notice: 'CustomerSetting was successfully updated.' }
           format.json { render :show, status: :ok, location: @customer_setting }
+          format.js
         else
           format.html { render :edit }
           format.json { render json: @customer_setting.errors, status: :unprocessable_entity }
+          format.js
         end
       end
     end

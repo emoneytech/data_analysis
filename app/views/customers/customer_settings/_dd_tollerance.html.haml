@@ -1,0 +1,6 @@
+- if customer.customer_settings.global.any?
+  = link_to [:edit, :customers, customer, customer.customer_settings.global.first], remote: true do
+    = number_to_percentage((1 - customer.tollerance).percentage_of(1), precision: 1)
+- else
+  = link_to [:new, :customers, customer, :customer_setting], remote: true do
+    = number_to_percentage((1 - customer.tollerance).percentage_of(1), precision: 1)
