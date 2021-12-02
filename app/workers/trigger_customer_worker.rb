@@ -7,7 +7,7 @@ class TriggerCustomerWorker
   # PARAMS
 
   def perform()
-    QueueCustomer.unqueued.order(updated_at: :asc).each do |queue|
+    QueueCustomer.order(updated_at: :asc).each do |queue|
       TriggerEvaluateCustomerWorker.perform_async(queue.customer_id, queue.created_at.to_date, queue.id)
     end
   end
