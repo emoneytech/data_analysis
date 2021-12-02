@@ -10,7 +10,7 @@ class TriggerEvaluateCustomerWorker
 
   def perform(customer_id, day) 
     customer = Anagrafica.find customer_id
-    customer.evaluate_for_day(day)
+    customer.evaluate_for_day(day.to_date)
   end
 
 end
