@@ -20,7 +20,7 @@ module Customers
       @customer_setting = @anagrafica.customer_settings.build(customer_setting_params)
       respond_to do |format|
         if @customer_setting.save
-          format.html { redirect_to [:customers, @anagrafica, :customer_settings], notice: 'CustomerSetting was successfully created.' }
+          format.html { redirect_to [:customers, @anagrafica], notice: 'CustomerSetting was successfully created.' }
           format.json { render :show, status: :created, location: @customer_setting }
         else
           format.html { render :new }
@@ -37,7 +37,7 @@ module Customers
       @customer_setting = @anagrafica.customer_settings.find(params[:id])
       respond_to do |format|
         if @customer_setting.update(customer_setting_params)
-          format.html { redirect_to [:customers, @anagrafica, :customer_settings], notice: 'CustomerSetting was successfully updated.' }
+          format.html { redirect_to [:customers, @anagrafica], notice: 'CustomerSetting was successfully updated.' }
           format.json { render :show, status: :ok, location: @customer_setting }
         else
           format.html { render :edit }
