@@ -12,17 +12,17 @@
   default: 10
   mailers: 3
   critical: 1
-  serial: 25
+  serial: 1
 
 :process_limits:
   massive: 25
   critical: 14
-  serial: 25
+  serial: 1
 
-# :schedule:
-#  trigger_worker:
-#    every: '1m'
-#    class: TriggerWorker
+:schedule:
+  trigger_worker:
+    every: '1m'
+    class: TriggerWorker
 #  trigger_customer_worker:
 #    every: '2m'
 #    class: TriggerCustomerWorker

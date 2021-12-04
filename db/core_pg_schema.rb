@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_01_103507) do
+ActiveRecord::Schema.define(version: 2021_12_03_094649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -207,19 +207,30 @@ ActiveRecord::Schema.define(version: 2021_12_01_103507) do
     t.boolean "in_eu"
     t.boolean "in_eea"
     t.boolean "in_esm"
-    t.float "score", default: 1.0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "kyc_score"
+    t.float "eval_kyc_score"
+    t.float "basel_score"
+    t.float "eval_basel_score"
+    t.float "corruption_perception"
+    t.float "eval_corruption_perception"
+    t.integer "gray_or_black_list"
+    t.float "attention_factor"
     t.index ["alpha2"], name: "index_related_countries_on_alpha2", unique: true
     t.index ["alpha3"], name: "index_related_countries_on_alpha3", unique: true
+    t.index ["attention_factor"], name: "index_related_countries_on_attention_factor"
+    t.index ["basel_score"], name: "index_related_countries_on_basel_score"
     t.index ["continent"], name: "index_related_countries_on_continent"
+    t.index ["corruption_perception"], name: "index_related_countries_on_corruption_perception"
     t.index ["gec"], name: "index_related_countries_on_gec"
+    t.index ["gray_or_black_list"], name: "index_related_countries_on_gray_or_black_list"
     t.index ["in_eea"], name: "index_related_countries_on_in_eea"
     t.index ["in_esm"], name: "index_related_countries_on_in_esm"
     t.index ["in_eu"], name: "index_related_countries_on_in_eu"
+    t.index ["kyc_score"], name: "index_related_countries_on_kyc_score"
     t.index ["name"], name: "index_related_countries_on_name"
     t.index ["region"], name: "index_related_countries_on_region"
-    t.index ["score"], name: "index_related_countries_on_score"
     t.index ["subregion"], name: "index_related_countries_on_subregion"
     t.index ["unofficial_names"], name: "index_related_countries_on_unofficial_names"
     t.index ["world_region"], name: "index_related_countries_on_world_region"

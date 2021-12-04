@@ -1,6 +1,17 @@
 .row
   .col-md-8= f.input :name, readonly: true
-  .col-md-4= f.input :score
+  .col-md-4= f.input :attention_factor, readonly: true
+
+.row
+  .col-md-4= f.input :kyc_score
+  .col-md-4= f.input :basel_score
+  .col-md-4= f.input :corruption_perception
+
+.row
+  .col-md-4= f.input :eval_kyc_score, readonly: true
+  .col-md-4= f.input :eval_basel_score, readonly: true
+  .col-md-4= f.input :eval_corruption_perception, readonly: true
+
 .row
   .col-md-4= f.input :continent, readonly: true
   .col-md-4= f.input :region, readonly: true
@@ -12,4 +23,15 @@
   .col-md-3= f.input :alpha3, readonly: true
   .col-md-3= f.input :world_region, readonly: true
 
-
+:javascript
+  $("input#related_country_kyc_score").on("input", function(e) {
+    var input = $(this);
+    var val = input.val();
+    if (input.data("lastval") != val) {
+      input.data("lastval", val);
+      //your change action goes here 
+      console.log(val);
+      var eval_kyc = ( ( 100 - val ) * ( 1 / val ) ) + 1
+      $("input#related_country_eval_kyc_score").val(eval_kyc)
+    }
+  });

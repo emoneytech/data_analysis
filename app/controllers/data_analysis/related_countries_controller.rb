@@ -35,12 +35,12 @@ module DataAnalysis
   private
 
     def related_country_params
-      params.require(:related_country).permit(:score)
+      params.require(:related_country).permit(:basel_score, :corruption_perception, :gray_or_black_list, :kyc_score)
     end
 
     def fix_fields
       if params[:related_country].present?
-        params[:related_country][:score] = params[:related_country][:score].to_s.gsub(',', '.').to_f
+        # params[:related_country][:score] = params[:related_country][:score].to_s.gsub(',', '.').to_f
       end
     end
 
