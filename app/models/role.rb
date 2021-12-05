@@ -18,7 +18,7 @@
 #  index_roles_on_policy  (policy) UNIQUE
 #
 
-class Role < RiskRecord
+class Role < CorePgRecord
 
   alias_attribute :level, :policy
 

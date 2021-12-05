@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_03_094649) do
+ActiveRecord::Schema.define(version: 2021_12_05_114525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -46,6 +46,19 @@ ActiveRecord::Schema.define(version: 2021_12_03_094649) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "activity_logs", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "browser"
+    t.string "ip_address"
+    t.string "controller", null: false
+    t.string "action", null: false
+    t.string "params"
+    t.string "note"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_activity_logs_on_user_id"
   end
 
   create_table "customer_evaluations", force: :cascade do |t|
@@ -247,6 +260,19 @@ ActiveRecord::Schema.define(version: 2021_12_03_094649) do
     t.index ["user_id"], name: "index_reports_on_user_id"
   end
 
+  create_table "roles", id: :serial, force: :cascade do |t|
+    t.string "name", limit: 255, null: false
+    t.string "presentation", limit: 255
+    t.string "description", limit: 255
+    t.integer "policy", limit: 2, default: 99, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "active", limit: 2, default: 1, null: false
+    t.index ["active"], name: "public_roles_active2_idx"
+    t.index ["name"], name: "public_roles_name0_idx", unique: true
+    t.index ["policy"], name: "public_roles_policy1_idx", unique: true
+  end
+
   create_table "row_counts", primary_key: "relname", id: :text, force: :cascade do |t|
     t.bigint "reltuples"
   end
@@ -387,7 +413,44 @@ ActiveRecord::Schema.define(version: 2021_12_03_094649) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "nickname", limit: 255
+    t.integer "role_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "email", limit: 255, default: "", null: false
+    t.string "encrypted_password", limit: 255, default: "", null: false
+    t.string "reset_password_token", limit: 255
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip", limit: 255
+    t.string "last_sign_in_ip", limit: 255
+    t.string "confirmation_token", limit: 255
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email", limit: 255
+    t.integer "failed_attempts", default: 0, null: false
+    t.string "unlock_token", limit: 255
+    t.datetime "locked_at"
+    t.string "last_name", limit: 255
+    t.string "first_name", limit: 255
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "public_users_deleted_at7_idx"
+    t.index ["email"], name: "public_users_email0_idx", unique: true
+    t.index ["first_name"], name: "public_users_first_name5_idx"
+    t.index ["last_name"], name: "public_users_last_name4_idx"
+    t.index ["nickname"], name: "public_users_nickname6_idx"
+    t.index ["reset_password_token"], name: "public_users_reset_password_token1_idx", unique: true
+    t.index ["role_id"], name: "public_users_role_id3_idx"
+    t.index ["unlock_token"], name: "public_users_unlock_token2_idx", unique: true
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "activity_logs", "users"
   add_foreign_key "sanction_list_items", "sanction_lists"
+  add_foreign_key "users", "roles", name: "users_role_id_fkey", on_update: :restrict, on_delete: :restrict
 end

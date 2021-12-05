@@ -44,7 +44,7 @@
 #  fk_rails_...  (role_id => roles.id)
 #
 
-class User < RiskRecord
+class User < CorePgRecord
 
   acts_as_paranoid
   # Include default devise modules. Others available are:
