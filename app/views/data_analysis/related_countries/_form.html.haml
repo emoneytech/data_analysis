@@ -1,5 +1,6 @@
 .row
-  .col-md-8= f.input :name, readonly: true
+  .col-md-4= f.input :name, readonly: true
+  .col-md-4= f.input :gray_or_black_list, as: :select, collection: [['None', 0], ['Grey list', 1], ['Black list', 2]]
   .col-md-4= f.input :attention_factor, readonly: true
 
 .row
@@ -24,14 +25,54 @@
   .col-md-3= f.input :world_region, readonly: true
 
 :javascript
+  // self.eval_kyc_score = ( ( 100 - self.kyc_score ) * ( 1 / self.kyc_score ) ) + 1
   $("input#related_country_kyc_score").on("input", function(e) {
-    var input = $(this);
-    var val = input.val();
-    if (input.data("lastval") != val) {
-      input.data("lastval", val);
-      //your change action goes here 
-      console.log(val);
-      var eval_kyc = ( ( 100 - val ) * ( 1 / val ) ) + 1
-      $("input#related_country_eval_kyc_score").val(eval_kyc)
+    var kyc_score_input = $(this)
+    var kyc_score = kyc_score_input.val()
+    if (kyc_score_input.data("lastval") != kyc_score) {
+      kyc_score_input.data("lastval", kyc_score)
+      var eval_kyc_score = ( ( 100 - kyc_score ) * ( 1 / kyc_score ) ) + 1
+      $("input#related_country_eval_kyc_score").val(eval_kyc_score)
+      setAttentionFactor()
     }
-  });
+  })
+
+  //  self.eval_basel_score = ( self.basel_score / 100 ) + 1 
+  $("input#related_country_basel_score").on("input", function(e) {
+    var basel_score_input = $(this)
+    var basel_score = basel_score_input.val()
+    if (basel_score_input.data("lastval") != basel_score) {
+      basel_score_input.data("lastval", basel_score)
+      var eval_basel_score = ( Number(basel_score) / 100 ) + 1 
+      $("input#related_country_eval_basel_score").val(eval_basel_score)
+      setAttentionFactor()
+    }
+  })
+
+  //  self.eval_corruption_perception = ( 100 - self.corruption_perception ) * ( 1 / self.corruption_perception ) + 1 
+  $("input#related_country_corruption_perception").on("input", function(e) {
+    var corruption_perception_input = $(this)
+    var corruption_perception = corruption_perception_input.val()
+    if (corruption_perception_input.data("lastval") != corruption_perception) {
+      corruption_perception_input.data("lastval", corruption_perception)
+      var eval_corruption_perception = ( 100 - corruption_perception ) * ( 1 / corruption_perception ) + 1
+      $("input#related_country_eval_corruption_perception").val(eval_corruption_perception)
+      setAttentionFactor()
+    }
+  })
+
+  // Recalculate for grey or black list
+  $("select#related_country_gray_or_black_list").change(function() {
+    setAttentionFactor()
+  })
+
+  //  self.attention_factor = (((((self.eval_kyc_score+self.eval_basel_score+self.eval_corruption_perception)/3)-1)/2)+1)+(self.gray_or_black_list/2)
+  function setAttentionFactor() {
+    var current_eval_kyc_score = $("input#related_country_eval_kyc_score").val()
+    var current_eval_basel_score = $("input#related_country_eval_basel_score").val()
+    var current_eval_corruption_perception = $("input#related_country_eval_corruption_perception").val()
+    var current_gray_or_black_list = $("select#related_country_gray_or_black_list option").filter(':selected').val()
+    var total_score = (Number(current_eval_kyc_score) + Number(current_eval_basel_score) + Number(current_eval_corruption_perception)) / 3
+    var current_attention_factor = ((((total_score)-1)/2)+1)+(Number(current_gray_or_black_list)/2)
+    $("input#related_country_attention_factor").val(current_attention_factor)
+  }

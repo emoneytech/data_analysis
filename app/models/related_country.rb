@@ -65,7 +65,7 @@ class RelatedCountry < CorePgRecord
   def set_evaluated_fields
     self.eval_kyc_score = ( ( 100 - self.kyc_score ) * ( 1 / self.kyc_score ) ) + 1
     self.eval_basel_score = ( self.basel_score / 100 ) + 1 
-    self.eval_corruption_perception = (100-self.corruption_perception)*(1/self.corruption_perception)+1 
+    self.eval_corruption_perception = ( 100 - self.corruption_perception ) * ( 1 / self.corruption_perception ) + 1 
     self.attention_factor = (((((self.eval_kyc_score+self.eval_basel_score+self.eval_corruption_perception)/3)-1)/2)+1)+(self.gray_or_black_list/2)
   end
 

@@ -1,16 +1,12 @@
-%table.table.table-striped.table-bordered.table-hover.margin-none.data-table{id: 'related_countries', data: {order: '[[7, "asc"]]'}}
+%table.table.table-striped.table-bordered.table-hover.margin-none.data-table{id: 'related_countries',  data: {order: '[[2, "asc"]]'}}
   %thead
     %tr
       %th.text-center{data: {priority: "1", orderable: "false"},nowrap: true}
-      %th{data: {visible: "false"}}> continent
-      %th{data: {visible: "false"}}> region
-      %th{data: {visible: "false"}}> subregion
       %th> name
-      %th{data: {visible: "false"}}> unofficial name
+      %th> attention_factor
       %th> gec
       %th> alpha2
       %th> alpha3
-      %th{data: {visible: "false"}}> world_region
       %th> in_eu?
       %th> in_eea?
       %th> in_esm?
@@ -21,32 +17,36 @@
       %th> corruption_perception
       %th> eval_corruption_perception
       %th> gray_or_black_list
-      %th> attention_factor
+      %th{data: {visible: "false"}}> world_region
+      %th{data: {visible: "false"}}> unofficial name
+      %th{data: {visible: "false"}}> continent
+      %th{data: {visible: "false"}}> region
+      %th{data: {visible: "false"}}> subregion
       %th.col-md-1{data: {priority: "1", orderable: "false"},nowrap: true}
   %tbody
     - related_countries.each do |item|
       %tr
         %td.text-center= Country[item.alpha2].emoji_flag
-        %td= item.continent
-        %td= item.region
-        %td= item.subregion
         %td= item.name
-        %td= item.unofficial_names.to_sentence
+        %td.text-center= number_with_precision item.attention_factor
         %td.text-center= item.gec
         %td.text-center= item.alpha2
         %td.text-center= item.alpha3
-        %td.text-center= item.world_region
         %td.text-center{style: "background-color: #{item.in_eu ? 'lightgreen' : ''}"}= item.in_eu
         %td.text-center{style: "background-color: #{item.in_eea ? 'lightblue' : ''}"}= item.in_eea
         %td.text-center{style: "background-color: #{item.in_esm ? 'cyan' : ''}"}= item.in_esm
         %td.text-center= item.kyc_score
-        %td.text-center= item.eval_kyc_score
+        %td.text-center= number_with_precision item.eval_kyc_score
         %td.text-center= item.basel_score
-        %td.text-center= item.eval_basel_score
+        %td.text-center= number_with_precision item.eval_basel_score
         %td.text-center= item.corruption_perception
-        %td.text-center= item.eval_corruption_perception
+        %td.text-center= number_with_precision item.eval_corruption_perception
         %td.text-center= item.gray_or_black_list
-        %td.text-center= item.attention_factor
+        %td.text-center= item.world_region
+        %td= item.unofficial_names.to_sentence
+        %td= item.continent
+        %td= item.region
+        %td= item.subregion
         %td.col-md-1.text-center{nowrap: true}
           = link_to fa_icon('eye'), [:data_analysis, item], class: "btn btn-xs btn-primary", data:{toggle: "tooltip"}, title: 'Show'
           = link_to fa_icon('edit'), [:edit, :data_analysis, item], class: "btn btn-xs btn-warning", data:{toggle: "tooltip"}, title: 'Edit'#, remote: true

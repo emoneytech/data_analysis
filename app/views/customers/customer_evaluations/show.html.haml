@@ -8,7 +8,12 @@
   .col-md-6
     = render 'customers/customer_evaluations/details', customer_evaluation: @customer_evaluation
   #note.col-md-6
-    = render 'customers/notes/note', note: @anagrafica.notes.last
+    - if @anagrafica.notes.any?
+      = render 'customers/notes/note', note: @anagrafica.notes.last
+    - else
+      .card
+        .card-body
+          = link_to(t(:add_resource, resource: Note.model_name.human), [:new, :customers, @anagrafica, :note], class: "btn btn-success btn-sm btn-block") if can? :create, Note
 .row
   .col-md-12
     = render "customer_evaluation", customer_evaluation: @customer_evaluation
