@@ -109,7 +109,7 @@ class EvaluatedMovement < CorePgRecord
   after_initialize :build_from_movement
 
   after_create :send_notification
-  after_save :set_queue_customer
+  # after_save :set_queue_customer
 
   def self.icon
     'search-dollar'

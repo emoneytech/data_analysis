@@ -8,7 +8,8 @@ Sidekiq::Enqueuer.configure do |config|
     InitCustomerEvaluationsWorker,
     TriggerCustomerWorker,
     TriggerInitWorker,
-    RecalculatePositionsWorker
+    RecalculatePositionsWorker,
+    RecalculateRecursionsWorker
   ]
 end
 
