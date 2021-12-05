@@ -80,8 +80,9 @@ Rails.application.routes.draw do
         get :amount_evaluated_movements
         get :sum_evaluated_movements
         get :evaluated_movements
-        get :map_origin_countries
         get :map_destination_countries
+        get :map_origin_countries
+        get :map_related_countries
         get :products
         get 'average_stocks/:id' => :average_stocks, as: :average_stocks
       end

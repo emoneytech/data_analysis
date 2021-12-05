@@ -67,13 +67,18 @@ module DataAnalysis
       end
     end
   
+    def map_destination_countries
+      result =  EvaluatedMovement.group(:destination_country).count
+      render json: result.as_json
+    end
+
     def map_origin_countries
       result =  EvaluatedMovement.group(:origin_country).count
       render json: result.as_json
     end
 
-    def map_destination_countries
-      result =  EvaluatedMovement.group(:destination_country).count
+    def map_related_countries
+      result = RelatedCountry.select(:alpha2, :attention_factor).map{|c| [c.alpha2,c.attention_factor]}
       render json: result.as_json
     end
 

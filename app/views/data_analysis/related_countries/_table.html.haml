@@ -28,7 +28,7 @@
       %tr
         %td.text-center= Country[item.alpha2].emoji_flag
         %td= item.name
-        %td.text-center= number_with_precision item.attention_factor
+        %td.text-center{style: "background-color: #{country_style(item.attention_factor)}; color: #{country_txt_style(item.attention_factor)}"}= number_with_precision item.attention_factor
         %td.text-center= item.gec
         %td.text-center= item.alpha2
         %td.text-center= item.alpha3

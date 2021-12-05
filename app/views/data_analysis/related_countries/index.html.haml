@@ -1,1 +1,11 @@
+.row
+  .col-md-12 
+    #card-origin-countries-movements.card.card-outline.card-success
+      .card-header
+        .card-title
+          = fa_icon 'globe'
+          = RelatedCountry.model_name.human
+      .card-body
+        = geo_chart map_related_countries_data_analysis_charts_path(), remote: true, download: true
+
 #countries.row= render "related_countries"

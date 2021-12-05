@@ -68,6 +68,7 @@ module ApplicationHelper
       .select(&filter)
       .map { |d| [d.year,d.mon,d.day].first(prec) }
   end
+  
   def link_to_function(name, *args, &block)
     html_options = args.extract_options!.symbolize_keys
 
@@ -76,15 +77,35 @@ module ApplicationHelper
     href = html_options[:href] || '#'
 
     content_tag(:a, name, html_options.merge(:href => href, :onclick => onclick))
- end
+  end
 
- def toastr_flash
-  flash.each_with_object([]) do |(type, message), flash_messages|
-    type = 'success' if type == 'notice'
-    type = 'error' if type == 'alert'
-    text = "<script>toastr.#{type}('#{message}', '', { closeButton: true, progressBar: true })</script>"
-    flash_messages << text.html_safe if message
-  end.join("\n").html_safe
-end
+  def toastr_flash
+    flash.each_with_object([]) do |(type, message), flash_messages|
+      type = 'success' if type == 'notice'
+      type = 'error' if type == 'alert'
+      text = "<script>toastr.#{type}('#{message}', '', { closeButton: true, progressBar: true })</script>"
+      flash_messages << text.html_safe if message
+    end.join("\n").html_safe
+  end
+
+  def country_style(attention_factor)
+    case attention_factor
+    when 0...1.59
+      "#ffcc00"
+    when 1.6..1.9
+      "#ff0000"
+    when 1.9...Float::INFINITY
+      "#000000"
+    else
+      "transparent"
+    end
+  end
+
+  def country_txt_style(attention_factor)
+    case attention_factor
+    when 1.9...Float::INFINITY
+      "#ffffff"
+    end
+  end
 
 end
