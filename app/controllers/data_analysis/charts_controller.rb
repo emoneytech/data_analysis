@@ -83,7 +83,7 @@ module DataAnalysis
     end
 
     def kyc_scores_map
-      result = RelatedCountry.select(:iso_numeric, :kyc_score).where.not(kyc_score: nil).map{|c| {code: c.iso_numeric, value: c.kyc_score}}
+      result = RelatedCountry.select(:iso_numeric, :kyc_score).where.not(kyc_score: nil).map{|c| {code: c.iso_numeric, value: (100 - c.kyc_score)}}
       render json: result.as_json
     end
 
