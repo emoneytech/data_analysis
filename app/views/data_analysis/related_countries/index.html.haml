@@ -1,11 +1,7 @@
 .row
-  .col-md-12 
-    #card-origin-countries-movements.card.card-outline.card-success
-      .card-header
-        .card-title
-          = fa_icon 'globe'
-          = RelatedCountry.model_name.human
-      .card-body
-        = geo_chart map_related_countries_data_analysis_charts_path(), remote: true, download: true
-
+  .col-md-6= render 'kyc_scores_map'
+  .col-md-6= render 'basel_scores_map'
+.row
+  .col-md-6= render 'gray_or_black_lists_map'
+  .col-md-6= render 'attention_factors_map'
 #countries.row= render "related_countries"

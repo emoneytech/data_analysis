@@ -155,7 +155,7 @@
 #  Vendor                    :integer          default(0)
 #  VersioneAgreement         :string(45)
 #  WebPin                    :string(6)
-#  base_risk                 :decimal(10, 2)   default(4.0)
+#  base_risk                 :decimal(10, 2)   default(0.0)
 #  base_risk_calc            :decimal(10, 2)   default(0.0)
 #  bonifico                  :integer          default(0)
 #  classificazione           :string(45)       default("ZZ")

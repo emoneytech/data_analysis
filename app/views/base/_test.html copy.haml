@@ -1,0 +1,64 @@
+.row
+  .col-md-12
+    .card.card-outline.card-success#card-origin-countries-movements
+      .card-header
+        .card-title
+          = fa_icon 'globe'
+          Test Chart.js
+      .card-body
+        %canvas#myChart
+        %button.btn.btn-info.btn-sm{onClick:"updateChart();"}
+          Update
+%script{type: "text/javascript", src: "https://unpkg.com/chartjs-chart-geo@3.5.2/build/index.umd.min.js"}
+:javascript
+  const url = 'https://unpkg.com/world-atlas@2.0.2/countries-50m.json'
+  // topojson = lines orarc liines combine = a country 
+  // geojson = fixed shapes of countries
+  fetch(url).then((result) => result.json()).then((datapoint) => {
+    const countries = ChartGeo.topojson.feature(datapoint, datapoint.objects.countries).features
+    // console.log(countries[0].properties.name)
+    // setup
+    const data = {
+      labels: countries.map(country => country.properties.name),
+      datasets: [{
+        label: 'Countries',
+        data: countries.map(country => ( {feature: country, value: Math.random() }))
+      }]
+    }
+    // config
+    const config = {
+      type: 'choropleth',
+      data,
+      options: {},
+    }
+
+    // render init block
+    const myChart = new Chart(document.getElementById('myChart'), config)
+
+  })
+
+  // Fetch block
+  function updateChart(){
+    async function fetchJSON() {
+      const url = "/data_analysis/charts/test"
+      const response = await fetch(url)
+      const datapoints = await response.json()
+      console.log(datapoints)
+      return datapoints
+    }
+    fetchJSON().then(datapoints => {
+      const month = datapoints.financialreport.map(function(index) {
+        return index.month
+      })
+      myChart.config.data.labels = month
+      myChart.update()
+    })
+    fetchJSON().then(datapoints => {
+      const profit = datapoints.financialreport.map(function(index) {
+        return index.profit
+      })
+      myChart.config.data.datasets[0].data = profit
+      myChart.update()
+    })
+  }
+

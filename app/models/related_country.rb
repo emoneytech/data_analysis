@@ -17,6 +17,7 @@
 #  in_eea                     :boolean
 #  in_esm                     :boolean
 #  in_eu                      :boolean
+#  iso_numeric                :integer
 #  kyc_score                  :float
 #  name                       :string
 #  region                     :string
@@ -39,6 +40,7 @@
 #  index_related_countries_on_in_eea                 (in_eea)
 #  index_related_countries_on_in_esm                 (in_esm)
 #  index_related_countries_on_in_eu                  (in_eu)
+#  index_related_countries_on_iso_numeric            (iso_numeric)
 #  index_related_countries_on_kyc_score              (kyc_score)
 #  index_related_countries_on_name                   (name)
 #  index_related_countries_on_region                 (region)
@@ -63,10 +65,12 @@ class RelatedCountry < CorePgRecord
   private
 
   def set_evaluated_fields
-    self.eval_kyc_score = ( ( 100 - self.kyc_score ) * ( 1 / self.kyc_score ) ) + 1
-    self.eval_basel_score = ( self.basel_score / 100 ) + 1 
-    self.eval_corruption_perception = ( 100 - self.corruption_perception ) * ( 1 / self.corruption_perception ) + 1 
-    self.attention_factor = (((((self.eval_kyc_score+self.eval_basel_score+self.eval_corruption_perception)/3)-1)/2)+1)+(self.gray_or_black_list/2)
+    if self.eval_kyc_score
+      self.eval_kyc_score = ( ( 100 - self.kyc_score ) * ( 1 / self.kyc_score ) ) + 1
+      self.eval_basel_score = ( self.basel_score / 100 ) + 1 
+      self.eval_corruption_perception = ( 100 - self.corruption_perception ) * ( 1 / self.corruption_perception ) + 1 
+      self.attention_factor = (((((self.eval_kyc_score+self.eval_basel_score+self.eval_corruption_perception)/3)-1)/2)+1)+(self.gray_or_black_list/2)
+    end
   end
 
 

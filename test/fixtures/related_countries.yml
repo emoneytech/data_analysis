@@ -17,6 +17,7 @@
 #  in_eea                     :boolean
 #  in_esm                     :boolean
 #  in_eu                      :boolean
+#  iso_numeric                :integer
 #  kyc_score                  :float
 #  name                       :string
 #  region                     :string
@@ -39,6 +40,7 @@
 #  index_related_countries_on_in_eea                 (in_eea)
 #  index_related_countries_on_in_esm                 (in_esm)
 #  index_related_countries_on_in_eu                  (in_eu)
+#  index_related_countries_on_iso_numeric            (iso_numeric)
 #  index_related_countries_on_kyc_score              (kyc_score)
 #  index_related_countries_on_name                   (name)
 #  index_related_countries_on_region                 (region)

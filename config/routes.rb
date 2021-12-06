@@ -85,6 +85,10 @@ Rails.application.routes.draw do
         get :map_related_countries
         get :products
         get 'average_stocks/:id' => :average_stocks, as: :average_stocks
+        get :attention_factors_map
+        get :kyc_scores_map
+        get :basel_scores_map
+        get :gray_or_black_lists_map
       end
     end
     resources :conti, only: [:show, :index] do

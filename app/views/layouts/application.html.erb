@@ -9,7 +9,8 @@
     <%= javascript_pack_tag 'manager', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
     <%= javascript_include_tag 'map', 'data-turbolinks-track': 'reload' %>
-
+    <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/chart.js" %>
+    <%= javascript_include_tag "https://unpkg.com/chartjs-chart-geo@3.5.2/build/index.umd.min.js" %>
     <%= yield :javascript_in_head %>
   </head>
 

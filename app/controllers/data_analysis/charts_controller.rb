@@ -77,8 +77,67 @@ module DataAnalysis
       render json: result.as_json
     end
 
-    def map_related_countries
-      result = RelatedCountry.select(:alpha2, :attention_factor).map{|c| [c.alpha2,c.attention_factor]}
+    def attention_factors_map
+      result = RelatedCountry.select(:iso_numeric, :attention_factor).where.not(attention_factor: nil).map{|c| {code: c.iso_numeric, value: c.attention_factor}}
+      render json: result.as_json
+    end
+
+    def kyc_scores_map
+      result = RelatedCountry.select(:iso_numeric, :kyc_score).where.not(kyc_score: nil).map{|c| {code: c.iso_numeric, value: c.kyc_score}}
+      render json: result.as_json
+    end
+
+    def basel_scores_map
+      result = RelatedCountry.select(:iso_numeric, :basel_score).where.not(basel_score: nil).map{|c| {code: c.iso_numeric, value: c.basel_score}}
+      render json: result.as_json
+    end
+
+    def gray_or_black_lists_map
+      result = RelatedCountry.select(:iso_numeric, :gray_or_black_list).where.not(gray_or_black_list: nil).map{|c| {code: c.iso_numeric, value: c.gray_or_black_list}}
+      render json: result.as_json
+    end
+
+    def test
+      result = {
+        "financialreport": [
+          {
+            "month": "Jan",
+            "cost": 30,
+            "profit": 60,
+            "revenue": 90
+          },
+          {
+            "month": "Feb",
+            "cost": 30,
+            "profit": 90,
+            "revenue": 120
+          }, 
+          {
+            "month": "Mar",
+            "cost": 30,
+            "profit": 120,
+            "revenue": 150
+          },
+          {
+            "month": "Apr",
+            "cost": 30,
+            "profit": 210,
+            "revenue": 240
+          },
+          {
+            "month": "May",
+            "cost": 30,
+            "profit": 60,
+            "revenue": 90
+          },
+          {
+            "month": "Jun",
+            "cost": 30,
+            "profit": 160,
+            "revenue": 190
+          }
+        ]
+      } 
       render json: result.as_json
     end
 

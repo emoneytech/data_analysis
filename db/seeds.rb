@@ -18,6 +18,7 @@ ISO3166::Country.countries.each do |item|
     world_region: item.world_region,
     in_eu: item.in_eu?,
     in_eea: item.in_eea?,
-    in_esm: item.in_esm?
+    in_esm: item.in_esm?,
+    iso_numeric: item.number
   ).first_or_create
 end

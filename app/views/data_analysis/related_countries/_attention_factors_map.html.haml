@@ -1,0 +1,64 @@
+.card.card-outline.card-info
+  .card-header
+    .card-title
+      = fa_icon 'globe'
+      Attention Factors
+  .card-body
+    %canvas#attentionFactors
+:javascript
+  function fetchRelatedCountries(){
+    async function fetchJSON() {
+      const url = "/data_analysis/charts/attention_factors_map"
+      const response = await fetch(url)
+      const datapoints = await response.json()
+      return datapoints
+    }
+    fetchJSON().then(datapoints => {
+      const url = 'https://unpkg.com/world-atlas@2.0.2/countries-50m.json'
+      // topojson = lines orarc liines combine = a country 
+      // geojson = fixed shapes of countries
+      function getValue(code) {
+        const point = datapoints.filter(
+          function(data){ return data.code == code }
+        )
+        if( point.length > 0) {
+          return point[0].value
+        } else {
+          return 0
+        }
+      }
+      fetch(url).then((result) => result.json()).then((datapoint) => {
+        const countries = ChartGeo.topojson.feature(datapoint, datapoint.objects.countries).features
+        const data = {
+          labels: countries.map(country => country.properties.name),
+          datasets: [{
+            label: 'Countries',
+            data: countries.map(country => ( {feature: country, value: getValue(country.id) }))
+          }]
+        }
+        // config
+        const config = {
+          type: 'choropleth',
+          data,
+          options: {
+            showOutline: true,
+            showGraticule: true,
+            scales: {
+              xy: {
+                projection: 'equalEarth'
+              }
+            },
+            plugins: {
+              legend: {
+                display: false
+              }
+            }
+          },
+        }
+        // render init block
+        const attentionFactors = new Chart(document.getElementById('attentionFactors'), config)
+      })
+
+    })
+  }
+  fetchRelatedCountries()

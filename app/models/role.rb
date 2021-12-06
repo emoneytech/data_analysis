@@ -3,7 +3,7 @@
 # Table name: roles
 #
 #  id           :integer          not null, primary key
-#  active       :boolean          default(TRUE), not null
+#  active       :integer          default(1), not null
 #  description  :string(255)
 #  name         :string(255)      not null
 #  policy       :integer          default(99), not null
@@ -13,9 +13,9 @@
 #
 # Indexes
 #
-#  index_roles_on_active  (active)
-#  index_roles_on_name    (name) UNIQUE
-#  index_roles_on_policy  (policy) UNIQUE
+#  public_roles_active2_idx  (active)
+#  public_roles_name0_idx    (name) UNIQUE
+#  public_roles_policy1_idx  (policy) UNIQUE
 #
 
 class Role < CorePgRecord

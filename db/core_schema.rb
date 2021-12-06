@@ -323,7 +323,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer "risk_calc"
     t.integer "risk_anag"
     t.datetime "data_insert", default: -> { "CURRENT_TIMESTAMP" }
-    t.decimal "questionaire_score", precision: 2
+    t.decimal "questionaire_score", precision: 10, scale: 2
     t.integer "stato", default: 1
     t.integer "idOperatore"
     t.datetime "data_closed"
@@ -555,7 +555,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "linguaPergamena", limit: 45
     t.string "nazionePorting", limit: 45
     t.date "dataSendPergamena"
-    t.decimal "base_risk", precision: 10, scale: 2, default: "4.0"
+    t.decimal "base_risk", precision: 10, scale: 2, default: "0.0"
     t.integer "bonifico", default: 0
     t.decimal "base_risk_calc", precision: 10, scale: 2, default: "0.0"
     t.string "tipobusiness"

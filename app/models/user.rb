@@ -30,18 +30,18 @@
 #
 # Indexes
 #
-#  index_users_on_deleted_at            (deleted_at)
-#  index_users_on_email                 (email) UNIQUE
-#  index_users_on_first_name            (first_name)
-#  index_users_on_last_name             (last_name)
-#  index_users_on_nickname              (nickname)
-#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
-#  index_users_on_role_id               (role_id)
-#  index_users_on_unlock_token          (unlock_token) UNIQUE
+#  public_users_deleted_at7_idx            (deleted_at)
+#  public_users_email0_idx                 (email) UNIQUE
+#  public_users_first_name5_idx            (first_name)
+#  public_users_last_name4_idx             (last_name)
+#  public_users_nickname6_idx              (nickname)
+#  public_users_reset_password_token1_idx  (reset_password_token) UNIQUE
+#  public_users_role_id3_idx               (role_id)
+#  public_users_unlock_token2_idx          (unlock_token) UNIQUE
 #
 # Foreign Keys
 #
-#  fk_rails_...  (role_id => roles.id)
+#  users_role_id_fkey  (role_id => roles.id) ON DELETE => restrict ON UPDATE => restrict
 #
 
 class User < CorePgRecord

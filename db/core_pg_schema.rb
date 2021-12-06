@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_05_114525) do
+ActiveRecord::Schema.define(version: 2021_12_06_171320) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -230,6 +230,7 @@ ActiveRecord::Schema.define(version: 2021_12_05_114525) do
     t.float "eval_corruption_perception"
     t.integer "gray_or_black_list"
     t.float "attention_factor"
+    t.integer "iso_numeric"
     t.index ["alpha2"], name: "index_related_countries_on_alpha2", unique: true
     t.index ["alpha3"], name: "index_related_countries_on_alpha3", unique: true
     t.index ["attention_factor"], name: "index_related_countries_on_attention_factor"
@@ -241,6 +242,7 @@ ActiveRecord::Schema.define(version: 2021_12_05_114525) do
     t.index ["in_eea"], name: "index_related_countries_on_in_eea"
     t.index ["in_esm"], name: "index_related_countries_on_in_esm"
     t.index ["in_eu"], name: "index_related_countries_on_in_eu"
+    t.index ["iso_numeric"], name: "index_related_countries_on_iso_numeric"
     t.index ["kyc_score"], name: "index_related_countries_on_kyc_score"
     t.index ["name"], name: "index_related_countries_on_name"
     t.index ["region"], name: "index_related_countries_on_region"
