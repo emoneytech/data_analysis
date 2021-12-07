@@ -104,10 +104,10 @@ class EvaluatedMovement < CorePgRecord
   # attr reader
   attr_reader :recursions
   
-  before_save :set_recursion
   
   after_initialize :build_from_movement
-
+  
+  before_save :set_recursion
   after_create :send_notification
   # after_save :set_queue_customer
 
@@ -414,11 +414,11 @@ class EvaluatedMovement < CorePgRecord
       customer_id: self.customer_id
     ).where(
       "id != ? AND
-      (evaluated_movements.beneficiary = ? 
+      (evaluated_movements.beneficiary ilike ? 
       OR (evaluated_movements.beneficiary_iban != '' AND evaluated_movements.beneficiary_iban = ?)
       OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?))", self.id, self.beneficiary, self.beneficiary_iban, self.beneficiary_card
     ).where(
-      "(evaluated_movements.payer = ? 
+      "(evaluated_movements.payer ilike ? 
       OR (evaluated_movements.payer_iban != '' AND evaluated_movements.payer_iban = ?)
       OR (evaluated_movements.payer_card != '' AND evaluated_movements.payer_card = ?))", self.payer, self.payer_iban, self.payer_card
     ).where(
@@ -437,11 +437,11 @@ class EvaluatedMovement < CorePgRecord
     end_date = self.movement_created_at
     EvaluatedMovement.where(
       "id != ? AND
-      (evaluated_movements.beneficiary = ? 
+      (evaluated_movements.beneficiary ilike ? 
       OR (evaluated_movements.beneficiary_iban != '' AND evaluated_movements.beneficiary_iban = ?)
       OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?))", self.id, self.beneficiary, self.beneficiary_iban, self.beneficiary_card
     ).where(
-      "(evaluated_movements.payer = ? 
+      "(evaluated_movements.payer ilike ? 
       OR (evaluated_movements.payer_iban != '' AND evaluated_movements.payer_iban = ?)
       OR (evaluated_movements.payer_card != '' AND evaluated_movements.payer_card = ?))", self.payer, self.payer_iban, self.payer_card
     ).where(
@@ -456,10 +456,10 @@ class EvaluatedMovement < CorePgRecord
   end
 
   def set_recursion
-    self.recursion_all_7       = count_recursive(days=7)
-    self.recursion_all_30      = count_recursive(days=30)
-    self.recursion_customer_7  = count_recursive_for_customer(days=7)
-    self.recursion_customer_30 = count_recursive_for_customer(days=30)
+    self.recursion_all_7       = count_recursive(7)
+    self.recursion_all_30      = count_recursive(30)
+    self.recursion_customer_7  = count_recursive_for_customer(7)
+    self.recursion_customer_30 = count_recursive_for_customer(30)
     self.set_evaluated_factors
   end
 
