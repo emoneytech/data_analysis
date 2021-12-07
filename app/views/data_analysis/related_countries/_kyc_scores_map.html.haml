@@ -16,7 +16,7 @@
     }
     fetchJSON().then(datapoints => {
       const url = 'https://unpkg.com/world-atlas@2.0.2/countries-50m.json'
-      // topojson = lines orarc liines combine = a country 
+      // topojson = lines or arc liines combine = a country 
       // geojson = fixed shapes of countries
       function getValue(code) {
         const point = datapoints.filter(
@@ -47,7 +47,14 @@
             scales: {
               xy: {
                 projection: 'equalEarth'
-              }
+              },
+              color: {
+                interpolate: 'plasma',
+                legend: {
+                  position: 'bottom-right',
+                  align: 'right',
+                },
+              },
             },
             plugins: {
               legend: {

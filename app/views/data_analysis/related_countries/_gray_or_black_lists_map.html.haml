@@ -47,7 +47,15 @@
             scales: {
               xy: {
                 projection: 'equalEarth'
-              }
+              },
+              color: {
+                interpolate: 'orRd',
+                quantize: 4,
+                legend: {
+                  position: 'bottom-right',
+                  align: 'right'
+                },
+              },
             },
             plugins: {
               legend: {
