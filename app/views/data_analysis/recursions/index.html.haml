@@ -23,12 +23,17 @@
   function setTable(response) {
     table.clear()
     let data = []
-    response.forEach(function (item, index) {
-      console.log(item) 
+    response.forEach(function (item, index) {  
+      let ary_data = item[0].split('-')
+      const y = ary_data[0]
+      const m = ary_data[1]
+      const d = ary_data[2]
+      const day = d + '%2F' + m + '%2F' + y
+      const daterange = day + '+-+' + day
       data.push({
         0: item[0],
         1: item[1],
-        2: '<a class="btn btn-xs btn-primary" href="/data_analysis/evaluated_movements/for_day/' + item[0] + '" /><i class="fa fa-eye"></i></a>'
+        2: '<a class="btn btn-xs btn-primary" href="/data_analysis/evaluated_movements?filter[daterange]=' + daterange + '" /><i class="fa fa-eye"></i></a>'
       })
     })
     table.rows.add(data).draw();
