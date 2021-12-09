@@ -413,10 +413,9 @@ class EvaluatedMovement < CorePgRecord
     return EvaluatedMovement.where(
       customer_id: self.customer_id
     ).where(
-      "id != ? AND
-      (evaluated_movements.beneficiary ilike ? 
+      "(evaluated_movements.beneficiary ilike ? 
       OR (evaluated_movements.beneficiary_iban != '' AND evaluated_movements.beneficiary_iban = ?)
-      OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?))", self.id, self.beneficiary, self.beneficiary_iban, self.beneficiary_card
+      OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?))", self.beneficiary, self.beneficiary_iban, self.beneficiary_card
     ).where(
       "(evaluated_movements.payer ilike ? 
       OR (evaluated_movements.payer_iban != '' AND evaluated_movements.payer_iban = ?)
@@ -436,10 +435,9 @@ class EvaluatedMovement < CorePgRecord
     start_date = self.movement_created_at.to_date - days.days
     end_date = self.movement_created_at
     EvaluatedMovement.where(
-      "id != ? AND
-      (evaluated_movements.beneficiary ilike ? 
+      "(evaluated_movements.beneficiary ilike ? 
       OR (evaluated_movements.beneficiary_iban != '' AND evaluated_movements.beneficiary_iban = ?)
-      OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?))", self.id, self.beneficiary, self.beneficiary_iban, self.beneficiary_card
+      OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?))", self.beneficiary, self.beneficiary_iban, self.beneficiary_card
     ).where(
       "(evaluated_movements.payer ilike ? 
       OR (evaluated_movements.payer_iban != '' AND evaluated_movements.payer_iban = ?)
