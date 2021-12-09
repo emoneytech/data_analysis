@@ -136,7 +136,6 @@ class Movimentoconto < ApplicationCoreRecord
       movements.each do |m|
         movement = self.find m.idMovimentiConti
         movement.trigger! if movement.to_trigger?
-        # movement.to_trigger?
       end
     end
   end

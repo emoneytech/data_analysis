@@ -5,15 +5,21 @@
       %th= CustomerEvaluation.human_attribute_name(:last_attention_factor7)
       %th= CustomerEvaluation.human_attribute_name(:last_attention_factor30)
       %th= CustomerEvaluation.human_attribute_name(:nr_movements)
+      %th= CustomerEvaluation.human_attribute_name(:sent)
+      %th= CustomerEvaluation.human_attribute_name(:tollerance)
       %th{data: {orderable: "false"}}= CustomerEvaluation.human_attribute_name(:trend)
       %th{data: {priority: "1", orderable: "false"}}
   %tbody
     - customer_evaluations.each do |item|
       %tr.text-center
         %td= link_to item.anagrafica, [:customers, item.anagrafica]
-        %td= number_with_precision item.last_attention_factor7, precision: 4
-        %td= number_with_precision item.last_attention_factor30, precision: 4
+        %td= number_with_precision item.last_attention_factor7
+        %td= number_with_precision item.last_attention_factor30
         %td= item.nr_movements
+        %td
+          = number_with_precision(item.anagrafica.current_evaluation.last_attention_factor30 * item.anagrafica.tollerance)
+        %td
+          = item.anagrafica.tollerance
         %td.text-center= trend_helper(item.trend)
         %td.text-center{nowrap: true}
           - if item.anagrafica.siblings.size > 1
