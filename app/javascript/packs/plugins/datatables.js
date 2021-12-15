@@ -1,6 +1,7 @@
 require('jquery')
 require('jszip')
-require('pdfmake')
+require('./pdfmake/build/pdfmake.js')
+require('./pdfmake/build/vfs_fonts')
 require("datatables.net")
 require("datatables.net-bs4")
 require("datatables.net-bs4/css/dataTables.bootstrap4.min.css")
