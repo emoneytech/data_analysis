@@ -189,6 +189,21 @@ class Anagrafica < ApplicationCoreRecord
   self.primary_key = 'IdUtente'
   self.table_name = 'anagrafiche'
 
+  has_many :company_shares, foreign_key: 'idUtente', primary_key: 'IdUtente', class_name: 'RelazioniAnagrafica'
+  has_many :companies, through: :company_shares, source: :company, class_name: 'Anagrafica'
+  
+  #  idTipoRelazione(1:UBO\n2:Director\n3:Owner)
+  has_many :relations, foreign_key: 'idLegato', primary_key: 'IdUtente', class_name: 'RelazioniAnagrafica'
+  has_many :ubo_relations, -> { where(idTipoRelazione: 1)}, foreign_key: 'idLegato', primary_key: 'IdUtente', class_name: 'RelazioniAnagrafica'
+  has_many :director_relations, -> { where(idTipoRelazione: 2)}, foreign_key: 'idLegato', primary_key: 'IdUtente', class_name: 'RelazioniAnagrafica'
+  has_many :owner_relations, -> { where(idTipoRelazione: 3)}, foreign_key: 'idLegato', primary_key: 'IdUtente', class_name: 'RelazioniAnagrafica'
+
+  has_many :ubos, through: :ubo_relations
+  has_many :directors, through: :director_relations
+  has_many :owners, through: :owner_relations
+
+
+
   has_many :conti,
            -> { order(amount: :desc) },
            foreign_key: 'IdUtente',

@@ -17,3 +17,4 @@
     = render "customers/charts/latest_customer_evaluations", customer: @anagrafica
     = render "conti", customer: @anagrafica
     = render "anagrafica", anagrafica: @anagrafica
+    = render "corporate_structure", anagrafica: @anagrafica if @anagrafica.IdTipo == 3

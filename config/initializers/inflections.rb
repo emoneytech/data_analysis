@@ -34,5 +34,5 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'Ricaricacarta', 'Ricarichecarta'
   inflect.irregular 'Servizio', 'Servizi'
   inflect.irregular 'Statoservizio', 'Statiservizi'
-
+  inflect.irregular 'RelazioneAnagrafica', 'RelazioniAnagrafiche'
 end

@@ -1,0 +1,31 @@
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_rischi'}
+  %thead
+    %tr
+      %th= RelazioniAnagrafica.human_attribute_name(:idTableRelathion)
+      %th= RelazioniAnagrafica.human_attribute_name(:owner)
+      %th= RelazioniAnagrafica.human_attribute_name(:company)
+      %th= RelazioniAnagrafica.human_attribute_name(:idTipoLegato)
+      %th= RelazioniAnagrafica.human_attribute_name(:idTipoRelazione)
+      %th= RelazioniAnagrafica.human_attribute_name(:RappresentanteLegale)
+      %th= RelazioniAnagrafica.human_attribute_name(:percentualeubo)
+      %th= RelazioniAnagrafica.human_attribute_name(:societa)
+      %th= RelazioniAnagrafica.human_attribute_name(:societamadre)
+      %th= RelazioniAnagrafica.human_attribute_name(:status)
+      %th.action
+  %tbody
+    - relazioni_anagrafiche.each do |item|
+      %tr
+        %td= item.idTableRelathion
+        %td= link_to item.owner, [:customers, item.owner]
+        %td= link_to item.company, [:customers, item.company]
+        %td= item.idTipoLegato
+        %td= item.tipo_relazione
+        %td= item.RappresentanteLegale
+        %td= item.percentualeubo
+        %td= item.societa
+        %td= item.societamadre
+        %td= item.status
+        - if can? :manage, RelazioniAnagrafica
+          %td.text-center
+            = link_to data_analysis_relazioni_anagrafica_path(item), class: "btn btn-xs btn-primary" do
+              %i.fa.fa-eye

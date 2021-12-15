@@ -123,6 +123,7 @@ Rails.application.routes.draw do
       end
     end
     resources :related_countries
+    resources :relazioni_anagrafiche
     resources :reports do
       member do
         get :download
