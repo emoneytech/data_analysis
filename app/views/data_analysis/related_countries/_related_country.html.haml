@@ -17,3 +17,4 @@
       .col-md-6.text-right
         = link_to 'Next', [:data_analysis, @next] unless @next.blank?
 
+= render "base/audits", audits: related_country.audits if related_country.audits.any?

@@ -9,6 +9,9 @@
   .col-md-4= f.input :corruption_perception
 
 .row
+  .col-md-12= f.input :audit_comment
+
+.row
   .col-md-4= f.input :eval_kyc_score, readonly: true
   .col-md-4= f.input :eval_basel_score, readonly: true
   .col-md-4= f.input :eval_corruption_perception, readonly: true

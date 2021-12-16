@@ -35,7 +35,7 @@ module DataAnalysis
   private
 
     def related_country_params
-      params.require(:related_country).permit(:basel_score, :corruption_perception, :gray_or_black_list, :kyc_score)
+      params.require(:related_country).permit(:basel_score, :corruption_perception, :gray_or_black_list, :kyc_score, :audit_comment)
     end
 
     def fix_fields

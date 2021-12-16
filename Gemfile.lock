@@ -90,6 +90,8 @@ GEM
     annotate (3.1.1)
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 14.0)
+    audited (5.0.2)
+      activerecord (>= 5.0, < 7.1)
     bcrypt (3.1.16)
     bcrypt (3.1.16-java)
     bcrypt_pbkdf (1.1.0)
@@ -508,6 +510,7 @@ DEPENDENCIES
   acts_as_list
   ajax-datatables-rails
   annotate
+  audited (~> 5.0)
   bcrypt_pbkdf (>= 1.0, < 2.0)
   bootsnap (>= 1.4.4)
   bootstrap4-kaminari-views

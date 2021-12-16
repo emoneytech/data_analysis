@@ -320,8 +320,8 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "aml_ToCheck", primary_key: "idaml_ToCheck", id: :integer, charset: "latin1", force: :cascade do |t|
     t.integer "idUtente"
-    t.integer "risk_calc"
-    t.integer "risk_anag"
+    t.decimal "risk_calc", precision: 10, scale: 2
+    t.decimal "risk_anag", precision: 10, scale: 2
     t.datetime "data_insert", default: -> { "CURRENT_TIMESTAMP" }
     t.decimal "questionaire_score", precision: 10, scale: 2
     t.integer "stato", default: 1
@@ -338,6 +338,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer "stato"
     t.integer "checked", default: 0
     t.string "ipcall", limit: 45
+    t.datetime "datachecked"
     t.index ["IdUtente"], name: "idutente"
     t.index ["stato"], name: "stato"
   end

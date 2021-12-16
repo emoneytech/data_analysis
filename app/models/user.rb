@@ -71,6 +71,10 @@ class User < CorePgRecord
     "#{first_name.try(:capitalize)} #{last_name.try(:capitalize)}"
   end
 
+  def username
+    full_name
+  end
+
   def name
     full_name
   end

@@ -49,11 +49,13 @@
 #  index_related_countries_on_world_region           (world_region)
 #
 class RelatedCountry < CorePgRecord
+  audited comment_required: true
 
   validates :basel_score, :corruption_perception, :gray_or_black_list, :kyc_score, presence: true, numericality: true
-  
+  validates :audit_comment, presence: true
   after_validation :set_evaluated_fields
-
+  has_many :comments
+  
   def previous
     self.class.unscoped.where('alpha2 < ?', alpha2).order('alpha2 DESC').first
   end

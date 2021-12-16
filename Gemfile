@@ -129,3 +129,5 @@ gem 'ajax-datatables-rails'
 
 #gems fro logs
 gem 'logster'
+
+gem "audited", "~> 5.0"

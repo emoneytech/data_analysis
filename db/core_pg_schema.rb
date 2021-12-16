@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_06_171320) do
+ActiveRecord::Schema.define(version: 2021_12_16_102752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -59,6 +59,42 @@ ActiveRecord::Schema.define(version: 2021_12_06_171320) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_activity_logs_on_user_id"
+  end
+
+  create_table "audits", force: :cascade do |t|
+    t.integer "auditable_id"
+    t.string "auditable_type"
+    t.integer "associated_id"
+    t.string "associated_type"
+    t.integer "user_id"
+    t.string "user_type"
+    t.string "username"
+    t.string "action"
+    t.jsonb "audited_changes"
+    t.integer "version", default: 0
+    t.string "comment"
+    t.string "remote_address"
+    t.string "request_uuid"
+    t.datetime "created_at"
+    t.index ["associated_type", "associated_id"], name: "associated_index"
+    t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
+    t.index ["created_at"], name: "index_audits_on_created_at"
+    t.index ["request_uuid"], name: "index_audits_on_request_uuid"
+    t.index ["user_id", "user_type"], name: "user_index"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.bigint "related_country_id", null: false
+    t.bigint "user_id", null: false
+    t.string "subject", null: false
+    t.text "body", null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["deleted_at"], name: "index_comments_on_deleted_at"
+    t.index ["related_country_id"], name: "index_comments_on_related_country_id"
+    t.index ["subject"], name: "index_comments_on_subject"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "customer_evaluations", force: :cascade do |t|
@@ -453,6 +489,8 @@ ActiveRecord::Schema.define(version: 2021_12_06_171320) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "activity_logs", "users"
+  add_foreign_key "comments", "related_countries"
+  add_foreign_key "comments", "users"
   add_foreign_key "sanction_list_items", "sanction_lists"
   add_foreign_key "users", "roles", name: "users_role_id_fkey", on_update: :restrict, on_delete: :restrict
 end

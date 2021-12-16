@@ -1,0 +1,28 @@
+.card.card-outline.card-primary
+  .card-header
+    %h3.card-title
+      %i.fa.fa-bezier-curve
+      Audits
+  .card-body
+    %table.table.table-striped.table-bordered.table-hover.data-table{id: 'table'}
+      %thead
+        %tr
+          %th ID
+          %th User
+          %th Action
+          %th Version
+          %th Comment
+          %th Changes
+          %th Created
+      %tbody
+        - audits.each do |item|
+          %tr
+            %td= item.id
+            %td= item.user
+            %td= item.action
+            %td= item.version
+            %td= item.comment
+            %td
+              - item.audited_changes.each do |key, value|
+                = "<b>#{key}</b>: from <b>#{value[0].kind_of?(Float) ? number_with_precision(value[0]) : value[0]}</b> to <b>#{value[1].kind_of?(Float) ? number_with_precision(value[1]) : value[1]}</b> <br />".html_safe
+            %td= item.created_at
