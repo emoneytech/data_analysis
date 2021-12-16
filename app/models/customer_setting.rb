@@ -17,7 +17,9 @@
 #  product_customer_index                  (product_id,customer_id) UNIQUE
 #
 class CustomerSetting < CorePgRecord
-  
+  audited comment_required: true
+  validates :audit_comment, presence: true
+
   belongs_to :customer,
     class_name: 'Anagrafica',
     foreign_key: 'customer_id',

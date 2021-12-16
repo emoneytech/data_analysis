@@ -61,7 +61,7 @@ module Customers
     end
 
     def customer_setting_params
-      params.require(:customer_setting).permit(:active, :product_id, :tollerance)
+      params.require(:customer_setting).permit(:active, :product_id, :tollerance, :audit_comment)
     end
   end
 end

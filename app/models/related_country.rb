@@ -50,9 +50,9 @@
 #
 class RelatedCountry < CorePgRecord
   audited comment_required: true
+  validates :audit_comment, presence: true
 
   validates :basel_score, :corruption_perception, :gray_or_black_list, :kyc_score, presence: true, numericality: true
-  validates :audit_comment, presence: true
   after_validation :set_evaluated_fields
   has_many :comments
   
