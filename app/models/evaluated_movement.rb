@@ -415,11 +415,11 @@ class EvaluatedMovement < CorePgRecord
     ).where(
       "(evaluated_movements.beneficiary ilike ? 
       OR (evaluated_movements.beneficiary_iban != '' AND evaluated_movements.beneficiary_iban = ?)
-      OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?))", self.beneficiary, self.beneficiary_iban, self.beneficiary_card
+      OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?))", self.beneficiary.gsub("\\", "-"), self.beneficiary_iban, self.beneficiary_card
     ).where(
       "(evaluated_movements.payer ilike ? 
       OR (evaluated_movements.payer_iban != '' AND evaluated_movements.payer_iban = ?)
-      OR (evaluated_movements.payer_card != '' AND evaluated_movements.payer_card = ?))", self.payer, self.payer_iban, self.payer_card
+      OR (evaluated_movements.payer_card != '' AND evaluated_movements.payer_card = ?))", self.payer.gsub("\\", "-"), self.payer_iban, self.payer_card
     ).where(
       "evaluated_movements.movement_created_at 
         BETWEEN '#{start_date.to_date.beginning_of_day}' 
@@ -437,11 +437,11 @@ class EvaluatedMovement < CorePgRecord
     EvaluatedMovement.where(
       "(evaluated_movements.beneficiary ilike ? 
       OR (evaluated_movements.beneficiary_iban != '' AND evaluated_movements.beneficiary_iban = ?)
-      OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?))", self.beneficiary, self.beneficiary_iban, self.beneficiary_card
+      OR (evaluated_movements.beneficiary_card != '' AND evaluated_movements.beneficiary_card = ?))", self.beneficiary.gsub("\\", "-"), self.beneficiary_iban, self.beneficiary_card
     ).where(
       "(evaluated_movements.payer ilike ? 
       OR (evaluated_movements.payer_iban != '' AND evaluated_movements.payer_iban = ?)
-      OR (evaluated_movements.payer_card != '' AND evaluated_movements.payer_card = ?))", self.payer, self.payer_iban, self.payer_card
+      OR (evaluated_movements.payer_card != '' AND evaluated_movements.payer_card = ?))", self.payer.gsub("\\", "-"), self.payer_iban, self.payer_card
     ).where(
       "evaluated_movements.movement_created_at 
         BETWEEN '#{start_date.to_date.beginning_of_day}' 
