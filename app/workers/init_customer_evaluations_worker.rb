@@ -9,7 +9,7 @@ class InitCustomerEvaluationsWorker
   def perform()
     Anagrafica.alive.select(:IdUtente).find_in_batches(batch_size: 50) do |customers|
       customers.each do |customer|
-        CustomerEvaluationWorker.perform_async(customer.IdUtente)
+        InitCustomerEvaluationWorker.perform_async(customer.IdUtente)
       end
     end
   end

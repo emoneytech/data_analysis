@@ -1027,6 +1027,46 @@
   optionalDependencies:
     "@tweenjs/tween.js" "^17.2.0"
 
+"@foliojs-fork/fontkit@^1.9.1":
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/@foliojs-fork/fontkit/-/fontkit-1.9.1.tgz#8124649168eb5273f580f66697a139fb5041296b"
+  integrity sha512-U589voc2/ROnvx1CyH9aNzOQWJp127JGU1QAylXGQ7LoEAF6hMmahZLQ4eqAcgHUw+uyW4PjtCItq9qudPkK3A==
+  dependencies:
+    "@foliojs-fork/restructure" "^2.0.2"
+    brfs "^2.0.0"
+    brotli "^1.2.0"
+    browserify-optional "^1.0.1"
+    clone "^1.0.4"
+    deep-equal "^1.0.0"
+    dfa "^1.2.0"
+    tiny-inflate "^1.0.2"
+    unicode-properties "^1.2.2"
+    unicode-trie "^2.0.0"
+
+"@foliojs-fork/linebreak@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@foliojs-fork/linebreak/-/linebreak-1.1.1.tgz#93ecd695b7d2bb0334b9481058c3e610e019a4eb"
+  integrity sha512-pgY/+53GqGQI+mvDiyprvPWgkTlVBS8cxqee03ejm6gKAQNsR1tCYCIvN9FHy7otZajzMqCgPOgC4cHdt4JPig==
+  dependencies:
+    base64-js "1.3.1"
+    brfs "^2.0.2"
+    unicode-trie "^2.0.0"
+
+"@foliojs-fork/pdfkit@^0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@foliojs-fork/pdfkit/-/pdfkit-0.13.0.tgz#54f5368d8cf74d8edc81a175ccda1fd9655f2db9"
+  integrity sha512-YXeG1fml9k97YNC9K8e292Pj2JzGt9uOIiBFuQFxHsdQ45BlxW+JU3RQK6JAvXU7kjhjP8rCcYvpk36JLD33sQ==
+  dependencies:
+    "@foliojs-fork/fontkit" "^1.9.1"
+    "@foliojs-fork/linebreak" "^1.1.1"
+    crypto-js "^4.0.0"
+    png-js "^1.0.0"
+
+"@foliojs-fork/restructure@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@foliojs-fork/restructure/-/restructure-2.0.2.tgz#73759aba2aff1da87b7c4554e6839c70d43c92b4"
+  integrity sha512-59SgoZ3EXbkfSX7b63tsou/SDGzwUEK6MuB5sKqgVK1/XE0fxmpsOb9DQI8LXW3KfGnAjImCGhhEb7uPPAUVNA==
+
 "@fortawesome/fontawesome-free@^5.15.2", "@fortawesome/fontawesome-free@^5.15.3":
   version "5.15.3"
   resolved "https://registry.npmjs.org/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.3.tgz"
@@ -1784,6 +1824,11 @@ base64-js@0.0.8:
   version "0.0.8"
   resolved "https://registry.npmjs.org/base64-js/-/base64-js-0.0.8.tgz"
   integrity sha1-EQHpVE9KdrG8OybUUsqW16NeeXg=
+
+base64-js@1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.3.1.tgz#58ece8cb75dd07e71ed08c736abc5fac4dbf8df1"
+  integrity sha512-mLQ4i2QO1ytvGWFWmcngKO//JXAQueZvwEKtjgQFM4jIK0kU+ytMfplL8j+n5mspOfjHwoAg+9yhb7BwAHm36g==
 
 base64-js@^1.0.2, base64-js@^1.1.2, base64-js@^1.3.0:
   version "1.5.1"
@@ -2719,6 +2764,11 @@ crypto-js@^3.3.0:
   resolved "https://registry.npmjs.org/crypto-js/-/crypto-js-3.3.0.tgz"
   integrity sha512-DIT51nX0dCfKltpRiXV+/TVZq+Qq2NgF4644+K7Ttnla7zEzqc+kjJyiB96BHNyUTBxyjzRcZYpUdZa+QAqi6Q==
 
+crypto-js@^4.0.0:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.1.1.tgz#9e485bcf03521041bd85844786b83fb7619736cf"
+  integrity sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==
+
 css-blank-pseudo@^0.1.4:
   version "0.1.4"
   resolved "https://registry.npmjs.org/css-blank-pseudo/-/css-blank-pseudo-0.1.4.tgz"
@@ -3217,6 +3267,14 @@ datatables.net-autofill@2.3.6:
     datatables.net "^1.10.15"
     jquery ">=1.7"
 
+datatables.net-bs4@>=1.11.3, datatables.net-bs4@^1.11.3:
+  version "1.11.3"
+  resolved "https://registry.yarnpkg.com/datatables.net-bs4/-/datatables.net-bs4-1.11.3.tgz#04817c5d9457f1b9807a1330f12c37a541596328"
+  integrity sha512-UPT2F1nvZZzKJSSHb+3+bTeQy1ULLMT1BexBHCkh5PhMnAZNPbTEZD+6To1RCBfUF1rtPwIJTwJ+Jjjxy86xRw==
+  dependencies:
+    datatables.net ">=1.10.25"
+    jquery ">=1.7"
+
 datatables.net-bs4@^1.10.15, datatables.net-bs4@^1.10.24:
   version "1.10.24"
   resolved "https://registry.npmjs.org/datatables.net-bs4/-/datatables.net-bs4-1.10.24.tgz"
@@ -3225,21 +3283,22 @@ datatables.net-bs4@^1.10.15, datatables.net-bs4@^1.10.24:
     datatables.net "1.10.24"
     jquery ">=1.7"
 
-datatables.net-bs4@^1.11.3:
-  version "1.11.3"
-  resolved "https://registry.yarnpkg.com/datatables.net-bs4/-/datatables.net-bs4-1.11.3.tgz#04817c5d9457f1b9807a1330f12c37a541596328"
-  integrity sha512-UPT2F1nvZZzKJSSHb+3+bTeQy1ULLMT1BexBHCkh5PhMnAZNPbTEZD+6To1RCBfUF1rtPwIJTwJ+Jjjxy86xRw==
-  dependencies:
-    datatables.net ">=1.10.25"
-    jquery ">=1.7"
-
-datatables.net-buttons-bs4@^1.6.5, datatables.net-buttons-bs4@^1.7.0:
+datatables.net-buttons-bs4@^1.7.0:
   version "1.7.0"
   resolved "https://registry.npmjs.org/datatables.net-buttons-bs4/-/datatables.net-buttons-bs4-1.7.0.tgz"
   integrity sha512-ZqZOB3nwXiV8vIjVLATUMUvp13eOC46cR9C/Ib1MZtxXMck8HKrspPZZ00BJrS/lLAvMCj0M7qbzug7AJuGznQ==
   dependencies:
     datatables.net-bs4 "^1.10.15"
     datatables.net-buttons "1.7.0"
+    jquery ">=1.7"
+
+datatables.net-buttons-bs4@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/datatables.net-buttons-bs4/-/datatables.net-buttons-bs4-2.1.1.tgz#19a8279466f3c9e851f44b4b14de8c2c4245e24a"
+  integrity sha512-o2MrkGzg2IqZ5j7kXOqm4ukpwAyxqAB2ugTTnmjn7VXQwNbERrzmeA05pXcqw80fBUx5/Jn4arczXoInNQuBTw==
+  dependencies:
+    datatables.net-bs4 ">=1.11.3"
+    datatables.net-buttons ">=2.0.1"
     jquery ">=1.7"
 
 datatables.net-buttons@1.7.0:
@@ -3250,7 +3309,15 @@ datatables.net-buttons@1.7.0:
     datatables.net "^1.10.15"
     jquery ">=1.7"
 
-datatables.net-colreorder-bs4@^1.5.2, datatables.net-colreorder-bs4@^1.5.3:
+datatables.net-buttons@>=2.0.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/datatables.net-buttons/-/datatables.net-buttons-2.1.1.tgz#5969913415aac9013ed269dbb61d7f732399f06c"
+  integrity sha512-MLHKIOlwWfZ1I6vI+w7B0w7szWDkuelTVnwuNXGhh0nMV2hP9nL7t0zgfxPraOmbVXAmJnHQa4o7pd1PfKbJ3g==
+  dependencies:
+    datatables.net ">=1.11.3"
+    jquery ">=1.7"
+
+datatables.net-colreorder-bs4@^1.5.3:
   version "1.5.3"
   resolved "https://registry.npmjs.org/datatables.net-colreorder-bs4/-/datatables.net-colreorder-bs4-1.5.3.tgz"
   integrity sha512-XIXwMJbLoEC75A+2ICZRuFVzbvvquF6yxXL3D4CJCIOU+dqW5aBjpq2GHaVRpxZfbWIIIQ7ujhUM72QpKqBWmQ==
@@ -3284,7 +3351,7 @@ datatables.net-fixedcolumns@3.3.2:
     datatables.net "^1.10.15"
     jquery ">=1.7"
 
-datatables.net-fixedheader-bs4@^3.1.7, datatables.net-fixedheader-bs4@^3.1.8:
+datatables.net-fixedheader-bs4@^3.1.8:
   version "3.1.8"
   resolved "https://registry.npmjs.org/datatables.net-fixedheader-bs4/-/datatables.net-fixedheader-bs4-3.1.8.tgz"
   integrity sha512-1d3tIQ44xRgJs4vZWnzKMzPZh10pTGgbWppbb+K81gFA0bYgVNm12ZDvLQvs9wuTQ/fI9Wt4GlhIwL3CehPGpg==
@@ -3301,7 +3368,7 @@ datatables.net-fixedheader@3.1.8:
     datatables.net "^1.10.15"
     jquery ">=1.7"
 
-datatables.net-keytable-bs4@^2.5.3, datatables.net-keytable-bs4@^2.6.1:
+datatables.net-keytable-bs4@^2.6.1:
   version "2.6.1"
   resolved "https://registry.npmjs.org/datatables.net-keytable-bs4/-/datatables.net-keytable-bs4-2.6.1.tgz"
   integrity sha512-kSfNbuptzLjKV401N5m9cKBKsmAzYOQkg10bMErZT71FYPoNH+FqKizAYA0EQzck03nrNSXUWCqwb1hbZ4fUJQ==
@@ -3318,7 +3385,7 @@ datatables.net-keytable@2.6.1:
     datatables.net "^1.10.15"
     jquery ">=1.7"
 
-datatables.net-responsive-bs4@^2.2.6, datatables.net-responsive-bs4@^2.2.7:
+datatables.net-responsive-bs4@^2.2.7:
   version "2.2.7"
   resolved "https://registry.npmjs.org/datatables.net-responsive-bs4/-/datatables.net-responsive-bs4-2.2.7.tgz"
   integrity sha512-RI2IeX9gk0mfmQOhlPF7xpEA7p7DavdCy3W0NrL9iZnE83xAYtJeKE5MFz7jt0XmOTUu2P93rGn+jJQwSWto2Q==
@@ -3327,10 +3394,27 @@ datatables.net-responsive-bs4@^2.2.6, datatables.net-responsive-bs4@^2.2.7:
     datatables.net-responsive "2.2.7"
     jquery ">=1.7"
 
-datatables.net-responsive@2.2.7, datatables.net-responsive@^2.2.7:
+datatables.net-responsive-bs4@^2.2.9:
+  version "2.2.9"
+  resolved "https://registry.yarnpkg.com/datatables.net-responsive-bs4/-/datatables.net-responsive-bs4-2.2.9.tgz#18166b9e99c439b8b19bdd7edef8b78572b17b3f"
+  integrity sha512-f6MS0aL7XqjYcFSjup/JRDezbK3cCYFjAB+4vl8dwnGqRP13xwTjXiNqlrRT+fhJJzTQhaHveRpvFUn1qsyn7g==
+  dependencies:
+    datatables.net-bs4 "^1.10.15"
+    datatables.net-responsive "2.2.9"
+    jquery ">=1.7"
+
+datatables.net-responsive@2.2.7:
   version "2.2.7"
   resolved "https://registry.npmjs.org/datatables.net-responsive/-/datatables.net-responsive-2.2.7.tgz"
   integrity sha512-pjZcR+AHa0GE++giRhMBSxFLKrfjP+X7etj7oZMMfMTi1gcdYdM8YP3gmpEyfLjDEg6uPJb9PRH4mQHcc8OYyA==
+  dependencies:
+    datatables.net "^1.10.15"
+    jquery ">=1.7"
+
+datatables.net-responsive@2.2.9:
+  version "2.2.9"
+  resolved "https://registry.yarnpkg.com/datatables.net-responsive/-/datatables.net-responsive-2.2.9.tgz#846d4436691b13261e8e436dc988affe4d262f36"
+  integrity sha512-C+mOY/mG17zzaYPtgqAOsC4JlGddGkKmO/ADNEtNZ41bcPV1/3jJzkOWT3DCZ400NmkXLDz4WObWlPT8WCgfzg==
   dependencies:
     datatables.net "^1.10.15"
     jquery ">=1.7"
@@ -3403,7 +3487,7 @@ datatables.net-searchbuilder@1.0.1:
     datatables.net "^1.10.15"
     jquery ">=1.7"
 
-datatables.net-searchpanes-bs4@^1.2.1, datatables.net-searchpanes-bs4@^1.2.2:
+datatables.net-searchpanes-bs4@^1.2.2:
   version "1.2.2"
   resolved "https://registry.npmjs.org/datatables.net-searchpanes-bs4/-/datatables.net-searchpanes-bs4-1.2.2.tgz"
   integrity sha512-GQQ/G72Wv7pcCweNyLhNT6pMy9Z6stFnztqMO2dEbgQrOFrFTMDLVmu9Flxv8MOOzpBuumPm4gouevCYVNUQlQ==
@@ -3420,7 +3504,7 @@ datatables.net-searchpanes@1.2.2:
     datatables.net "^1.10.15"
     jquery ">=1.7"
 
-datatables.net-select-bs4@^1.3.1, datatables.net-select-bs4@^1.3.2:
+datatables.net-select-bs4@^1.3.2:
   version "1.3.3"
   resolved "https://registry.npmjs.org/datatables.net-select-bs4/-/datatables.net-select-bs4-1.3.3.tgz"
   integrity sha512-jXYNXoDPXQOMvJtIOmy8kiVbiSVJvwQIWUu5dNRAGLWBsCjReukjI7lhaljRocKvfrYam2zw9Z16XDz8nzxTDQ==
@@ -3437,6 +3521,23 @@ datatables.net-select@1.3.3:
     datatables.net "^1.10.15"
     jquery ">=1.7"
 
+datatables.net-staterestore-bs4@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/datatables.net-staterestore-bs4/-/datatables.net-staterestore-bs4-1.0.1.tgz#5cca0004648e0b52e8a05d3bc3962b82eaa043f9"
+  integrity sha512-AUwnQpBQ8fiq8zXRxdPRSK2xL984/9d9Ep030EunanJqadGzMeY27wNLszLmJA+jpkpf1j+tW6lwWcITWqBWgg==
+  dependencies:
+    datatables.net-bs4 ">=1.11.3"
+    datatables.net-staterestore ">=null"
+    jquery ">=1.7"
+
+datatables.net-staterestore@>=null:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/datatables.net-staterestore/-/datatables.net-staterestore-1.0.1.tgz#632cece2b4f4f86e369dd950d2dee0090a0ffd9b"
+  integrity sha512-TR/XMMCCtoiPY5d3EfeEfvVlUGn+x2ym4kVFbaXJA8aJ0N3VPNwO22oIxZlX1I+toctgzQD4Yx5ULNl4WbSYBg==
+  dependencies:
+    datatables.net ">=1.11.3"
+    jquery ">=1.7"
+
 datatables.net@1.10.24, datatables.net@^1.10.15, datatables.net@^1.10.24:
   version "1.10.24"
   resolved "https://registry.npmjs.org/datatables.net/-/datatables.net-1.10.24.tgz"
@@ -3444,7 +3545,7 @@ datatables.net@1.10.24, datatables.net@^1.10.15, datatables.net@^1.10.24:
   dependencies:
     jquery ">=1.7"
 
-datatables.net@>=1.10.25, datatables.net@^1.11.3:
+datatables.net@>=1.10.25, datatables.net@>=1.11.3:
   version "1.11.3"
   resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.11.3.tgz#80e691036efcd62467558ee64c07dd566cb761b4"
   integrity sha512-VMj5qEaTebpNurySkM6jy6sGpl+s6onPK8xJhYr296R/vUBnz1+id16NVqNf9z5aR076OGcpGHCuiTuy4E05oQ==
@@ -4758,7 +4859,7 @@ iconv-lite@0.4.24:
   dependencies:
     safer-buffer ">= 2.1.2 < 3"
 
-iconv-lite@0.6:
+iconv-lite@0.6, iconv-lite@^0.6.3:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.6.3.tgz#a52f80bf38da1952eb5c681790719871a1a72501"
   integrity sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==
@@ -6389,6 +6490,16 @@ pdfmake@^0.1.70:
     linebreak "^1.0.2"
     pdfkit "^0.12.0"
     svg-to-pdfkit "^0.1.8"
+    xmldoc "^1.1.2"
+
+pdfmake@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/pdfmake/-/pdfmake-0.2.4.tgz#7d58d64b59f8e9b9ed0b2494b17a9d94c575825b"
+  integrity sha512-EM39waHUe/Dg1W9C3XqYbpx6tfhYyU14JHZlI1HaW0AUEY32GbkRBjDLGWo9f7z/k3ea6k1p9yyDrflnvtZS1A==
+  dependencies:
+    "@foliojs-fork/linebreak" "^1.1.1"
+    "@foliojs-fork/pdfkit" "^0.13.0"
+    iconv-lite "^0.6.3"
     xmldoc "^1.1.2"
 
 picomatch@^2.0.4, picomatch@^2.2.1:

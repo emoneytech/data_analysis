@@ -63,12 +63,13 @@ document.addEventListener("turbolinks:load", () => {
     tables.push(
     $('.data-table').each((_, element) => {
         $(element).DataTable({
+          dom: 'Blfrtip',
           paging: false,
           info: false,
           lengthChange: false,
           autoWidth: false,
           responsive: true,
-          buttons: ["copy", "csv", "excel", "pdf", "colvis"]
+          buttons: ["copy", "csv", "excel", "pdf", "colvis", 'createState', 'savedStates']
         }).buttons().container().appendTo('#' + element.id + '_wrapper .col-md-6:eq(0)')
       })
       )
