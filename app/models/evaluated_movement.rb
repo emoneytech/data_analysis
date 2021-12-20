@@ -492,7 +492,7 @@ class EvaluatedMovement < CorePgRecord
   end
 
   def evaluate_customer
-    EvaluateCustomerForDayWorker.perform_async(self.id)
+    EvaluateCustomerForMovement.perform_async(self.id)
   end
 
   def set_queue_customer

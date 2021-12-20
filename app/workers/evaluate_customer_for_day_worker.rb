@@ -1,4 +1,4 @@
-class EvaluateCustomerForDayWorker
+class EvaluateCustomersForDayWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
 
@@ -6,11 +6,12 @@ class EvaluateCustomerForDayWorker
   
   # PARAMS
   # evaluated_movement_id = 2098745
+  # day = "2021/12/20"
 
-  def perform(evaluated_movement_id)
-    evaluated_movement = EvaluatedMovement.includes(:customer).find(evaluated_movement_id)
+  def perform(customer_id, day)
     begin
-      evaluated_movement.customer.evaluate_for_day(evaluated_movement.movement_created_at.to_date)
+      customer = Anagrafica.find customer_id
+      customer.evaluate_for_day(day.to_date)
     rescue Exception => e
       raise e 
     end
