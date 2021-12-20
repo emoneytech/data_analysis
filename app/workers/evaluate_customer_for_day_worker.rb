@@ -1,4 +1,4 @@
-class EvaluateCustomersForDayWorker
+class EvaluateCustomerForDayWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
 
