@@ -19,10 +19,10 @@
         %td= item.identification_country_iso2_code
         %td{nowrap: true}
           = link_to fa_icon("eye"), [:compliance_check, @sanction_list, item], data: {toggle: "tooltip", title: t(:show_resource, resource: item.model_name.human)}, class: "btn btn-xs btn-primary"
-          
-          %button.btn.btn-success.btn-xs.dropdown-toggle{type: "button", data: {toggle: "dropdown", offset: "-152"}}
-            %i.fas.fa-file-pdf
-          .dropdown-menu{role: "menu"}
-            = link_to SanctionListItem.human_attribute_name(:entity_regulation_publication_url), item.entity_regulation_publication_url, target: '_blank', data: {toggle: "tooltip", title: t(:show_resource, resource: item.model_name.human)}, class: "dropdown-item" if item.entity_regulation_publication_url
-            = link_to SanctionListItem.human_attribute_name(:name_alias_regulation_publication_url), item.name_alias_regulation_publication_url, target: '_blank', data: {toggle: "tooltip", title: t(:show_resource, resource: item.model_name.human)}, class: "dropdown-item" if item.name_alias_regulation_publication_url && item.name_alias_regulation_publication_url != item.entity_regulation_publication_url
-            = link_to SanctionListItem.human_attribute_name(:address_regulation_publication_url), item.address_regulation_publication_url, target: '_blank', data: {toggle: "tooltip", title: t(:show_resource, resource: item.model_name.human)}, class: "dropdown-item" if item.address_regulation_publication_url && item.address_regulation_publication_url != item.entity_regulation_publication_url
+          - if item.entity_regulation_publication_url || item.name_alias_regulation_publication_url || item.address_regulation_publication_url
+            %button.btn.btn-success.btn-xs.dropdown-toggle{type: "button", data: {toggle: "dropdown", offset: "-152"}}
+              %i.fas.fa-file-pdf
+            .dropdown-menu{role: "menu"}
+              = link_to SanctionListItem.human_attribute_name(:entity_regulation_publication_url), item.entity_regulation_publication_url, target: '_blank', data: {toggle: "tooltip", title: t(:show_resource, resource: item.model_name.human)}, class: "dropdown-item" if item.entity_regulation_publication_url
+              = link_to SanctionListItem.human_attribute_name(:name_alias_regulation_publication_url), item.name_alias_regulation_publication_url, target: '_blank', data: {toggle: "tooltip", title: t(:show_resource, resource: item.model_name.human)}, class: "dropdown-item" if item.name_alias_regulation_publication_url && item.name_alias_regulation_publication_url != item.entity_regulation_publication_url
+              = link_to SanctionListItem.human_attribute_name(:address_regulation_publication_url), item.address_regulation_publication_url, target: '_blank', data: {toggle: "tooltip", title: t(:show_resource, resource: item.model_name.human)}, class: "dropdown-item" if item.address_regulation_publication_url && item.address_regulation_publication_url != item.entity_regulation_publication_url

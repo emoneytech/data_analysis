@@ -147,4 +147,8 @@ class SanctionListItem < CorePgRecord
       OR name_alias_middle_name % :name
       OR name_alias_whole_name % :name", name: name)
   }
+
+  def self.icon
+    "user-check"
+  end
 end

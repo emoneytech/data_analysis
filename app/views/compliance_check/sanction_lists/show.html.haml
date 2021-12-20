@@ -24,4 +24,4 @@
           = file_field_tag :file
           = submit_tag "Import"
 
-          
+#sanction_list_items.row= render 'compliance_check/sanction_list_items/sanction_list_items', sanction_list_items: @sanction_list.sanction_list_items.page(1)       

@@ -3,7 +3,9 @@
     .card-header
       %h3.card-title
         %i.fa.fa-user-check
-        = t(:listing_resource, resource: SanctionListItem.model_name.human(:count => 2))
+        = @sanction_list.name
+      .card-tools
+        = link_to t(:add_resource, resource: SanctionListItem.model_name.human), [:new, :compliance_check, @sanction_list, :sanction_list_item], class: "btn btn-success btn-xs" 
     .card-body
       = render "compliance_check/sanction_list_items/table", sanction_list_items: sanction_list_items
     .card-footer.clearfix
