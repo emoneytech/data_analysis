@@ -47,7 +47,7 @@ class ObservedElementsController < ManagerController
         format.html { redirect_to observed_elements_url, notice: 'Observed Element was successfully destroyed.' }
         format.json { head :no_content }
       else
-        format.html { redirect_to @observed_element, error: 'Observed Element was not destroyed.' }
+        format.html { render :show }
         format.json { render json: @observed_element.errors, status: :unprocessable_entity }
       end
     end
