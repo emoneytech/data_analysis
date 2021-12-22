@@ -56,6 +56,14 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="<%= observed_elements_path %>" class="nav-link <%= ' active' if controller_name == 'observed_elements' %>">
+                <i class="nav-icon fas fa-<%= ObservedElement.icon %>"></i>
+                <p>
+                  <%= ObservedElement.model_name.human(count: 2) %>
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="<%= data_analysis_evaluated_movements_path %>" class="nav-link<%= ' active' if @module_name === 'DataAnalysis' && controller_name == 'evaluated_movements' %>">
                 <i class="nav-icon fas fa-search-dollar"></i>
                 <p>

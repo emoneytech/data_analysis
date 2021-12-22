@@ -15,8 +15,8 @@
       .card-footer
         = simple_form_for @observed_element, method: :delete, html: {class: 'form-horizontal'}, wrapper: :horizontal_form do |f|
           .row
-            .col-md-8.pr-0.mr-0
+            .col-md-11.pr-0.mr-0
               = f.input :audit_comment
-            .col-md-4.pl-1
+            .col-md-1.pl-1
               = f.submit "Destroy", class: "btn btn-danger"
 = render 'base/audits', audits: @observed_element.audits if @observed_element.audits.any?
