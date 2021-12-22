@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_16_102752) do
+ActiveRecord::Schema.define(version: 2021_12_21_102344) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -215,6 +215,29 @@ ActiveRecord::Schema.define(version: 2021_12_16_102752) do
     t.text "content", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string "recipient_type", null: false
+    t.bigint "recipient_id", null: false
+    t.string "type", null: false
+    t.json "params"
+    t.datetime "read_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["read_at"], name: "index_notifications_on_read_at"
+    t.index ["recipient_type", "recipient_id"], name: "index_notifications_on_recipient"
+  end
+
+  create_table "observed_elements", force: :cascade do |t|
+    t.string "category_element", null: false
+    t.string "content", null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["category_element"], name: "index_observed_elements_on_category_element"
+    t.index ["content"], name: "index_observed_elements_on_content"
+    t.index ["deleted_at"], name: "index_observed_elements_on_deleted_at"
   end
 
   create_table "places", force: :cascade do |t|

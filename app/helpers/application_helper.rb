@@ -108,4 +108,14 @@ module ApplicationHelper
     end
   end
 
+  def observed_element_helper(observed_element)
+    case observed_element.category_element
+    when 'customer_id'
+      link_to Anagrafica.find(observed_element.content).full_name, customers_anagrafica_path(observed_element.content) 
+    when 'country'
+      link_to RelatedCountry.find(observed_element.content).name, data_analysis_related_country_path(observed_element.content) 
+    else
+      observed_element.content
+    end
+  end
 end

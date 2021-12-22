@@ -407,8 +407,8 @@ class Anagrafica < ApplicationCoreRecord
     self.select(:vendor).distinct
   end
 
-  def as_json()
-    { id: id, text: full_name }
+  def as_json
+    { id: id, text: "#{id} - #{full_name}" }
   end
 
   def self.search_by_full_name(search)

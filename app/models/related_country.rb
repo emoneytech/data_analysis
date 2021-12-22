@@ -56,12 +56,18 @@ class RelatedCountry < CorePgRecord
   after_validation :set_evaluated_fields
   has_many :comments
   
+  scope :filter_by_name, -> (name) { where('name ilike ?', "%#{name}%") }
+
   def previous
     self.class.unscoped.where('alpha2 < ?', alpha2).order('alpha2 DESC').first
   end
   
   def next
     self.class.unscoped.where('alpha2 > ?', alpha2).order('alpha2 ASC').first
+  end
+
+  def as_json
+    { id: id, text: "#{name}" }
   end
 
   private

@@ -1,0 +1,27 @@
+.row
+  .col-md-12
+    .card.card-primary.card-outline
+      .card-header
+        .card-title
+          = fa_icon ObservedElement.icon
+          = t(:listing_resource, resource: ObservedElement.model_name.human(:count => 2))
+        .card-tools
+          .btn-group
+            = link_to [:new, :observed_element], class: "btn btn-success btn-sm" do
+              %i.fa.fa-plus
+              = t(:add_resource, resource: ObservedElement.model_name.human)
+      .card-body
+        %table.table.table-striped.table-bordered.table-hover.margin-none.data-table{id: 'table_products', data: {order: '[[1, "asc"]]'}}
+          %thead
+            %tr
+              %th= ObservedElement.human_attribute_name(:category_element)
+              %th= ObservedElement.human_attribute_name(:content)
+              %th= ObservedElement.human_attribute_name(:created_at)
+              %th
+          %tbody
+            - @observed_elements.each do |item|
+              %tr
+                %td= item.category_element
+                %td= observed_element_helper(item)
+                %td= item.created_at
+                %td= show_link(item)

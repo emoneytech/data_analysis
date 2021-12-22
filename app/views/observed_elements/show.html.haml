@@ -1,0 +1,22 @@
+.row
+  .col-md-12
+    .card.card-primary.card-outline
+      .card-header
+        .card-title
+          = fa_icon ObservedElement.icon
+          = ObservedElement.model_name.human(count: 2)
+        .card-tools
+          = back_link(observed_elements_path)
+      .card-body
+        %dl.row
+          - for attribute in @observed_element.attributes.keys
+            %dt.col-md-4.text-right= attribute.humanize
+            %dd.col-md-8= @observed_element.attributes[attribute] && @observed_element.attributes[attribute] != '' && @observed_element.attributes[attribute] != '""'? @observed_element.attributes[attribute].to_s : ' - '
+      .card-footer
+        = simple_form_for @observed_element, method: :delete, html: {class: 'form-horizontal'}, wrapper: :horizontal_form do |f|
+          .row
+            .col-md-8.pr-0.mr-0
+              = f.input :audit_comment
+            .col-md-4.pl-1
+              = f.submit "Destroy", class: "btn btn-danger"
+= render 'base/audits', audits: @observed_element.audits if @observed_element.audits.any?

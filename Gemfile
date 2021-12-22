@@ -51,6 +51,7 @@ group :development do
   gem 'ed25519', '>= 1.2', '< 2.0'
   gem 'bcrypt_pbkdf', '>= 1.0', '< 2.0'
   gem 'annotate'
+  gem 'letter_opener'
 end
 
 group :test do
@@ -131,3 +132,7 @@ gem 'ajax-datatables-rails'
 gem 'logster'
 
 gem "audited", "~> 5.0"
+
+gem "noticed", "~> 1.5"
+
+gem "webpush", "~> 1.1"

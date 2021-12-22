@@ -177,6 +177,9 @@ GEM
     ffi (1.15.4-java)
     ffi (1.15.4-x64-mingw32)
     ffi (1.15.4-x86-mingw32)
+    ffi-compiler (1.0.1)
+      ffi (>= 1.0.0)
+      rake
     fugit (1.5.2)
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.4)
@@ -196,13 +199,20 @@ GEM
       railties (>= 5.1)
     hightop (0.3.0)
       activesupport (>= 5.2)
+    hkdf (0.3.0)
     html2haml (2.2.0)
       erubis (~> 2.7.0)
       haml (>= 4.0, < 6)
       nokogiri (>= 1.6.0)
       ruby_parser (~> 3.5)
+    http (5.0.4)
+      addressable (~> 2.8)
+      http-cookie (~> 1.0)
+      http-form_data (~> 2.2)
+      llhttp-ffi (~> 0.4.0)
     http-cookie (1.0.4)
       domain_name (~> 0.5)
+    http-form_data (2.3.0)
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
     i18n_data (0.13.0)
@@ -211,6 +221,7 @@ GEM
     jbuilder (2.11.3)
       activesupport (>= 5.0.0)
     jsonapi-renderer (0.2.2)
+    jwt (2.3.0)
     kaminari (1.2.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.1)
@@ -223,9 +234,16 @@ GEM
       activerecord
       kaminari-core (= 1.2.1)
     kaminari-core (1.2.1)
+    launchy (2.5.0)
+      addressable (~> 2.7)
+    letter_opener (1.7.0)
+      launchy (~> 2.2)
     listen (3.7.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
+    llhttp-ffi (0.4.0)
+      ffi-compiler (~> 1.0)
+      rake (~> 13.0)
     logster (2.9.8)
     loofah (2.12.0)
       crass (~> 1.0.2)
@@ -292,6 +310,9 @@ GEM
     nokogumbo (2.0.5)
       nokogiri (~> 1.8, >= 1.8.4)
     normalize_country (0.3.2)
+    noticed (1.5.5)
+      http (>= 4.0.0)
+      rails (>= 5.2.0)
     numerizer (0.1.1)
     orm_adapter (0.5.0)
     paranoia (2.4.3)
@@ -484,6 +505,9 @@ GEM
       rack-proxy (>= 0.6.1)
       railties (>= 5.2)
       semantic_range (>= 2.3.0)
+    webpush (1.1.0)
+      hkdf (~> 0.2)
+      jwt (~> 2.0)
     webrick (1.7.0)
     webrobots (0.1.2)
     websocket-driver (0.7.5)
@@ -539,6 +563,7 @@ DEPENDENCIES
   iban-tools
   jbuilder (~> 2.7)
   kaminari
+  letter_opener
   listen (~> 3.3)
   logster
   mechanize
@@ -548,6 +573,7 @@ DEPENDENCIES
   net-ssh (>= 6.0.2)
   nokogumbo
   normalize_country
+  noticed (~> 1.5)
   paranoia
   paranoia_uniqueness_validator (= 3.3.0)
   pg (>= 0.18, < 2.0)
@@ -576,6 +602,7 @@ DEPENDENCIES
   web-console (>= 4.1.0)
   webdrivers
   webpacker (~> 5.0)
+  webpush (~> 1.1)
 
 RUBY VERSION
    ruby 2.7.3p183

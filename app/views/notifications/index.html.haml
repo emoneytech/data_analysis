@@ -1,0 +1,24 @@
+.row
+  .col-md-12
+    .card.card-primary.card-outline
+      .card-header
+        %h3.card-title
+          = fa_icon Notification.icon
+          = t(:listing_resource, resource: Notification.model_name.human(:count => 2))
+      .card-body
+        %table.table.table-striped.table-bordered.table-hover.margin-none.data-table
+          %thead
+            %tr
+              %th= Notification.human_attribute_name(:id)
+              %th= Notification.human_attribute_name(:recipient)
+              %th= Notification.human_attribute_name(:type)
+              %th= Notification.human_attribute_name(:params)
+              %th
+          %tbody
+            - @notifications.each do |notification|
+              %tr
+                %td= notification.id
+                %td= notification.recipient
+                %td= notification.type
+                %td= notification.params
+                %td

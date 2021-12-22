@@ -1,0 +1,29 @@
+# == Schema Information
+#
+# Table name: observed_elements
+#
+#  id               :bigint           not null, primary key
+#  category_element :string           not null
+#  content          :string           not null
+#  deleted_at       :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+# Indexes
+#
+#  index_observed_elements_on_category_element  (category_element)
+#  index_observed_elements_on_content           (content)
+#  index_observed_elements_on_deleted_at        (deleted_at)
+#
+
+one:
+  category_element: MyString
+  content: MyString
+  user: one
+  deleted_at: 2021-12-21 11:23:44
+
+two:
+  category_element: MyString
+  content: MyString
+  user: two
+  deleted_at: 2021-12-21 11:23:44

@@ -1,0 +1,46 @@
+= f.input :category_element, as: :select, collection: ObservedElement.category_values
+= f.input :content, as: :select, collection: [], input_html: {class: "mySelect select2bs4", style: "width: 100%;"}
+= f.input :audit_comment
+
+:javascript
+  function loadData(target) {
+    if (target === 'customer_id' || target === 'country') {
+      $('.mySelect').select2({
+        tags: false,
+        placeholder: 'Type at least 3 characters',
+        theme: 'bootstrap4',
+        minimumInputLength: 3,
+        ajax: {
+          url: "/observed_elements/autocomplete.json",
+          dataType: 'json',
+          data: function (params) {
+            var query = {
+              target: target,
+              search: params.term,
+              page: params.page || 1
+            }
+            return query;
+          },
+          processResults: function(data) {
+            return {results: data}
+          }
+        }
+      })
+    } else {
+      $(".mySelect").select2({
+        tags: true,
+        theme: 'bootstrap4',
+        placeholder: 'Insert correct ' + target
+      })
+    }
+  }
+  $(document).on('turbolinks:load', function() {
+    var selectedVal = $('#observed_element_category_element option:selected').val()
+    if (selectedVal.length > 0) {
+      loadData(selectedVal)
+    }
+    $('#observed_element_category_element').on('change', function() {
+      var target = this.value
+      loadData(target)
+    })
+  })

@@ -149,6 +149,15 @@ Rails.application.routes.draw do
     resources :setup
     resources :time_lapse_factors
   end
+ 
+  resources :activity_logs, only: [:index, :show]
+  resources :notifications
+  resources :messages, only: [:new, :create]
+  resources :observed_elements do
+    collection do
+      get :autocomplete
+    end
+  end
   resources :roles
   resources :users
   resources :excluded_products do
@@ -165,9 +174,7 @@ Rails.application.routes.draw do
     mount Logster::Web => "/logs"
   end
   
-  resources :messages, only: [:new, :create]
-  resources :activity_logs, only: [:index, :show]
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+ # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
 
 #sig montante 3488239296

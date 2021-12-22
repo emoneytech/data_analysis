@@ -47,9 +47,11 @@
 class User < CorePgRecord
 
   acts_as_paranoid
+  
+  has_many :notifications, as: :recipient, dependent: :destroy
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable, :lockable
   belongs_to :role

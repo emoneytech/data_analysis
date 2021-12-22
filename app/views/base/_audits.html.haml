@@ -24,5 +24,8 @@
             %td= item.comment
             %td
               - item.audited_changes.each do |key, value|
-                = "<b>#{key}</b>: from <b>#{value[0].kind_of?(Float) ? number_with_precision(value[0]) : value[0]}</b> to <b>#{value[1].kind_of?(Float) ? number_with_precision(value[1]) : value[1]}</b> <br />".html_safe
+                - if value.kind_of?(Array)
+                  = "#{key}: from <b>#{value[0].kind_of?(Float) ? number_with_precision(value[0]) : value[0]}</b> to <b>#{value[1].kind_of?(Float) ? number_with_precision(value[1]) : value[1]}</b> <br />".html_safe
+                - else
+                  = "#{key}: <b>#{value.kind_of?(Float) ? number_with_precision(value) : value}</b><br />".html_safe
             %td= item.created_at
