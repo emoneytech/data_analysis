@@ -504,8 +504,10 @@ class Anagrafica < ApplicationCoreRecord
       city, state, address = self.ComunePoint, NormalizeCountry(self.NazionePoint), self.IndirizzoPoint
     else
       city, state, address = self.Citta, NormalizeCountry(self.NazioneResidenza), self.Indirizzo
-    end 
-    result = Geocoder.search(city, params: {country: state, address: address}).first
+    end
+      result = Geocoder.search("#{address}, #{city}, #{country}").first
+      result = Geocoder.search("#{city},#{state},#{country}").first unless result
+      result = Geocoder.search(country, params: {city: city, address: address}).first unless result
     if result
       p.country = result.country
       p.city = result.city
