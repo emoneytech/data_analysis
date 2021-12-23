@@ -16,6 +16,7 @@
             %tr
               %th= ObservedElement.human_attribute_name(:category_element)
               %th= ObservedElement.human_attribute_name(:content)
+              %th= ObservedElement.human_attribute_name(:comments)
               %th= ObservedElement.human_attribute_name(:created_at)
               %th
           %tbody
@@ -23,5 +24,6 @@
               %tr
                 %td= item.category_element
                 %td= observed_element_helper(item)
+                %td= item.audits.last.comment
                 %td= item.created_at
                 %td= show_link(item)
