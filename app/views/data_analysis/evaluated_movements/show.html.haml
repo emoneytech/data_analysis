@@ -1,4 +1,4 @@
-- if @evaluated_movement.destination_lonlat
+- if @evaluated_movement.destination_lonlat && @evaluated_movement.origin_lonlat
   .row
     .col-md-12
       = render "map_single", evaluated_movement: @evaluated_movement

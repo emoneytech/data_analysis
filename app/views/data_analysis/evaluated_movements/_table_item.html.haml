@@ -27,6 +27,9 @@
     %th= EvaluatedMovement.human_attribute_name(:beneficiary_iban)
     %td= link_to evaluated_movement.beneficiary_iban, data_analysis_check_ibans_path(filter: {iban: evaluated_movement.beneficiary_iban})
   %tr
+    %th= EvaluatedMovement.human_attribute_name(:beneficiary_card)
+    %td= evaluated_movement.beneficiary_card
+  %tr
     %th= EvaluatedMovement.human_attribute_name(:beneficiary_other)
     %td= evaluated_movement.beneficiary_other
   %tr
