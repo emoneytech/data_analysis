@@ -21,6 +21,9 @@ Rails.application.routes.draw do
 
   namespace :customers do
     resources :anagrafiche do
+      resources :conti
+      resources :ibans
+
       resources :customer_settings
       
       resources :charts do

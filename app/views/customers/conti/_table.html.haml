@@ -1,0 +1,26 @@
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_movements'}
+  %thead
+    %tr
+      %th= Conto.human_attribute_name(:id)
+      %th= Conto.human_attribute_name(:bank_user)
+      %th= Conto.human_attribute_name(:Pan)
+      %th= Conto.human_attribute_name(:product_type)
+      %th= Conto.human_attribute_name(:Saldo)
+      %th= Conto.human_attribute_name(:ProductState)
+      %th= Conto.human_attribute_name(:average_stock)
+      %th= Conto.human_attribute_name(:lastMovimento)
+      %th.action{data: {orderable: "false"}}
+  %tbody
+    - conti.each do |item|
+      %tr
+        %td= item.idConti # $('td#'+id).html("#{humanized_money_with_symbol item.average_stock}");
+        %td= link_to item.bank_user, [:customers, item.bank_user] 
+        %td= item.Pan 
+        %td= item.product_name
+        %td= item.Saldo
+        %td= item.stato
+        %td.text-center{id: "average-#{item.id}"}= link_to_function 'load', "getAccountInfo('#{item.IdUtente}', 'average-#{item.id}')"
+        %td= item.lastMovimento
+        - if can? :manage, Conto
+          %td.text-center
+            = link_to fa_icon('eye'), data_analysis_conto_path(item.Pan), class: "btn btn-xs btn-primary", data:{toggle: "tooltip"}, title: 'Show'

@@ -204,10 +204,8 @@ class Anagrafica < ApplicationCoreRecord
 
 
 
-  has_many :conti,
-           -> { order(amount: :desc) },
-           foreign_key: 'IdUtente',
-           class_name: 'Conto'
+  has_many :conti, -> { order(amount: :desc) }, foreign_key: 'IdUtente', class_name: 'Conto'
+  has_many :ibans, foreign_key: 'IdUtente', class_name: 'Iban'
 
   has_many :servizi, foreign_key: 'point', class_name: 'Servizio'
 

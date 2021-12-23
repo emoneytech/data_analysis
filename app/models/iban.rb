@@ -28,6 +28,10 @@ class Iban < ApplicationCoreRecord
   scope :filter_by_type, -> (value) { where(Tipo: value) }
   scope :filter_by_c, -> (value) { where(C: value) }
 
+  def self.icon
+    'university'
+  end
+
   def to_s
     "#{Iban}"
   end

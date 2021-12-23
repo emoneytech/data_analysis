@@ -1,0 +1,19 @@
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_movements'}
+  %thead
+    %tr
+      %th= Iban.human_attribute_name(:anagrafica)
+      %th= Iban.human_attribute_name(:Conto)
+      %th= Iban.human_attribute_name(:Iban)
+      %th= Iban.human_attribute_name(:Tipo)
+      %th= Iban.human_attribute_name(:C)
+      %th.action{data: {orderable: "false"}}
+  %tbody
+    - ibans.each do |item|
+      %tr
+        %td= item.anagrafica
+        %td= item.Conto
+        %td= item.Iban
+        %td= item.Tipo
+        %td= item.C
+        %td.text-center
+          = link_to fa_icon('eye'), customers_anagrafica_iban_path(@anagrafica.id, item.Iban), class: "btn btn-xs btn-primary", data:{toggle: "tooltip"}, title: 'Show'

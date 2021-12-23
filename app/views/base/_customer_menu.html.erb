@@ -17,6 +17,25 @@
       </a>
     </li>
     <li class="nav-item">
+      <a href="<%= customers_anagrafica_conti_path(customer) %>"
+        class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'conti' %>">
+        <i class="nav-icon fa fa-<%= Conto.icon %>"></i>
+        <p>
+          <%= Conto.model_name.human(:count=> 2) %>
+        </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="<%= customers_anagrafica_ibans_path(customer) %>"
+        class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'ibans' %>">
+        <i class="nav-icon fa fa-<%= Iban.icon %>"></i>
+        <p>
+          <%= Iban.model_name.human(:count=> 2) %>
+        </p>
+      </a>
+    </li>
+    
+    <li class="nav-item">
       <a href="<%= customers_anagrafica_customer_settings_path(customer) %>" class="nav-link <%= ' active' if @module_name === 'Customers' && controller_name == 'customer_settings' %>">
         <i class="nav-icon fa fa-wrench"></i>
         <p>

@@ -282,7 +282,8 @@ class EvaluatedMovement < CorePgRecord
       customer.set_current_place 
       customer.reload
     end
-    self.origin_lonlat = customer.current_place.lonlat
+    customer.set_current_place unless customer.current_place.try(:lonlat)
+    self.origin_lonlat = customer.reload.current_place.lonlat
     self.origin_country = "MT"
   end
 
