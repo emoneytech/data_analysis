@@ -23,9 +23,10 @@ class ObservedElement < CorePgRecord
   def content_validation
     case self.category_element
     when 'iban'
-      errors.add(:content, "Iban error")
+      checked_iban = IbanUtils.validate_iban(self.content)
+      errors.add(:content, "Iban error") if checked_iban[:errors].present?
     when 'notified_user'
-      errors.add(:content, "Notified user error")
+      true
     when 'customer_id'
       errors.add(:content, "customer_id error") unless Anagrafica.find(self.content) rescue nil
     when 'country'
