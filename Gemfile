@@ -100,7 +100,7 @@ gem 'hightop'
 
 gem 'money-rails'
 
-gem 'dotenv-rails', groups: [:development, :test]
+gem 'dotenv-rails' #, groups: [:development, :test]
 
 gem 'geocoder'
 gem 'net-http'
