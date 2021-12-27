@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_21_102344) do
+ActiveRecord::Schema.define(version: 2021_12_25_082918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -509,6 +509,18 @@ ActiveRecord::Schema.define(version: 2021_12_21_102344) do
     t.index ["unlock_token"], name: "public_users_unlock_token2_idx", unique: true
   end
 
+  create_table "webpush_subscriptions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "endpoint"
+    t.string "auth_key"
+    t.string "p256dh_key"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["deleted_at"], name: "index_webpush_subscriptions_on_deleted_at"
+    t.index ["user_id"], name: "index_webpush_subscriptions_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "activity_logs", "users"
@@ -516,4 +528,5 @@ ActiveRecord::Schema.define(version: 2021_12_21_102344) do
   add_foreign_key "comments", "users"
   add_foreign_key "sanction_list_items", "sanction_lists"
   add_foreign_key "users", "roles", name: "users_role_id_fkey", on_update: :restrict, on_delete: :restrict
+  add_foreign_key "webpush_subscriptions", "users"
 end

@@ -14,7 +14,6 @@ class NotificationsController < ManagerController
     add_breadcrumb @notification, :notification
   end
 
-
   # DELETE /notifications/1
   # DELETE /notifications/1.json
   def destroy

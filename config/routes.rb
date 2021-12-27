@@ -155,6 +155,7 @@ Rails.application.routes.draw do
  
   resources :activity_logs, only: [:index, :show]
   resources :notifications
+  resources :webpush_subscriptions, only: :create
   resources :messages, only: [:new, :create]
   resources :observed_elements do
     collection do

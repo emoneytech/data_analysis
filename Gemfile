@@ -136,3 +136,5 @@ gem "audited", "~> 5.0"
 gem "noticed", "~> 1.5"
 
 gem "webpush", "~> 1.1"
+
+gem "serviceworker-rails", "~> 0.6.0"

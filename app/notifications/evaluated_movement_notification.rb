@@ -23,6 +23,7 @@ class EvaluatedMovementNotification < Noticed::Base
   #
   deliver_by :database
   deliver_by :email, mailer: "EvaluatedMovementMailer"
+  deliver_by :webpush, class: "DeliveryMethods::Webpush"
   # deliver_by :slack
   # deliver_by :custom, class: "MyDeliveryMethod"
 

@@ -550,19 +550,22 @@ class Anagrafica < ApplicationCoreRecord
     ce.save
   end
 
-  def evaluate_for_day(day = Date.today)
+  def last_evaluated_day
+    self.current_evaluation.last_evaluated_day.try(:to_date)
+  end
+
+  def check_evaluated_days(day)
     self.init_evaluation unless self.current_evaluation
-
-    unless day == Date.new(self.tuple_activities.last[0], self.tuple_activities.last[1], 1)
-      unless self.current_evaluation.eval_days["#{day - 1.days}"]
-        self.evaluate_for_tuple
-      end
+    if (day == Date.new(self.tuple_activities.last[0], self.tuple_activities.last[1], 1)) || (day - last_evaluated_day).to_i > 1
+      self.evaluate_for_tuple
     end
+  end
 
+  def evaluate_for_day(day = Date.today)
+    check_evaluated_days(day)
     max_base_risk = Configurable.max_base_risk.to_f
     tlf = Configurable.time_lapse_factor.to_f
     min_base_risk = self.try(:base_risk).to_f || Configurable.min_base_risk.to_f
-
     evaluated_movements_for_date = self.evaluated_movements.select(
         'evaluated_movements.*, movement_created_at::date as day, CONCAT(EXTRACT(YEAR FROM movement_created_at),\'-\',EXTRACT(MONTH FROM movement_created_at)) as month'
       ).with_all_for_year(day.year).with_all_for_month(day.month).order(movement_created_at: :asc).as_json

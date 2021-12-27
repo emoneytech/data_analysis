@@ -18,6 +18,10 @@ class CustomerEvaluation < CorePgRecord
     CustomerEvaluation.where("anagrafica_id = ? AND ((eval_year = ? AND eval_month > ?) OR (eval_year = ? AND eval_month = 1))", self.anagrafica_id, self.eval_year, self.eval_month, self.eval_year + 1).order(eval_year: :asc, eval_month: :asc).first
   end
 
+  def last_evaluated_day
+    self.eval_days.try(:keys).try(:last)
+  end
+
   def trend
     size = self.eval_days.count
     if size > 1
