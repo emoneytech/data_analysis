@@ -29,6 +29,7 @@ module AiRiskMonitor
     # config.cache_store = :redis_store, ENV['CACHE_URL'], { namespace: 'drkiq::cache' }
     config.hosts << "drkiq"
     config.hosts << "data-analysis.emoney.local"
+    config.hosts << "data-analysis.emoney.tech"
     config.hosts << "data_analysis.local"
     config.hosts << "192.168.0.26"
     config.hosts << "213.165.162.51"
