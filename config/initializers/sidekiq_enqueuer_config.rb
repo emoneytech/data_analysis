@@ -5,7 +5,7 @@ Sidekiq::Enqueuer.configure do |config|
   config.jobs = [
     EvaluateCustomersForDayWorker,
     EvaluateEvaluatedMovementsWorker,
-    DayCustomersWorker,
+    DailyWorker,
     InitCustomerEvaluationsWorker,
     TriggerCustomerWorker,
     TriggerInitWorker,

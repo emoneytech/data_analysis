@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_25_082918) do
+ActiveRecord::Schema.define(version: 2021_12_28_093727) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(version: 2021_12_25_082918) do
     t.index ["anagrafica_id", "eval_year", "eval_month"], name: "evaluated_attention_factor_for_month_index", unique: true
     t.index ["anagrafica_id"], name: "index_customer_evaluations_on_anagrafica_id"
     t.index ["eval_days"], name: "index_customer_evaluations_on_eval_days", using: :gin
+    t.index ["eval_year", "eval_month"], name: "index_customer_evaluations_on_eval_year_and_eval_month"
     t.index ["last_attention_factor30"], name: "index_customer_evaluations_on_last_attention_factor30"
     t.index ["last_attention_factor7"], name: "index_customer_evaluations_on_last_attention_factor7"
   end

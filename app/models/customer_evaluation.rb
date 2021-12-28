@@ -1,10 +1,11 @@
 class CustomerEvaluation < CorePgRecord
   
   belongs_to :anagrafica
-  scope :for_month, ->(tuple) { where(eval_month: tuple[1], eval_year: tuple[0]) }
   before_save :set_last_values
-
-  # after_initialize :build_for_tuple
+  
+  scope :for_month, ->(tuple) { where(eval_month: tuple[1], eval_year: tuple[0]) }
+  scope :updated_today, -> (day=Date.today.to_s) { where("(eval_days->?) is not null", day.to_s) }
+  scope :outdated, -> (day=Date.today) { for_month([day.year.to_s, day.month.to_s]).where("(eval_days->?) is null", day.to_s) }
 
   def self.icon
     'user-shield'

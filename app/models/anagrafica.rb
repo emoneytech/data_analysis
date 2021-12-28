@@ -554,7 +554,7 @@ class Anagrafica < ApplicationCoreRecord
     self.current_evaluation.last_evaluated_day.try(:to_date)
   end
 
-  def check_evaluated_days(day)
+  def check_evaluated_days(day = Date.today)
     self.init_evaluation unless self.current_evaluation
     if (day == Date.new(self.tuple_activities.last[0], self.tuple_activities.last[1], 1)) || (day - last_evaluated_day).to_i > 1
       self.evaluate_for_tuple
