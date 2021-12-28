@@ -7,7 +7,7 @@ class DailyWorker
   # PARAMS
 
   def perform()
-    DailyCustomerWorker.perform_async
+    DailyCustomersWorker.perform_async
   end
 
 end
