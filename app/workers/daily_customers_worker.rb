@@ -8,7 +8,7 @@ class DailyCustomersWorker
 
   def perform()
     # CustomerEvaluation.where(eval_year: Date.today.year, eval_month: Date.today.month).where.not('eval_days ?| array[:keys]', keys: ["#{Date.today - 1.day}"]).count
-    CustomerEvaluation.oudated.select(:id, :anagrafica_id).find_in_batches(batch_size: 500) do |evaluations|
+    CustomerEvaluation.outdated.select(:id, :anagrafica_id).find_in_batches(batch_size: 500) do |evaluations|
       evaluations.each do |evaluation|
         DayCustomerWorker.perform_async(evaluation.anagrafica_id)
       end
