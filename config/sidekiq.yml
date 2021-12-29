@@ -26,3 +26,6 @@
   trigger_customer_worker:
     every: '5m'
     class: TriggerCustomerWorker
+  daily_worker:
+    cron: '00 01 * * *'
+    class: DailyWorker
