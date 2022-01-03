@@ -11,7 +11,9 @@ class NotificationsController < ManagerController
   # GET /notifications/1
   # GET /notifications/1.json
   def show
+    @notification.update!(read_at: Time.now()) if @notification.unread? 
     add_breadcrumb @notification, :notification
+
   end
 
   # DELETE /notifications/1
