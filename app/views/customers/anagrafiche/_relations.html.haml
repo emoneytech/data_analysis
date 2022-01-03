@@ -5,6 +5,7 @@
       %th= RelazioniAnagrafica.human_attribute_name(:type)
       - unless relations.first.idTipoRelazione == 2
         %th= RelazioniAnagrafica.human_attribute_name(:percentualeubo)
+      %th
   %tbody
     - relations.each do |item|
       %tr
@@ -12,4 +13,6 @@
         %td= item.tipo_relazione
         - unless item.idTipoRelazione == 2
           %td= item.percentualeubo
-        
+        %td.text-center
+          = link_to fa_icon('eye'), [:data_analysis, item], class: "btn btn-xs btn-primary"
+ 
