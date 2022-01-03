@@ -2,7 +2,7 @@
   .card-header
     .card-title
       %i.fas.fa-exclamation-triangle
-      #{@anagrafica.full_name} - 
+      = link_to @anagrafica.full_name, [:customers, @anagrafica] 
       = t(:listing_resource, resource: CustomerSetting.model_name.human(:count => 2))
     .card-tools
   .card-body
