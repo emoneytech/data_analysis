@@ -17,7 +17,7 @@
           %input{:autocomplete => "off", :name => "details-amount-directions", :type => "radio", value: "OUT"}/
           OUT
   .card-body
-    = bar_chart amount_evaluated_movements_data_analysis_charts_path(params: opts), remote: true, thousands: "'", prefix: "€", id: 'details-amount-evaluated-movements-chart'
+    = bar_chart amount_evaluated_movements_data_analysis_charts_path(params: opts), remote: true, thousands: "'", prefix: "€", id: 'details-amount-evaluated-movements-chart', download: true
 
 :javascript
 
