@@ -4,10 +4,10 @@
       %i.fas.fa-user
       #{Anagrafica.model_name.human} 
       \- Vendor:
-      = link_to "#{anagrafica.vendor}", brokers_vendor_path(anagrafica.vendor)
+      = link_to "#{anagrafica.broker}", brokers_vendor_path(anagrafica.vendor)
       - if anagrafica.Padre != anagrafica.id
         \- Referral:
-        = link_to anagrafica.Padre, customers_anagrafica_path(anagrafica.Padre) 
+        = link_to anagrafica.referral, customers_anagrafica_path(anagrafica.Padre) 
   .card-body.scrollable{style: 'max-height: 400px'}
     %dl.row
       - for attribute in anagrafica.attributes.keys

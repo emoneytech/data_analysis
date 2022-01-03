@@ -229,6 +229,7 @@ class Anagrafica < ApplicationCoreRecord
 
   belongs_to :tipo, foreign_key: 'IdTipo', class_name: 'Tipo'
   belongs_to :broker, foreign_key: 'Vendor', class_name: 'Vendor'
+  belongs_to :referral, foreign_key: 'Padre', primary_key: 'IdUtente', class_name: 'Anagrafica'
 
   alias_attribute :id, 'IdUtente'
   alias_attribute :idutente, 'IdUtente'
