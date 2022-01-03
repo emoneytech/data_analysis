@@ -19,6 +19,7 @@
               %tr
                 %td= notification.id
                 %td= notification.recipient
-                %td= notification.type
-                %td= notification.params
+                %td
+                  = notification.type
+                %td= render_notification(notification)
                 %td

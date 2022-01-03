@@ -518,4 +518,45 @@ class EvaluatedMovement < CorePgRecord
     QueueCustomer.where(customer_id: self.customer_id).first_or_create
   end
 
+  def ibans
+    [self.payer_iban, self.beneficiary_iban]
+  end
+
+  def users
+    [self.beneficiary, self.payer]
+  end
+
+  def countries
+    [RelatedCountry.find_by_alpha2(self.origin_country).try(:id), RelatedCountry.find_by_alpha2(self.destination_country).try(:id)] 
+  end
+
+  def check_for_observers
+    observed_ibans = ObservedElement.filter_by_iban(self.ibans)
+    observed_customer = ObservedElement.filter_by_customer_id(self.customer_id).first
+    observed_beneficiary = ObservedElement.filter_by_user(self.beneficiary).first
+    observed_payer = ObservedElement.filter_by_user(self.payer).first
+    observed_users = { 
+      beneficiary: observed_beneficiary,
+      payer: observed_payer
+    }
+    observed_countries = ObservedElement.filter_by_country(self.countries)
+    result = {
+      observed_customer: observed_customer,
+      observed_ibans: observed_ibans,
+      observed_users: observed_users,
+      observed_countries: observed_countries
+    }
+    return result
+  end
+
+  def send_enhanced_notification
+    count = 0
+    count += ObservedElement.filter_by_iban(self.ibans).count
+    count += ObservedElement.filter_by_customer_id(self.customer_id).count
+    count += ObservedElement.filter_by_user(self.beneficiary).count
+    count += ObservedElement.filter_by_user(self.payer).count
+    count += ObservedElement.filter_by_country(self.countries).count
+    EvaluatedMovementNotification.with(evaluated_movement: self).deliver_later(User.recipients) if count > 0
+  end
+
 end

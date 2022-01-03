@@ -1,4 +1,6 @@
 class ObservedElement < CorePgRecord
+  include Filterable
+
   audited comment_required: true
   validates :audit_comment, presence: true
 
@@ -10,8 +12,27 @@ class ObservedElement < CorePgRecord
   validates :content, presence: true
   validate :content_validation, if: :category_element?
   
+  scope :ibans, -> { where(category_element: "iban")}
+  scope :users, -> { where(category_element: "notified_user")}
+  scope :customers, -> { where(category_element: "customer_id")}
+  scope :countries, -> { where(category_element: "country")}
   
+  scope :filter_by_iban, ->(iban) { ibans.where(content: iban)}
+  scope :filter_by_customer_id, ->(customer_id) { customers.where(content: customer_id)}
+  scope :filter_by_country, ->(country) { countries.where(content: country)}
   
+  scope :filter_by_user, ->(user_full_name) { users.where(
+    "content iLIKE ?
+      OR content iLIKE ?
+      OR content iLIKE ?",
+    "%#{ user_full_name.split(' ').count > 2 ? "#{user_full_name.split(' ')[0]} #{user_full_name.split(' ')[1]}  #{user_full_name.split(' ')[2]}" : "#{user_full_name.split(' ')[0]} #{user_full_name.split(' ')[1]}" }%",
+    "%#{ user_full_name.split(' ').count > 2 ? "#{user_full_name.split(' ')[2]} #{user_full_name.split(' ')[0]}  #{user_full_name.split(' ')[1]}" : "#{user_full_name.split(' ')[1]} #{user_full_name.split(' ')[0]}" }%",
+    "%#{user_full_name}%"
+  )}
+
+
+
+
   def self.category_values
     CATEGORY_VALUES
   end

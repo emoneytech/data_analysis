@@ -2,6 +2,8 @@ class Notification < CorePgRecord
   include Noticed::Model
   belongs_to :recipient, polymorphic: true
 
+  scope :latest, -> { order(created_at: :desc).limit(5) }
+  
   def self.icon
     'bell'
   end

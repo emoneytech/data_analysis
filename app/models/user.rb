@@ -66,6 +66,7 @@ class User < CorePgRecord
 
   before_save :assign_role
 
+  scope :recipients, -> { includes(:role).where('roles.policy <= ?', 5).references(:role) }
   def to_s
     full_name
   end

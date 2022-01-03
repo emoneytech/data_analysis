@@ -163,7 +163,10 @@ Rails.application.routes.draw do
     end
   end
   resources :roles
-  resources :users
+  resources :users do
+    resources :notifications
+  end
+  
   resources :excluded_products do
     collection do
       get :add_multiple
