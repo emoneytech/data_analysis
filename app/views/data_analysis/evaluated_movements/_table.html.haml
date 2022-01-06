@@ -6,6 +6,7 @@
       %th{data: {priority: "8"}}= EvaluatedMovement.human_attribute_name(:movement_created_at)
       %th{data: {priority: "1"}}= EvaluatedMovement.human_attribute_name(:customer)
       %th{data: {priority: "1"}}= EvaluatedMovement.human_attribute_name(:payer)
+      %th{data: {priority: "2"}}= EvaluatedMovement.human_attribute_name(:payer_other)
       %th{data: {priority: "2"}}= EvaluatedMovement.human_attribute_name(:reason)
       %th{data: {priority: "5"}}= EvaluatedMovement.human_attribute_name(:product_name)
       %th{data: {priority: "11"}}= EvaluatedMovement.human_attribute_name(:product_id)
@@ -31,6 +32,7 @@
         %td= item.movement_created_at
         %td= link_to item.customer.full_name, customers_anagrafica_path(item.customer_id)
         %td= item.payer
+        %td= item.payer_other
         %td= item.reason
         %td= item.product_name
         %td= link_to item.product_id, data_analysis_prodotto_path(item.product_id) if item.product_id
