@@ -66,7 +66,8 @@ module DataAnalysis
         :payer_iban,
         :product_name,
         :recursion_all_7,
-        :service_id
+        :service_id,
+        :reason
       ).permit! : {}
     end
     

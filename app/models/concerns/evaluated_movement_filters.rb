@@ -70,6 +70,8 @@ module EvaluatedMovementFilters
     scope :filter_by_internal, -> (internal) { where(internal: internal)}
     scope :filter_by_in_out, -> (value) { where(in_out: value)}
 
+    scope :filter_by_reason, -> (reason) { includes(:movement).where("Causale like ?", "%#{reason}").references(:movement)}
+
     scope :remove_max, -> (size) { where.not(id: EvaluatedMovement.order(amount_cents: :desc).limit(size).pluck(:id)) }
     scope :remove_min, -> (size) { where.not(id: EvaluatedMovement.order(amount_cents: :asc).limit(size).pluck(:id)) }
 
