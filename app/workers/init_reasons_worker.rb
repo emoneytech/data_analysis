@@ -9,7 +9,7 @@ class InitReasonsWorker
   def perform()
     EvaluatedMovement.select(:id).find_in_batches(batch_size: 1000) do |evaluated_movements|
       evaluated_movements.each do |evaluated_movement|
-        InitReasonWorker.perform_async(evaluated_movement.id)
+        SetReasonWorker.perform_async(evaluated_movement.id)
       end
     end
   end
