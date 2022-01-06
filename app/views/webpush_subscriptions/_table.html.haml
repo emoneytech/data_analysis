@@ -1,0 +1,16 @@
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'webpush_subscriptions'}
+  %thead
+    %tr
+      %th= WebpushSubscription.human_attribute_name(:id)
+      %th= WebpushSubscription.human_attribute_name(:endpoint)
+      %th= WebpushSubscription.human_attribute_name(:created_at)
+      %th.action{data: {orderable: "false"}}
+  %tbody
+    - webpush_subscriptions.each do |item|
+      %tr
+        %td= item.id
+        %td= item.endpoint 
+        %td= item.created_at
+        - if can? :manage, WebpushSubscription
+          %td.text-center
+            = link_to fa_icon('eye'), [current_user, item], class: "btn btn-xs btn-primary", data:{toggle: "tooltip"}, title: 'Show'

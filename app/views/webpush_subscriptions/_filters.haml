@@ -1,0 +1,31 @@
+.card.card-primary.card-outline{classes: "#{ 'collapsed-card' unless params[:filter]}" }
+  .card-header
+    %h3.card-title
+      %i.fa.fa-chart-bar
+      = t(:filters, default: 'Filters')
+    .card-tools
+      %button{type: "button", class: "btn btn-tool", "data-card-widget" => "collapse"}
+        %i.fas{class: " #{ params[:filter] ? 'fa-minus' : 'fa-plus'}" }
+  .card-body
+    = simple_form_for :filter, method: :get, remote: false do |f|
+      .row
+        .col-md-3= f.input :customer_id, label: "Customer ID", required: false, input_html: {value: "#{params[:filter][:customer_id] if params[:filter]}"}
+        .col-md-3= f.input :status_id, as: :select, collection: Stato.all, label: 'Status', required: false, input_html: { class: 'select2' }, selected: "#{params[:filter][:status_id] if params[:filter]}", include_blank: true
+        .col-md-3= f.input :product_type_id, as: :select, collection: Bintype.all.map{|t| [t.name, t.tipoprodotto]}, label: 'Product Type', required: false, input_html: { class: 'select2' }, selected: "#{params[:filter][:product_type_id] if params[:filter]}", include_blank: true
+      .row
+        .col-md-3= f.input :last_movement_daterange, label: 'Last Movement Date range', input_html: { class: 'local-daterange' }, required: false
+        .col-md-3= f.input :min_amount, label: "Saldo minimo", required: false, input_html: {value: "#{params[:filter][:min_amount] if params[:filter]}"}
+        .col-md-3= f.input :max_amount, label: "Saldo massimo", required: false, input_html: {value: "#{params[:filter][:max_amount] if params[:filter]}"}
+
+      = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-success'
+
+:javascript
+
+  document.addEventListener("turbolinks:load", () => {
+    $(".local-daterange").daterangepicker({
+      startDate: moment("#{@daterange.split(' - ')[0]}",'DD/MM/YYYY'),
+      endDate: moment("#{@daterange.split(' - ')[1]}",'DD/MM/YYYY'),
+      maxDate: moment(),
+      locale: { format: 'DD/MM/YYYY'},
+    })
+  })

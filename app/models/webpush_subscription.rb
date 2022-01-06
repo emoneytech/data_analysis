@@ -3,6 +3,10 @@ class WebpushSubscription < CorePgRecord
 
   belongs_to :user
 
+  def self.icon
+    'bell'
+  end
+
   def publish(message)
     Webpush.payload_send(
       message: message,

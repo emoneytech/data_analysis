@@ -1,0 +1,16 @@
+%ul.navbar-nav.ml-auto
+  - I18n.available_locales.each do |locale|
+    %li.nav-item
+      = link_to image_tag("flags/#{locale}.png", alt: "#{locale}", class: "flags"), {lang: locale}, class: "nav-link", role: "button"
+  %li.nav-item.dropdown
+    %a.nav-link{data: {toggle: "dropdown"}, href: "#"}
+      %i.far.fa-user
+      = current_user.full_name
+    .dropdown-menu.dropdown-menu-lg.dropdown-menu-right
+      = link_to current_user, class: 'dropdown-item' do
+        %i.fa.fa-user
+        Profile
+      - if current_user.has_role? "admin"
+        = link_to destroy_user_session_path, :method=>'delete', class: 'dropdown-item' do
+          %i.fa.fa-sign-out-alt
+          Logout

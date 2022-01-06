@@ -29,7 +29,7 @@ class EvaluatedMovementNotification < Noticed::Base
 
   # Add required params
   #
-  param :evaluated_movement
+  param :evaluated_movement, :observer
 
   # Define helper methods to make rendering easier.
   #

@@ -1,6 +1,6 @@
 .row
   .col-md-12
-    .card.card-primary
+    .card.card-primary.card-outline
       .card-header
         %h3.card-title
           %i.fa.fa-user
@@ -23,3 +23,6 @@
       .card-footer.clearfix
         - if can? :manage, @user
           = link_to t(:edit_resource, resource: User.model_name.human), edit_user_path(@user), class: "btn btn-success"
+.row 
+  .col-md-12
+    = render 'webpush_subscriptions/webpush_subscriptions', webpush_subscriptions: current_user.webpush_subscriptions.page(0)

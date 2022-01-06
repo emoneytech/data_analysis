@@ -549,13 +549,9 @@ class EvaluatedMovement < CorePgRecord
   end
 
   def send_enhanced_notification
-    count = 0
-    count += ObservedElement.filter_by_iban(self.ibans).count
-    count += ObservedElement.filter_by_customer_id(self.customer_id).count
-    count += ObservedElement.filter_by_user(self.beneficiary).count
-    count += ObservedElement.filter_by_user(self.payer).count
-    count += ObservedElement.filter_by_country(self.countries).count
-    EvaluatedMovementNotification.with(evaluated_movement: self).deliver_later(User.recipients) if count > 0
+    ObservedElement.filter_by_iban(self.ibans).each do |observer|
+      EvaluatedMovementNotification.with(evaluated_movement: self, observer: observer).deliver_later(User.recipients) if count > 0
+    end
   end
 
   def set_reason

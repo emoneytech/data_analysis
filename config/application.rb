@@ -39,6 +39,8 @@ module AiRiskMonitor
     config.time_zone = "Europe/Malta"
     config.active_record.default_timezone = :utc
     config.active_record.time_zone_aware_attributes = false
-    
+    config.i18n.available_locales = [:it, :en]
+    config.i18n.default_locale = :it
+    config.i18n.fallbacks = [:en, :it]
   end
 end
