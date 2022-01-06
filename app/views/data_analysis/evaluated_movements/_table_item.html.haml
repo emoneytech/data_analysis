@@ -21,6 +21,9 @@
     %th= EvaluatedMovement.human_attribute_name(:customer)
     %td= link_to evaluated_movement.customer, [:customers, evaluated_movement.customer]
   %tr
+    %th= EvaluatedMovement.human_attribute_name(:reason)
+    %td= evaluated_movement.reason
+  %tr
     %th= EvaluatedMovement.human_attribute_name(:beneficiary)
     %td= evaluated_movement.beneficiary
   %tr
