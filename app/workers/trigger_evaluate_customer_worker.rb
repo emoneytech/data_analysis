@@ -5,13 +5,13 @@ class TriggerEvaluateCustomerWorker
   sidekiq_options queue: 'serial', retry: true, backtrace: true
   
   # PARAMS
-  # customer_id = 
-  # day = 
-  # queue_id = 
+  # customer_id, day, queue_id = 38868, "2022-01-06", 3595
 
-  def perform(customer_id, day, queue_id) 
+  def perform(customer_id, day, queue_id)
+    queue = QueueCustomer.find(queue_id) rescue nil
+    return unless queue
     customer = Anagrafica.find customer_id
-    QueueCustomer.find(queue_id).destroy if customer.evaluate_for_day(day.to_date)
+    queue.destroy if customer.evaluate_for_day(day.to_date)
   end
 
 end
