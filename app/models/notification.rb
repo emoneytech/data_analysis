@@ -1,6 +1,8 @@
 class Notification < CorePgRecord
   include Noticed::Model
   belongs_to :recipient, polymorphic: true
+  
+  acts_as_paranoid
 
   scope :latest, -> { order(created_at: :desc).limit(5) }
   

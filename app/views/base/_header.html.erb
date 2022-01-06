@@ -42,7 +42,7 @@
           <span class="badge badge-danger navbar-badge"><%= current_user.notifications.unread.count %></span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <%- current_user.notifications.latest.each do |notification| %>
+          <%- current_user.notifications.unread.latest.each do |notification| %>
             <%= render_notification_short(notification, "dropdown-item") %>
           <%- end %>
           <%= link_to "See All Notifications", [current_user, :notifications], class: "dropdown-item dropdown-footer" %>
