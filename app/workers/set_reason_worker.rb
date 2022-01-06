@@ -5,8 +5,9 @@ class SetReasonWorker
   sidekiq_options queue: 'massive', retry: true, backtrace: true
   
   # PARAMS
+  # evaluated_movement_ids =
 
-  def perform()
+  def perform(evaluated_movement_ids)
     EvaluatedMovement.where(id: evaluated_movement_ids).each do |evaluated_movement|
       evaluated_movement.save
     end
