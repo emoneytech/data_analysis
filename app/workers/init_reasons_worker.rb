@@ -7,8 +7,8 @@ class InitReasonsWorker
   # PARAMS
 
   def perform()
-    ids = []
     EvaluatedMovement.select(:id).find_in_batches(batch_size: 1000) do |evaluated_movements|
+      ids = []
       evaluated_movements.each do |evaluated_movement|
         ids << evaluated_movement.id
       end
