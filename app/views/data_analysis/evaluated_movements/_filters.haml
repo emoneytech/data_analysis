@@ -17,7 +17,7 @@
         .col-md-3= f.input :daterange, label: 'Date range', input_html: { class: 'local-daterange', checked: params[:filter] && params[:filter][:daterange] }, required: true
         .col-md-3= f.input :product_id, label: 'Product ID', required: false, input_html: {value: "#{params[:filter][:product_id] if params[:filter]}"}
         .col-md-3= f.input :product_name, required: false, input_html: {value: "#{params[:filter][:product_name] if params[:filter]}"}
-        .col-md-3= f.input :reason, required: false, input_html: {value: "#{params[:filter][:product_name] if params[:filter]}"}
+        .col-md-3= f.input :reason, required: false, input_html: {value: "#{params[:filter][:reason] if params[:filter]}"}
       .row
         .col-md-3= f.input :customer_full_name, required: false, input_html: {value: "#{params[:filter][:customer_full_name] if params[:filter]}"}
         .col-md-3= f.input :customer_id, label: "Customer ID", required: false, input_html: {value: "#{params[:filter][:customer_id] if params[:filter]}"}
