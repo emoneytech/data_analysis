@@ -4,7 +4,7 @@ module DataAnalysis
     before_action :set_daterange, only: [:index, :recursive]
 
     def index
-      @evaluated_movements = EvaluatedMovement.filter(filtering_params).includes(:customer, :triggerable)
+      @evaluated_movements = EvaluatedMovement.filter(filtering_params)#.includes()
       @evaluated_movements = @evaluated_movements.order(movement_created_at: :desc).page(params[:page]).per(params[:per])
     end
 

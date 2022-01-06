@@ -107,8 +107,7 @@ class EvaluatedMovement < CorePgRecord
   
   after_initialize :build_from_movement
   
-  before_save :set_recursion
-
+  before_save :finalize_movement
   after_create :send_notification
 
   #================================================================
@@ -559,4 +558,12 @@ class EvaluatedMovement < CorePgRecord
     EvaluatedMovementNotification.with(evaluated_movement: self).deliver_later(User.recipients) if count > 0
   end
 
+  def set_reason
+    self.reason = self.movement.Causale
+  end
+  
+  def finalize_movement
+    self.set_recursion
+    self.set_reason
+  end
 end

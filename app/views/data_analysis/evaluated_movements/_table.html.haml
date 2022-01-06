@@ -31,7 +31,7 @@
         %td= item.movement_created_at
         %td= link_to item.customer.full_name, customers_anagrafica_path(item.customer_id)
         %td= item.payer
-        %td= item.movement.Causale
+        %td= item.reason
         %td= item.product_name
         %td= link_to item.product_id, data_analysis_prodotto_path(item.product_id) if item.product_id
         %td
