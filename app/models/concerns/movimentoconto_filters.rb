@@ -24,6 +24,8 @@ module MovimentocontoFilters
     scope :filter_by_in, -> (value) { where("Avere >= ?", value)}
     scope :filter_by_out, -> (value) { where("Dare >= ?", value)}
 
+    scope :filter_by_reason, -> (value) { where("Causale like ?", "%#{value}%")}
+
     scope :only_customers, -> { where.not( numeroConto: Conto.where(IdUtente: %w[70 75 34221]).pluck(:Pan) ) }
 
     scope :to_trigger, -> { joins(:anagrafica).where('anagrafiche.Attivo != 6 AND anagrafiche.IdUtente NOT IN (?)', %w[70 75 34221]).references(:anagrafica) } 

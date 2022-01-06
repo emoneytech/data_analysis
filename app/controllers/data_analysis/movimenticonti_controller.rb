@@ -28,7 +28,8 @@ module DataAnalysis
         :max_amount,
         :in,
         :out,
-        :service_id
+        :service_id,
+        :reason
       ).permit! : {}
     end
   end

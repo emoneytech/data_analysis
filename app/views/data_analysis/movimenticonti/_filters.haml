@@ -13,8 +13,9 @@
         .col-md-3= f.input :service_id, label: 'Service ID', required: false, input_html: {value: "#{params[:filter][:service_id] if params[:filter]}"}
         .col-md-3= f.input :customer_id, label: "Customer ID", required: false, input_html: {value: "#{params[:filter][:customer_id] if params[:filter]}"}
       .row
-        .col-md-3= f.input :in, label: "Avere", required: false, input_html: {value: "#{params[:filter][:in] if params[:filter]}"}
-        .col-md-3= f.input :out, label: "Dare", required: false, input_html: {value: "#{params[:filter][:out] if params[:filter]}"}
+        .col-md-3= f.input :in, label: "MIN Amount IN", required: false, input_html: {value: "#{params[:filter][:in] if params[:filter]}"}
+        .col-md-3= f.input :out, label: "MIN Amount OUT", required: false, input_html: {value: "#{params[:filter][:out] if params[:filter]}"}
+        .col-md-3= f.input :reason, label: "Reason", required: false, input_html: {value: "#{params[:filter][:reason] if params[:filter]}"}
 
       = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-info'
 
