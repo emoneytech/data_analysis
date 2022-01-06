@@ -7,6 +7,7 @@ Sidekiq::Enqueuer.configure do |config|
     EvaluateEvaluatedMovementsWorker,
     DailyWorker,
     InitCustomerEvaluationsWorker,
+    InitReasonsWorker,
     TriggerCustomerWorker,
     TriggerInitWorker,
     RecalculatePositionsWorker,
