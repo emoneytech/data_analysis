@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_06_093419) do
+ActiveRecord::Schema.define(version: 2022_01_06_163639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -227,6 +227,8 @@ ActiveRecord::Schema.define(version: 2022_01_06_093419) do
     t.datetime "read_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_notifications_on_deleted_at"
     t.index ["read_at"], name: "index_notifications_on_read_at"
     t.index ["recipient_type", "recipient_id"], name: "index_notifications_on_recipient"
   end
