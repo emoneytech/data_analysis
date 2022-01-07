@@ -17,5 +17,5 @@
         %td= item.created_at
         - if can? :manage, WebpushSubscription
           %td.text-center
-            = link_to fa_icon('eye'), [current_user, item], class: "btn btn-xs btn-primary", data:{toggle: "tooltip"}, title: 'Show'
-            = nested_delete_link(item, current_user)
+            = link_to fa_icon('eye'), [@user, item], class: "btn btn-xs btn-primary", data:{toggle: "tooltip"}, title: 'Show'
+            = nested_delete_link(item, @user)

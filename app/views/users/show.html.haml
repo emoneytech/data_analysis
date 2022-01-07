@@ -24,4 +24,4 @@
         - if can? :manage, @user
           = link_to t(:edit_resource, resource: User.model_name.human), edit_user_path(@user), class: "btn btn-success"
 .row 
-  = render 'webpush_subscriptions/webpush_subscriptions', webpush_subscriptions: current_user.webpush_subscriptions.page(0)
+  = render 'webpush_subscriptions/webpush_subscriptions', webpush_subscriptions: @user.webpush_subscriptions.page(0)

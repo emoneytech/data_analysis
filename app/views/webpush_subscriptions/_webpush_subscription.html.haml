@@ -3,6 +3,8 @@
     %h3.card-title
       = fa_icon WebpushSubscription.icon 
       #{WebpushSubscription.model_name.human} #{webpush_subscription.id}
+    .card-tools
+      = nested_delete_link(webpush_subscription, @user)
   .card-body
     %dl.row
       - for attribute in webpush_subscription.attributes.keys
