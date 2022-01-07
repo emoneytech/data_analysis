@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   root 'data_analysis/dashboard#index'
   devise_for :users
 
-  match '/test', to: "pages#test", via: :get, as: :test
+  match '/forbidden', to: "pages#forbidden", via: :get, as: :forbidden
 
   namespace :compliance_check do
     resources :sanction_lists do

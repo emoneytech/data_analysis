@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
 
-  def test
+  def forbidden
   end
 
 end
