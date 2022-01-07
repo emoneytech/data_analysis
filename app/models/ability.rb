@@ -16,7 +16,6 @@ class Ability
       cannot :index, User
       cannot :manage, Configurable
       cannot :manage, Role
-      cannot :manage, User
       
     else
       can :read, :dashboard
