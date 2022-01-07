@@ -2,6 +2,8 @@
   %thead
     %tr
       %th= WebpushSubscription.human_attribute_name(:id)
+      %th= WebpushSubscription.human_attribute_name(:browser)
+      %th= WebpushSubscription.human_attribute_name(:so)
       %th= WebpushSubscription.human_attribute_name(:endpoint)
       %th= WebpushSubscription.human_attribute_name(:created_at)
       %th.action{data: {orderable: "false"}}
@@ -9,8 +11,11 @@
     - webpush_subscriptions.each do |item|
       %tr
         %td= item.id
-        %td= item.endpoint 
+        %td= item.client["appCodeName"]
+        %td= item.client["oscpu"]
+        %td= URI.parse(item.endpoint).host.downcase
         %td= item.created_at
         - if can? :manage, WebpushSubscription
           %td.text-center
             = link_to fa_icon('eye'), [current_user, item], class: "btn btn-xs btn-primary", data:{toggle: "tooltip"}, title: 'Show'
+            = nested_delete_link(item, current_user)

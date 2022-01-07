@@ -165,7 +165,7 @@ Rails.application.routes.draw do
   resources :roles
   resources :users do
     resources :notifications
-    resources :webpush_subscriptions
+    resources :webpush_subscriptions, except: :create
   end
   
   resources :excluded_products do

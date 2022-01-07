@@ -3,7 +3,7 @@
     .card-header
       %h3.card-title
         = fa_icon WebpushSubscription.icon
-        = "#{WebpushSubscription.model_name.human(:count => 2)}"
+        = link_to "#{WebpushSubscription.model_name.human(:count => 2)}", [current_user, :webpush_subscriptions]
       .card-tools
         %button{type: "button", class: "btn btn-tool", "data-card-widget" => "maximize"}
           %i.fas.fa-expand
@@ -13,5 +13,7 @@
       = render "/webpush_subscriptions/table", webpush_subscriptions: webpush_subscriptions
     .card-footer.clearfix
       .row
-        .col-md-12
+        .col-md-4
+          = page_entries_info webpush_subscriptions
+        .col-md-8.text-right
           = paginate webpush_subscriptions, theme: 'twitter-bootstrap-4', nav_class: "float-right", pagination_class: 'm-0'

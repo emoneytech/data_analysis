@@ -67,6 +67,11 @@ class User < CorePgRecord
   before_save :assign_role
 
   scope :recipients, -> { includes(:role).where('roles.policy <= ?', 5).references(:role) }
+
+  def self.icon
+    "book-reader"
+  end
+
   def to_s
     full_name
   end

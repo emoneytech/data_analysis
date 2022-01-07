@@ -238,9 +238,10 @@ end
 #
 # Indexes
 #
-#  evaluated_attention_factor_for_month_index             (anagrafica_id,eval_year,eval_month) UNIQUE
-#  index_customer_evaluations_on_anagrafica_id            (anagrafica_id)
-#  index_customer_evaluations_on_eval_days                (eval_days) USING gin
-#  index_customer_evaluations_on_last_attention_factor30  (last_attention_factor30)
-#  index_customer_evaluations_on_last_attention_factor7   (last_attention_factor7)
+#  evaluated_attention_factor_for_month_index              (anagrafica_id,eval_year,eval_month) UNIQUE
+#  index_customer_evaluations_on_anagrafica_id             (anagrafica_id)
+#  index_customer_evaluations_on_eval_days                 (eval_days) USING gin
+#  index_customer_evaluations_on_eval_year_and_eval_month  (eval_year,eval_month)
+#  index_customer_evaluations_on_last_attention_factor30   (last_attention_factor30)
+#  index_customer_evaluations_on_last_attention_factor7    (last_attention_factor7)
 #

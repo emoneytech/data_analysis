@@ -17,6 +17,7 @@ end
 # Table name: notifications
 #
 #  id             :bigint           not null, primary key
+#  deleted_at     :datetime
 #  params         :json
 #  read_at        :datetime
 #  recipient_type :string           not null
@@ -27,6 +28,7 @@ end
 #
 # Indexes
 #
-#  index_notifications_on_read_at    (read_at)
-#  index_notifications_on_recipient  (recipient_type,recipient_id)
+#  index_notifications_on_deleted_at  (deleted_at)
+#  index_notifications_on_read_at     (read_at)
+#  index_notifications_on_recipient   (recipient_type,recipient_id)
 #

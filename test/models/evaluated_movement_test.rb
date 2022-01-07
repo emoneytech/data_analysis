@@ -26,6 +26,7 @@
 #  product_base_risk     :float
 #  product_name          :string
 #  product_table_code    :integer
+#  reason                :text
 #  recursion_all_30      :integer
 #  recursion_all_7       :integer
 #  recursion_customer_30 :integer

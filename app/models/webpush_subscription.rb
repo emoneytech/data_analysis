@@ -24,10 +24,11 @@ end
 
 # == Schema Information
 #
-# Table name: webpush_notifications
+# Table name: webpush_subscriptions
 #
 #  id         :bigint           not null, primary key
 #  auth_key   :string
+#  client     :jsonb            not null
 #  deleted_at :datetime
 #  endpoint   :string
 #  p256dh_key :string
@@ -37,8 +38,9 @@ end
 #
 # Indexes
 #
-#  index_webpush_notifications_on_deleted_at  (deleted_at)
-#  index_webpush_notifications_on_user_id     (user_id)
+#  index_webpush_subscriptions_on_client      (client) USING gin
+#  index_webpush_subscriptions_on_deleted_at  (deleted_at)
+#  index_webpush_subscriptions_on_user_id     (user_id)
 #
 # Foreign Keys
 #
