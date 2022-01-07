@@ -10,7 +10,8 @@ class Ability
       can :manage, :all
       cannot :manage, Configurable
       cannot :manage, Role
-      cannot :manage, User
+      can :manage, User, id: user.id
+      cannot :index, User
     else
       can :read, :dashboard
     end
