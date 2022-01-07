@@ -1,7 +1,7 @@
 module DataAnalysis
   class SyncController < ApplicationController
     before_action :authenticate_user!
-    before_action(only: :index) { authorize! :admin, :sync }
+    before_action(only: :index) { authorize! :admin, :dashboard }
     add_breadcrumb helpers.raw("#{helpers.fa_icon('tachometer-alt')} Dashboard"), :data_analysis_dashboard_index
     add_breadcrumb "Sync", :data_analysis_sync_index_path
     

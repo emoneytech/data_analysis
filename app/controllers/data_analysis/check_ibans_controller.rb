@@ -1,6 +1,6 @@
 module DataAnalysis
   class CheckIbansController < ApplicationController
-    before_action(only: :index) { authorize! :admin, :revenue }
+    before_action(only: :index) { authorize! :manage, :check_ibans }
 
     def index
       if params[:filter] && filtering_params[:iban] != ""

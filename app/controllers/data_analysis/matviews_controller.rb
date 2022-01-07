@@ -1,6 +1,6 @@
 module DataAnalysis
   class MatviewsController < ApplicationController
-    before_action(only: :index) { authorize! :admin, :revenue }
+    before_action(only: :index) { authorize! :admin, :dashboard }
 
     def index
       if params[:filter] 

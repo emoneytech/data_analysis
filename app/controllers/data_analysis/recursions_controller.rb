@@ -1,7 +1,7 @@
 module DataAnalysis
   class RecursionsController < ApplicationController
     before_action :authenticate_user!
-    before_action(only: :index) { authorize! :admin, :sync }
+    before_action(only: :index) { authorize! :admin, :dashboard }
 
     def index
     end
