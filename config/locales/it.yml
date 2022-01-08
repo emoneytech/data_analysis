@@ -10,6 +10,7 @@ it:
   time:
     formats:
       compact: "%d %b %y - %H:%M"
+      default: "%d %b %y - %H:%M"
   activerecord:
     errors:
       models:
