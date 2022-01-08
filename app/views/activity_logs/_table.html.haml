@@ -1,0 +1,17 @@
+%table.table.table-striped.table-bordered.table-hover.margin-none.data-table
+  %thead
+    %tr
+      %th= ActivityLog.human_attribute_name(:user)
+      %th= ActivityLog.human_attribute_name(:controller)
+      %th= ActivityLog.human_attribute_name(:action)
+      %th= ActivityLog.human_attribute_name(:params)
+      %th.col-md-1{data: {orderable: "false"}, nowrap: true}
+  %tbody
+    - activity_logs.each do |item|
+      %tr
+        %td= item.user
+        %td= item.controller
+        %td= item.action
+        %td= item.params
+        %td.col-md-1{nowrap: true}
+          = link_to fa_icon('eye'), [@user, item], class: "btn btn-xs btn-primary", data:{toggle: "tooltip"}, title: 'Show'

@@ -1,0 +1,22 @@
+.card.card-primary.card-outline
+  .card-header
+    %h3.card-title
+      = fa_icon ActivityLog.icon
+      = t(:listing_resource, resource: ActivityLog.model_name.human(:count => 2))
+    .card-tools
+      = link_to "#{fa_icon("eye")} Show".html_safe, [@user, :activity_logs], class: 'btn btn-xs btn-success'
+  .card-body.p-1
+    %table.table.table-striped.table-bordered.table-hover.margin-none
+      %thead
+        %tr
+          %th= ActivityLog.human_attribute_name(:controller)
+          %th= ActivityLog.human_attribute_name(:action)
+          %th.col-md-1{data: {orderable: "false"}, nowrap: true}
+      %tbody
+        - activity_logs.each do |item|
+          %tr
+            %td= item.controller
+            %td= item.action
+            %td.col-md-1{nowrap: true}
+              = link_to fa_icon('eye'), [@user, item], class: "btn btn-xs btn-primary", data:{toggle: "tooltip"}, title: 'Show'
+

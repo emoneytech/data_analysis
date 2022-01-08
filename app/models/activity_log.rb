@@ -1,5 +1,13 @@
 class ActivityLog < CorePgRecord
+  acts_as_paranoid
   belongs_to :user
+
+  scope :latest, -> { order(created_at: :desc).limit(10) }
+  
+  def self.icon
+    "list-alt"
+  end
+
 end
 
 # == Schema Information

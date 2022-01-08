@@ -1,32 +1,3 @@
-.row
+#activity_logs.row
   .col-md-12
-    .card.card-primary.card-outline
-      .card-header
-        %h3.card-title
-          %i.fa.fa-users
-          = t(:listing_resource, resource: ActivityLog.model_name.human(:count => 2))
-      .card-body
-        %table.table.table-striped.table-bordered.table-hover.margin-none.data-table
-          %thead
-            %tr
-              %th= ActivityLog.human_attribute_name(:user)
-              %th= ActivityLog.human_attribute_name(:controller)
-              %th= ActivityLog.human_attribute_name(:action)
-              %th= ActivityLog.human_attribute_name(:params)
-              %th.col-md-1{data: {orderable: "false"}, nowrap: true}
-          %tbody
-            - @activity_logs.each do |activity_log|
-              %tr
-                %td= activity_log.user
-                %td= activity_log.controller
-                %td= activity_log.action
-                %td= activity_log.params
-                %td.col-md-1{nowrap: true}
-                  = show_link(activity_log)
-      .card-footer.clearfix
-        .row
-          .col-md-6
-            = page_entries_info @activity_logs
-          .col-md-6.text-right
-            = paginate @activity_logs
-
+    = render "activity_logs", activity_logs: @activity_logs

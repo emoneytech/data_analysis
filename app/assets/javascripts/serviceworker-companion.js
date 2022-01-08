@@ -19,12 +19,8 @@ if (navigator.serviceWorker) {
           applicationServerKey: vapidPublicKey,
         }).then(async function (sub) {
           // sub.client = navigator
-          var _navigator = {}
-          for (var i in navigator) _navigator[i] = navigator[i]
-          delete _navigator.plugins
-          delete _navigator.mimeTypes
           let body = JSON.parse(JSON.stringify(sub))
-          body.client = _navigator
+          body.client = platform
           const data = await fetch('/webpush_subscriptions', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},

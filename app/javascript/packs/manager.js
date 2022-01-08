@@ -42,6 +42,7 @@ window.getAccountInfo = getAccountInfo
 window.moment = moment
 
 global.toastr = require("toastr")
+global.platform = require('platform')
 
 import * as d3 from "d3"
 window.d3 = d3

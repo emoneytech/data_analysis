@@ -7,6 +7,25 @@ class WebpushSubscription < CorePgRecord
     'bell'
   end
 
+  def browser_name
+    user_agent = client["userAgent"]
+    res = case user_agent
+            when /chrome|chromium|crios/i
+              "chrome"
+            when /firefox|fxios/i
+              "firefox"
+            when /safari/i
+              "safari"
+            when /opr\//i
+              "opera"
+            when /edg/i
+              "edge"
+            else
+              "unkown"
+          end
+    return res
+  end
+
   def publish(message)
     Webpush.payload_send(
       message: message,

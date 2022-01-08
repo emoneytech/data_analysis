@@ -58,6 +58,7 @@ class User < CorePgRecord
   has_many :notes
   has_many :reports
   has_many :webpush_subscriptions, dependent: :destroy
+  has_many :activity_logs, dependent: :destroy
   
   alias_attribute :name, :nickname
 
