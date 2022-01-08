@@ -16,6 +16,6 @@
         %td= URI.parse(item.endpoint).host.downcase
         %td= item.created_at
         - if can? :manage, WebpushSubscription
-          %td.text-center
+          %td.text-center{nowrap: true}
             = link_to fa_icon('eye'), [@user, item], class: "btn btn-xs btn-primary", data:{toggle: "tooltip"}, title: 'Show'
             = nested_delete_link(item, @user)

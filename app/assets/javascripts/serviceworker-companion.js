@@ -1,6 +1,18 @@
 if (navigator.serviceWorker) {
+  navigator.serviceWorker.getRegistrations().then(function (registrations) {
+    for (let registration of registrations) {
+      if (
+        registration.active.scriptURL != 'http://localhost:3000/' ||
+        registration.active.scriptURL != 'http://data-analysis.emonet.tech:8443/'
+      ) {
+        console.log('elimino')
+        registration.unregister()
+      }
+    }
+  })
+
   navigator.serviceWorker
-    .register('/serviceworker.js', { scope: './' })
+    .register('/serviceworker.js', { scope: '/' })
     .then(function (reg) {
       navigator.serviceWorker.ready.then((serviceWorkerRegistration) => {
         serviceWorkerRegistration.pushManager.subscribe({
