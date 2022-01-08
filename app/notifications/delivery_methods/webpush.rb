@@ -3,7 +3,13 @@ class DeliveryMethods::Webpush < Noticed::DeliveryMethods::Base
     # Logic for sending the notification
     evaluated_movement = params[:evaluated_movement]
     recipient.webpush_subscriptions.each do |sub|
-      sub.publish(evaluated_movement.to_s)
+      begin
+        sub.publish(evaluated_movement.to_s)
+      rescue Webpush::InvalidSubscription => exception
+        sub.destroy
+      rescue Webpush::ExpiredSubscription => exception
+        sub.destroy
+      end
     end
   end
 

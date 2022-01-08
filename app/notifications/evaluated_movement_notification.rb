@@ -1,6 +1,6 @@
 # To deliver this notification:
 #
-# EvaluatedMovementNotification.with(evaluated_movement: @post).deliver_later(current_user)
+# EvaluatedMovementNotification.with(evaluated_movement: EvaluatedMovement.last, observer: ObservedElement.first).deliver_later(User.first)
 # EvaluatedMovementNotification.with(post: @post).deliver(current_user)
 # model EvaluatedMovement 
 
