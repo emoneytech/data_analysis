@@ -20,52 +20,11 @@
     = column_chart amount_evaluated_movements_data_analysis_charts_path(params: opts), remote: true, download: true, stacked: true, thousands: "'", prefix: "€", id: 'amount-evaluated-movements-chart'
 
 :javascript
-
-  var chartAmount = Chartkick.charts['amount-evaluated-movements-chart']
-  
-  function getAmountData(in_out) {
-    $.ajax({
-      url:
-        "/data_analysis/charts/amount_evaluated_movements?filter[in_out]=" +
-        in_out +
-        "&group_by_day=#{opts[:group_by_day]}" +
-        "&period=#{opts[:period]}" +
-        "&filter[daterange]=#{opts[:filter][:daterange]}",
-      success: function (data) {
-        $("span#amount-opts").html(in_out)
-        chartAmount.updateData(data)
-        chartAmount.redraw()
-      },
-    })
-  }
-
   $('input[type=radio][name=amount-directions]').change(function() {
-    setClass(this.value)
-    let in_out = this.value
-    getAmountData(in_out)
+    setGraphicsClass('#card-amount-evaluated-movements', this.value)
+    const url = "/data_analysis/charts/amount_evaluated_movements?filter[in_out]=" + this.value +
+      "&group_by_day=#{opts[:group_by_day]}" +
+      "&period=#{opts[:period]}" +
+      "&filter[daterange]=#{opts[:filter][:daterange]}"
+    refreshChart('amount-evaluated-movements-chart', url)
   })
-
-  function setClass(direction){
-    console.log(direction)
-    switch(direction) {
-      case 'ALL':
-        $('#card-amount-evaluated-movements').removeClass('card-success')
-        $('#card-amount-evaluated-movements').removeClass('card-danger')
-        $('#card-amount-evaluated-movements').addClass('card-warning')
-        break;
-      case 'IN':
-        $('#card-amount-evaluated-movements').removeClass('card-danger')
-        $('#card-amount-evaluated-movements').removeClass('card-warning')
-        $('#card-amount-evaluated-movements').addClass('card-success')
-        break;
-      case 'OUT':
-        $('#card-amount-evaluated-movements').removeClass('card-success')
-        $('#card-amount-evaluated-movements').removeClass('card-warning')
-        $('#card-amount-evaluated-movements').addClass('card-danger')
-        break;
-      default:
-        $('#card-amount-evaluated-movements').removeClass('card-success')
-        $('#card-amount-evaluated-movements').removeClass('card-danger')
-        $('#card-amount-evaluated-movements').addClass('card-warning')
-    } 
-  }

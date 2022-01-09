@@ -21,50 +21,11 @@
 
 :javascript
 
-  var chartDetails = Chartkick.charts['details-amount-evaluated-movements-chart']
-  function getDetailsdata(in_out) {
-    $.ajax({
-      url:
-        "/data_analysis/charts/amount_evaluated_movements?filter[in_out]=" +
-        in_out +
+  $('input[type=radio][name=details-amount-directions]').change(function() {
+    setGraphicsClass('#card-details-amount-evaluated-movements', this.value)
+    const url = "/data_analysis/charts/amount_evaluated_movements?filter[in_out]=" + this.value +
         "&group_by_day=#{opts[:group_by_day]}" +
         "&period=#{opts[:period]}" +
-        "&filter[daterange]=#{opts[:filter][:daterange]}",
-      success: function (data) {
-        $("span#details-amount-opts").html(in_out)
-        chartDetails.updateData(data)
-        chartDetails.redraw()
-      },
-    })
-  }
-
-  $('input[type=radio][name=details-amount-directions]').change(function() {
-    setClass(this.value)
-    let in_out = this.value
-    getDetailsdata(in_out)
+        "&filter[daterange]=#{opts[:filter][:daterange]}"
+    refreshChart('details-amount-evaluated-movements-chart', url)
   })
-
-  function setClass(direction){
-    console.log(direction)
-    switch(direction) {
-      case 'ALL':
-        $('#card-details-amount-evaluated-movements').removeClass('card-success')
-        $('#card-details-amount-evaluated-movements').removeClass('card-danger')
-        $('#card-details-amount-evaluated-movements').addClass('card-warning')
-        break;
-      case 'IN':
-        $('#card-details-amount-evaluated-movements').removeClass('card-danger')
-        $('#card-details-amount-evaluated-movements').removeClass('card-warning')
-        $('#card-details-amount-evaluated-movements').addClass('card-success')
-        break;
-      case 'OUT':
-        $('#card-details-amount-evaluated-movements').removeClass('card-success')
-        $('#card-details-amount-evaluated-movements').removeClass('card-warning')
-        $('#card-details-amount-evaluated-movements').addClass('card-danger')
-        break;
-      default:
-        $('#card-details-amount-evaluated-movements').removeClass('card-success')
-        $('#card-details-amount-evaluated-movements').removeClass('card-danger')
-        $('#card-details-amount-evaluated-movements').addClass('card-warning')
-    } 
-  }

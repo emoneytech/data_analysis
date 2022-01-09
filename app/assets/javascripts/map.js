@@ -1,3 +1,5 @@
+//= require graphics
+
 var format1 = 'YYYY-MM-DD HH:mm:ss'
 var bbox,
   map,
@@ -376,31 +378,23 @@ function subPeriod(period) {
   return str
 }
 
+function getDaterange() {
+  var startDate = moment(this.start_query_date).format('DD/MM/YYYY')
+  var endDate = moment(this.start_query_date).format('DD/MM/YYYY')
+  let result = "[" + startDate + " - " + endDate + "]"
+  return result
+}
 function reloadGraphics() {
-  var chartIn = Chartkick.charts['updatable-chart-in']
-  $.ajax({
-    url:
-      '/data_analysis/charts/sum_evaluated_movements?period=' +
-      subPeriod(this.current_range) +
-      '&day=' +
-      this.start_query_date +
-      '&in_out=IN',
-    success: function (data) {
-      chartIn.updateData(data)
-      chartIn.redraw()
-    },
-  })
-  var chartOut = Chartkick.charts['updatable-chart-out']
-  $.ajax({
-    url:
-      '/data_analysis/charts/sum_evaluated_movements?period=' +
-      subPeriod(this.current_range) +
-      '&day=' +
-      this.start_query_date +
-      '&in_out=OUT',
-    success: function (data) {
-      chartOut.updateData(data)
-      chartOut.redraw()
-    },
-  })
+  let in_out = $(
+    'input[type=radio][name=details-amount-directions]:checked'
+  ).val()
+  let url =
+    encodeURI('/data_analysis/charts/amount_evaluated_movements?filter[in_out]=' +
+    in_out +
+    '&group_by_day=1' +
+    '&period=' +
+    subPeriod(this.current_range) +
+    '&filter[daterange]=' +
+    getDaterange())
+  refreshChart('details-amount-evaluated-movements-chart', url)
 }

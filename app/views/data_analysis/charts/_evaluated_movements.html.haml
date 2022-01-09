@@ -21,46 +21,10 @@
     = line_chart evaluated_movements_data_analysis_charts_path(params: opts), remote: true, download: true, id: "latest-evaluated-movements"
 
 :javascript
-
-  var chart = Chartkick.charts['latest-evaluated-movements']
   $('input[type=radio][name=directions]').change(function() {
-    setClass(this.value)
-    let value = this.value
-    $.ajax({
-      url:
-        "/data_analysis/charts/evaluated_movements?filter[in_out]=" +
-        this.value +
-        "&group_by_day=#{opts[:group_by_day]}" +
-        "&filter[daterange]=#{opts[:filter][:daterange]}",
-      success: function (data) {
-        $("span#opts").html(value + " From #{from} to #{to}")
-        chart.updateData(data)
-        chart.redraw()
-      },
-    })
+    setGraphicsClass('#card-evaluated-movements', this.value)
+    const url = "/data_analysis/charts/evaluated_movements?filter[in_out]=" + this.value +
+      "&group_by_day=#{opts[:group_by_day]}" +
+      "&filter[daterange]=#{opts[:filter][:daterange]}"
+    refreshChart('latest-evaluated-movements', url)
   })
-
-  function setClass(direction){
-    console.log(direction)
-    switch(direction) {
-      case 'ALL':
-        $('#card-evaluated-movements').removeClass('card-success')
-        $('#card-evaluated-movements').removeClass('card-danger')
-        $('#card-evaluated-movements').addClass('card-warning')
-        break;
-      case 'IN':
-        $('#card-evaluated-movements').removeClass('card-danger')
-        $('#card-evaluated-movements').removeClass('card-warning')
-        $('#card-evaluated-movements').addClass('card-success')
-        break;
-      case 'OUT':
-        $('#card-evaluated-movements').removeClass('card-success')
-        $('#card-evaluated-movements').removeClass('card-warning')
-        $('#card-evaluated-movements').addClass('card-danger')
-        break;
-      default:
-        $('#card-evaluated-movements').removeClass('card-success')
-        $('#card-evaluated-movements').removeClass('card-danger')
-        $('#card-evaluated-movements').addClass('card-warning')
-    } 
-  }

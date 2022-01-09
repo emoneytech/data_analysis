@@ -26,7 +26,7 @@ if (navigator.serviceWorker) {
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(body)
           }).then(result => result.json())
-          console.log(data)
+          // console.log(data)
         })
       })
     })
