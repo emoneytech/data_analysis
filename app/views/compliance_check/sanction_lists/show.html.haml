@@ -8,6 +8,9 @@
           = "#{SanctionList.model_name.human}: #{@sanction_list.name}"
         .card-tools
           .btn-group
+            = link_to [:compliance_check, @sanction_list, :sanction_list_items], class: "btn btn-success btn-xs" do
+              %i.fa.fa-list
+              = t(:show_resource, resource: SanctionList.model_name.human)
             = link_to [:edit, :compliance_check, @sanction_list], class: "btn btn-warning btn-xs" do
               %i.fa.fa-edit
               = t(:edit_resource, resource: SanctionList.model_name.human)
@@ -23,5 +26,3 @@
         = form_tag [:import, :compliance_check, @sanction_list], multipart: true do
           = file_field_tag :file
           = submit_tag "Import"
-
-#sanction_list_items.row= render 'compliance_check/sanction_list_items/sanction_list_items', sanction_list_items: @sanction_list.sanction_list_items.page(1)       
