@@ -11,7 +11,7 @@ module NotificationsHelper
   def render_notification_short(notification, css=nil)
     case notification.type
     when 'EvaluatedMovementNotification'
-      "#{link_to("#{notification.params[:evaluated_movement].to_s[0..25]} ...", notification, class: css)}".html_safe
+      "#{notification.params[:evaluated_movement].to_s[0..25]} ..."
     else
       notification.params
     end
