@@ -24,7 +24,6 @@ function setGraphicsClass(target, direction) {
 
 function refreshChart(chart, url) {
   console.log('recupero i dettagli per il grafico: ', chart)
-  console.log('url: ', url)
   $.ajax({
     url: url,
     success: function (data) {

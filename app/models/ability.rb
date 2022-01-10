@@ -9,6 +9,8 @@ class Ability
       can :read, :all
       can :admin, :dashboard
       can :manage, :check_ibans
+      can :manage, SanctionList
+      can :manage, SanctionListItem
 #      can :manage, :all
       cannot :manage, Configurable
       cannot :manage, Role
