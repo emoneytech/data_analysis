@@ -109,7 +109,7 @@ class EvaluatedMovement < CorePgRecord
   after_initialize :build_from_movement
   
   before_save :finalize_movement
-  after_create :send_notification
+  after_create :send_notification, :send_enhanced_notification
 
   #================================================================
   # dopo che il movimento viene valutato salvo l'id del cliente
@@ -493,7 +493,6 @@ class EvaluatedMovement < CorePgRecord
     else
       coords = [35.9480742, 14.3973929]
     end
-
     NotifyWorker.perform_async(type, content, coords)
   end
 
@@ -530,27 +529,12 @@ class EvaluatedMovement < CorePgRecord
     [RelatedCountry.find_by_alpha2(self.origin_country).try(:id), RelatedCountry.find_by_alpha2(self.destination_country).try(:id)] 
   end
 
-  def check_for_observers
-    observed_ibans = ObservedElement.filter_by_iban(self.ibans)
-    observed_customer = ObservedElement.filter_by_customer_id(self.customer_id).first
-    observed_beneficiary = ObservedElement.filter_by_user(self.beneficiary).first
-    observed_payer = ObservedElement.filter_by_user(self.payer).first
-    observed_users = { 
-      beneficiary: observed_beneficiary,
-      payer: observed_payer
-    }
-    observed_countries = ObservedElement.filter_by_country(self.countries)
-    result = {
-      observed_customer: observed_customer,
-      observed_ibans: observed_ibans,
-      observed_users: observed_users,
-      observed_countries: observed_countries
-    }
-    return result
+  def observers
+    ObservedElement.filter_by_iban(self.ibans).or(ObservedElement.filter_by_customer_id(self.customer_id)).or(ObservedElement.filter_by_user(self.beneficiary)).or(ObservedElement.filter_by_user(self.payer))
   end
 
   def send_enhanced_notification
-    ObservedElement.filter_by_iban(self.ibans).each do |observer|
+    self.observers.each do |observer|
       EvaluatedMovementNotification.with(evaluated_movement: self, observer: observer).deliver_later(User.recipients) if count > 0
     end
   end
