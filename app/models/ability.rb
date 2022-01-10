@@ -11,6 +11,7 @@ class Ability
       can :manage, :check_ibans
       can :manage, SanctionList
       can :manage, SanctionListItem
+      can :manage, ObservedElement
 #      can :manage, :all
       cannot :manage, Configurable
       cannot :manage, Role

@@ -13,7 +13,8 @@ module AiRiskMonitor
 
     config.log_level = :debug
     config.log_tags  = [:subdomain, :uuid]
-
+    
+    config.active_record.schema_format = :sql
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

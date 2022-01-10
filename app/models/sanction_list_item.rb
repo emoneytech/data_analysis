@@ -139,15 +139,12 @@
 #
 
 class SanctionListItem < CorePgRecord
-  belongs_to :sanction_list, :counter_cache => true
+  include PgSearch::Model
+  pg_search_scope :name_similar,
+                  against: :name_alias_first_name,
+                  using: { tsearch: { dictionary: 'english' } }
   
-  scope :name_similar, ->(name) { 
-    where("name_alias_last_name % :name
-      OR name_alias_first_name % :name
-      OR name_alias_middle_name % :name
-      OR name_alias_whole_name % :name", name: name)
-  }
-
+  belongs_to :sanction_list, :counter_cache => true
   def self.icon
     "user-check"
   end
