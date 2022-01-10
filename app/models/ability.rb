@@ -16,7 +16,7 @@ class Ability
       cannot :manage, Configurable
       cannot :manage, Role
       can :read, User, id: user.id
-      can :manage, Notification, recipient_type: 'User', recipient: user.id
+      can :manage, Notification, recipient_type: 'User', recipient_id: user.id
       can :manage, WebpushSubscription, user_id: user.id
       cannot :index, User
       cannot :manage, Configurable
