@@ -150,7 +150,7 @@ class SanctionListItem < CorePgRecord
         prefix: true
       },
       trigram: {
-        :threshold => 0.2
+        :threshold => Configurable.threshold_factor_for_sanction_list
       }
     },
     :ranked_by => ":tsearch + :trigram"

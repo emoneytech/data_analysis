@@ -69,3 +69,8 @@ divisor_amount_for_factor:
   name: Default divisor per amount for factor
   default: 1000
   type: integer
+
+threshold_factor_for_sanction_list:
+  name: Default thresold factor for minimum rank into search result
+  default: 0.2
+  type: float
