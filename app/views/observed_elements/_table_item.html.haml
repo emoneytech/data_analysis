@@ -15,12 +15,14 @@
     %tr
       %th= ObservedElement.human_attribute_name(:hits)
       %td
-        - if SanctionListItem.name_similar(evaluated_movement.payer).count > 0
-          - hit = SanctionListItem.name_similar(evaluated_movement.payer).first
+        - hit_payers = SanctionListItem.name_similar("#{evaluated_movement.payer}") rescue nil
+        - hit_beneficiaries = SanctionListItem.name_similar("#{evaluated_movement.beneficiary}") rescue nil
+        - if hit_payers.count > 0
+          - hit = hit_payers.first
           Payer: 
           = link_to evaluated_movement.payer, "/compliance_check/sanction_lists/#{hit.sanction_list_id}/sanction_list_items/search?filter[name]=#{url_encode(evaluated_movement.payer)}&commit=Submit"
           %br
-        - if SanctionListItem.name_similar(evaluated_movement.beneficiary).count > 0
-          - hit = SanctionListItem.name_similar(evaluated_movement.beneficiary).first
+        - if hit_beneficiaries.count > 0
+          - hit = hit_beneficiaries.first
           Beneficiary:
           = link_to evaluated_movement.beneficiary, "/compliance_check/sanction_lists/#{hit.sanction_list_id}/sanction_list_items/search?filter[name]=#{url_encode(evaluated_movement.beneficiary)}&commit=Submit"
