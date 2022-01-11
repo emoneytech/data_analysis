@@ -25,7 +25,7 @@ class ComplianceCheck::SanctionListItemsController < ComplianceCheckController
 
 
   def search
-    @sanction_list_items = @sanction_list.sanction_list_items.name_similar(filtering_params[:name]).with_pg_search_rank
+    @sanction_list_items = SanctionListItem.name_similar(filtering_params[:name]).with_pg_search_rank
   end
 
 private
