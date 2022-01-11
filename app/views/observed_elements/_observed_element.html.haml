@@ -1,11 +1,7 @@
-.col-md-12
-  .card.card-warning.card-outline
-    .card-header
-      .card-title
-        = fa_icon ObservedElement.icon
-        = ObservedElement.model_name.human(count: 2)
-    .card-body
-      %dl.row
-        - for attribute in observed_element.attributes.keys
-          %dt.col-md-4.text-right= attribute.humanize
-          %dd.col-md-8= observed_element.attributes[attribute] && observed_element.attributes[attribute] != '' && observed_element.attributes[attribute] != '""'? observed_element.attributes[attribute].to_s : ' - '
+.card.card-warning.card-outline
+  .card-header
+    .card-title
+      = fa_icon ObservedElement.icon
+      = ObservedElement.model_name.human(count: 2)
+  .card-body.p-1
+    = render 'observed_elements/table_item', observed_element: observed_element

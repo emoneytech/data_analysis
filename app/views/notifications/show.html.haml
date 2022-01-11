@@ -5,9 +5,16 @@
         %h3.card-title
           = fa_icon Notification.icon
           #{Notification.model_name.human}
-      .card-body
+      .card-body.p-1
         = render 'notifications/table_item', notification: @notification
-  .col-md-6= render 'observed_elements/observed_element', observed_element: @notification.params[:observer] if @notification.params[:observer]
+  .col-md-6
+    .card.card-warning.card-outline
+      .card-header
+        .card-title
+          = fa_icon ObservedElement.icon
+          = ObservedElement.model_name.human(count: 2)
+      .card-body.p-1
+        = render 'observed_elements/table_item', observed_element: @notification.params[:observer], evaluated_movement: @notification.params[:evaluated_movement] if @notification.params[:observer]
 
 .row
   .col-md-12
