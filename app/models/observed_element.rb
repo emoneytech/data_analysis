@@ -6,7 +6,7 @@ class ObservedElement < CorePgRecord
 
   acts_as_paranoid
 
-  CATEGORY_VALUES = %w(iban notified_user customer_id country system)
+  CATEGORY_VALUES = %w(iban notified_user customer_id country sanction_list)
 
   validates :category_element, presence: true, inclusion: { in: CATEGORY_VALUES }
   validates :content, presence: true
@@ -34,7 +34,7 @@ class ObservedElement < CorePgRecord
 
 
   def self.category_values(current_user)
-    current_user.has_role?('superadmin') ? %w(iban notified_user customer_id country system) : %w(iban notified_user customer_id country)
+    current_user.has_role?('superadmin') ? %w(iban notified_user customer_id country sanction_list) : %w(iban notified_user customer_id country)
   end
 
   def self.icon
@@ -48,7 +48,7 @@ class ObservedElement < CorePgRecord
       errors.add(:content, "Iban error") if checked_iban[:errors].present?
     when 'notified_user'
       true
-    when 'system'
+    when 'sanction_list'
       true
     when 'customer_id'
       errors.add(:content, "customer_id error") unless Anagrafica.find(self.content) rescue nil
