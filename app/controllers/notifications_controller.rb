@@ -5,7 +5,7 @@ class NotificationsController < ManagerController
   # GET /notifications
   # GET /notifications.json
   def index
-    @notifications = current_user.notifications(order(created_at: :desc)).page(params[:page])
+    @notifications = current_user.notifications.order(created_at: :desc).page(params[:page])
   end
 
   # GET /notifications/1
