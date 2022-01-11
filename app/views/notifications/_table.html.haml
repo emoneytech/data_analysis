@@ -15,6 +15,6 @@
         %td= notification.read_at
         %td= notification.created_at
         %td= render_notification(notification)
-        %td.text-center
+        %td.text-center{nowrap: true}
           = show_link(notification)
           = delete_link(notification)

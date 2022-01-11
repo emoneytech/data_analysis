@@ -51,8 +51,8 @@ group :development do
   gem 'bcrypt_pbkdf', '>= 1.0', '< 2.0'
   gem 'annotate'
   gem 'letter_opener'
+  gem 'pry'
 end
-gem 'pry'
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
