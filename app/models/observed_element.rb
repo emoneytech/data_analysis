@@ -12,6 +12,8 @@ class ObservedElement < CorePgRecord
   validates :content, presence: true
   validate :content_validation, if: :category_element?
   
+  scope :common_processes, -> { where(common_process: true) }
+  
   scope :ibans, -> { where(category_element: "iban")}
   scope :users, -> { where(category_element: "notified_user")}
   scope :customers, -> { where(category_element: "customer_id")}
@@ -29,9 +31,6 @@ class ObservedElement < CorePgRecord
     "%#{ user_full_name.split(' ').count > 2 ? "#{user_full_name.split(' ')[2]} #{user_full_name.split(' ')[0]}  #{user_full_name.split(' ')[1]}" : "#{user_full_name.split(' ')[1]} #{user_full_name.split(' ')[0]}" }%",
     "%#{user_full_name}%"
   )}
-
-
-
 
   def self.category_values(current_user)
     current_user.has_role?('superadmin') ? %w(iban notified_user customer_id country sanction_list) : %w(iban notified_user customer_id country)

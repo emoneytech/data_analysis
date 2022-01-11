@@ -530,12 +530,24 @@ class EvaluatedMovement < CorePgRecord
   end
 
   def observers
-    ObservedElement.filter_by_iban(self.ibans).or(ObservedElement.filter_by_customer_id(self.customer_id)).or(ObservedElement.filter_by_user(self.beneficiary)).or(ObservedElement.filter_by_user(self.payer))
+    ObservedElement.filter_by_iban(self.ibans).or(
+        ObservedElement.filter_by_customer_id(self.customer_id)
+      ).or(
+        ObservedElement.filter_by_user(self.beneficiary)
+      ).or(
+        ObservedElement.filter_by_user(self.payer)
+      )
   end
 
   def send_enhanced_notification
     self.observers.each do |observer|
-      EvaluatedMovementNotification.with(evaluated_movement: self, observer: observer).deliver_later(User.recipients) if count > 0
+      EvaluatedMovementNotification.with(evaluated_movement: self, observer: observer).deliver_later(User.recipients)
+    end
+    ObservedElement.common_processes.each do |observer|
+      if observer.category_element == 'sanction_list'
+        count = SanctionListItem.name_similar(self.payer).count + SanctionListItem.name_similar(self.beneficiary).count
+        EvaluatedMovementNotification.with(evaluated_movement: self, observer: observer).deliver_later(User.recipients) if count > 0 
+      end
     end
   end
 
