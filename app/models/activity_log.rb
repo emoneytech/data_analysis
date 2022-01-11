@@ -18,6 +18,7 @@ end
 #  action     :string           not null
 #  browser    :string
 #  controller :string           not null
+#  deleted_at :datetime
 #  ip_address :string
 #  note       :string
 #  params     :string
@@ -27,7 +28,8 @@ end
 #
 # Indexes
 #
-#  index_activity_logs_on_user_id  (user_id)
+#  index_activity_logs_on_deleted_at  (deleted_at)
+#  index_activity_logs_on_user_id     (user_id)
 #
 # Foreign Keys
 #

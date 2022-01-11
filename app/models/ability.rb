@@ -3,8 +3,14 @@ class Ability
 
   def initialize(user)
     user ||= User.new # guest user (not logged in)
-    if user.has_role? "admin"
+    if user.has_role? "superadmin"
       can :manage, :all
+    elsif user.has_role? "admin"
+      can :manage, :all
+      can :manage, Notification, recipient_type: 'User', recipient_id: user.id
+      cannot :manage, ObservedElement, category_element: 'system', common_process: true
+      cannot :manage, Configurable
+      cannot :manage, Role
     elsif user.has_role? "manager"
       can :read, :all
       can :admin, :dashboard

@@ -1,7 +1,8 @@
-= f.input :category_element, as: :select, collection: ObservedElement.category_values
+- if current_user.has_role? 'superadmin'
+  = f.input :common_process
+= f.input :category_element, as: :select, collection: ObservedElement.category_values(current_user)
 = f.input :content, as: :select, collection: [], input_html: {class: "mySelect select2bs4", style: "width: 100%;"}
 = f.input :audit_comment
-
 :javascript
   function loadData(target) {
     if (target === 'customer_id' || target === 'country') {

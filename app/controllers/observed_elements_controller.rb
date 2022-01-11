@@ -63,7 +63,8 @@ class ObservedElementsController < ManagerController
       params.require(:observed_element).permit(
         :category_element,
         :content,
-        :audit_comment
+        :audit_comment,
+        :common_process
       )
     end
 end
