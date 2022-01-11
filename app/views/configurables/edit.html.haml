@@ -1,0 +1,14 @@
+.row
+  .col-md-12
+    = simple_form_for @configurable do |f|
+      .box.box-warning
+        .box-header
+          %h3.box-title
+            = raw "#{fa_icon("cogs")} #{t(:edit_resource, resource: Configurable.model_name.human)} - <strong>#{Configurable.defaults[@configurable.name][:name]}</strong>"
+        .separtor
+        .box-body
+          = render 'form', f: f
+        .box-footer.clearfix
+          = link_to t(:cancel, default: "Cancel"), configurables_path, class: "btn btn-warning"
+          = f.submit class: "btn btn-success"
+

@@ -1,0 +1,16 @@
+.row
+  .col-md-12
+    .card.card-primary
+      .card-header
+        %h3.card-title
+          %i.fa.fa-cogs
+          #{Configurable.model_name.human} #{Configurable.defaults[@configurable.name][:name]}
+      .card-body
+        %dl.dl-horizontal
+          %dt= Configurable.human_attribute_name(:name)
+          %dd= @configurable.name
+          %dt= Configurable.human_attribute_name(:value)
+          %dd= @configurable.value
+      .card-footer.clearfix
+        - if can? :manage, @configurable
+          = link_to t(:edit_resource, resource: Configurable.model_name.human), edit_configurable_path(@configurable), class: "btn btn-success"

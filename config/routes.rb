@@ -3,9 +3,12 @@
 
 Rails.application.routes.draw do
   
+  # mount ConfigurableEngine::Engine, at: "/configurable", as: "configurable"
+  
   root 'data_analysis/dashboard#index'
   devise_for :users
-
+  resources :configurables
+  
   match '/forbidden', to: "pages#forbidden", via: :get, as: :forbidden
 
   namespace :compliance_check do
@@ -151,7 +154,6 @@ Rails.application.routes.draw do
       end
     end
     resources :sync, only: :index
-    resources :setup
     resources :time_lapse_factors
   end
  

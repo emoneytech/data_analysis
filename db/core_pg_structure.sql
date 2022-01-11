@@ -282,6 +282,38 @@ ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
 
 
 --
+-- Name: configurables; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.configurables (
+    id bigint NOT NULL,
+    name character varying,
+    value character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: configurables_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.configurables_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: configurables_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.configurables_id_seq OWNED BY public.configurables.id;
+
+
+--
 -- Name: customer_evaluations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1058,6 +1090,13 @@ ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.com
 
 
 --
+-- Name: configurables id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.configurables ALTER COLUMN id SET DEFAULT nextval('public.configurables_id_seq'::regclass);
+
+
+--
 -- Name: customer_evaluations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1216,6 +1255,14 @@ ALTER TABLE ONLY public.audits
 
 ALTER TABLE ONLY public.comments
     ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: configurables configurables_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.configurables
+    ADD CONSTRAINT configurables_pkey PRIMARY KEY (id);
 
 
 --
@@ -1479,6 +1526,13 @@ CREATE INDEX index_comments_on_subject ON public.comments USING btree (subject);
 --
 
 CREATE INDEX index_comments_on_user_id ON public.comments USING btree (user_id);
+
+
+--
+-- Name: index_configurables_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_configurables_on_name ON public.configurables USING btree (name);
 
 
 --
@@ -2243,6 +2297,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220106163639'),
 ('20220107092727'),
 ('20220108104927'),
-('20220111093821');
+('20220111093821'),
+('20220111160041');
 
 

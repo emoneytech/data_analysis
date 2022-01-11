@@ -72,5 +72,5 @@ divisor_amount_for_factor:
 
 threshold_factor_for_sanction_list:
   name: Default thresold factor for minimum rank into search result
-  default: 0.2
+  default: 0.3
   type: float
