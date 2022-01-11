@@ -1,0 +1,10 @@
+= render 'compliance_check/filters'
+#sanction_list_items.row
+  .col-md-12
+    .card.card-primary.card-outline
+      .card-header
+        %h3.card-title
+          = fa_icon SanctionListItem.icon
+          = @sanction_list.name
+      .card-body
+        = render "compliance_check/sanction_list_items/search_table", sanction_list_items: @sanction_list_items
