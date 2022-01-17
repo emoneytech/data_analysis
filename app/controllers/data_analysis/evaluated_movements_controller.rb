@@ -15,6 +15,7 @@ module DataAnalysis
     end
 
     def recursive
+      authorize! :read, EvaluatedMovement
       add_breadcrumb helpers.raw("#{helpers.fa_icon(EvaluatedMovement.icon)} #{t(:show_resource, resource: EvaluatedMovement.model_name.human)}"), [:data_analysis, :evaluated_movement]
       add_breadcrumb helpers.raw("#{t(:show_resource, resource: "Recursions")}"), [:recursion, :data_analysis, :evaluated_movement]
       method_name = "recursive_for_#{params[:q]}"

@@ -13,6 +13,7 @@ class Ability
       cannot :manage, Role
     elsif user.has_role? "manager"
       can :read, :all
+      can :recursive, EvaluatedMovement
       can :admin, :dashboard
       can :manage, :check_ibans
       can :manage, SanctionList
