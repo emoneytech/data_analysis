@@ -1,6 +1,6 @@
 class Customers::ChartsController < ApplicationController
   load_and_authorize_resource :anagrafica
-  authorize_resource class: false
+  # authorize_resource class: false
   respond_to :json
 
   def evaluated_movements_for_month
