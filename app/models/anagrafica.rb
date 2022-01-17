@@ -579,4 +579,9 @@ class Anagrafica < ApplicationCoreRecord
     (self.data_creazione.to_date.year..Date.today.year).to_a
   end
 
+  def attention_factor_sent
+    res = (self.current_evaluation.last_attention_factor30 * self.tollerance).to_f
+    res >= self.base_risk.to_f ? res : self.base_risk.to_f 
+  end
+
 end
