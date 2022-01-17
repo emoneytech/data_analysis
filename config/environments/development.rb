@@ -49,6 +49,8 @@ Rails.application.configure do
 
   # Tell Active Support which deprecation messages to disallow.
   config.active_support.disallowed_deprecation_warnings = []
+  
+  config.webpacker.check_yarn_integrity = false
 
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load

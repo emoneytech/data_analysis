@@ -19,6 +19,9 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '4.2.5'
+gem 'redis-namespace'
+gem 'redis-rails'
+
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -74,8 +77,6 @@ gem 'sidekiq-scheduler'
 gem 'sidekiq-enqueuer'
 gem 'sidekiq-limit_fetch', github: "brainopia/sidekiq-limit_fetch"
 
-gem 'redis-rails'
-
 gem 'devise'
 gem 'devise-i18n'
 
@@ -127,9 +128,6 @@ gem 'watir', require: false
 
 #gems for datatables
 gem 'ajax-datatables-rails'
-
-#gems fro logs
-gem 'logster'
 
 gem "audited", "~> 5.0"
 

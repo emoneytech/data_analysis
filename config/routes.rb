@@ -183,7 +183,6 @@ Rails.application.routes.draw do
   require 'sidekiq-scheduler/web'
   authenticate :user, lambda { |u| u.include_role?("admin") } do
     mount Sidekiq::Web => '/sidekiq'
-    mount Logster::Web => "/logs"
   end
   
  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

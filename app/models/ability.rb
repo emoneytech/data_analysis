@@ -25,6 +25,8 @@ class Ability
       can :manage, Notification, recipient_type: 'User', recipient_id: user.id
       cannot :destroy, Notification, recipient_type: 'User', recipient_id: user.id, read_at: nil
       can :manage, WebpushSubscription, user_id: user.id
+      can :manage, CustomerSetting
+      can :manage, RelatedCountry
       cannot :index, User
       cannot :manage, Configurable
       cannot :manage, Role
