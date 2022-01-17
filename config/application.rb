@@ -29,6 +29,7 @@ module AiRiskMonitor
     # our cache store. This keeps our application stateless as well.
     # config.cache_store = :redis_store, ENV['CACHE_URL'], { namespace: 'drkiq::cache' }
     config.hosts << "drkiq"
+    config.hosts << "app"
     config.hosts << "data-analysis.emoney.local"
     config.hosts << "data-analysis.emoney.tech"
     config.hosts << "data_analysis.local"
