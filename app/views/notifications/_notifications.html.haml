@@ -5,6 +5,10 @@
         = fa_icon Notification.icon
         = "#{Notification.model_name.human(:count => 2)}"
       .card-tools
+        - if current_user.include_role?('admin')
+          = link_to 'Mark all as readed', [:mark_all_as_readed, current_user, :notifications], data: {confirm: t(:are_you_sure, default: 'Are you sure?'), commit: t(:sure, default: 'Sure!'), cancel: t(:cancel, default: 'Cancel')}, :method => :post, class: "btn btn-xs btn-warning"
+          = link_to 'Delete readed', [:delete_readed, current_user, :notifications], data: {confirm: t(:are_you_sure, default: 'Are you sure?'), commit: t(:sure, default: 'Sure!'), cancel: t(:cancel, default: 'Cancel')}, :method => :post, class: "btn btn-xs btn-danger"
+          = link_to 'Delete all', [:delete_all, current_user, :notifications], data: {confirm: t(:are_you_sure, default: 'Are you sure?'), commit: t(:sure, default: 'Sure!'), cancel: t(:cancel, default: 'Cancel')}, :method => :post, class: "btn btn-xs btn-secondary"
         %button{type: "button", class: "btn btn-tool", "data-card-widget" => "maximize"}
           %i.fas.fa-expand
         %button{type: "button", class: "btn btn-tool", "data-card-widget" => "collapse"}

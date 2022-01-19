@@ -1,4 +1,5 @@
 class Notification < CorePgRecord
+  audited comment_required: false
   include Noticed::Model
   belongs_to :recipient, polymorphic: true
   

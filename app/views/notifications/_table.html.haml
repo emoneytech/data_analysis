@@ -16,5 +16,5 @@
         %td= notification.created_at
         %td= render_notification(notification)
         %td.text-center{nowrap: true}
-          = show_link(notification)
-          = delete_link(notification)
+          =  link_to fa_icon("eye"), [current_user, notification], class: "btn btn-xs btn-primary", data: {toggle: "tooltip", title: t(:show_resource, resource: notification.model_name.human)}
+          = nested_delete_link(notification, current_user)

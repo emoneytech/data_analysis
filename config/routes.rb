@@ -157,7 +157,6 @@ Rails.application.routes.draw do
     resources :time_lapse_factors
   end
  
-  resources :notifications
   resources :webpush_subscriptions, only: :create
   resources :messages, only: [:new, :create]
   resources :observed_elements do
@@ -168,7 +167,14 @@ Rails.application.routes.draw do
   resources :roles
   resources :users do
     resources :activity_logs, only: [:index, :show]
-    resources :notifications, except: :create
+    resources :notifications, except: :create do
+      collection do
+        post :mark_all_as_readed
+        post :delete_readed
+        post :delete_all
+      end
+    end
+
     resources :webpush_subscriptions, except: :create
   end
   

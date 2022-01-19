@@ -6,15 +6,15 @@
           = fa_icon Notification.icon
           #{Notification.model_name.human}
         .card-tools
-          = delete_link(@notification)
+          = nested_delete_link(@notification, current_user)
       .card-body.p-1
         = render 'notifications/table_item', notification: @notification
       .card-footer
         .row
           .col-md-6
-            = link_to 'Prev', @notification.previous if @notification.previous
+            = link_to 'Prev', [current_user, @notification.previous] if @notification.previous
           .col-md-6.text-right
-            = link_to 'Next', @notification.next if @notification.next
+            = link_to 'Next', [current_user, @notification.next] if @notification.next
         
   .col-md-6
     .card.card-warning.card-outline
