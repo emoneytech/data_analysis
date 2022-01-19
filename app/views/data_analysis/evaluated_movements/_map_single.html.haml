@@ -5,6 +5,12 @@
       #{EvaluatedMovement.model_name.human}
   .card-body
     #mapid{ style: "height: 680px;" }
+  .card-footer
+    .row
+      .col-md-6
+        = link_to 'Prev', [:data_analysis, @prev] unless @prev.blank?
+      .col-md-6.text-right
+        = link_to 'Next', [:data_analysis, @next] unless @next.blank?
 :javascript
   var map = L.map('mapid', {
     center: [#{evaluated_movement.destination_lonlat.latitude}, #{evaluated_movement.destination_lonlat.longitude}],

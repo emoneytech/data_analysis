@@ -2,7 +2,7 @@
   .card-header
     .card-title
       = fa_icon EvaluatedMovement.icon
-      = link_to EvaluatedMovement.model_name.human(count: 2), data_analysis_evaluated_movements_path(params: opts)
+      = link_to EvaluatedMovement.model_name.human(count: 2), customers_anagrafica_evaluated_movements_path(@anagrafica, params: opts)
     .card-tools
       .btn-group.btn-group-sm.btn-group-toggle.m-0{"data-toggle" => "buttons"}
         %label.btn.btn-outline-warning
