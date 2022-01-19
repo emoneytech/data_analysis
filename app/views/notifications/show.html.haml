@@ -10,6 +10,11 @@
       .card-body.p-1
         = render 'notifications/table_item', notification: @notification
       .card-footer
+        .row
+          .col-md-6
+            = link_to 'Prev', @notification.previous if @notification.previous
+          .col-md-6.text-right
+            = link_to 'Next', @notification.next if @notification.next
         
   .col-md-6
     .card.card-warning.card-outline

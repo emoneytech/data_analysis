@@ -9,7 +9,15 @@ class Notification < CorePgRecord
   def self.icon
     'bell'
   end
+
+  def previous
+    Notification.where("recipient_type = ?  AND recipient_id = ? AND created_at < ? ", self.recipient_type, self.recipient_id, self.created_at).order(created_at: :desc).first
+  end
   
+  def next
+    Notification.where("recipient_type = ?  AND recipient_id = ? AND created_at > ? ", self.recipient_type, self.recipient_id, self.created_at).order(created_at: :desc).first
+  end
+
 end
 
 # == Schema Information
