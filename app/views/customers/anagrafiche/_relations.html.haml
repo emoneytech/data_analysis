@@ -3,7 +3,7 @@
     %tr
       %th= RelazioniAnagrafica.human_attribute_name(:profile)
       %th= RelazioniAnagrafica.human_attribute_name(:type)
-      - unless relations.first.idTipoRelazione == 2
+      - unless relations.first.try(:idTipoRelazione) == 2
         %th= RelazioniAnagrafica.human_attribute_name(:percentualeubo)
       %th
   %tbody
