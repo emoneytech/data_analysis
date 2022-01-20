@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
-  # before_action :record_activity
+  before_action :record_activity
   before_action :get_module_name
   add_flash_types :info, :error, :warning
 
