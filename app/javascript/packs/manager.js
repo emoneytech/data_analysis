@@ -55,6 +55,7 @@ window.d3 = d3
 window.jQuery = $
 window.$ = $
 const tables = []
+window.tables = tables
 
 document.addEventListener("turbolinks:load", () => {
   $('[data-toggle="tooltip"]').tooltip()
@@ -62,7 +63,7 @@ document.addEventListener("turbolinks:load", () => {
 
   if (tables.length === 0 && $('.data-table').length !== 0) {
     tables.push(
-    $('.data-table').each((_, element) => {
+      $('.data-table').each((_, element) => {
         $(element).DataTable({
           dom: 'Blfrtip',
           paging: false,
@@ -73,7 +74,7 @@ document.addEventListener("turbolinks:load", () => {
           buttons: ["copy", "csv", "excel", "pdf", "colvis", 'createState', 'savedStates']
         }).buttons().container().appendTo('#' + element.id + '_wrapper .col-md-6:eq(0)')
       })
-      )
+    )
   }
 })
 

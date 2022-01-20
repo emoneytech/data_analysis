@@ -10,7 +10,7 @@
       %dd.col-md-8
         - if customer_evaluation.nr_movements.to_i > 0
           - opts = {group_by_day: 1, filter: {customer_id: @anagrafica.id, daterange: daterange}}
-          = link_to data_analysis_evaluated_movements_path(params: opts), class: "btn btn-xs btn-info", title: 'Open popup' do
+          = link_to customers_anagrafica_evaluated_movements_path(@anagrafica, params: opts), class: "btn btn-xs btn-info", title: 'Open popup' do
             = fa_icon EvaluatedMovement.icon
             Show #{customer_evaluation.nr_movements} evaluated movements
         - else 

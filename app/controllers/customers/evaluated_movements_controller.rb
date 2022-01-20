@@ -26,8 +26,7 @@ module Customers
 
     def for_day
       @daterange = params[:filter] && params[:filter][:daterange] ? params[:filter][:daterange] : "#{params[:day].to_date.strftime("%d/%m/%Y")} - #{params[:day].to_date.strftime("%d/%m/%Y")}"
-      @evaluated_movements = @anagrafica.evaluated_movements.for_day(params[:day].to_date).order(recursion_all_7: :desc).page(params[:page]).per(params[:per])
-      render 'index'
+      @evaluated_movements = @anagrafica.evaluated_movements.with_all_for_day(params[:day].to_date).order(recursion_all_7: :desc).page(params[:page]).per(params[:per])
     end
 
     def for_month

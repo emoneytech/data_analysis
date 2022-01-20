@@ -6,7 +6,7 @@
     = render "customers/charts/evaluated_movements", customer: @anagrafica, opts: opts
 .row
   .col-md-6
-    = render 'customers/customer_evaluations/details', customer_evaluation: @customer_evaluation
+    = render 'customers/customer_evaluations/movements_info', customer_evaluation: @customer_evaluation
   #note.col-md-6
     - if @anagrafica.notes.any?
       = render 'customers/notes/note', note: @anagrafica.notes.last

@@ -1,2 +1,14 @@
 $('#firstModal').html('<%= j render "for_day_modal" %>');
 $('#firstModal').modal('show'); 
+$('#table_evaluated_movements')
+  .DataTable({
+    dom: 'Blfrtip',
+    paging: false,
+    info: false,
+    lengthChange: false,
+    autoWidth: true,
+    responsive: true,
+  })
+  .buttons()
+  .container()
+  .appendTo('#table_evaluated_movements_wrapper .col-md-6:eq(0)')

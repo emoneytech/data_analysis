@@ -584,4 +584,12 @@ class Anagrafica < ApplicationCoreRecord
     res >= self.base_risk.to_f ? res : self.base_risk.to_f 
   end
 
+  def current_attention_factor30
+    current_evaluation.last_attention_factor30
+  end
+
+  def current_attention_factor7
+    current_evaluation.try(:last_attention_factor7)
+  end
+
 end

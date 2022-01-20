@@ -5,10 +5,10 @@
       %th= Anagrafica.human_attribute_name(:full_name)
       %th= Anagrafica.human_attribute_name(:vendor)
       %th= Anagrafica.human_attribute_name(:base_risk)
-      %th= Anagrafica.human_attribute_name(:base_risk_calc)
+      %th= Anagrafica.human_attribute_name(:current_attention_factor7)
       %th= Anagrafica.human_attribute_name(:created)
       %th= Anagrafica.human_attribute_name(:DataLastUpdate)
-      %th.action
+      %th{data: {orderable: "false"}, nowrap: true}
   %tbody
     - anagrafiche.each do |item|
       %tr
@@ -16,15 +16,14 @@
         %td= item.full_name
         %td= item.vendor
         %td= item.base_risk
-        %td= item.base_risk_calc
-        %td= item.created
+        %td= item.current_attention_factor7
+        %td=l item.created
         %td= item.DataLastUpdate
         
-        %td.text-center
+        %td.text-center{nowrap: true}
           = link_to fa_icon('eye'), customers_anagrafica_path(item), class: "btn btn-xs btn-primary"
-          = link_to fa_icon('wallet'), data_analysis_conti_path(params: {filter: {customer_id: item.id}}), class: "btn btn-xs btn-info"
-          = link_to fa_icon('exchange-alt'), data_analysis_movimenticonti_path(params: {filter: {customer_id: item.id}}), class: "btn btn-xs btn-success"
-          = link_to fa_icon('microchip'), data_analysis_servizi_path(params: {filter: {customer_id: item.id}}), class: "btn btn-xs btn-warning"
-          = link_to fa_icon('exclamation-triangle'), customers_anagrafica_risk_movements_path(item), class: "btn btn-xs btn-danger"
-          = link_to fa_icon('box'), customers_anagrafica_prodotti_path(item), class: "btn btn-xs bg-lightblue"
-          = link_to fa_icon('calendar'), customers_anagrafica_eval_riskinesses_path(item), class: "btn btn-xs bg-maroon"
+          = link_to fa_icon(Conto.icon), data_analysis_conti_path(params: {filter: {customer_id: item.id}}), class: "btn btn-xs btn-info"
+          = link_to fa_icon(Movimentoconto.icon), data_analysis_movimenticonti_path(params: {filter: {customer_id: item.id}}), class: "btn btn-xs btn-success"
+          = link_to fa_icon(Servizio.icon), data_analysis_servizi_path(params: {filter: {customer_id: item.id}}), class: "btn btn-xs btn-warning"
+          = link_to fa_icon(Prodotto.icon), customers_anagrafica_prodotti_path(item), class: "btn btn-xs bg-lightblue"
+          = link_to fa_icon(EvaluatedMovement.icon), customers_anagrafica_evaluated_movements_path(item), class: "btn btn-xs bg-maroon"

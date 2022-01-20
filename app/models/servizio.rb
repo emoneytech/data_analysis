@@ -132,6 +132,10 @@ class Servizio < ApplicationCoreRecord
     "DATE_FORMAT(servizi.lastupdate , '%Y-%m-%d') between ? and ?", daterange.split(' - ')[0].to_date.strftime('%Y-%m-%d'), daterange.split(' - ')[1].to_date.strftime('%Y-%m-%d')
   )}
 
+  def self.icon
+    'microchip'
+  end
+
   def to_s
     "Servizio"
   end
