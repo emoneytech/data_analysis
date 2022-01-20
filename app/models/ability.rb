@@ -19,6 +19,7 @@ class Ability
       can :manage, SanctionList
       can :manage, SanctionListItem
       can :manage, ObservedElement
+      can :manage, Note
 #      can :manage, :all
       cannot :manage, Configurable
       cannot :manage, Role
