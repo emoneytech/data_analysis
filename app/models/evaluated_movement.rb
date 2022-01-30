@@ -379,12 +379,39 @@ class EvaluatedMovement < CorePgRecord
     }
   end
 
+  def recursions_all
+    "#{self.recursion_all_7} / #{self.recursion_all_30}"
+  end
+  
+  def recursions_customer
+    "#{self.recursion_customer_7} / #{self.recursion_customer_30}"
+  end
+
   def all_previous
     EvaluatedMovement.where("movement_created_at < ? ", self.movement_created_at).order(movement_created_at: :desc).first
   end
 
   def all_next
     EvaluatedMovement.where("movement_created_at > ?", self.movement_created_at).order(movement_created_at: :asc).first
+  end
+
+  def self.export_attributes
+    %w{ id triggerable movement_created_at customer payer payer_other reason beneficiary product_name product_id
+      product_base_risk recursions_all recursions_customer evaluated_factor7 evaluated_factor30 amount_cents destination_lonlat
+      internal origin_country destination_country
+    }
+  end
+  def self.to_csv
+    attributes = %w{ id triggerable movement_created_at customer payer payer_other reason beneficiary product_name product_id
+      product_base_risk recursions_all recursions_customer evaluated_factor7 evaluated_factor30 amount_cents destination_lonlat
+      internal origin_country destination_country
+    }
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+      all.each do |item|
+        csv << attributes.map{ |attr| item.send(attr) }
+      end
+    end
   end
 
   #private

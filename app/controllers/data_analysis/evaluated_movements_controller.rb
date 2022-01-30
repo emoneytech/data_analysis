@@ -1,11 +1,27 @@
 module DataAnalysis
   class EvaluatedMovementsController < DataAnalysisController
     add_breadcrumb helpers.raw("#{helpers.fa_icon(EvaluatedMovement.icon)} #{EvaluatedMovement.model_name.human(count: 2)}"), [:data_analysis, :evaluated_movements]
-    before_action :set_daterange, only: [:index, :recursive]
+    # before_action :set_daterange, only: [:index, :recursive]
 
     def index
-      @evaluated_movements = EvaluatedMovement.filter(filtering_params)#.includes()
-      @evaluated_movements = @evaluated_movements.order(movement_created_at: :desc).page(params[:page]).per(params[:per])
+      unless params[:filter] && params[:filter][:daterange]
+        params[:filter] = { :daterange => "#{(Date.today - 1.month).strftime("%d/%m/%Y")} - #{Date.today.strftime("%d/%m/%Y")}"}
+      end
+      evaluated_movements = EvaluatedMovement.filter(filtering_params).includes(:customer, :triggerable)
+      @evaluated_movements = evaluated_movements.order(movement_created_at: :desc).page(params[:page]).per(params[:per])
+      respond_to do |format|
+        format.html
+        format.json
+      end
+    end
+
+    def data_table
+      respond_to do |format|
+        format.html
+        format.json { 
+          render json: EvaluatedMovementDatatable.new(params)
+        }
+      end
     end
 
     def show

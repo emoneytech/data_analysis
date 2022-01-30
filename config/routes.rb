@@ -132,11 +132,6 @@ Rails.application.routes.draw do
     end
     resources :related_countries
     resources :relazioni_anagrafiche
-    resources :reports do
-      member do
-        get :download
-      end
-    end
     resources :rischi
     resources :servizi do
       collection do
@@ -167,6 +162,11 @@ Rails.application.routes.draw do
   resources :roles
   resources :users do
     resources :activity_logs, only: [:index, :show]
+    resources :reports do
+      member do
+        get :download
+      end
+    end
     resources :notifications, except: :create do
       collection do
         post :mark_all_as_readed

@@ -7,7 +7,7 @@
       %button{type: "button", class: "btn btn-tool", "data-card-widget" => "collapse"}
         %i.fas{class: " #{ params[:filter] ? 'fa-minus' : 'fa-plus'}" }
   .card-body
-    = simple_form_for :filter, url: [:data_analysis, :evaluated_movements], method: :get, remote: false do |f|
+    = simple_form_for :filter, url: [:data_analysis, :evaluated_movements], method: :get, html: {id: 'filter_form'}, remote: false do |f|
       .row
         .col-md-3= f.input :in_out, as: :select, collection: %w[IN OUT], required: false, input_html: {class: "select2", style: "width: 100%;"}, selected: "#{params[:filter][:in_out] if params[:filter]}", include_blank: true
         .col-md-3= f.input :internal, as: :select, collection: [true, false], required: false, input_html: {class: "select2", style: "width: 100%;"}, selected: "#{params[:filter][:internal] if params[:filter]}", include_blank: true
@@ -44,8 +44,8 @@
 :javascript
   document.addEventListener("turbolinks:load", () => {
     $(".local-daterange").daterangepicker({
-      startDate: moment("#{@daterange.split(' - ')[0]}",'DD/MM/YYYY'),
-      endDate: moment("#{@daterange.split(' - ')[1]}",'DD/MM/YYYY'),
+      startDate: moment("#{params[:filter][:daterange].split(' - ')[0]}",'DD/MM/YYYY'),
+      endDate: moment("#{params[:filter][:daterange].split(' - ')[1]}",'DD/MM/YYYY'),
       maxDate: moment(),
       locale: { format: 'DD/MM/YYYY'},
     })

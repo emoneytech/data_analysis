@@ -10,6 +10,9 @@
   / Right navbar links
   %ul.navbar-nav.ml-auto
     / Messages Dropdown Menu
+    %li.nav-item
+      = link_to [current_user, :reports], class: 'nav-link' do
+        = fa_icon Report.icon
     %li.nav-item.dropdown
       %a.nav-link{"data-toggle" => "dropdown", :href => "#"}
         %i.far.fa-comments
@@ -20,10 +23,10 @@
     %li.nav-item.dropdown
       %a.nav-link{"data-toggle" => "dropdown", :href => "#"}
         %i.far.fa-bell
-        - if current_user.notifications.unread.count > 0
-          %span.badge.badge-danger.navbar-badge= current_user.notifications.unread.count
+        - if @unread_notifications.count > 0
+          %span.badge.badge-danger.navbar-badge= @unread_notifications.count
       .dropdown-menu.dropdown-menu-lg.dropdown-menu-right
-        - current_user.notifications.unread.latest.each do |notification|
+        - @unread_notifications.latest.each do |notification|
           = render_notification_short(notification, "dropdown-item")
         = link_to "See All Notifications", [current_user, :notifications], class: "dropdown-item dropdown-footer"
     %li.nav-item

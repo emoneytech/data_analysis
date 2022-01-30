@@ -16,8 +16,34 @@
 #  index_reports_on_user_id  (user_id)
 #
 class Report < CorePgRecord
+  include ActiveModel::Validations
+
   belongs_to :user
-  has_one_attached :csv_file
   has_one_attached :xls_file
 
+  validates :name, presence: true
+  validate :opts, :validate_opts
+
+  after_create :generate_xlsx
+
+  scope :latest, -> { order(created_at: :desc).limit(10) }
+
+  def self.icon
+    'file-csv'
+  end
+
+  def validate_opts
+    errors.add(:opts, "must be a valid hash & json") unless self.opts.is_a?(Hash)
+  end
+
+  def check_json_array(value)
+     value.each do |item|
+       return false unless item.is_a?(Hash)
+     end
+     true
+  end
+
+  def generate_xlsx
+    CreateReportXlsxWorker.perform_async(self.id)
+  end
 end

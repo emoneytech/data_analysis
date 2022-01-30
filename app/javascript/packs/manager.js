@@ -71,8 +71,47 @@ document.addEventListener("turbolinks:load", () => {
           lengthChange: false,
           autoWidth: false,
           responsive: true,
-          buttons: ["copy", "csv", "excel", "pdf", "colvis", 'createState', 'savedStates']
+          buttons: ["copy", "colvis", 'createState', 'savedStates']
         }).buttons().container().appendTo('#' + element.id + '_wrapper .col-md-6:eq(0)')
+        const dataSource = $(element).data('report-source')
+        const reportPath = $(element).data('report-path')
+        if (dataSource && reportPath) {
+          let table = $(element).DataTable()
+          table.button().add(0, {
+            text: 'Export',
+            action: function (e, dt, node, config) {
+              var opts = {
+                dataSource: dataSource,
+              }
+              $('form#filter_form')
+                .serializeArray()
+                .map(function (x) {
+                  if (x.value.length > 0) {
+                    opts[x.name] = x.value
+                  }
+                })
+              var data = {
+                report: { name: 'report-' + Date.now(), opts: opts },
+              }
+              $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: reportPath,
+                data: {
+                  report: { name: 'report-' + Date.now(), opts: opts },
+                },
+                success(data) {
+                  alert(data.id)
+                  return false
+                },
+                error(data) {
+                  return false
+                },
+              })
+              // this.disable(); // disable button
+            },
+          })
+        }
       })
     )
   }

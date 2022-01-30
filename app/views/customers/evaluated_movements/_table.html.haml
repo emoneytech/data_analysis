@@ -1,4 +1,12 @@
-%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_evaluated_movements', data: {order: '[[2, "desc"]]'}}
+%table.table.table-striped.table-bordered.table-hover.data-table{
+  id: 'table_evaluated_movements',
+  data: { 
+    order: '[[2, "desc"]]',
+    report: { 
+      source: 'EvaluatedMovement',
+      path: "#{user_reports_path(current_user)}"}
+  }
+}
   %thead
     %tr
       %th{data: {priority: "10"}}= EvaluatedMovement.human_attribute_name(:id)

@@ -1,0 +1,17 @@
+%table.table.table-striped.table-bordered.table-hover.margin-none
+  %thead
+    %tr
+      %th{data: {priority: "10"}}= Report.human_attribute_name(:id)
+      %th{data: {priority: "9"}}= Report.human_attribute_name(:name)
+      %th{data: {priority: "8"}}= Report.human_attribute_name(:opts)
+      %th{data: {priority: "1", orderable: "false"}}
+  %tbody
+    - reports.each do |item|
+      %tr
+        %td= item.id
+        %td= item.name
+        %td= item.opts
+        %td.text-center{data: {orderable: "false"}, nowrap: true}
+          = link_to fa_icon("eye"), [@user, item], data: {toggle: "tooltip", title: t(:show_resource, resource: item.model_name.human)}, class: "btn btn-xs btn-primary"
+          = link_to fa_icon("download"), [:download, @user, item], data: {toggle: "tooltip", title: t(:download_resource, resource: item.name)}, class: "btn btn-xs btn-success"
+          = link_to fa_icon("trash"), [@user, item], data: {toggle: "tooltip", confirm: t(:are_you_sure, default: 'Are you sure?'), title: t(:delete_resource, resource: item.model_name.human), commit: t(:sure, default: 'Sure!'), cancel: t(:cancel, default: 'Cancel')}, :method => :delete, class: "btn btn-xs btn-danger"

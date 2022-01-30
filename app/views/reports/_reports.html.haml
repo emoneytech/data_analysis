@@ -1,0 +1,14 @@
+.card.card-success.card-outline
+  .card-header
+    .card-title
+      = fa_icon Report.icon
+      = t(:listing_resource, resource: Report.model_name.human(:count => 2))
+  .card-body.p-1
+    = render "/reports/table", reports: reports
+  - if pagination
+    .card-footer.clearfix
+      .row
+        .col-md-4
+          = page_entries_info reports
+        .col-md-8
+          = paginate reports, theme: 'twitter-bootstrap-4', nav_class: "float-right", pagination_class: 'm-0'

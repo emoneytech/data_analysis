@@ -1,14 +1,14 @@
 .card.card-primary.card-outline
   .card-header
-    %h3.card-title
+    .card-title
       = fa_icon ActivityLog.icon
       = t(:listing_resource, resource: ActivityLog.model_name.human(:count => 2))
   .card-body
     = render "/activity_logs/table", activity_logs: activity_logs
   .card-footer.clearfix
     .row
-      .col-md-6
+      .col-md-4
         = page_entries_info activity_logs
-      .col-md-6.text-right
+      .col-md-8.text-right
         = paginate activity_logs, theme: 'twitter-bootstrap-4', nav_class: "float-right", pagination_class: 'm-0'
 

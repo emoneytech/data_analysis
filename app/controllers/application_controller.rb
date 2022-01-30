@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :record_activity
   before_action :get_module_name
+  before_action :get_notifications
   add_flash_types :info, :error, :warning
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -13,6 +14,10 @@ class ApplicationController < ActionController::Base
 
 
 private
+  def get_notifications
+    @unread_notifications = current_user.notifications.unread
+  end
+
   def get_module_name
     my_class_name = self.class.name
     if my_class_name.index("::").nil? then

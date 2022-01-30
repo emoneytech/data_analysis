@@ -1,28 +1,7 @@
 .row
-  .col-md-12
-    .card.card-primary.card-outline
-      .card-header
-        %h3.card-title
-          %i.fa.fa-user
-          #{User.model_name.human} #{@user.full_name}
-        .spacer
-      .card-body
-        %dl.row
-          %dt.col-4.text-right= User.human_attribute_name(:role)
-          %dd.col-md-8= @user.role
-          %dt.col-4.text-right= User.human_attribute_name(:full_name)
-          %dd.col-8= @user.full_name
-          %dt.col-4.text-right= User.human_attribute_name(:email)
-          %dd.col-md-8= @user.email
-          %dt.col-4.text-right= User.human_attribute_name(:sign_in_count)
-          %dd.col-md-8= @user.sign_in_count
-          %dt.col-4.text-right= User.human_attribute_name(:current_sign_in_at)
-          %dd.col-md-8= @user.current_sign_in_at
-          %dt.col-4.text-right= User.human_attribute_name(:last_sign_in_at)
-          %dd.col-md-8= @user.last_sign_in_at
-      .card-footer.clearfix
-        - if can? :manage, @user
-          = link_to t(:edit_resource, resource: User.model_name.human), edit_user_path(@user), class: "btn btn-success"
+  .col-md-6= render @user
+  .col-md-6= render 'reports/reports', reports: @user.reports.latest, pagination: false
+
 .row
   .col-md-6= render 'webpush_subscriptions/webpush_subscriptions', webpush_subscriptions: @user.webpush_subscriptions.page(0)
   .col-md-6= render 'users/activity_logs', activity_logs: @user.activity_logs.latest

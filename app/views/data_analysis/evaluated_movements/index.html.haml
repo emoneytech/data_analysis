@@ -1,5 +1,6 @@
 .row
   .col-md-12
     = render 'filters'
-#evaluated_movements_items.row
-  = render "evaluated_movements", evaluated_movements: @evaluated_movements
+.row
+  #evaluated_movements_items.col-md-12
+    = render "evaluated_movements", evaluated_movements: @evaluated_movements

@@ -1,0 +1,6 @@
+.row
+  .col-md-12
+    =# render 'filters'
+.row
+  #reports_items.col-md-12
+    = render "reports", reports: @reports, pagination: true

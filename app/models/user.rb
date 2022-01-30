@@ -56,7 +56,7 @@ class User < CorePgRecord
          :recoverable, :rememberable, :trackable, :validatable, :lockable
   belongs_to :role
   has_many :notes
-  has_many :reports
+  has_many :reports, -> { order(created_at: :desc) }
   has_many :webpush_subscriptions, dependent: :destroy
   has_many :activity_logs, dependent: :destroy
   
