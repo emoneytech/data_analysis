@@ -14,8 +14,10 @@ class ApplicationController < ActionController::Base
 
 
 private
+
   def get_notifications
-    @unread_notifications = current_user.notifications.unread if user_signed_in?
+    @unread_notifications = current_user.try(:notifications).try(:unread)
+    @unread_notifications = [] unless @unread_notifications 
   end
 
   def get_module_name
