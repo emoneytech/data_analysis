@@ -398,6 +398,7 @@ class EvaluatedMovement < CorePgRecord
   def self.export_attributes
     %w{ 
       id
+      in_out
       triggerable
       movement_created_at
       customer
