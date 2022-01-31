@@ -415,6 +415,7 @@ class EvaluatedMovement < CorePgRecord
       recursions_customer
       evaluated_factor7
       evaluated_factor30
+      amount
       amount_cents
       internal
       origin_country
