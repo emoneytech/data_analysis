@@ -1,11 +1,8 @@
-.card.card-info.card-outline{class: "#{ 'collapsed-card' unless params[:filter]}" }
+.card.card-info.card-outline
   .card-header
     %h3.card-title
       %i.fa.fa-chart-bar
-      = t(:filters, default: 'Filters')
-    .card-tools
-      %button{type: "button", class: "btn btn-tool", "data-card-widget" => "collapse"}
-        %i.fas{class: " #{ params[:filter] ? 'fa-minus' : 'fa-plus'}" }
+      = t(:settings, default: 'Settings')
   .card-body
     = simple_form_for :filter, url: [:data_analysis, :evaluated_movements], method: :get, html: {id: 'filter_form'}, remote: false do |f|
       .row
