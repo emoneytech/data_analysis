@@ -30,6 +30,7 @@ class Ability
       can :manage, ActivityLog, user_id: user.id
       cannot :destroy, ActivityLog
       can :manage, WebpushSubscription, user_id: user.id
+      can :manage, Report, user_id: user.id
       can :manage, CustomerSetting
       can :manage, RelatedCountry
       cannot :index, User
