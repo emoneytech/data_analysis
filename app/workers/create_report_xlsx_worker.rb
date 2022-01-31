@@ -32,7 +32,7 @@ class CreateReportXlsxWorker
     stream = p.to_stream
     File.open(file_path, 'w') { |f| f.write(stream.read) }
     report.xls_file.attach(io: File.open(file_path), filename: file_name, content_type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-    File.delete(file_name)
+    File.delete(file_path)
   end
 
 end
