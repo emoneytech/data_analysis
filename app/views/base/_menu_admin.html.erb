@@ -1,10 +1,11 @@
 <%- if current_user.has_role?('superadmin') %>
-  <li class="nav-item <%= ' menu-open menu-is-opening' if %w(roles users list_types sync configurables excluded_products setup).include?(controller_name)%>" style="background-color: rgba(255,255,255,.05);;">
+  <%- ary = %w(roles users list_types sync configurables excluded_products settings) %>
+  <li class="nav-item <%= ' menu-open menu-is-opening' if ary.include?(controller_name)%>" style="background-color: rgba(255,255,255,.05);;">
     <a href="#" class="nav-link">
       <i class="nav-icon fa fa-cogs"></i>
       <p>
         <%= t(:settings, default: "Settings") %>
-        <i class="right fas <%= %w(roles users list_types sync configurables excluded_products setup).include?(controller_name) ? 'fa-angle-down' : 'fa-angle-left' %>"></i>
+        <i class="right fas <%= ary.include?(controller_name) ? 'fa-angle-down' : 'fa-angle-left' %>"></i>
       </p>
     </a>
     <ul class="nav nav-treeview">
@@ -49,6 +50,14 @@
           <i class="nav-icon fas fa-clock"></i>
           <p>
             <%= t(:async_processor, default: "Async Processor") %>
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="<%= settings_path %>" class="nav-link <%= ' active' if controller_name == 'settings' %>">
+          <i class="nav-icon fas fa-cogs"></i>
+          <p>
+            <%= t(:settings, default: 'Settings') %>
           </p>
         </a>
       </li>

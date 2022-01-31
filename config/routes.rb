@@ -160,6 +160,7 @@ Rails.application.routes.draw do
     end
   end
   resources :roles
+  resources :settings
   resources :users do
     resources :activity_logs, only: [:index, :show]
     resources :reports do
