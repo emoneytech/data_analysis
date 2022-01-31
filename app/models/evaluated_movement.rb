@@ -396,9 +396,29 @@ class EvaluatedMovement < CorePgRecord
   end
 
   def self.export_attributes
-    %w{ id triggerable movement_created_at customer payer payer_other reason beneficiary product_name product_id
-      product_base_risk recursions_all recursions_customer evaluated_factor7 evaluated_factor30 amount_cents destination_lonlat
-      internal origin_country destination_country
+    %w{ 
+      id
+      triggerable
+      movement_created_at
+      customer
+      payer
+      payer_iban
+      payer_card
+      reason
+      beneficiary
+      beneficiary_iban
+      beneficiary_card
+      product_id
+      product_name
+      product_base_risk
+      recursions_all
+      recursions_customer
+      evaluated_factor7
+      evaluated_factor30
+      amount_cents
+      internal
+      origin_country
+      destination_country
     }
   end
   def self.to_csv
