@@ -13,5 +13,6 @@
         %td= item.opts
         %td.text-center{data: {orderable: "false"}, nowrap: true}
           = link_to fa_icon("eye"), [@user, item], data: {toggle: "tooltip", title: t(:show_resource, resource: item.model_name.human)}, class: "btn btn-xs btn-primary"
-          = link_to fa_icon("download"), [:download, @user, item], data: {toggle: "tooltip", title: t(:download_resource, resource: item.name)}, class: "btn btn-xs btn-success"
+          - if item.xls_file.attached?
+            = link_to fa_icon("download"), [:download, @user, item], data: {toggle: "tooltip", title: t(:download_resource, resource: item.name)}, class: "btn btn-xs btn-success"
           = link_to fa_icon("trash"), [@user, item], data: {toggle: "tooltip", confirm: t(:are_you_sure, default: 'Are you sure?'), title: t(:delete_resource, resource: item.model_name.human), commit: t(:sure, default: 'Sure!'), cancel: t(:cancel, default: 'Cancel')}, :method => :delete, class: "btn btn-xs btn-danger"
