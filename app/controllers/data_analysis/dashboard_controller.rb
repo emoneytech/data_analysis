@@ -21,7 +21,7 @@ class DataAnalysis::DashboardController < ApplicationController
         @current_full_name = params[:filter][:q]
         @anagrafiche = @anagrafiche.search_by_full_name(@current_full_name).order(nome: :asc).order(cognome: :asc)
       end
-      @customer_evaluations = CustomerEvaluation.includes({anagrafica: :siblings}).where(eval_year: @current_tuple[0], eval_month: @current_tuple[1]).where(anagrafica_id: @anagrafiche.pluck(:id)).order(last_attention_factor7: :desc, last_attention_factor7: :desc, nr_movements: :asc).page(params[:page])
+      @customer_evaluations = CustomerEvaluation.includes({anagrafica: [:siblings, :customer_settings]}).where(eval_year: @current_tuple[0], eval_month: @current_tuple[1]).where(anagrafica_id: @anagrafiche.pluck(:id)).order(last_attention_factor7: :desc, last_attention_factor7: :desc, nr_movements: :asc).page(params[:page])
     else
       @customer_evaluations = CustomerEvaluation.includes({anagrafica: :siblings}).where(eval_year: @current_tuple[0], eval_month: @current_tuple[1]).where.not(anagrafica_id: %w[70 75 34221]).order(last_attention_factor7: :desc, last_attention_factor7: :desc, nr_movements: :asc).page(params[:page])
     end

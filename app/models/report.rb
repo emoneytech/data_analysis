@@ -29,7 +29,7 @@ class Report < CorePgRecord
   scope :latest, -> { order(created_at: :desc).limit(10) }
 
   def self.icon
-    'file-csv'
+    'file-excel'
   end
 
   def validate_opts
