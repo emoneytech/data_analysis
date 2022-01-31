@@ -13,7 +13,7 @@ class Ability
       cannot :manage, Role
     elsif user.has_role? "manager"
       can :read, :all
-      can [:read, :get_average, :get_max_amount, :get_average_amount], Conti
+      can [:read, :get_average, :get_max_amount, :get_average_amount], Conto
       can :recursive, EvaluatedMovement
       can :admin, :dashboard
       can :manage, :check_ibans

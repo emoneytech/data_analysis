@@ -34,7 +34,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     add_breadcrumb "#{@user.full_name}", :manager_user_path
-    unless current_user.has_role? "admin"
+    unless current_user.has_role? "superadmin"
       unless @user == current_user
         redirect_to root_path, :alert => "Access denied."
       end
