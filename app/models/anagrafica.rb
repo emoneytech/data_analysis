@@ -202,8 +202,6 @@ class Anagrafica < ApplicationCoreRecord
   has_many :directors, through: :director_relations
   has_many :owners, through: :owner_relations
 
-
-
   has_many :conti, -> { order(amount: :desc) }, foreign_key: 'IdUtente', class_name: 'Conto'
   has_many :ibans, foreign_key: 'IdUtente', class_name: 'Iban'
 
@@ -592,4 +590,21 @@ class Anagrafica < ApplicationCoreRecord
     current_evaluation.try(:last_attention_factor7)
   end
 
+  def initialize_evaluation
+    max_base_risk = Configurable.max_base_risk.to_f
+    min_base_risk = self.try(:base_risk).to_f || Configurable.min_base_risk.to_f
+    tlf = Configurable.time_lapse_factor.to_f
+    factor_for_amount = Configurable.factor_for_amount.to_f
+    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
+    tuple = [Date.today.year, Date.today.month]
+    ce = self.customer_evaluations.build(eval_month: tuple[1], eval_year: tuple[0])
+    evaluated_movements_for_date = evaluated_movements.select{|h| h["month"]=="#{tuple[0]}-#{tuple[1]}"}
+    ce.recalculate(evaluated_movements_for_date, max_base_risk, min_base_risk, tlf)
+    ce.save
+    return ce
+  end
+  
+  def current_evaluation
+    super || initialize_evaluation
+  end
 end
