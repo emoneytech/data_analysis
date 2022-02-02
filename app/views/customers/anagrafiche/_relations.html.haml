@@ -9,7 +9,7 @@
   %tbody
     - relations.each do |item|
       %tr
-        %td= link_to item.owner, [:customers, item.owner] 
+        %td= link_to item.owner, [:customers, item.owner]  if item.owner
         %td= item.tipo_relazione
         - unless item.idTipoRelazione == 2
           %td= item.percentualeubo
