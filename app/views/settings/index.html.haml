@@ -7,24 +7,24 @@
           = t(:settings, default: 'Settings')
       .card-body
         %pre.border
-          %code
-            ((((((product_base_risk.percentage_of(1)) - 100) * nr_of_recursive_operations) |
-            * (factor_for_amount * amount/divisor_amount_for_factor)) + 100) / 100)
-        %pre.border
           %code            
+            function percentage_of(val, n) {
+            &nbsp;&nbspconst res = parseFloat(val) / parseFloat(n) * 100
+            &nbsp;&nbsp;return res 
+            }
             divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
             factor_for_amount = Configurable.factor_for_amount.to_f
         %pre.border
           %code            
-            base_amount = (factor_for_amount * ((self.amount_cents / 100).to_f / divisor_amount_for_factor)).to_f
+            base_amount = factor_for_amount * ((amount_cents / 100).to_f / divisor_amount_for_factor)
         %pre.border
           %code            
-            base_calc_7 = recursion_customer_7 > 0 ? (((self.product_base_risk.percentage_of(1)) - 100) * recursion_customer_7).to_f : ((self.product_base_risk.percentage_of(1)) - 100).to_f
-            base_calc_30 = recursion_customer_30 > 0 ? (((self.product_base_risk.percentage_of(1)) - 100) * recursion_customer_30).to_f : ((self.product_base_risk.percentage_of(1)) - 100).to_f
+            base_calc = recursion > 0 ?
+            &nbsp;&nbsp;(percentage_of(product_base_risk, 1) - 100) * recursion :
+            &nbsp;&nbsp;(percentage_of(product_base_risk, 1) - 100
         %pre.border
           %code            
-            evaluated_factor_7 = (((base_calc_7 * base_amount * source_country_factor * destination_country_factor) + 100) / 100).to_f
-            evaluated_factor_30 = (((base_calc_30 * base_amount * source_country_factor * destination_country_factor) + 100) / 100).to_f
+            evaluated_factor = (((base_calc * base_amount * source_country_factor * destination_country_factor) + 100) / 100).to_f
       
         = simple_form_for :filter, method: :get, html: {id: 'filter_form'}, remote: false do |f|
           .row
