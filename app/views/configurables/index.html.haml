@@ -11,6 +11,7 @@
             %thead
               %tr
                 %th= Configurable.human_attribute_name(:name)
+                %th= Configurable.human_attribute_name(:name)
                 %th= Configurable.human_attribute_name(:value)
                 %th
             %tbody
@@ -18,10 +19,12 @@
                 %tr
                   - if item.try(:name)
                     %td=t(item.name, default: Configurable.defaults[item.name][:name])
+                    %td=item
                     %td= item.value
                     %td.col-md-1{nowrap: true}= links(item)
                   - else
                     %td= Configurable.defaults[item][:name]
+                    %td=item
                     %td= Configurable.defaults[item][:default]
                     %td.col-md-1{nowrap: true}
                       = link_to fa_icon("plus"), new_configurable_path(name: item), class: "btn btn-xs btn-success", data: {toggle: "tooltip", title: t(:add_resource, resource: Configurable.model_name.human)}

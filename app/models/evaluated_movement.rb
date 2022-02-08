@@ -554,8 +554,11 @@ class EvaluatedMovement < CorePgRecord
     base_calc7 = recursion_customer_7 > 0 ? (((self.product_base_risk.percentage_of(1)) - 100) * recursion_customer_7).to_f : ((self.product_base_risk.percentage_of(1)) - 100).to_f
     base_calc30 = recursion_customer_30 > 0 ? (((self.product_base_risk.percentage_of(1)) - 100) * recursion_customer_30).to_f : ((self.product_base_risk.percentage_of(1)) - 100).to_f
     
-    self.evaluated_factor7 = (((base_calc7 * base_amount) + 100) / 100).to_f
-    self.evaluated_factor30 = (((base_calc30 * base_amount) + 100) / 100).to_f
+    source_country_factor       = RelatedCountry.find_by_alpha2(self.origin_country).try(:attention_factor).try(:to_f) || 1
+    destination_country_factor  = RelatedCountry.find_by_alpha2(self.destination_country).try(:attention_factor).try(:to_f) || 1
+
+    self.evaluated_factor7 = (((base_calc7 * base_amount * source_country_factor * destination_country_factor) + 100) / 100).to_f
+    self.evaluated_factor30 = (((base_calc30 * base_amount * source_country_factor * destination_country_factor) + 100) / 100).to_f
   end
 
   def evaluate_customer

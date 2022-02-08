@@ -1,1 +1,147 @@
-Ciao mondo!
+.row
+  .col-md-12 
+    .card.card-info.card-outline
+      .card-header
+        %h3.card-title
+          %i.fa.fa-chart-bar
+          = t(:settings, default: 'Settings')
+      .card-body
+        %pre.border
+          %code
+            ((((((product_base_risk.percentage_of(1)) - 100) * nr_of_recursive_operations) |
+            * (factor_for_amount * amount/divisor_amount_for_factor)) + 100) / 100)
+        %pre.border
+          %code            
+            divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
+            factor_for_amount = Configurable.factor_for_amount.to_f
+        %pre.border
+          %code            
+            base_amount = (factor_for_amount * ((self.amount_cents / 100).to_f / divisor_amount_for_factor)).to_f
+        %pre.border
+          %code            
+            base_calc_7 = recursion_customer_7 > 0 ? (((self.product_base_risk.percentage_of(1)) - 100) * recursion_customer_7).to_f : ((self.product_base_risk.percentage_of(1)) - 100).to_f
+            base_calc_30 = recursion_customer_30 > 0 ? (((self.product_base_risk.percentage_of(1)) - 100) * recursion_customer_30).to_f : ((self.product_base_risk.percentage_of(1)) - 100).to_f
+        %pre.border
+          %code            
+            evaluated_factor_7 = (((base_calc_7 * base_amount * source_country_factor * destination_country_factor) + 100) / 100).to_f
+            evaluated_factor_30 = (((base_calc_30 * base_amount * source_country_factor * destination_country_factor) + 100) / 100).to_f
+      
+        = simple_form_for :filter, method: :get, html: {id: 'filter_form'}, remote: false do |f|
+          .row
+            .col-md-4
+              = f.input :amount, input_html: {value: "0.01"}
+            .col-md-4
+              = f.input :recursion_7, input_html: { value: 0 }
+            .col-md-4
+              = f.input :recursion_30, input_html: { value: 0 }
+          .row
+            .col-md-4
+              = f.input :product_base_risk, input_html: {value: "#{Configurable.default_product_base_risk.to_f}"}
+            .col-md-4
+              = f.input :factor_for_amount, input_html: { value: "#{Configurable.factor_for_amount.to_f}" }
+            .col-md-4
+              = f.input :divisor_amount_for_factor, input_html: { value: "#{Configurable.divisor_amount_for_factor.to_f}" }
+          .row
+            .col-md-6
+              = f.input :source_country, |
+              as: :select, |
+              collection: RelatedCountry.order(:name).map{|item| ["#{number_with_precision item.attention_factor} | #{Country[item.alpha2].emoji_flag} #{item.name}", item.id]}, |
+              input_html: {class: "select2", style: "width: 100%;"}, |
+              selected: "#{params[:filter][:source_country] if params[:filter]}", include_blank: true
+            .col-md-6
+              = f.input :destination_country, |
+              as: :select, |
+              collection: RelatedCountry.order(:name).map{|item| ["#{number_with_precision item.attention_factor} | #{Country[item.alpha2].emoji_flag} #{item.name}", item.id]}, |
+              input_html: {class: "select2", style: "width: 100%;"}, |
+              selected: "#{params[:filter][:destination_country] if params[:filter]}", include_blank: true
+
+      .card-footer
+        .row
+          .col-md-4
+            .text-success
+              Base Amount:
+              %strong
+                %span#base_amount
+                  0.00
+          .col-md-4
+            .text-warning
+              %strong
+                Base Calc 7:
+                %span#base_calc_7
+                  0.00
+              %br
+              Base Calc 30:
+              %strong
+                %span#base_calc_30
+                  0.00
+          .col-md-4
+            .text-danger
+              Evaluated Factor 7:
+              %strong
+                %span#evaluated_factor_7
+                  0.00
+              %br
+              Evaluated Factor 30:
+              %strong
+                %span#evaluated_factor_30
+                  0.00
+
+:javascript
+  function percentage_of(val, n) {
+    const res = parseFloat(val) / parseFloat(n) * 100
+    return res 
+  }
+  function percent_of(val, n) {
+    const res = parseFloat(val) / 100 * parseFloat(n)
+    return res 
+  }
+
+  function calculateBaseAmount() {
+    const factor_for_amount = parseFloat($('#filter_factor_for_amount').val()) 
+    const amount_cents = parseFloat($('#filter_amount').val() * 100) 
+    const divisor_amount_for_factor = parseFloat($('#filter_divisor_amount_for_factor').val())
+    const base_amount = parseFloat(factor_for_amount * (parseFloat(amount_cents / 100) / divisor_amount_for_factor))
+    return base_amount
+  }
+
+  function calculateBaseCalc(recursion) {
+    const product_base_risk = parseFloat($('#filter_product_base_risk').val())
+    let res = ''
+    if (recursion > 0) {
+      res = parseFloat(((percentage_of(product_base_risk, 1)) - 100) * recursion)
+    } else {
+      res = parseFloat((percentage_of(product_base_risk, 1)) - 100) 
+    }
+    return res
+  }
+  function parseCountry(string) {
+    const results = string.split('|')
+    return results[0].trim()
+  }
+  function calculateAttentionFactor() {
+    const base_amount = calculateBaseAmount()
+    const recursion_7 = parseFloat($('#filter_recursion_7').val())
+    const recursion_30 = parseFloat($('#filter_recursion_30').val())
+    const source_country_factor = parseFloat(parseCountry($('#filter_source_country option:selected').text()))
+    const destination_country_factor = parseFloat(parseCountry($('#filter_destination_country option:selected').text()))
+    const base_calc_7 = calculateBaseCalc(recursion_7)
+    const base_calc_30 = calculateBaseCalc(recursion_30)
+    const evaluated_factor_7 = parseFloat(((base_calc_7 * base_amount * source_country_factor * destination_country_factor) + 100) / 100)
+    const evaluated_factor_30 = parseFloat(((base_calc_30 * base_amount * source_country_factor * destination_country_factor) + 100) / 100)
+
+    $('#base_amount').html(base_amount.toFixed(6))
+    $('#base_calc_7').html(base_calc_7.toFixed(6))
+    $('#base_calc_30').html(base_calc_30.toFixed(6))
+    $('#evaluated_factor_7').html(evaluated_factor_7.toFixed(3))
+    $('#evaluated_factor_30').html(evaluated_factor_30.toFixed(3))
+    console.log('Form changed!')
+  }
+
+  $(document).ready(function() {
+    calculateAttentionFactor()
+    $('form').on('keyup change paste', 'input, select, textarea', function(){
+      calculateAttentionFactor()
+    })
+
+  })
+
