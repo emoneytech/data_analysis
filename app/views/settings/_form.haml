@@ -1,49 +1,34 @@
-.card.card-info.card-outline
+.card.card-secondary.card-outline
   .card-header
     %h3.card-title
       %i.fa.fa-chart-bar
       = t(:settings, default: 'Settings')
   .card-body
-    = simple_form_for :filter, url: [:data_analysis, :evaluated_movements], method: :get, html: {id: 'filter_form'}, remote: false do |f|
+    = simple_form_for :filter, method: :get, html: {id: 'filter_form'}, remote: false do |f|
       .row
-        .col-md-3= f.input :in_out, as: :select, collection: %w[IN OUT], required: false, input_html: {class: "select2", style: "width: 100%;"}, selected: "#{params[:filter][:in_out] if params[:filter]}", include_blank: true
-        .col-md-3= f.input :internal, as: :select, collection: [true, false], required: false, input_html: {class: "select2", style: "width: 100%;"}, selected: "#{params[:filter][:internal] if params[:filter]}", include_blank: true
-        .col-md-3= f.input :service_id, label: 'Service ID', required: false, input_html: {value: "#{params[:filter][:service_id] if params[:filter]}"}
-        .col-md-3= f.input :movement_id, label: 'Movement ID', required: false, input_html: {value: "#{params[:filter][:movement_id] if params[:filter]}"}
+        .col-md-4
+          = f.input :amount, input_html: {value: "0.01"}
+        .col-md-4
+          = f.input :recursion_7, input_html: { value: 0 }
+        .col-md-4
+          = f.input :recursion_30, input_html: { value: 0 }
       .row
-        .col-md-3= f.input :daterange, label: 'Date range', input_html: { class: 'local-daterange', checked: params[:filter] && params[:filter][:daterange] }, required: true
-        .col-md-3= f.input :product_id, label: 'Product ID', required: false, input_html: {value: "#{params[:filter][:product_id] if params[:filter]}"}
-        .col-md-3= f.input :product_name, required: false, input_html: {value: "#{params[:filter][:product_name] if params[:filter]}"}
-        .col-md-3= f.input :reason, required: false, input_html: {value: "#{params[:filter][:reason] if params[:filter]}"}
+        .col-md-4
+          = f.input :product_base_risk, input_html: {value: "#{Configurable.default_product_base_risk.to_f}"}
+        .col-md-4
+          = f.input :factor_for_amount, input_html: { value: "#{Configurable.factor_for_amount.to_f}" }
+        .col-md-4
+          = f.input :divisor_amount_for_factor, input_html: { value: "#{Configurable.divisor_amount_for_factor.to_f}" }
       .row
-        .col-md-3= f.input :customer_full_name, required: false, input_html: {value: "#{params[:filter][:customer_full_name] if params[:filter]}"}
-        .col-md-3= f.input :customer_id, label: "Customer ID", required: false, input_html: {value: "#{params[:filter][:customer_id] if params[:filter]}"}
-        .col-md-3= f.input :origin_country, as: :string, required: false, input_html: {value: "#{params[:filter][:origin_country] if params[:filter]}"}
-        .col-md-3= f.input :destination_country, as: :string, required: false, input_html: {value: "#{params[:filter][:destination_country] if params[:filter]}"}
-      .row
-        .col-md-3= f.input :beneficiary, required: false, input_html: {value: "#{params[:filter][:beneficiary] if params[:filter]}"}
-        .col-md-3= f.input :beneficiary_iban, required: false, input_html: {value: "#{params[:filter][:beneficiary_iban] if params[:filter]}"}
-        .col-md-3= f.input :beneficiary_card, required: false, input_html: {value: "#{params[:filter][:beneficiary_card] if params[:filter]}"}
-        .col-md-3= f.input :beneficiary_other, required: false, input_html: {value: "#{params[:filter][:beneficiary_other] if params[:filter]}"}
-      .row
-        .col-md-3= f.input :payer, required: false, input_html: {value: "#{params[:filter][:payer] if params[:filter]}"}
-        .col-md-3= f.input :payer_iban, required: false, input_html: {value: "#{params[:filter][:payer_iban] if params[:filter]}"}
-        .col-md-3= f.input :payer_card, required: false, input_html: {value: "#{params[:filter][:payer_card] if params[:filter]}"}
-        .col-md-3= f.input :payer_other, required: false, input_html: {value: "#{params[:filter][:payer_other] if params[:filter]}"}
-      .row
-        .col-md-3= f.input :min_recursion_all_7, required: false, input_html: {value: "#{params[:filter][:min_recursion_all_7] if params[:filter]}"}
-        .col-md-3= f.input :min_recursion_all_30, required: false, input_html: {value: "#{params[:filter][:min_recursion_all_30] if params[:filter]}"}
-        .col-md-3= f.input :min_recursion_customer_7, required: false, input_html: {value: "#{params[:filter][:min_recursion_customer_7] if params[:filter]}"}
-        .col-md-3= f.input :min_recursion_customer_30, required: false, input_html: {value: "#{params[:filter][:min_recursion_customer_30] if params[:filter]}"}
-
-      = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-info'
-
-:javascript
-  document.addEventListener("turbolinks:load", () => {
-    $(".local-daterange").daterangepicker({
-      startDate: moment("#{params[:filter][:daterange].split(' - ')[0]}",'DD/MM/YYYY'),
-      endDate: moment("#{params[:filter][:daterange].split(' - ')[1]}",'DD/MM/YYYY'),
-      maxDate: moment(),
-      locale: { format: 'DD/MM/YYYY'},
-    })
-  })
+        .col-md-6
+          = f.input :source_country, |
+          as: :select, |
+          collection: RelatedCountry.order(:name).map{|item| ["#{number_with_precision item.attention_factor} | #{Country[item.alpha2].emoji_flag} #{item.name}", item.id]}, |
+          input_html: {class: "select2", style: "width: 100%;"}, |
+          selected: "#{params[:filter][:source_country] if params[:filter]}", include_blank: true
+        .col-md-6
+          = f.input :destination_country, |
+          as: :select, |
+          collection: RelatedCountry.order(:name).map{|item| ["#{number_with_precision item.attention_factor} | #{Country[item.alpha2].emoji_flag} #{item.name}", item.id]}, |
+          input_html: {class: "select2", style: "width: 100%;"}, |
+          selected: "#{params[:filter][:destination_country] if params[:filter]}", include_blank: true

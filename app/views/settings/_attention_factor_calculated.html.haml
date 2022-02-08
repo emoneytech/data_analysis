@@ -1,0 +1,20 @@
+.card.card-info.card-outline
+  .card-header
+    %h3.card-title
+      %i.fa.fa-chart-bar
+      = t(:attention_factor_calculated, default: 'Calculated Attention Factor')
+  .card-body
+    %pre.border
+      %code            
+        attention_factor_calculated = (((base_calc * base_amount * source_country_factor * destination_country_factor) + 100) / 100).to_f
+  .card-footer
+    .text-danger
+      Attention Factor 7:
+      %strong
+        %span#attention_factor_calculated_7
+          0.00
+      %br
+      Attention Factor 30:
+      %strong
+        %span#attention_factor_calculated_30
+          0.00

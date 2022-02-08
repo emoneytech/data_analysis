@@ -1,0 +1,19 @@
+.card.card-warning.card-outline
+  .card-header
+    %h3.card-title
+      %i.fa.fa-chart-bar
+      = t(:product_factor_calculated, default: 'Calculated Product Factor')
+  .card-body
+    = simple_form_for :product_factor_calculated, method: :get, html: {id: 'product_factor_form'}, remote: false do |f|
+      = f.input :eq, input_html: {value: "4 * sin(x) + 5 * cos(x/2)"}, readonly: true
+    #plot_product_factor
+    %pre.border
+      %code            
+        product_factor_calculated =
+        &nbsp;&nbsp;(parseFloat(product_base_risk) / 1 * 100) - 100
+  .card-footer
+    .text-warning
+      %strong
+        Product Factor:
+        %span#product_factor_calculated
+          0.00

@@ -1,0 +1,19 @@
+.card.card-info.card-outline
+  .card-header
+    %h3.card-title
+      %i.fa.fa-chart-bar
+      = t(:amount_factor_calculated, default: 'Calculated Amount Factor')
+  .card-body
+    = simple_form_for :amount_factor_calculated, method: :get, html: {id: 'amount_factor_form'}, remote: false do |f|
+      = f.input :eq, input_html: {value: "4 * sin(x) + 5 * cos(x/2)"}, readonly: true
+    #plot_amount_factor
+    %pre.border
+      %code            
+        amount_factor_calculated = factor_for_amount * 
+        &nbsp;&nbsp;((amount_cents / 100).to_f / divisor_amount_for_factor)
+  .card-footer
+    .text-success
+      Base Amount:
+      %strong
+        %span#amount_factor_calculated
+          0.00
