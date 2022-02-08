@@ -115,6 +115,9 @@
     return res
   }
   function parseCountry(string) {
+    if(!string.length) {
+      return 1
+    }
     const results = string.split('|')
     return results[0].trim()
   }
@@ -134,7 +137,6 @@
     $('#base_calc_30').html(base_calc_30.toFixed(6))
     $('#evaluated_factor_7').html(evaluated_factor_7.toFixed(3))
     $('#evaluated_factor_30').html(evaluated_factor_30.toFixed(3))
-    console.log('Form changed!')
   }
 
   $(document).ready(function() {
