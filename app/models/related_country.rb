@@ -50,18 +50,24 @@
 #
 class RelatedCountry < CorePgRecord
   audited comment_required: true
+
   validates :audit_comment, presence: true
 
-  validates :basel_score, :corruption_perception, :gray_or_black_list, :kyc_score, presence: true, numericality: true
+  validates :basel_score,
+            :corruption_perception,
+            :gray_or_black_list,
+            :kyc_score,
+            presence: true,
+            numericality: true
   after_validation :set_evaluated_fields
   has_many :comments
-  
-  scope :filter_by_name, -> (name) { where('name ilike ?', "%#{name}%") }
+
+  scope :filter_by_name, ->(name) { where('name ilike ?', "%#{name}%") }
 
   def previous
     self.class.unscoped.where('alpha2 < ?', alpha2).order('alpha2 DESC').first
   end
-  
+
   def next
     self.class.unscoped.where('alpha2 > ?', alpha2).order('alpha2 ASC').first
   end
@@ -73,13 +79,26 @@ class RelatedCountry < CorePgRecord
   private
 
   def set_evaluated_fields
-    if self.eval_kyc_score
-      self.eval_kyc_score = ( ( 100 - self.kyc_score ) * ( 1 / self.kyc_score ) ) + 1
-      self.eval_basel_score = ( self.basel_score / 100 ) + 1 
-      self.eval_corruption_perception = ( 100 - self.corruption_perception ) * ( 1 / self.corruption_perception ) + 1 
-      self.attention_factor = (((((self.eval_kyc_score+self.eval_basel_score+self.eval_corruption_perception)/3)-1)/2)+1)+(self.gray_or_black_list/2)
+    if self.kyc_score
+      self.eval_kyc_score =
+        ((100 - self.kyc_score) * (1.to_f / self.kyc_score)) + 1
+      self.eval_basel_score = (self.basel_score.to_f / 100) + 1
+      self.eval_corruption_perception =
+        (100 - self.corruption_perception) *
+          (1.to_f / self.corruption_perception) + 1
+      self.attention_factor =
+        (
+          (
+            (
+              (
+                (
+                  self.eval_kyc_score + self.eval_basel_score +
+                    self.eval_corruption_perception
+                ).to_f / 3
+              ) - 1
+            ).to_f / 2
+          ) + 1
+        ) + (self.gray_or_black_list.to_f / 2)
     end
   end
-
-
 end

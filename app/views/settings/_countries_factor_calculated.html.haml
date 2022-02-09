@@ -4,6 +4,38 @@
       %i.fa.fa-chart-bar
       = t(:countries_factor_calculated, default: 'Calculated Countries Factor')
   .card-body
+    %form#countries_factor_form
+      .input-group
+        %input#countries_factor_calculated_eq.form-control{type: "text"}
+        %span.input-group-append
+          %input.btn.btn-info.btn-flat{type: "submit", value: 'Go!'}>
+    #plot_countries_factor
     %pre.border
       %code            
-        
+        countries_factor_calculated =
+        &nbsp;&nbsp;(parseFloat(country_attention_factor) / 1 * 100) - 100
+  .card-footer
+    .text-danger
+      Source Country Factor:
+      %strong
+        %span#source_country_factor_calculated
+          0.00
+      %br
+      Destination Country Factor:
+      %strong
+        %span#destination_country_factor_calculated
+          0.00
+
+:javascript
+  function plot_countries_line() {
+    console.log('plotting...')
+    const expression = $('#countries_factor_calculated_eq').val()
+    draw(expression, 'plot_countries_factor', [1.01, 3.5, 0.1])
+  }
+  $(document).ready(function() {
+    document.getElementById('countries_factor_form').onsubmit = function (event) {
+      event.preventDefault()
+      plot_countries_line()
+    }
+  })
+

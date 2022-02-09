@@ -34,6 +34,14 @@
     }
   }
 
+  function parseCountry(string) {
+    if(!string.length) {
+      return 1
+    }
+    const results = string.split('|')
+    return results[0].trim()
+  }
+
   function percentage_of(val, n) {
     const res = parseFloat(val) / parseFloat(n) * 100
     return res 
@@ -48,49 +56,28 @@
     const amount_cents = parseInt($('#filter_amount').val() * 100) 
     const divisor_amount_for_factor = parseFloat($('#filter_divisor_amount_for_factor').val())
     const amount_factor_calculated = parseFloat(factor_for_amount * (amount_cents / 100 / divisor_amount_for_factor))
+    $('#amount_factor_calculated').html(amount_factor_calculated.toFixed(6))
     return amount_factor_calculated
   }
 
   function calculateProductFactor() {
     const product_base_risk = parseFloat($('#filter_product_base_risk').val())
     const product_factor = parseFloat((percentage_of(product_base_risk, 1)) - 100) 
+    $('#product_factor_calculated').html(product_factor.toFixed(6))
     return product_factor
   }
-  function parseCountry(string) {
-    if(!string.length) {
-      return 1
+
+  function calculateCountryFactor(source) {
+    // const country_factor = parseFloat ((percentage_of(parseFloat(parseCountry($(`#filter_${source}_country option:selected`).text())),3)) - 100)
+    const factor = parseFloat(parseCountry($(`#filter_${source}_country option:selected`).text()))
+    const country_factor = parseFloat(((factor ^ 7) * factor) / 10)
+
+    if (source === 'source') {
+      $(`#source_country_factor_calculated`).html(country_factor.toFixed(6))
+    } else {
+      $(`#destination_country_factor_calculated`).html(country_factor.toFixed(6))
     }
-    const results = string.split('|')
-    return results[0].trim()
-  }
-  function calculateAttentionFactor() {
-    const amount_factor_calculated = calculateBaseAmount()
-    const product_factor_calculated = calculateProductFactor()
-
-    const source_country_factor = parseFloat(parseCountry($('#filter_source_country option:selected').text()))
-    const destination_country_factor = parseFloat(parseCountry($('#filter_destination_country option:selected').text()))
-
-    const eval_source_country = parseFloat(((source_country_factor * source_country_factor * source_country_factor) / 20) + 1)
-    const eval_destination_country = parseFloat(((destination_country_factor * source_country_factor * source_country_factor) / 20) + 1)
- 
-    const countries_factor = parseFloat(eval_source_country * eval_destination_country)
-    console.log('countries_factor', countries_factor)
-
-    const recursion_7 = parseFloat($('#filter_recursion_7').val())
-    const recursion_30 = parseFloat($('#filter_recursion_30').val())
-
-    const attention_factor_calculated_7 = parseFloat((((product_factor_calculated * recursion_7 * amount_factor_calculated) + 100) / 100) * countries_factor)
-    const attention_factor_calculated_30 = parseFloat((((product_factor_calculated * recursion_30 * amount_factor_calculated) + 100) / 100) * countries_factor)
-    $('#amount_factor_calculated').html(amount_factor_calculated.toFixed(6))
-    $('#product_factor_calculated').html(product_factor_calculated.toFixed(6))
-    $('#attention_factor_calculated_7').html(attention_factor_calculated_7.toFixed(3))
-    $('#attention_factor_calculated_30').html(attention_factor_calculated_30.toFixed(3))
-    const amount_expression = getAmountExpression()
-    $('#amount_factor_calculated_eq').val(amount_expression)
-    draw(amount_expression, 'plot_amount_factor', [0, 100000, 100])
-    const product_expression = getProductExpression()
-    $('#product_factor_calculated_eq').val(product_expression)
-    draw(product_expression, 'plot_product_factor', [1.01, 2, 0.1])
+    return country_factor
   }
 
   function getAmountExpression() {
@@ -103,8 +90,45 @@
     return expression
   }
 
+  function getCountriesExpression() {
+    const expression = '((x)^7x) / 10'
+    return expression
+  }
+
+  function calculateAttentionFactor() {
+    const amount_factor_calculated = calculateBaseAmount()
+    const product_factor_calculated = calculateProductFactor()
+    
+    const source_country_factor = calculateCountryFactor('source')
+    const destination_country_factor = calculateCountryFactor('destination')
+
+    const recursion_7 = parseFloat($('#filter_recursion_7').val())
+    const recursion_30 = parseFloat($('#filter_recursion_30').val())
+
+    const attention_factor_calculated_7 = parseFloat((((product_factor_calculated * recursion_7 * amount_factor_calculated) + 100) / 100))
+    const attention_factor_calculated_30 = parseFloat((((product_factor_calculated * recursion_30 * amount_factor_calculated) + 100) / 100))
+    
+    $('#attention_factor_calculated_7').html(attention_factor_calculated_7.toFixed(3))
+    $('#attention_factor_calculated_30').html(attention_factor_calculated_30.toFixed(3))
+
+  }
+
+  function initDraw() {
+    const amount_expression = getAmountExpression()
+    $('#amount_factor_calculated_eq').val(amount_expression)
+    draw(amount_expression, 'plot_amount_factor', [0, 100000, 100])
+    const product_expression = getProductExpression()
+    $('#product_factor_calculated_eq').val(product_expression)
+    draw(product_expression, 'plot_product_factor', [1.01, 2, 0.1])
+    const countries_expression = getCountriesExpression()
+    $('#countries_factor_calculated_eq').val(countries_expression)
+    draw(countries_expression, 'plot_countries_factor', [1.01, 4, 0.1])
+  }
+
   $(document).ready(function() {
+    initDraw()
     calculateAttentionFactor()
+
     $('form#filter_form').on('keyup change paste', 'input, select, textarea', function(){
       calculateAttentionFactor()
     })
