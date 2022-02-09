@@ -51,15 +51,21 @@
     return res 
   }
 
-  function calculateBaseAmount() {
+  function getAmountExpression() {
+    const expression = `((x / ${parseFloat($('#filter_divisor_amount_for_factor').val())}) ^ 3) * ${parseFloat($('#filter_factor_for_amount').val())}`
+    return expression
+  }
+
+
+  function calculateAmountFactor() {
     const factor_for_amount = parseFloat($('#filter_factor_for_amount').val()) 
-    const amount_cents = parseInt($('#filter_amount').val() * 100) 
     const divisor_amount_for_factor = parseFloat($('#filter_divisor_amount_for_factor').val())
-    const amount_factor_calculated = parseFloat(factor_for_amount * (amount_cents / 100 / divisor_amount_for_factor))
+    const amount = parseFloat($('#filter_amount').val()) 
+    const amount_factor_calculated = parseFloat(((amount / divisor_amount_for_factor) ** 3) * factor_for_amount)
     $('#amount_factor_calculated').html(amount_factor_calculated.toFixed(6))
     return amount_factor_calculated
   }
-
+  
   function calculateProductFactor() {
     const product_base_risk = parseFloat($('#filter_product_base_risk').val())
     const product_factor = parseFloat((percentage_of(product_base_risk, 1)) - 100) 
@@ -70,8 +76,7 @@
   function calculateCountryFactor(source) {
     // const country_factor = parseFloat ((percentage_of(parseFloat(parseCountry($(`#filter_${source}_country option:selected`).text())),3)) - 100)
     const factor = parseFloat(parseCountry($(`#filter_${source}_country option:selected`).text()))
-    const country_factor = parseFloat(((factor ^ 7) * factor) / 10)
-
+    const country_factor = parseFloat(5 * (factor - 1) ** 2)
     if (source === 'source') {
       $(`#source_country_factor_calculated`).html(country_factor.toFixed(6))
     } else {
@@ -80,23 +85,18 @@
     return country_factor
   }
 
-  function getAmountExpression() {
-    const expression = `${parseFloat($('#filter_factor_for_amount').val())} * (x / ${parseFloat($('#filter_divisor_amount_for_factor').val())})`
-    return expression
-  }
-
   function getProductExpression() {
     const expression = `(x / 1 * 100) - 100`
     return expression
   }
 
   function getCountriesExpression() {
-    const expression = '((x)^7x) / 10'
+    const expression = '5(x - 1)^2'
     return expression
   }
 
   function calculateAttentionFactor() {
-    const amount_factor_calculated = calculateBaseAmount()
+    const amount_factor_calculated = calculateAmountFactor()
     const product_factor_calculated = calculateProductFactor()
     
     const source_country_factor = calculateCountryFactor('source')

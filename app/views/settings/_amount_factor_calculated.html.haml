@@ -4,8 +4,11 @@
       %i.fa.fa-chart-bar
       = t(:amount_factor_calculated, default: 'Calculated Amount Factor')
   .card-body
-    = simple_form_for :amount_factor_calculated, method: :get, html: {id: 'amount_factor_form'}, remote: false do |f|
-      = f.input :eq, input_html: {value: "4 * sin(x) + 5 * cos(x/2)"}, readonly: true
+    %form#amount_factor_form
+      .input-group
+        %input#amount_factor_calculated_eq.form-control{type: "text"}
+        %span.input-group-append
+          %input.btn.btn-info.btn-flat{type: "submit", value: 'Go!'}>
     #plot_amount_factor
     %pre.border
       %code            
@@ -17,3 +20,16 @@
       %strong
         %span#amount_factor_calculated
           0.00
+:javascript
+  function plot_amount_line() {
+    console.log('plotting...')
+    const expression = $('#amount_factor_calculated_eq').val()
+    draw(expression, 'plot_amount_factor', [0, 100000, 100])
+  }
+
+  $(document).ready(function() {
+    document.getElementById('amount_factor_form').onsubmit = function (event) {
+      event.preventDefault()
+      plot_amount_line()
+    }
+  })
