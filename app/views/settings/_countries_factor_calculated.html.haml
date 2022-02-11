@@ -10,21 +10,6 @@
         %span.input-group-append
           %input.btn.btn-info.btn-flat{type: "submit", value: 'Go!'}>
     #plot_countries_factor
-    %pre.border
-      %code            
-        countries_factor_calculated =
-        &nbsp;&nbsp;5(country_attention_factor - 1)^2
-  .card-footer
-    .text-danger
-      Source Country Factor:
-      %strong
-        %span#source_country_factor_calculated
-          0.00
-      %br
-      Destination Country Factor:
-      %strong
-        %span#destination_country_factor_calculated
-          0.00
 
 :javascript
   function plot_countries_line() {

@@ -7,11 +7,11 @@
     = simple_form_for :filter, method: :get, html: {id: 'filter_form'}, remote: false do |f|
       .row
         .col-md-4
-          = f.input :amount, input_html: {value: "0.01"}
+          = f.input :amount, input_html: {value: "100.00"}
         .col-md-4
-          = f.input :recursion_7, input_html: { value: 0 }
+          = f.input :recursion_7, input_html: { value: 1 }
         .col-md-4
-          = f.input :recursion_30, input_html: { value: 0 }
+          = f.input :recursion_30, input_html: { value: 1 }
       .row
         .col-md-4
           = f.input :product_base_risk, input_html: {value: "#{Configurable.default_product_base_risk.to_f}"}
@@ -23,12 +23,12 @@
         .col-md-6
           = f.input :source_country, |
           as: :select, |
-          collection: RelatedCountry.order(:name).map{|item| ["#{number_with_precision item.attention_factor} | #{Country[item.alpha2].emoji_flag} #{item.name}", item.id]}, |
+          collection: RelatedCountry.order(:name).map{|item| ["#{number_with_precision item.attention_factor} | #{Country[item.alpha2].emoji_flag} #{item.name}", item.alpha2]}, |
           input_html: {class: "select2", style: "width: 100%;"}, |
-          selected: "#{params[:filter][:source_country] if params[:filter]}", include_blank: true
+          selected: "#{params[:filter] && params[:filter][:source_country] ? params[:filter][:source_country] : 'MT'}", include_blank: true
         .col-md-6
           = f.input :destination_country, |
           as: :select, |
-          collection: RelatedCountry.order(:name).map{|item| ["#{number_with_precision item.attention_factor} | #{Country[item.alpha2].emoji_flag} #{item.name}", item.id]}, |
+          collection: RelatedCountry.order(:name).map{|item| ["#{number_with_precision item.attention_factor} | #{Country[item.alpha2].emoji_flag} #{item.name}", item.alpha2]}, |
           input_html: {class: "select2", style: "width: 100%;"}, |
-          selected: "#{params[:filter][:destination_country] if params[:filter]}", include_blank: true
+          selected: "#{params[:filter] && params[:filter][:destination_country] ? params[:filter][:destination_country] : 'MT'}", include_blank: true

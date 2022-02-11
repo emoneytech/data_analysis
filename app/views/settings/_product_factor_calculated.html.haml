@@ -4,16 +4,22 @@
       %i.fa.fa-chart-bar
       = t(:product_factor_calculated, default: 'Calculated Product Factor')
   .card-body
-    = simple_form_for :product_factor_calculated, method: :get, html: {id: 'product_factor_form'}, remote: false do |f|
-      = f.input :eq, input_html: {value: "4 * sin(x) + 5 * cos(x/2)"}, readonly: true
+    %form#product_factor_form
+      .input-group
+        %input#product_factor_calculated_eq.form-control{type: "text"}
+        %span.input-group-append
+          %input.btn.btn-info.btn-flat{type: "submit", value: 'Go!'}>
     #plot_product_factor
-    %pre.border
-      %code            
-        product_factor_calculated =
-        &nbsp;&nbsp;(parseFloat(product_base_risk) / 1 * 100) - 100
-  .card-footer
-    .text-warning
-      %strong
-        Product Factor:
-        %span#product_factor_calculated
-          0.00
+:javascript
+  function plot_product_line() {
+    console.log('plotting...')
+    const expression = $('#product_factor_calculated_eq').val()
+    draw(expression, 'plot_product_factor', [1.01, 3.5, 0.1])
+  }
+  $(document).ready(function() {
+    document.getElementById('product_factor_form').onsubmit = function (event) {
+      event.preventDefault()
+      plot_product_line()
+    }
+  })
+

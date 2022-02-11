@@ -1,0 +1,29 @@
+.card.card-success.card-outline
+  .card-header
+    %h3.card-title
+      = fa_icon EvaluatedMovement.icon
+      Evaluations
+  .card-body.p-0
+    %table.table.table-striped.table-hover
+      %thead
+        %tr
+          %th= t(:factors, default: "Factors")
+          %th.text-center{data: {orderable: "false"}, nowrap: true}= t(:results, default: "Results")
+      %tbody
+        %tr
+          %td= t(:product_factor, default: "Product Factor")
+          %td.text-center.product_factor_calculated> 0.00
+        %tr
+          %td= t(:amount_factor, default: "Amount Factor")
+          %td.text-center.amount_factor_calculated> 0.00
+        %tr
+          %td= t(:countries_factor, default: "Countries Factor")
+          %td.text-center.countries_factor_calculated> 0.00
+        %tr
+          %td= t(:attention_factor, default: "Attention Factor 7")
+          %td.text-center.attention_factor_calculated_7.text-danger
+            %strong>0.00
+        %tr
+          %td= t(:attention_factor, default: "Attention Factor 30")
+          %td.text-center.attention_factor_calculated_30.text-danger
+            %strong>0.00

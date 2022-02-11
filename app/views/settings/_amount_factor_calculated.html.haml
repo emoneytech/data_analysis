@@ -10,16 +10,6 @@
         %span.input-group-append
           %input.btn.btn-info.btn-flat{type: "submit", value: 'Go!'}>
     #plot_amount_factor
-    %pre.border
-      %code            
-        amount_factor_calculated = factor_for_amount * 
-        &nbsp;&nbsp;((amount_cents / 100).to_f / divisor_amount_for_factor)
-  .card-footer
-    .text-success
-      Base Amount:
-      %strong
-        %span#amount_factor_calculated
-          0.00
 :javascript
   function plot_amount_line() {
     console.log('plotting...')

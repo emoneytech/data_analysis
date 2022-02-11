@@ -1,12 +1,12 @@
 .row
-  .col-md-12 
+  .col-md-8
     = render '/settings/form'
+  .col-md-4 
+    = render '/settings/evaluations'
 .row
-  .col-md-6= render '/settings/amount_factor_calculated'
-  .col-md-6= render '/settings/product_factor_calculated'
-.row
-  .col-md-6= render '/settings/countries_factor_calculated'
-  .col-md-6= render '/settings/attention_factor_calculated'
+  .col-md-4= render '/settings/amount_factor_calculated'
+  .col-md-4= render '/settings/product_factor_calculated'
+  .col-md-4= render '/settings/countries_factor_calculated'
 
 :javascript
   function draw(expression, canvas_id, range) {
@@ -51,77 +51,71 @@
     return res 
   }
 
-  function getAmountExpression() {
-    const expression = `((x / ${parseFloat($('#filter_divisor_amount_for_factor').val())}) ^ 3) * ${parseFloat($('#filter_factor_for_amount').val())}`
-    return expression
-  }
-
-
   function calculateAmountFactor() {
     const factor_for_amount = parseFloat($('#filter_factor_for_amount').val()) 
     const divisor_amount_for_factor = parseFloat($('#filter_divisor_amount_for_factor').val())
     const amount = parseFloat($('#filter_amount').val()) 
     const amount_factor_calculated = parseFloat(((amount / divisor_amount_for_factor) ** 3) * factor_for_amount)
-    $('#amount_factor_calculated').html(amount_factor_calculated.toFixed(6))
+    $('.amount_factor_calculated').html(amount_factor_calculated.toFixed(6))
     return amount_factor_calculated
   }
-  
+
   function calculateProductFactor() {
     const product_base_risk = parseFloat($('#filter_product_base_risk').val())
     const product_factor = parseFloat((percentage_of(product_base_risk, 1)) - 100) 
-    $('#product_factor_calculated').html(product_factor.toFixed(6))
+    $('.product_factor_calculated').html(product_factor.toFixed(6))
     return product_factor
   }
 
   function calculateCountryFactor(source) {
-    // const country_factor = parseFloat ((percentage_of(parseFloat(parseCountry($(`#filter_${source}_country option:selected`).text())),3)) - 100)
     const factor = parseFloat(parseCountry($(`#filter_${source}_country option:selected`).text()))
     const country_factor = parseFloat(5 * (factor - 1) ** 2)
-    if (source === 'source') {
-      $(`#source_country_factor_calculated`).html(country_factor.toFixed(6))
-    } else {
-      $(`#destination_country_factor_calculated`).html(country_factor.toFixed(6))
-    }
     return country_factor
   }
 
-  function getProductExpression() {
-    const expression = `(x / 1 * 100) - 100`
-    return expression
+  function calculateCountriesFactor() {
+    const source_country_factor = calculateCountryFactor('source')
+    const destination_country_factor = calculateCountryFactor('destination')
+    const countries_factor = source_country_factor > destination_country_factor ? source_country_factor : destination_country_factor
+    $('.countries_factor_calculated').html(countries_factor.toFixed(6))
+    return countries_factor
   }
 
-  function getCountriesExpression() {
-    const expression = '5(x - 1)^2'
-    return expression
+  function calculateRecurionFactor(nr) {
+    const factor = parseInt($(`#filter_recursion_${nr}`).val())
+    const recursion_factor = factor > 0 ? factor : 1
+    return recursion_factor
   }
 
   function calculateAttentionFactor() {
     const amount_factor_calculated = calculateAmountFactor()
     const product_factor_calculated = calculateProductFactor()
-    
-    const source_country_factor = calculateCountryFactor('source')
-    const destination_country_factor = calculateCountryFactor('destination')
+    const countries_factor_calculated = calculateCountriesFactor()
+    const recursion_7 = calculateRecurionFactor('7')
+    const recursion_30 = calculateRecurionFactor('30')
 
-    const recursion_7 = parseFloat($('#filter_recursion_7').val())
-    const recursion_30 = parseFloat($('#filter_recursion_30').val())
 
-    const attention_factor_calculated_7 = parseFloat((((product_factor_calculated * recursion_7 * amount_factor_calculated) + 100) / 100))
-    const attention_factor_calculated_30 = parseFloat((((product_factor_calculated * recursion_30 * amount_factor_calculated) + 100) / 100))
+    // const attention_factor_calculated_7 = parseFloat((((product_factor_calculated * recursion_7 * amount_factor_calculated * countries_factor_calculated) + 100) / 100))
+    // const attention_factor_calculated_30 = parseFloat((((product_factor_calculated * recursion_30 * amount_factor_calculated * countries_factor_calculated) + 100) / 100))
     
-    $('#attention_factor_calculated_7').html(attention_factor_calculated_7.toFixed(3))
-    $('#attention_factor_calculated_30').html(attention_factor_calculated_30.toFixed(3))
+    const attention_factor_calculated_7 = parseFloat(product_factor_calculated * (recursion_7 ** 2) * amount_factor_calculated * countries_factor_calculated)
+    const attention_factor_calculated_30 = parseFloat(product_factor_calculated * (recursion_30 ** 2) * amount_factor_calculated * countries_factor_calculated)
+
+    $('.attention_factor_calculated_7').html(attention_factor_calculated_7.toFixed(3))
+    $('.attention_factor_calculated_30').html(attention_factor_calculated_30.toFixed(3))
 
   }
 
   function initDraw() {
-    const amount_expression = getAmountExpression()
+    const amount_expression = `((x / ${parseFloat($('#filter_divisor_amount_for_factor').val())}) ^ 3)` +
+                              ` * ${parseFloat($('#filter_factor_for_amount').val())}`
+    const countries_expression = '5(x - 1)^2'
+    const product_expression = `(x / 1 * 100) - 100`
     $('#amount_factor_calculated_eq').val(amount_expression)
-    draw(amount_expression, 'plot_amount_factor', [0, 100000, 100])
-    const product_expression = getProductExpression()
     $('#product_factor_calculated_eq').val(product_expression)
-    draw(product_expression, 'plot_product_factor', [1.01, 2, 0.1])
-    const countries_expression = getCountriesExpression()
     $('#countries_factor_calculated_eq').val(countries_expression)
+    draw(amount_expression, 'plot_amount_factor', [0, 100000, 100])
+    draw(product_expression, 'plot_product_factor', [1.01, 2, 0.1])
     draw(countries_expression, 'plot_countries_factor', [1.01, 4, 0.1])
   }
 
