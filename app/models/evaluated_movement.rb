@@ -76,6 +76,7 @@
 class EvaluatedMovement < CorePgRecord
   include Filterable
   include EvaluatedMovementFilters
+  include EvaluatedMovementCalculator
 
   include PGEnum(evaluated_movement_type: %w[IN OUT])
   monetize :amount_cents
@@ -667,118 +668,10 @@ class EvaluatedMovement < CorePgRecord
   end
 
   def set_evaluated_factors
-    amount_d = Configurable.amount_d.to_f
-    amount_f = Configurable.amount_f.to_f
-    amount = self.amount_cents.to_f / 100
-
-    source_country_factor =
-      RelatedCountry
-        .find_by_alpha2(self.origin_country)
-        .try(:attention_factor)
-        .try(:to_f) || 1
-    destination_country_factor =
-      RelatedCountry
-        .find_by_alpha2(self.destination_country)
-        .try(:attention_factor)
-        .try(:to_f) || 1
-
-    amount_factor_calculated = (((amount / amount_d)**3) * amount_f).to_f
-
-    product_factor_calculated =
-      (self.product_base_risk.percentage_of(1) - 100).to_f
-    countries_factor_calculated =
-      if source_country_factor > destination_country_factor
-        source_country_factor
-      else
-        destination_country_factor
-      end
-
-    recursion_7 = self.recursion_customer_7 > 0 ? self.recursion_customer_7 : 1
-    recursion_30 =
-      self.recursion_customer_30 > 0 ? self.recursion_customer_30 : 1
-
-    self.evaluated_factor7 =
-      (
-        (
-          (
-            product_factor_calculated * (recursion_7**2) *
-              amount_factor_calculated * countries_factor_calculated
-          ) + 100
-        ) / 100
-      ).to_f
-
-    self.evaluated_factor30 =
-      (
-        (
-          (
-            product_factor_calculated * (recursion_30**2) *
-              amount_factor_calculated * countries_factor_calculated
-          ) + 100
-        ) / 100
-      ).to_f
+    self.evaluated_factor7 = self.calculate(self.recursion_customer_7.to_i)
+    self.evaluated_factor30 = self.calculate(self.recursion_customer_30.to_i)
   end
 
-=begin
-  def set_evaluated_factors_old
-    amount_d = Configurable.amount_d.to_f
-    amount_f = Configurable.amount_f.to_f
-
-    base_amount =
-      (
-        amount_f *
-          ((self.amount_cents / 100).to_f / amount_d)
-      ).to_f
-
-    base_calc7 =
-      if recursion_customer_7 > 0
-        (
-          ((self.product_base_risk.percentage_of(1)) - 100) *
-            recursion_customer_7
-        ).to_f
-      else
-        ((self.product_base_risk.percentage_of(1)) - 100).to_f
-      end
-    base_calc30 =
-      if recursion_customer_30 > 0
-        (
-          ((self.product_base_risk.percentage_of(1)) - 100) *
-            recursion_customer_30
-        ).to_f
-      else
-        ((self.product_base_risk.percentage_of(1)) - 100).to_f
-      end
-
-    source_country_factor =
-      RelatedCountry
-        .find_by_alpha2(self.origin_country)
-        .try(:attention_factor)
-        .try(:to_f) || 1
-    destination_country_factor =
-      RelatedCountry
-        .find_by_alpha2(self.destination_country)
-        .try(:attention_factor)
-        .try(:to_f) || 1
-
-    self.evaluated_factor7 =
-      (
-        (
-          (
-            base_calc7 * base_amount * source_country_factor *
-              destination_country_factor
-          ) + 100
-        ) / 100
-      ).to_f
-    self.evaluated_factor30 =
-      (
-        (
-          (
-            base_calc30 * base_amount * source_country_factor *
-              destination_country_factor
-          ) + 100
-        ) / 100
-      ).to_f
-  end
-=end
   def evaluate_customer
     EvaluateCustomerForMovement.perform_async(self.id)
   end

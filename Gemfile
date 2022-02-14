@@ -139,3 +139,4 @@ gem "serviceworker-rails", "~> 0.6.0"
 gem 'pg_search', '~> 2.3', '>= 2.3.2'
 
 gem 'caxlsx'
+gem 'keisan'
