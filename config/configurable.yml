@@ -76,7 +76,7 @@ recursion_eq:
   type: string
 country_eq:
   name: "Calculated Recursion Eq"
-  default: "5((x - 1)**2)"
+  default: "(5(x - 1))**4"
   type: string
 product_eq:
   name: "Calculated Product Eq"
@@ -84,5 +84,5 @@ product_eq:
   type: string
 attention_eq:
   name: "Attenfion Factor Eq"
-  default: "((product_factor_calculated * recursion_factor_calculated * amount_factor_calculated * countries_factor_calculated) + 100) / 100"
+  default: "((product_factor_calculated * recursion_factor_calculated * amount_factor_calculated * (countries_factor_calculated ** 2)) + 100) / 100"
   type: string
