@@ -189,20 +189,44 @@ class Anagrafica < ApplicationCoreRecord
   self.primary_key = 'IdUtente'
   self.table_name = 'anagrafiche'
 
-  has_many :company_shares, foreign_key: 'idUtente', primary_key: 'IdUtente', class_name: 'RelazioniAnagrafica'
-  has_many :companies, through: :company_shares, source: :company, class_name: 'Anagrafica'
-  
+  has_many :company_shares,
+           foreign_key: 'idUtente',
+           primary_key: 'IdUtente',
+           class_name: 'RelazioniAnagrafica'
+  has_many :companies,
+           through: :company_shares,
+           source: :company,
+           class_name: 'Anagrafica'
+
   #  idTipoRelazione(1:UBO\n2:Director\n3:Owner)
-  has_many :relations, foreign_key: 'idLegato', primary_key: 'IdUtente', class_name: 'RelazioniAnagrafica'
-  has_many :ubo_relations, -> { where(idTipoRelazione: 1)}, foreign_key: 'idLegato', primary_key: 'IdUtente', class_name: 'RelazioniAnagrafica'
-  has_many :director_relations, -> { where(idTipoRelazione: 2)}, foreign_key: 'idLegato', primary_key: 'IdUtente', class_name: 'RelazioniAnagrafica'
-  has_many :owner_relations, -> { where(idTipoRelazione: 3)}, foreign_key: 'idLegato', primary_key: 'IdUtente', class_name: 'RelazioniAnagrafica'
+  has_many :relations,
+           foreign_key: 'idLegato',
+           primary_key: 'IdUtente',
+           class_name: 'RelazioniAnagrafica'
+  has_many :ubo_relations,
+           -> { where(idTipoRelazione: 1) },
+           foreign_key: 'idLegato',
+           primary_key: 'IdUtente',
+           class_name: 'RelazioniAnagrafica'
+  has_many :director_relations,
+           -> { where(idTipoRelazione: 2) },
+           foreign_key: 'idLegato',
+           primary_key: 'IdUtente',
+           class_name: 'RelazioniAnagrafica'
+  has_many :owner_relations,
+           -> { where(idTipoRelazione: 3) },
+           foreign_key: 'idLegato',
+           primary_key: 'IdUtente',
+           class_name: 'RelazioniAnagrafica'
 
   has_many :ubos, through: :ubo_relations
   has_many :directors, through: :director_relations
   has_many :owners, through: :owner_relations
 
-  has_many :conti, -> { order(amount: :desc) }, foreign_key: 'IdUtente', class_name: 'Conto'
+  has_many :conti,
+           -> { order(amount: :desc) },
+           foreign_key: 'IdUtente',
+           class_name: 'Conto'
   has_many :ibans, foreign_key: 'IdUtente', class_name: 'Iban'
 
   has_many :servizi, foreign_key: 'point', class_name: 'Servizio'
@@ -218,6 +242,7 @@ class Anagrafica < ApplicationCoreRecord
            class_name: 'Servizio'
 
   has_many :movimenticonti, through: :conti
+
   # has_many :movimenticonti, through: :servizi, foreign_key: 'Point'
   has_many :prodotti,
            -> { distinct },
@@ -227,7 +252,10 @@ class Anagrafica < ApplicationCoreRecord
 
   belongs_to :tipo, foreign_key: 'IdTipo', class_name: 'Tipo'
   belongs_to :broker, foreign_key: 'Vendor', class_name: 'Vendor'
-  belongs_to :referral, foreign_key: 'Padre', primary_key: 'IdUtente', class_name: 'Anagrafica'
+  belongs_to :referral,
+             foreign_key: 'Padre',
+             primary_key: 'IdUtente',
+             class_name: 'Anagrafica'
 
   alias_attribute :id, 'IdUtente'
   alias_attribute :idutente, 'IdUtente'
@@ -244,21 +272,27 @@ class Anagrafica < ApplicationCoreRecord
   alias_attribute :created, 'Created'
 
   # scope :for_type, -> (id) { where(:type_id => id) }
-  has_many :siblings, -> {
-    where(
-    "(`anagrafiche`.`Attivo` <> 6) AND (`anagrafiche`.`IdTipo` in (3, 9, 2)) AND (`anagrafiche`.`Codicefiscale` <> '')"
-    )
-  }, class_name: 'Anagrafica', foreign_key: 'Codicefiscale', primary_key: 'Codicefiscale' 
-  
-  scope :for_groups, -> {
-    where(
-    "(`anagrafiche`.`Attivo` <> 6) AND (`anagrafiche`.`IdTipo` in (3, 9, 2)) AND (`anagrafiche`.`Codicefiscale` <> '')"
-    )
-  }
+  has_many :siblings,
+           -> {
+             where(
+               "(`anagrafiche`.`Attivo` <> 6) AND (`anagrafiche`.`IdTipo` in (3, 9, 2)) AND (`anagrafiche`.`Codicefiscale` <> '')",
+             )
+           },
+           class_name: 'Anagrafica',
+           foreign_key: 'Codicefiscale',
+           primary_key: 'Codicefiscale'
+
+  scope :for_groups,
+        -> {
+          where(
+            "(`anagrafiche`.`Attivo` <> 6) AND (`anagrafiche`.`IdTipo` in (3, 9, 2)) AND (`anagrafiche`.`Codicefiscale` <> '')",
+          )
+        }
   scope :active, -> { where.not('anagrafiche.IdUtente' => %w[70 75 34221]) }
   scope :alive,
         -> {
-          joins(:conti).distinct
+          joins(:conti)
+            .distinct
             .where('anagrafiche.tipo' => Tipo.alive.pluck(:id))
             .where
             .not('anagrafiche.IdUtente' => %w[70 75 34221])
@@ -267,10 +301,11 @@ class Anagrafica < ApplicationCoreRecord
             .where
             .not('anagrafiche.created' => nil)
         }
-  
+
   scope :user_or_business,
         -> {
-          joins(:conti).distinct
+          joins(:conti)
+            .distinct
             .where(
               'anagrafiche.IdTipo' => %w[2 3],
               'anagrafiche.TipoKYC' => %w[3 4],
@@ -284,10 +319,9 @@ class Anagrafica < ApplicationCoreRecord
         }
   scope :business,
         -> {
-          joins(:conti).distinct
-            .where(
-              'anagrafiche.IdTipo' => 3
-            )
+          joins(:conti)
+            .distinct
+            .where('anagrafiche.IdTipo' => 3)
             .where
             .not('anagrafiche.IdUtente' => %w[70 75 34221])
             .where
@@ -318,15 +352,17 @@ class Anagrafica < ApplicationCoreRecord
 
   # Current Evaluation on Pg
   has_one :current_evaluation,
-          -> { where(eval_month: Date.today.month, eval_year: Date.today.year) },
+          -> {
+            where(eval_month: Date.today.month, eval_year: Date.today.year)
+          },
           class_name: 'CustomerEvaluation',
           primary_key: 'IdUtente',
           foreign_key: :anagrafica_id
 
   # Customer settings on Pg
   has_many :customer_settings,
-    primary_key: 'IdUtente',
-    foreign_key: :customer_id
+           primary_key: 'IdUtente',
+           foreign_key: :customer_id
 
   has_many :rischi,
            primary_key: 'IdUtente',
@@ -337,43 +373,64 @@ class Anagrafica < ApplicationCoreRecord
           primary_key: 'IdUtente',
           foreign_key: :IdUtente,
           class_name: 'Rischio'
-  has_one :time_lapse_factor, 
+  has_one :time_lapse_factor,
           primary_key: 'IdUtente',
           foreign_key: :anagrafica_id,
           class_name: 'TimeLapseFactor'
-  
-#  has_many :positions, -> { order(created_at: :desc) }, as: :positionable, primary_key: 'IdUtente', foreign_key: :positionable_id
-#  has_one :current_position, -> { order(created_at: :desc) }, as: :positionable, primary_key: 'IdUtente', foreign_key: :positionable_id, class_name: 'Position'
 
-  has_many :places, -> { order(created_at: :desc) }, as: :positionable, primary_key: 'IdUtente', foreign_key: :positionable_id
-  has_one :current_place, -> { order(created_at: :desc) }, as: :positionable, primary_key: 'IdUtente', foreign_key: :positionable_id, class_name: 'Place'
+  #  has_many :positions, -> { order(created_at: :desc) }, as: :positionable, primary_key: 'IdUtente', foreign_key: :positionable_id
+  #  has_one :current_position, -> { order(created_at: :desc) }, as: :positionable, primary_key: 'IdUtente', foreign_key: :positionable_id, class_name: 'Position'
+
+  has_many :places,
+           -> { order(created_at: :desc) },
+           as: :positionable,
+           primary_key: 'IdUtente',
+           foreign_key: :positionable_id
+  has_one :current_place,
+          -> { order(created_at: :desc) },
+          as: :positionable,
+          primary_key: 'IdUtente',
+          foreign_key: :positionable_id,
+          class_name: 'Place'
 
   # scope :for_evaluation, -> { includes(:rischio_corrente).references(:rischio_corrente).order('rischio.Rischio desc')}
 
-  scope :filter_by_full_name, -> (name) { where(
-    '(anagrafiche.nome LIKE ? AND anagrafiche.cognome LIKE ?)
+  scope :filter_by_full_name,
+        ->(name) {
+          where(
+            '(anagrafiche.nome LIKE ? AND anagrafiche.cognome LIKE ?)
     OR (anagrafiche.nome LIKE ? AND anagrafiche.cognome LIKE ?)
     OR anagrafiche.RagioneSociale LIKE ?',
-    "%#{ name.split(' ').count > 2 ? "#{name.split(' ')[0]} #{name.split(' ')[1]}" : "#{name.split(' ')[0]}" }%",
-    "%#{ name.split(' ').count > 2 ? "#{name.split(' ')[2]}" : "#{name.split(' ')[1]}" }%",
-    "%#{ name.split(' ').count > 2 ? "#{name.split(' ')[2]}" : "#{name.split(' ')[1]}" }%",
-    "%#{ name.split(' ').count > 2 ? "#{name.split(' ')[0]} #{name.split(' ')[1]}" : "#{name.split(' ')[0]}" }%",
-    "%#{name}%",
-  )}
+            "%#{name.split(' ').count > 2 ? "#{name.split(' ')[0]} #{name.split(' ')[1]}" : "#{name.split(' ')[0]}"}%",
+            "%#{name.split(' ').count > 2 ? "#{name.split(' ')[2]}" : "#{name.split(' ')[1]}"}%",
+            "%#{name.split(' ').count > 2 ? "#{name.split(' ')[2]}" : "#{name.split(' ')[1]}"}%",
+            "%#{name.split(' ').count > 2 ? "#{name.split(' ')[0]} #{name.split(' ')[1]}" : "#{name.split(' ')[0]}"}%",
+            "%#{name}%",
+          )
+        }
 
-  scope :filter_by_customer_id        , -> (value) { where("anagrafiche.IdUtente = ?", value)}
-  scope :filter_by_vendor             , -> (value) { where("anagrafiche.Vendor = ?", value)}
-  scope :filter_by_fiscal_code        , -> (value) { where("anagrafiche.Codicefiscale like ?", value)}
-  scope :filter_by_min_base_risk      , -> (value) { where("anagrafiche.base_risk >= ?", value)}
-  scope :filter_by_max_base_risk      , -> (value) { where("anagrafiche.base_risk <= ?", value)}
-  scope :filter_by_min_base_risk_calc , -> (value) { where("anagrafiche.base_risk_calc >= ?", value)}
+  scope :filter_by_customer_id,
+        ->(value) { where('anagrafiche.IdUtente = ?', value) }
+  scope :filter_by_vendor, ->(value) { where('anagrafiche.Vendor = ?', value) }
+  scope :filter_by_fiscal_code,
+        ->(value) { where('anagrafiche.Codicefiscale like ?', value) }
+  scope :filter_by_min_base_risk,
+        ->(value) { where('anagrafiche.base_risk >= ?', value) }
+  scope :filter_by_max_base_risk,
+        ->(value) { where('anagrafiche.base_risk <= ?', value) }
+  scope :filter_by_min_base_risk_calc,
+        ->(value) { where('anagrafiche.base_risk_calc >= ?', value) }
 
   def self.icon
     'user'
   end
 
   def tollerance
-    customer_settings.global.any? ? customer_settings.global.first.tollerance : 1
+    if customer_settings.global.any?
+      customer_settings.global.first.tollerance
+    else
+      1
+    end
   end
 
   def full_name
@@ -389,13 +446,17 @@ class Anagrafica < ApplicationCoreRecord
   end
 
   def country
-    self.IdTipo == 3 ? "#{NormalizeCountry(self.NazionePoint)}" : "#{NormalizeCountry(self.NazioneResidenza)}"
+    if self.IdTipo == 3
+      "#{NormalizeCountry(self.NazionePoint)}"
+    else
+      "#{NormalizeCountry(self.NazioneResidenza)}"
+    end
   end
 
-  def to_s 
+  def to_s
     "#{full_name}"
   end
-  
+
   def time_lapse_factor
     super || TimeLapseFactor.where(anagrafica_id: id).first_or_create
   end
@@ -446,7 +507,6 @@ class Anagrafica < ApplicationCoreRecord
     Emoney::SetEvaluateRisk.new(id, current_evaluate_risk)
   end
 
-
   def self.set_global_evaluate_risk
     alive.each_slice(20) { |a| a.each { |b| b.set_evaluate_risk } }
   end
@@ -489,7 +549,6 @@ class Anagrafica < ApplicationCoreRecord
     }
   end
 
-
   def account_numbers
     self.conti.pluck(:Pan)
   end
@@ -498,13 +557,19 @@ class Anagrafica < ApplicationCoreRecord
     p = self.current_place || self.build_current_place
     p.name = self.full_name
     if self.IdTipo == 3
-      city, state, address = self.ComunePoint, NormalizeCountry(self.NazionePoint), self.IndirizzoPoint
+      city, state, address =
+        self.ComunePoint,
+        NormalizeCountry(self.NazionePoint),
+        self.IndirizzoPoint
     else
-      city, state, address = self.Citta, NormalizeCountry(self.NazioneResidenza), self.Indirizzo
+      city, state, address =
+        self.Citta, NormalizeCountry(self.NazioneResidenza), self.Indirizzo
     end
-      result = Geocoder.search("#{address}, #{city}, #{country}").first
-      result = Geocoder.search("#{city},#{state},#{country}").first unless result
-      result = Geocoder.search(country, params: {city: city, address: address}).first unless result
+    result = Geocoder.search("#{address}, #{city}, #{country}").first
+    result = Geocoder.search("#{city},#{state},#{country}").first unless result
+    result =
+      Geocoder.search(country, params: { city: city, address: address })
+        .first unless result
     if result
       p.country = result.country
       p.city = result.city
@@ -520,18 +585,36 @@ class Anagrafica < ApplicationCoreRecord
     max_base_risk = Configurable.max_base_risk.to_f
     min_base_risk = self.try(:base_risk).to_f || Configurable.min_base_risk.to_f
     tlf = Configurable.time_lapse_factor.to_f
-    factor_for_amount = Configurable.factor_for_amount.to_f
-    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
+    amount_f = Configurable.amount_f.to_f
+    amount_d = Configurable.amount_d.to_f
     years_of_activity = self.years_of_activity
-    tuples =  self.tuple_activities
+    tuples = self.tuple_activities
     years_of_activity.each do |eval_year|
-      evaluated_movements = self.evaluated_movements.select(
-        'evaluated_movements.*, movement_created_at::date as day, CONCAT(EXTRACT(YEAR FROM movement_created_at),\'-\',EXTRACT(MONTH FROM movement_created_at)) as month'
-      ).with_all_for_year(eval_year).order(movement_created_at: :asc).as_json
-      tuples.select{|t| t[0] == eval_year}.each do |tuple|
-        ce = self.customer_evaluations.build(eval_month: tuple[1], eval_year: tuple[0])
-        evaluated_movements_for_date = evaluated_movements.select{|h| h["month"]=="#{tuple[0]}-#{tuple[1]}"}
-        ce.recalculate(evaluated_movements_for_date, max_base_risk, min_base_risk, tlf)
+      evaluated_movements =
+        self
+          .evaluated_movements
+          .select(
+            'evaluated_movements.*, movement_created_at::date as day, CONCAT(EXTRACT(YEAR FROM movement_created_at),\'-\',EXTRACT(MONTH FROM movement_created_at)) as month',
+          )
+          .with_all_for_year(eval_year)
+          .order(movement_created_at: :asc)
+          .as_json
+      tuples.select { |t| t[0] == eval_year }.each do |tuple|
+        ce =
+          self.customer_evaluations.build(
+            eval_month: tuple[1],
+            eval_year: tuple[0],
+          )
+        evaluated_movements_for_date =
+          evaluated_movements.select do |h|
+            h['month'] == "#{tuple[0]}-#{tuple[1]}"
+          end
+        ce.recalculate(
+          evaluated_movements_for_date,
+          max_base_risk,
+          min_base_risk,
+          tlf,
+        )
         ce.save
       end
     end
@@ -541,11 +624,27 @@ class Anagrafica < ApplicationCoreRecord
     max_base_risk = Configurable.max_base_risk.to_f
     tlf = Configurable.time_lapse_factor.to_f
     min_base_risk = self.try(:base_risk).to_f || Configurable.min_base_risk.to_f
-    evaluated_movements_for_date = self.evaluated_movements.select(
-        'evaluated_movements.*, movement_created_at::date as day, CONCAT(EXTRACT(YEAR FROM movement_created_at),\'-\',EXTRACT(MONTH FROM movement_created_at)) as month'
-      ).with_all_for_year(tuple[0]).with_all_for_month(tuple[1]).order(movement_created_at: :asc).as_json
-    ce = self.customer_evaluations.where(eval_month: tuple[1], eval_year: tuple[0]).first_or_initialize
-    ce.recalculate(evaluated_movements_for_date, max_base_risk, min_base_risk, tlf)
+    evaluated_movements_for_date =
+      self
+        .evaluated_movements
+        .select(
+          'evaluated_movements.*, movement_created_at::date as day, CONCAT(EXTRACT(YEAR FROM movement_created_at),\'-\',EXTRACT(MONTH FROM movement_created_at)) as month',
+        )
+        .with_all_for_year(tuple[0])
+        .with_all_for_month(tuple[1])
+        .order(movement_created_at: :asc)
+        .as_json
+    ce =
+      self
+        .customer_evaluations
+        .where(eval_month: tuple[1], eval_year: tuple[0])
+        .first_or_initialize
+    ce.recalculate(
+      evaluated_movements_for_date,
+      max_base_risk,
+      min_base_risk,
+      tlf,
+    )
     ce.save
   end
 
@@ -555,7 +654,14 @@ class Anagrafica < ApplicationCoreRecord
 
   def check_evaluated_days(day = Date.today)
     self.init_evaluation unless self.current_evaluation
-    if (day == Date.new(self.tuple_activities.last[0], self.tuple_activities.last[1], 1)) || (day - last_evaluated_day).to_i > 1
+    if (
+         day ==
+           Date.new(
+             self.tuple_activities.last[0],
+             self.tuple_activities.last[1],
+             1,
+           )
+       ) || (day - last_evaluated_day).to_i > 1
       self.evaluate_for_tuple
     end
   end
@@ -565,10 +671,21 @@ class Anagrafica < ApplicationCoreRecord
     max_base_risk = Configurable.max_base_risk.to_f
     tlf = Configurable.time_lapse_factor.to_f
     min_base_risk = self.try(:base_risk).to_f || Configurable.min_base_risk.to_f
-    evaluated_movements_for_date = self.evaluated_movements.select(
-        'evaluated_movements.*, movement_created_at::date as day, CONCAT(EXTRACT(YEAR FROM movement_created_at),\'-\',EXTRACT(MONTH FROM movement_created_at)) as month'
-      ).with_all_for_year(day.year).with_all_for_month(day.month).order(movement_created_at: :asc).as_json
-    ce = self.customer_evaluations.where(eval_month: day.month, eval_year: day.year).first_or_initialize
+    evaluated_movements_for_date =
+      self
+        .evaluated_movements
+        .select(
+          'evaluated_movements.*, movement_created_at::date as day, CONCAT(EXTRACT(YEAR FROM movement_created_at),\'-\',EXTRACT(MONTH FROM movement_created_at)) as month',
+        )
+        .with_all_for_year(day.year)
+        .with_all_for_month(day.month)
+        .order(movement_created_at: :asc)
+        .as_json
+    ce =
+      self
+        .customer_evaluations
+        .where(eval_month: day.month, eval_year: day.year)
+        .first_or_initialize
     ce.calculate_day(day, ce.eval_days, max_base_risk, min_base_risk, tlf)
     ce.save
   end
@@ -578,8 +695,9 @@ class Anagrafica < ApplicationCoreRecord
   end
 
   def attention_factor_sent
-    res = (self.current_evaluation.last_attention_factor30 * self.tollerance).to_f
-    res >= self.base_risk.to_f ? res : self.base_risk.to_f 
+    res =
+      (self.current_evaluation.last_attention_factor30 * self.tollerance).to_f
+    res >= self.base_risk.to_f ? res : self.base_risk.to_f
   end
 
   def current_attention_factor30
@@ -594,16 +712,23 @@ class Anagrafica < ApplicationCoreRecord
     max_base_risk = Configurable.max_base_risk.to_f
     min_base_risk = self.try(:base_risk).to_f || Configurable.min_base_risk.to_f
     tlf = Configurable.time_lapse_factor.to_f
-    factor_for_amount = Configurable.factor_for_amount.to_f
-    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
+    amount_f = Configurable.amount_f.to_f
+    amount_d = Configurable.amount_d.to_f
     tuple = [Date.today.year, Date.today.month]
-    ce = self.customer_evaluations.build(eval_month: tuple[1], eval_year: tuple[0])
-    evaluated_movements_for_date = evaluated_movements.select{|h| h["month"]=="#{tuple[0]}-#{tuple[1]}"}
-    ce.recalculate(evaluated_movements_for_date, max_base_risk, min_base_risk, tlf)
+    ce =
+      self.customer_evaluations.build(eval_month: tuple[1], eval_year: tuple[0])
+    evaluated_movements_for_date =
+      evaluated_movements.select { |h| h['month'] == "#{tuple[0]}-#{tuple[1]}" }
+    ce.recalculate(
+      evaluated_movements_for_date,
+      max_base_risk,
+      min_base_risk,
+      tlf,
+    )
     ce.save
     return ce
   end
-  
+
   def current_evaluation
     super || initialize_evaluation
   end

@@ -9,16 +9,9 @@
         .col-md-4
           = f.input :amount, input_html: {value: "100.00"}
         .col-md-4
-          = f.input :recursion_7, input_html: { value: 1 }
-        .col-md-4
-          = f.input :recursion_30, input_html: { value: 1 }
-      .row
+          = f.input :recursion, input_html: { value: 1 }
         .col-md-4
           = f.input :product_base_risk, input_html: {value: "#{Configurable.default_product_base_risk.to_f}"}
-        .col-md-4
-          = f.input :factor_for_amount, input_html: { value: "#{Configurable.factor_for_amount.to_f}" }
-        .col-md-4
-          = f.input :divisor_amount_for_factor, input_html: { value: "#{Configurable.divisor_amount_for_factor.to_f}" }
       .row
         .col-md-6
           = f.input :source_country, |

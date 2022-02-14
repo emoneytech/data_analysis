@@ -391,6 +391,7 @@ class EvaluatedMovement < CorePgRecord
         self.beneficiary_iban = ''
         self.beneficiary_card = "#{service.ricaricacarta.numerocrip}"
         self.beneficiary_other = "#{service.anagrafica.full_address}"
+        self.destination_lonlat = service.anagrafica.current_place.lonlat
       else
         destination_account =
           Conto.find_by_Pan(service.ricaricacarta.numerocarta).try(:bank_user)
@@ -666,8 +667,8 @@ class EvaluatedMovement < CorePgRecord
   end
 
   def set_evaluated_factors
-    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
-    factor_for_amount = Configurable.factor_for_amount.to_f
+    amount_d = Configurable.amount_d.to_f
+    amount_f = Configurable.amount_f.to_f
     amount = self.amount_cents.to_f / 100
 
     source_country_factor =
@@ -681,8 +682,7 @@ class EvaluatedMovement < CorePgRecord
         .try(:attention_factor)
         .try(:to_f) || 1
 
-    amount_factor_calculated =
-      (((amount / divisor_amount_for_factor)**3) * factor_for_amount).to_f
+    amount_factor_calculated = (((amount / amount_d)**3) * amount_f).to_f
 
     product_factor_calculated =
       (self.product_base_risk.percentage_of(1) - 100).to_f
@@ -718,14 +718,15 @@ class EvaluatedMovement < CorePgRecord
       ).to_f
   end
 
+=begin
   def set_evaluated_factors_old
-    divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
-    factor_for_amount = Configurable.factor_for_amount.to_f
+    amount_d = Configurable.amount_d.to_f
+    amount_f = Configurable.amount_f.to_f
 
     base_amount =
       (
-        factor_for_amount *
-          ((self.amount_cents / 100).to_f / divisor_amount_for_factor)
+        amount_f *
+          ((self.amount_cents / 100).to_f / amount_d)
       ).to_f
 
     base_calc7 =
@@ -777,7 +778,7 @@ class EvaluatedMovement < CorePgRecord
         ) / 100
       ).to_f
   end
-
+=end
   def evaluate_customer
     EvaluateCustomerForMovement.perform_async(self.id)
   end

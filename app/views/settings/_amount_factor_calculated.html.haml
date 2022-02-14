@@ -2,24 +2,24 @@
   .card-header
     %h3.card-title
       %i.fa.fa-chart-bar
-      = t(:amount_factor_calculated, default: 'Calculated Amount Factor')
+      = t(:amount_factor, default: 'Amount Factor')
   .card-body
     %form#amount_factor_form
       .input-group
-        %input#amount_factor_calculated_eq.form-control{type: "text"}
+        %input#amount_factor_calculated_eq.form-control{type: "text", value: "#{Configurable.amount_eq}"}
         %span.input-group-append
           %input.btn.btn-info.btn-flat{type: "submit", value: 'Go!'}>
     #plot_amount_factor
+
 :javascript
-  function plot_amount_line() {
-    console.log('plotting...')
-    const expression = $('#amount_factor_calculated_eq').val()
-    draw(expression, 'plot_amount_factor', [0, 100000, 100])
+  function plot_amount() {
+    draw($('#amount_factor_calculated_eq').val(), 'plot_amount_factor', [0, 100000, 100])
   }
 
   $(document).ready(function() {
     document.getElementById('amount_factor_form').onsubmit = function (event) {
       event.preventDefault()
-      plot_amount_line()
+      plot_amount()
     }
+    plot_amount()
   })
