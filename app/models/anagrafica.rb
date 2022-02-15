@@ -712,8 +712,6 @@ class Anagrafica < ApplicationCoreRecord
     max_base_risk = Configurable.max_base_risk.to_f
     min_base_risk = self.try(:base_risk).to_f || Configurable.min_base_risk.to_f
     tlf = Configurable.time_lapse_factor.to_f
-    amount_f = Configurable.amount_f.to_f
-    amount_d = Configurable.amount_d.to_f
     tuple = [Date.today.year, Date.today.month]
     ce =
       self.customer_evaluations.build(eval_month: tuple[1], eval_year: tuple[0])
