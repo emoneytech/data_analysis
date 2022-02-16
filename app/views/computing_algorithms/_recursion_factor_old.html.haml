@@ -1,4 +1,4 @@
-.card.card-info.card-outline
+.card.card-info.card-outline.mb-0
   .card-header
     %h3.card-title
       %i.fa.fa-chart-bar
@@ -6,14 +6,14 @@
   .card-body
     %form#recursion_factor_form
       .input-group
-        %input#recursion_factor_calculated_eq.form-control{type: "text", value: "#{Configurable.recursion_eq}"}
+        %input#recursion_factor_eq.form-control{type: "text", value: "#{Configurable.recursion_eq}"}
         %span.input-group-append
           %input.btn.btn-info.btn-flat{type: "submit", value: 'Go!'}>
     #plot_recursion_factor
 
 :javascript
   function plot_recursion() {
-    draw($('#recursion_factor_calculated_eq').val(), 'plot_recursion_factor', [0, 20, 1])
+    draw($('#recursion_factor_eq').val(), 'plot_recursion_factor', [0, 20, 1])
   }
 
   $(document).ready(function() {

@@ -5,8 +5,6 @@ module DataAnalysis
                    ),
                    %i[data_analysis evaluated_movements]
 
-    # before_action :set_daterange, only: [:index, :recursive]
-
     def index
       unless params[:filter] && params[:filter][:daterange]
         params[:filter] = {
@@ -98,15 +96,6 @@ module DataAnalysis
     end
 
     private
-
-    def set_daterange
-      @daterange =
-        if params[:filter] && params[:filter][:daterange]
-          params[:filter][:daterange]
-        else
-          "#{(Date.today - 1.year).strftime('%d/%m/%Y')} - #{Date.today.strftime('%d/%m/%Y')}"
-        end
-    end
 
     def filtering_params
       if params[:filter]

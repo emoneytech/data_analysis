@@ -1240,10 +1240,15 @@
   optionalDependencies:
     "@tweenjs/tween.js" "^17.2.0"
 
-"@fortawesome/fontawesome-free@^5.15.2", "@fortawesome/fontawesome-free@^5.15.3":
+"@fortawesome/fontawesome-free@^5.15.3":
   version "5.15.3"
   resolved "https://registry.npmjs.org/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.3.tgz"
   integrity sha512-rFnSUN/QOtnOAgqFRooTA3H57JLDm0QEG/jPdk+tLQNL/eWd+Aok8g3qCI+Q1xuDPWpGW/i9JySpJVsq8Q0s9w==
+
+"@fortawesome/fontawesome-free@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-6.0.0.tgz#6f3bd8e42997c7d536a1246877ed8bcd4f005a54"
+  integrity sha512-6LB4PYBST1Rx40klypw1SmSDArjFOcfBf2LeX9Zg5EKJT2eXiyiJq+CyBYKeXyK0sXS2FsCJWSPr/luyhuvh0Q==
 
 "@gar/promisify@^1.0.1":
   version "1.1.2"

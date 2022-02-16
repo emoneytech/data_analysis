@@ -1,0 +1,51 @@
+.card.card-info.card-outline.mb-0
+  .card-header
+    .card-title
+      %i.fa.fa-chart-bar
+      = t(:amount_factor, default: 'Amount Factor')
+    .card-tools
+      %span.amount_factor.btn.btn-info.btn-sm
+        0.00
+  .card-body
+    = simple_form_for :amount_factor, method: :get, html: {id: 'amount_factor_form'}, remote: false do |f|
+      .row
+        .col-4
+          = f.input :amount, label: false, input_html: {value: "100.00"}
+        .col-8.pl-0
+          .input-group
+            %input#amount_factor_eq.form-control{type: "text", value: "#{Configurable.amount_eq}"}
+            %span.input-group-append
+              %input.btn.btn-success.btn-flat{type: "submit", value: 'Plot'}>
+    #plot_amount_factor
+
+:javascript
+  function plot_amount() {
+    draw($('#amount_factor_eq').val(), 'plot_amount_factor', [0, 100000, 100])
+    calculateAmountFactor()
+  }
+
+  function calculateAmountFactor() {
+    let amount_eq =  $('#amount_factor_eq').val().replace("**", "^")
+    let opts = {
+      x: parseFloat($('input#amount_factor_amount').val()),
+    }
+    const amount_factor = calculateExpression(amount_eq, opts)
+    $('span.amount_factor').html(formatFactor(amount_factor))
+    return amount_factor
+  }
+
+  $(document).ready(function() {
+    window.addEventListener('resize', function(event) {
+      setTimeout(plot_amount(), 500)
+    }, true)
+    
+    document.getElementById('amount_factor_form').onsubmit = function (event) {
+      plot_amount()
+      event.preventDefault()
+    }
+    $('input#amount_factor_amount').on('keyup change paste', function(){
+      calculateAmountFactor()
+    })
+    plot_amount()
+  })
+

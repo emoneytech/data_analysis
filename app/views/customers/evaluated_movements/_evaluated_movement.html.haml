@@ -4,7 +4,7 @@
       %i.fas.fa-search-dollar
       #{@anagrafica.full_name} - 
       = t(:show_resource, resource: EvaluatedMovement.model_name.human)
-  .card-body
+  .card-body.p-1
     = render 'data_analysis/evaluated_movements/table_item', evaluated_movement: evaluated_movement
   .card-footer
     .row

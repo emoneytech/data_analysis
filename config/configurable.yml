@@ -84,5 +84,5 @@ product_eq:
   type: string
 attention_eq:
   name: "Attenfion Factor Eq"
-  default: "((product_factor_calculated * recursion_factor_calculated * amount_factor_calculated * (countries_factor_calculated ** 2)) + 100) / 100"
+  default: "((product_factor * recursion_factor * amount_factor * (countries_factor ** 2)) + 100) / 100"
   type: string

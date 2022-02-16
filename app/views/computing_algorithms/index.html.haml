@@ -1,0 +1,45 @@
+- content_for :javascript_in_head do
+  = javascript_include_tag 'plot.js'
+.row.pb-3
+  .col-md-8
+    .row
+      .col-6.pr-0
+        = render '/computing_algorithms/amount_factor'
+        = render '/computing_algorithms/country_factor'
+      .col-6.p-0
+        = render '/computing_algorithms/recursion_factor'
+        = render '/computing_algorithms/product_factor'
+  .col-md-4 
+    = render '/computing_algorithms/evaluations'
+
+:javascript
+  var attention_eq     = "#{Configurable.attention_eq}".replace("**", "^")
+
+  function calculateAttentionFactor(recursion) {
+    let opts = {
+      product_factor: calculateProductFactor(),
+      recursion_factor: calculateRecursionFactor(),
+      amount_factor: calculateAmountFactor(),
+      countries_factor: calculateCountryFactor()
+    }
+    const evaluated_factor = calculateExpression(attention_eq, opts)
+    $('.evaluated_factor').html(formatFactor(evaluated_factor))
+    return evaluated_factor
+  }
+
+  $(document).ready(function() {
+    calculateAttentionFactor()
+    $('form#amount_factor_form').on('keyup change paste', 'input, select, textarea', function(){
+      calculateAttentionFactor()
+    })
+    $('form#recursion_factor_form').on('keyup change paste', 'input, select, textarea', function(){
+      calculateAttentionFactor()
+    })
+    $('form#product_factor_form').on('keyup change paste', 'input, select, textarea', function(){
+      calculateAttentionFactor()
+    })
+    $('form#country_factor_form').on('keyup change paste', 'input, select, textarea', function(){
+      calculateAttentionFactor()
+    })
+  })
+

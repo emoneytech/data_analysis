@@ -1,8 +1,8 @@
 .card.card-secondary.card-outline
   .card-header
     %h3.card-title
-      %i.fa.fa-chart-bar
-      = t(:settings, default: 'Settings')
+      %i.fa.fa-square-root-variable
+      = t(:computing_algorithms, default: 'Computing algorithms')
   .card-body
     = simple_form_for :filter, method: :get, html: {id: 'filter_form'}, remote: false do |f|
       .row

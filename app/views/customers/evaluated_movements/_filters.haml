@@ -44,8 +44,8 @@
 :javascript
   document.addEventListener("turbolinks:load", () => {
     $(".local-daterange").daterangepicker({
-      startDate: moment("#{@daterange.split(' - ')[0]}",'DD/MM/YYYY'),
-      endDate: moment("#{@daterange.split(' - ')[1]}",'DD/MM/YYYY'),
+      startDate: moment("#{params[:filter][:daterange].split(' - ')[0]}",'DD/MM/YYYY'),
+      endDate: moment("#{params[:filter][:daterange].split(' - ')[1]}",'DD/MM/YYYY'),
       maxDate: moment(),
       locale: { format: 'DD/MM/YYYY'},
     })

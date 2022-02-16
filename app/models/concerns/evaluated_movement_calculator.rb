@@ -3,16 +3,16 @@ module EvaluatedMovementCalculator
 
   included do
     def calculate(recursion = 1)
-      # "((product_factor_calculated * recursion_factor_calculated * amount_factor_calculated * (countries_factor_calculated ** 2)) + 100) / 100"
+      # "((product_factor * recursion_factor * amount_factor * (countries_factor ** 2)) + 100) / 100"
       attention_eq = Configurable.attention_eq
-      attention_factor_calculated =
+      evaluated_factor =
         calculate_factor(
           attention_eq,
           {
-            product_factor_calculated: self.product_factor,
-            recursion_factor_calculated: self.recursion_factor(recursion),
-            amount_factor_calculated: self.amount_factor,
-            countries_factor_calculated: self.countries_factor,
+            product_factor: self.product_factor,
+            recursion_factor: self.recursion_factor(recursion),
+            amount_factor: self.amount_factor,
+            countries_factor: self.countries_factor,
           },
         )
     end
@@ -52,8 +52,7 @@ module EvaluatedMovementCalculator
   def recursion_factor(recursion = 1)
     recursion_eq = "#{Configurable.recursion_eq}"
     recursion = 1 if recursion < 1
-    recursion_factor_calculated =
-      calculate_factor(recursion_eq, { x: recursion })
+    recursion_factor = calculate_factor(recursion_eq, { x: recursion })
   end
 
   private

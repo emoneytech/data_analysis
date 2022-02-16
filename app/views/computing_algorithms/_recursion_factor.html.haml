@@ -1,0 +1,51 @@
+.card.card-info.card-outline.mb-0
+  .card-header
+    .card-title
+      %i.fa.fa-chart-bar
+      = t(:recursion_factor, default: 'Recursion Factor')
+    .card-tools
+      %span.recursion_factor.btn.btn-info.btn-sm
+        0.00
+  .card-body
+    = simple_form_for :recursion_factor, method: :get, html: {id: 'recursion_factor_form'}, remote: false do |f|
+      .row
+        .col-4
+          = f.input :recursion, label: false, input_html: {value: "1"}
+        .col-8.pl-0
+          .input-group
+            %input#recursion_factor_eq.form-control{type: "text", value: "#{Configurable.recursion_eq}"}
+            %span.input-group-append
+              %input.btn.btn-success.btn-flat{type: "submit", value: 'Plot'}>
+    #plot_recursion_factor
+
+:javascript
+  function plot_recursion() {
+    draw($('#recursion_factor_eq').val(), 'plot_recursion_factor', [0, 20, 1])
+    calculateRecursionFactor()
+  }
+
+  function calculateRecursionFactor() {
+    let recursion_eq =  $('#recursion_factor_eq').val().replace("**", "^")
+    let opts = {
+      x: parseFloat($('input#recursion_factor_recursion').val()),
+    }
+    const recursion_factor = calculateExpression(recursion_eq, opts)
+    $('span.recursion_factor').html(formatFactor(recursion_factor))
+    return recursion_factor
+  }
+
+  $(document).ready(function() {
+    window.addEventListener('resize', function(event) {
+      setTimeout(plot_recursion(), 500)
+    }, true)
+    
+    document.getElementById('recursion_factor_form').onsubmit = function (event) {
+      plot_recursion()
+      event.preventDefault()
+    }
+    $('input#recursion_factor_recursion').on('keyup change paste', function(){
+      calculateRecursionFactor()
+    })
+    plot_recursion()
+  })
+

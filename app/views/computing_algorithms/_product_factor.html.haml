@@ -1,0 +1,51 @@
+.card.card-info.card-outline.mb-0
+  .card-header
+    .card-title
+      %i.fa.fa-chart-bar
+      = t(:product_factor, default: 'Product Factor')
+    .card-tools
+      %span.product_factor.btn.btn-info.btn-sm
+        0.00
+  .card-body
+    = simple_form_for :product_factor, method: :get, html: {id: 'product_factor_form'}, remote: false do |f|
+      .row
+        .col-4
+          = f.input :product, label: false, input_html: {value: "1.01"}
+        .col-8.pl-0
+          .input-group
+            %input#product_factor_eq.form-control{type: "text", value: "#{Configurable.product_eq}"}
+            %span.input-group-append
+              %input.btn.btn-success.btn-flat{type: "submit", value: 'Plot'}>
+    #plot_product_factor
+
+:javascript
+  function plot_product() {
+    draw($('#product_factor_eq').val(), 'plot_product_factor', [1.01, 3.5, 0.1])
+    calculateProductFactor()
+  }
+
+  function calculateProductFactor() {
+    let product_eq =  $('#product_factor_eq').val().replace("**", "^")
+    let opts = {
+      x: parseFloat($('input#product_factor_product').val()),
+    }
+    const product_factor = calculateExpression(product_eq, opts)
+    $('span.product_factor').html(formatFactor(product_factor))
+    return product_factor
+  }
+
+  $(document).ready(function() {
+    window.addEventListener('resize', function(event) {
+      setTimeout(plot_product(), 500)
+    }, true)
+    
+    document.getElementById('product_factor_form').onsubmit = function (event) {
+      plot_product()
+      event.preventDefault()
+    }
+    $('input#product_factor_product').on('keyup change paste', function(){
+      calculateProductFactor()
+    })
+    plot_product()
+  })
+

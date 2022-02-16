@@ -15,7 +15,7 @@
     %th= EvaluatedMovement.human_attribute_name(:movement)
     %td= link_to evaluated_movement.movement_id, [:data_analysis, evaluated_movement.movement]
   %tr
-    %th= EvaluatedMovement.human_attribute_name(:movement_created_at)
+    %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:movement_created_at)
     %td= evaluated_movement.movement_created_at
   %tr
     %th= EvaluatedMovement.human_attribute_name(:customer)
@@ -27,46 +27,46 @@
     %th= EvaluatedMovement.human_attribute_name(:beneficiary)
     %td= evaluated_movement.beneficiary
   %tr
-    %th= EvaluatedMovement.human_attribute_name(:beneficiary_iban)
+    %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:beneficiary_iban)
     %td= link_to evaluated_movement.beneficiary_iban, data_analysis_check_ibans_path(filter: {iban: evaluated_movement.beneficiary_iban})
   %tr
-    %th= EvaluatedMovement.human_attribute_name(:beneficiary_card)
+    %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:beneficiary_card)
     %td= evaluated_movement.beneficiary_card
   %tr
-    %th= EvaluatedMovement.human_attribute_name(:beneficiary_other)
+    %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:beneficiary_other)
     %td= evaluated_movement.beneficiary_other
   %tr
     %th= EvaluatedMovement.human_attribute_name(:payer)
     %td= evaluated_movement.payer
   %tr
-    %th= EvaluatedMovement.human_attribute_name(:payer_iban)
+    %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:payer_iban)
     %td= evaluated_movement.payer_iban
   %tr
-    %th= EvaluatedMovement.human_attribute_name(:payer_card)
+    %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:payer_card)
     %td= evaluated_movement.payer_card
   %tr
-    %th= EvaluatedMovement.human_attribute_name(:payer_other)
+    %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:payer_other)
     %td= evaluated_movement.payer_other
   %tr
-    %th= EvaluatedMovement.human_attribute_name(:product_id)
+    %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:product_id)
     %td= evaluated_movement.product_id
   %tr
-    %th= EvaluatedMovement.human_attribute_name(:product_name)
+    %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:product_name)
     %td= evaluated_movement.product_name
   %tr
-    %th= EvaluatedMovement.human_attribute_name(:product_base_risk)
+    %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:product_base_risk)
     %td= evaluated_movement.product_base_risk
   %tr
-    %th= EvaluatedMovement.human_attribute_name(:origin_country)
+    %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:origin_country)
     %td= evaluated_movement.origin_country
   %tr
-    %th= EvaluatedMovement.human_attribute_name(:origin_lonlat)
+    %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:origin_lonlat)
     %td= evaluated_movement.origin_lonlat
   %tr
-    %th= EvaluatedMovement.human_attribute_name(:destination_country)
+    %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:destination_country)
     %td= evaluated_movement.destination_country
   %tr
-    %th= EvaluatedMovement.human_attribute_name(:destination_lonlat)
+    %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:destination_lonlat)
     %td= evaluated_movement.destination_lonlat
   %tr
     %th= EvaluatedMovement.human_attribute_name(:amount)
@@ -84,8 +84,8 @@
       \/
       = link_to evaluated_movement.recursion_customer_30, [:recursive, :data_analysis, evaluated_movement, params: {q: 'customer', days: 30}]
   %tr
-    %th= EvaluatedMovement.human_attribute_name(:evaluated_factor7)
+    %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:evaluated_factor7)
     %td= evaluated_movement.evaluated_factor7
   %tr
-    %th= EvaluatedMovement.human_attribute_name(:evaluated_factor30)
+    %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:evaluated_factor30)
     %td= evaluated_movement.evaluated_factor30

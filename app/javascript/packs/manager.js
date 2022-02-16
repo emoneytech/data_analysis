@@ -61,6 +61,10 @@ document.addEventListener("turbolinks:load", () => {
   $('[data-toggle="tooltip"]').tooltip()
   $('.select2').select2({ theme: 'bootstrap4' })
 
+  setTimeout(function () {
+    $(window).trigger('resize')
+  }, 10)
+
   if (tables.length === 0 && $('.data-table').length !== 0) {
     tables.push(
       $('.data-table').each((_, element) => {

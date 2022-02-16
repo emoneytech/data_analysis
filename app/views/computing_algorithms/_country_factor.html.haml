@@ -1,0 +1,63 @@
+.card.card-info.card-outline.mb-0
+  .card-header
+    .card-title
+      %i.fa.fa-chart-bar
+      = EvaluatedMovement.human_attribute_name(:country_factor)
+    .card-tools
+      %span.country_factor.btn.btn-info.btn-sm
+        0.00
+  .card-body
+    = simple_form_for :country_factor, method: :get, html: {id: 'country_factor_form'}, remote: false do |f|
+      .row
+        .col-6
+          = f.input :country, label: false, |
+            as: :select, |
+            collection: RelatedCountry.order(:name).map{|item| ["#{number_with_precision item.attention_factor} | #{Country[item.alpha2].emoji_flag} #{item.name}", item.alpha2]}, |
+            input_html: {class: "select2", style: "width: 100%;"}, |
+            selected: "#{params[:country_factor] && params[:country_factor][:country] ? params[:country_factor][:country] : 'MT'}", include_blank: true
+        .col-6.pl-0
+          .input-group
+            %input#country_factor_eq.form-control{type: "text", value: "#{Configurable.country_eq}"}
+            %span.input-group-append
+              %input.btn.btn-success.btn-flat{type: "submit", value: 'Plot'}>
+    #plot_country_factor
+
+:javascript
+  function plot_country() {
+    draw($('#country_factor_eq').val(), 'plot_country_factor', [0, 100000, 100])
+    calculateCountryFactor()
+  }
+
+  function parseCountry(string) {
+    if(!string.length) {
+      return 1
+    }
+    const results = string.split('|')
+    return results[0].trim()
+  }
+
+  function calculateCountryFactor() {
+    let country_eq =  $('#country_factor_eq').val().replace("**", "^")
+    let opts = {
+      x: parseFloat(parseCountry($('#country_factor_country option:selected').text())),
+    }
+    const country_factor = calculateExpression(country_eq, opts)
+    $('span.country_factor').html(formatFactor(country_factor))
+    return country_factor
+  }
+
+  $(document).ready(function() {
+    window.addEventListener('resize', function(event) {
+      setTimeout(plot_country(),500)
+    }, true);
+
+    document.getElementById('country_factor_form').onsubmit = function (event) {
+      plot_country()
+      event.preventDefault()
+    }
+    $('#country_factor_country').on('change', function(){
+      calculateCountryFactor()
+    })
+    plot_country()
+  })
+

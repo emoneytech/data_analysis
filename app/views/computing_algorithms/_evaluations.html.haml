@@ -1,0 +1,29 @@
+.card.card-success.card-outline.mb-0
+  .card-header
+    %h3.card-title
+      = fa_icon EvaluatedMovement.icon
+      Evaluations
+  .card-body.p-0
+    %table.table.table-striped.table-hover
+      %tbody
+        %tr
+          %th= link_to EvaluatedMovement.human_attribute_name(:amount_factor), [:amount_factor, :computing_algorithms]
+          %td.text-center
+            %span.amount_factor> 0.00
+        %tr
+          %th= link_to EvaluatedMovement.human_attribute_name(:country_factor), [:country_factor, :computing_algorithms]
+          %td.text-center
+            %span.country_factor> 0.00
+        %tr
+          %th= link_to EvaluatedMovement.human_attribute_name(:product_factor), [:product_factor, :computing_algorithms]
+          %td.text-center
+            %span.product_factor> 0.00
+        %tr
+          %th= link_to EvaluatedMovement.human_attribute_name(:recursion_factor), [:recursion_factor, :computing_algorithms]
+          %td.text-center
+            %span.recursion_factor> 0.00
+        %tr
+          %th= EvaluatedMovement.human_attribute_name(:evaluated_factor)
+          %td.text-center
+            %strong
+              %span.evaluated_factor.text-danger> 0.00
