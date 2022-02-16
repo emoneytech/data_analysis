@@ -34,18 +34,16 @@
     return recursion_factor
   }
 
-  $(document).on('turbolinks:load', function() {
-    window.addEventListener('resize', function(event) {
-      setTimeout(plot_recursion(), 500)
-    }, true)
-    
-    document.getElementById('recursion_factor_form').onsubmit = function (event) {
-      plot_recursion()
-      event.preventDefault()
-    }
-    $('input#recursion_factor_recursion').on('keyup change paste', function(){
-      calculateRecursionFactor()
-    })
+  window.addEventListener('resize', function(event) {
+    setTimeout(plot_recursion(), 500)
+  }, true)
+  
+  document.getElementById('recursion_factor_form').onsubmit = function (event) {
     plot_recursion()
+    event.preventDefault()
+  }
+  $('input#recursion_factor_recursion').on('keyup change paste', function(){
+    calculateRecursionFactor()
   })
+  plot_recursion()
 

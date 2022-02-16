@@ -34,18 +34,16 @@
     return product_factor
   }
 
-  $(document).on('turbolinks:load', function() {
-    window.addEventListener('resize', function(event) {
-      setTimeout(plot_product(), 500)
-    }, true)
-    
-    document.getElementById('product_factor_form').onsubmit = function (event) {
-      plot_product()
-      event.preventDefault()
-    }
-    $('input#product_factor_product').on('keyup change paste', function(){
-      calculateProductFactor()
-    })
+  window.addEventListener('resize', function(event) {
+    setTimeout(plot_product(), 500)
+  }, true)
+
+  document.getElementById('product_factor_form').onsubmit = function (event) {
     plot_product()
+    event.preventDefault()
+  }
+  $('input#product_factor_product').on('keyup change paste', function(){
+    calculateProductFactor()
   })
+  plot_product()
 

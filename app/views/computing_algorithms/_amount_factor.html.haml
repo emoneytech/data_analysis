@@ -34,18 +34,16 @@
     return amount_factor
   }
 
-  $(document).on('turbolinks:load', function() {
-    window.addEventListener('resize', function(event) {
-      setTimeout(plot_amount(), 500)
-    }, true)
-    
-    document.getElementById('amount_factor_form').onsubmit = function (event) {
-      plot_amount()
-      event.preventDefault()
-    }
-    $('input#amount_factor_amount').on('keyup change paste', function(){
-      calculateAmountFactor()
-    })
+  window.addEventListener('resize', function(event) {
+    setTimeout(plot_amount(), 500)
+  }, true)
+  
+  document.getElementById('amount_factor_form').onsubmit = function (event) {
     plot_amount()
+    event.preventDefault()
+  }
+  $('input#amount_factor_amount').on('keyup change paste', function(){
+    calculateAmountFactor()
   })
+  plot_amount()
 

@@ -46,18 +46,16 @@
     return country_factor
   }
 
-  $(document).on('turbolinks:load', function() {
-    window.addEventListener('resize', function(event) {
-      setTimeout(plot_country(),500)
-    }, true);
+  window.addEventListener('resize', function(event) {
+    setTimeout(plot_country(),500)
+  }, true);
 
-    document.getElementById('country_factor_form').onsubmit = function (event) {
-      plot_country()
-      event.preventDefault()
-    }
-    $('#country_factor_country').on('change', function(){
-      calculateCountryFactor()
-    })
+  document.getElementById('country_factor_form').onsubmit = function (event) {
     plot_country()
+    event.preventDefault()
+  }
+  $('#country_factor_country').on('change', function(){
+    calculateCountryFactor()
   })
+  plot_country()
 
