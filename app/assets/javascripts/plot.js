@@ -1,14 +1,10 @@
 function draw(expression, canvas_id, range) {
   try {
     const expr = math.compile(expression.replace("**", "^"))
-
-    // evaluate the expression repeatedly for different values of x
     const xValues = math.range(range[0], range[1], range[2]).toArray()
     const yValues = xValues.map(function (x) {
       return expr.evaluate({x: x})
     })
-
-    // render the plot using plotly
     const trace1 = {
       x: xValues,
       y: yValues,
@@ -36,4 +32,4 @@ function calculateExpression(eq, opts) {
 
 function formatFactor(factor) { 
   return `${factor.toFixed(3)} %`
- }
+}

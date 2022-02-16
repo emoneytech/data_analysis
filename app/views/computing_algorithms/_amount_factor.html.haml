@@ -34,7 +34,7 @@
     return amount_factor
   }
 
-  $(document).ready(function() {
+  $(document).on('turbolinks:load', function() {
     window.addEventListener('resize', function(event) {
       setTimeout(plot_amount(), 500)
     }, true)
