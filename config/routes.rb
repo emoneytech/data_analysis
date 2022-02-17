@@ -176,7 +176,7 @@ Rails
       mount Sidekiq::Web => '/sidekiq'
     end
 
-    resources :computing_algorithms do
+    resources :algorithms do
       collection { get :amount_factor }
       collection { get :country_factor }
       collection { get :recursion_factor }

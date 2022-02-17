@@ -84,5 +84,5 @@ product_eq:
   type: string
 evaluated_eq:
   name: "Evaluated Factor Eq"
-  default: "((product_factor * recursion_factor * amount_factor * countries_factor)) + 100) / 100"
+  default: "((product_factor * recursion_factor * amount_factor * countries_factor) + 100) / 100"
   type: string
