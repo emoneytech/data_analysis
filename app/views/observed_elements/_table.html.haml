@@ -1,0 +1,12 @@
+.card.card-warning.card-outline
+  .card-header
+    .card-title
+      = fa_icon ObservedElement.icon
+      = ObservedElement.model_name.human(count: 2)
+  .card-body.p-1
+    %table.table.table-striped.table-bordered.table-hover.margin-none
+      %tbody
+        - observed_elements.each do |item|
+          %tr
+            %td= observed_element_helper(item)
+            %td.text-center= show_link(item)

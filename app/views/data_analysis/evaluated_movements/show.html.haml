@@ -1,8 +1,7 @@
-- if @evaluated_movement.destination_lonlat && @evaluated_movement.origin_lonlat
-  .row
-    .col-md-12
-      = render "map", evaluated_movement: @evaluated_movement
 .row
-  .col-md-12= render "evaluated_movement", evaluated_movement: @evaluated_movement
-
-
+  .col-md-8
+    = render "evaluated_movement", evaluated_movement: @evaluated_movement
+  .col-md-4
+    = render 'observed_elements/table', observed_elements: @evaluated_movement.observers
+    = render 'data_analysis/evaluated_movements/map', evaluated_movement: @evaluated_movement
+    = render 'data_analysis/evaluated_movements/details', evaluated_movement: @evaluated_movement
