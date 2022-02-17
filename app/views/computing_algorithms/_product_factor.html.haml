@@ -2,7 +2,7 @@
   .card-header
     .card-title
       %i.fa.fa-chart-bar
-      = t(:product_factor, default: 'Product Factor')
+      = EvaluatedMovement.human_attribute_name(:product_factor)
     .card-tools
       %span.product_factor.btn.btn-info.btn-sm
         0.00

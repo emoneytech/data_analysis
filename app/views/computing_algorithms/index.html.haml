@@ -7,37 +7,5 @@
       .col-6.p-0
         = render '/computing_algorithms/recursion_factor'
         = render '/computing_algorithms/product_factor'
-  .col-md-4 
-    = render '/computing_algorithms/evaluations'
-
-:javascript
-  var attention_eq     = "#{Configurable.attention_eq}".replace("**", "^")
-
-  function calculateAttentionFactor(recursion) {
-    let opts = {
-      product_factor: calculateProductFactor(),
-      recursion_factor: calculateRecursionFactor(),
-      amount_factor: calculateAmountFactor(),
-      countries_factor: calculateCountryFactor()
-    }
-    const evaluated_factor = calculateExpression(attention_eq, opts)
-    $('.evaluated_factor').html(formatFactor(evaluated_factor))
-    return evaluated_factor
-  }
-
-  $(document).on('turbolinks:load', function() {
-    calculateAttentionFactor()
-    $('form#amount_factor_form').on('keyup change paste', 'input, select, textarea', function(){
-      calculateAttentionFactor()
-    })
-    $('form#recursion_factor_form').on('keyup change paste', 'input, select, textarea', function(){
-      calculateAttentionFactor()
-    })
-    $('form#product_factor_form').on('keyup change paste', 'input, select, textarea', function(){
-      calculateAttentionFactor()
-    })
-    $('form#country_factor_form').on('keyup change paste', 'input, select, textarea', function(){
-      calculateAttentionFactor()
-    })
-  })
-
+  .col-md-4
+    = render '/computing_algorithms/evaluated_factor'

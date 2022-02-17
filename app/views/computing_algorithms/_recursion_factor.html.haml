@@ -2,7 +2,7 @@
   .card-header
     .card-title
       %i.fa.fa-chart-bar
-      = t(:recursion_factor, default: 'Recursion Factor')
+      = EvaluatedMovement.human_attribute_name(:recursion_factor)
     .card-tools
       %span.recursion_factor.btn.btn-info.btn-sm
         0.00

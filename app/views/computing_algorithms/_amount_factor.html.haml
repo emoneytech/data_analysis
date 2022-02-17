@@ -2,7 +2,7 @@
   .card-header
     .card-title
       %i.fa.fa-chart-bar
-      = t(:amount_factor, default: 'Amount Factor')
+      = EvaluatedMovement.human_attribute_name(:amount_factor)
     .card-tools
       %span.amount_factor.btn.btn-info.btn-sm
         0.00

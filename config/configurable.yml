@@ -82,7 +82,7 @@ product_eq:
   name: "Calculated Product Eq"
   default: "(x / 1 * 100) - 100"
   type: string
-attention_eq:
-  name: "Attenfion Factor Eq"
-  default: "((product_factor * recursion_factor * amount_factor * (countries_factor ** 2)) + 100) / 100"
+evaluated_eq:
+  name: "Evaluated Factor Eq"
+  default: "((product_factor * recursion_factor * amount_factor * countries_factor)) + 100) / 100"
   type: string

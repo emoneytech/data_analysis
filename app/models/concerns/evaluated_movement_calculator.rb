@@ -4,10 +4,10 @@ module EvaluatedMovementCalculator
   included do
     def calculate(recursion = 1)
       # "((product_factor * recursion_factor * amount_factor * (countries_factor ** 2)) + 100) / 100"
-      attention_eq = Configurable.attention_eq
+      evaluated_eq = Configurable.evaluated_eq
       evaluated_factor =
         calculate_factor(
-          attention_eq,
+          evaluated_eq,
           {
             product_factor: self.product_factor,
             recursion_factor: self.recursion_factor(recursion),
