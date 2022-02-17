@@ -51,7 +51,7 @@
       %th{data: { priority: '1', orderable: 'false' }, nowrap: true}
   %tbody
     - evaluated_movements.each do |item|
-      %tr{style: "color: #{item.in_out === 'IN' ? 'green' : '#600'}"}
+      %tr{style: "color: #{item.in_out === 'IN' ? 'green' : '#600'}; background-color: #{item.observers.count > 0 ? '#fc0' : ''}"}
         %td= item.id
         %td= link_to item.triggerable_id, [:data_analysis, item.triggerable]
         %td= item.movement_created_at

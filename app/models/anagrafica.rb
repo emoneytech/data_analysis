@@ -394,6 +394,7 @@ class Anagrafica < ApplicationCoreRecord
           class_name: 'Place'
 
   # scope :for_evaluation, -> { includes(:rischio_corrente).references(:rischio_corrente).order('rischio.Rischio desc')}
+  has_one :observer, -> { where(category_element: 'customer_id', deleted_at: nil) }, primary_key: 'IdUtente', foreign_key: :content, class_name: 'ObservedElement'
 
   scope :filter_by_full_name,
         ->(name) {
@@ -424,7 +425,7 @@ class Anagrafica < ApplicationCoreRecord
   def self.icon
     'user'
   end
-
+  
   def tollerance
     if customer_settings.global.any?
       customer_settings.global.first.tollerance

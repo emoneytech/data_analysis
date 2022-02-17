@@ -6,6 +6,10 @@
     %th= ObservedElement.human_attribute_name(:category_element)
     %td= observed_element.category_element
   %tr
+    %th= ObservedElement.human_attribute_name(:content)
+    %td
+      = observed_element_helper(observed_element)
+  %tr
     %th= ObservedElement.human_attribute_name(:created_at)
     %td= observed_element.created_at
   %tr

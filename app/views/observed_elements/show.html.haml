@@ -7,11 +7,8 @@
           = ObservedElement.model_name.human(count: 2)
         .card-tools
           = back_link(observed_elements_path)
-      .card-body
-        %dl.row
-          - for attribute in @observed_element.attributes.keys
-            %dt.col-md-4.text-right= attribute.humanize
-            %dd.col-md-8= @observed_element.attributes[attribute] && @observed_element.attributes[attribute] != '' && @observed_element.attributes[attribute] != '""'? @observed_element.attributes[attribute].to_s : ' - '
+      .card-body.p-1
+        = render 'observed_elements/table_item', observed_element: @observed_element
       .card-footer
         = simple_form_for @observed_element, method: :delete, html: {class: 'form-horizontal'}, wrapper: :horizontal_form do |f|
           .row

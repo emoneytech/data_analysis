@@ -1,9 +1,10 @@
 .card.card-outline.card-primary
-  .card-header
-    %h3.card-title
+  .card-header{style: "background-color: #{customer.observer ? '#fc0' : ''}"}
+    .card-title
       = fa_icon Anagrafica.icon
       = customer.full_name
     .card-tools
+      = link_to 'Observer', customer.observer, class: "btn btn-xs btn-danger" if customer.observer
       = link_to 'Open on Management', "https://management.emoneyplc.biz/Mod_Anagrafica.aspx?op=upd&IdUtente=#{customer.id}", target: '_management', class: "btn btn-xs btn-success"
   .card-body.p-3
     %dl.row
