@@ -1,4 +1,4 @@
-class AlgorithmsController < ApplicationController
+class AlgorithmCalculatorsController < ManagerController
   add_breadcrumb helpers.raw(
                    "#{helpers.fa_icon('square-root-variable')} #{I18n.t(:algorithms, default: 'Algorithms')}",
                  ),

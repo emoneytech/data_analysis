@@ -1,0 +1,19 @@
+.card.card-primary.card-outline
+  .card-header
+    .card-title
+      = fa_icon 'database'
+      = "#{CustomerCategory.human_attribute_name(:field_props)}: #{customer_category.field_name}"
+  .card-body
+    .callout.callout-danger
+      %h5 Query
+      %p=customer_category.field_props.to_sql
+    %table.table.table-striped.table-bordered.table-hover.margin-none.text-center
+      %thead
+        %tr
+          %th= CustomerCategory.human_attribute_name(:value)
+          %th= CustomerCategory.human_attribute_name(:count)
+      %tbody
+        - customer_category.field_props.count.each do |item|
+          %tr
+            %td= item[0]
+            %td= item[1]

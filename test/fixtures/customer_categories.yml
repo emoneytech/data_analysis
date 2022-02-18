@@ -1,0 +1,29 @@
+# == Schema Information
+#
+# Table name: customer_categories
+#
+#  id             :bigint           not null, primary key
+#  field_name     :string           not null
+#  field_operator :string           not null
+#  field_type     :string           not null
+#  name           :string           not null
+#  value          :string           not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
+# Indexes
+#
+#  index_customer_categories_on_name  (name)
+#
+
+one:
+  name: MyString
+  field_name: MyString
+  field_type: MyString
+  value: MyString
+
+two:
+  name: MyString
+  field_name: MyString
+  field_type: MyString
+  value: MyString

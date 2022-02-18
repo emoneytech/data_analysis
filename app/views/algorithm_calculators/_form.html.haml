@@ -1,0 +1,18 @@
+.row
+  .col-md-4= f.input :customer_category_id, as: :select, collection: CustomerCategory.all
+  .col-md-4= f.input :presentation
+  .col-md-4
+    %label.mb-3> Multidimension?
+    = f.input :multidimension, label: 'Yes'
+.row
+  .col-md-6= f.input :name
+  .col-md-6= f.input :result_type, as: :select, collection: AlgorithmCalculator.result_types
+.row
+  .col-md-8= f.input :value, hint: 'es: x ** 4'
+
+  .col-md-4= f.input :abscissa, hint: 'es: x'
+
+.row
+  .col-md-4= f.input :abscissa_min
+  .col-md-4= f.input :abscissa_max
+  .col-md-4= f.input :abscissa_intervall

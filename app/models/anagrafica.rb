@@ -289,6 +289,8 @@ class Anagrafica < ApplicationCoreRecord
           )
         }
   scope :active, -> { where.not('anagrafiche.IdUtente' => %w[70 75 34221]) }
+
+  ######################## da verificare
   scope :alive,
         -> {
           joins(:conti)
@@ -296,8 +298,7 @@ class Anagrafica < ApplicationCoreRecord
             .where('anagrafiche.tipo' => Tipo.alive.pluck(:id))
             .where
             .not('anagrafiche.IdUtente' => %w[70 75 34221])
-            .where
-            .not('anagrafiche.Attivo' => 6)
+            .where('anagrafiche.Attivo' => [1,4])
             .where
             .not('anagrafiche.created' => nil)
         }
@@ -312,8 +313,7 @@ class Anagrafica < ApplicationCoreRecord
             )
             .where
             .not('anagrafiche.IdUtente' => %w[70 75 34221])
-            .where
-            .not('anagrafiche.Attivo' => 6)
+            .where('anagrafiche.Attivo' => [1,4])
             .where
             .not('anagrafiche.Created' => nil)
         }
@@ -324,8 +324,7 @@ class Anagrafica < ApplicationCoreRecord
             .where('anagrafiche.IdTipo' => 3)
             .where
             .not('anagrafiche.IdUtente' => %w[70 75 34221])
-            .where
-            .not('anagrafiche.Attivo' => 6)
+            .where('anagrafiche.Attivo' => [1,4])
             .where
             .not('anagrafiche.Created' => nil)
         }

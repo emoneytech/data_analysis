@@ -67,7 +67,7 @@ threshold_factor_for_sanction_list:
 
 
 amount_eq:
-  name: "Calculated Recursion Eq"
+  name: "Calculated Amount Eq"
   default: "((x / 1000) ** 3) * 1.5"
   type: string
 recursion_eq:
@@ -75,7 +75,7 @@ recursion_eq:
   default: "x ** 4"
   type: string
 country_eq:
-  name: "Calculated Recursion Eq"
+  name: "Calculated Country Eq"
   default: "(5(x - 1))**4"
   type: string
 product_eq:

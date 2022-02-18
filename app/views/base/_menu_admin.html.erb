@@ -1,5 +1,5 @@
 <%- if current_user.has_role?('superadmin') %>
-  <%- ary = %w(roles users list_types sync configurables excluded_products algorithms) %>
+  <%- ary = %w(roles users list_types sync configurables excluded_products customer_categories algorithm_calculators) %>
   <li class="nav-item <%= ' menu-open menu-is-opening' if ary.include?(controller_name)%>" style="background-color: rgba(255,255,255,.05);;">
     <a href="#" class="nav-link">
       <i class="nav-icon fa fa-cogs"></i>
@@ -54,10 +54,19 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="<%= algorithms_path %>" class="nav-link <%= ' active' if controller_name == 'algorithms' %>">
-          <i class="nav-icon fas fa-square-root-variable"></i>
+        <a href="<%= algorithm_calculators_path %>" class="nav-link <%= ' active' if controller_name == 'algorithm_calculators' %>">
+          <i class="nav-icon fas fa-<%= AlgorithmCalculator.icon %>"></i>
           <p>
-            <%= t(:algorithms, default: 'Algorithms') %>
+            <%= AlgorithmCalculator.model_name.human(count: 2) %>
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="<%= customer_categories_path %>"
+          class="nav-link <%= ' active' if controller_name == 'customer_categories' %>">
+          <i class="nav-icon fas fa-<%= CustomerCategory.icon %>"></i>
+          <p>
+            <%= CustomerCategory.model_name.human(count: 2) %>
           </p>
         </a>
       </li>

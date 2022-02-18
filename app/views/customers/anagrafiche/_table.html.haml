@@ -3,6 +3,7 @@
     %tr
       %th= Anagrafica.human_attribute_name(:id)
       %th= Anagrafica.human_attribute_name(:full_name)
+      %th= Anagrafica.human_attribute_name(:stato)
       %th= Anagrafica.human_attribute_name(:vendor)
       %th= Anagrafica.human_attribute_name(:base_risk)
       %th= Anagrafica.human_attribute_name(:current_attention_factor7)
@@ -14,6 +15,7 @@
       %tr
         %td= item.id
         %td= item.full_name
+        %td= item.Attivo
         %td= item.vendor
         %td= item.base_risk
         %td= item.current_attention_factor7

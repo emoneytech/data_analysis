@@ -1,0 +1,20 @@
+.row
+  .col-md-12
+    .card.card-primary.card-outline
+      .card-header
+        %h3.card-title= raw "#{fa_icon(AlgorithmCalculator.icon)} #{AlgorithmCalculator.model_name.human}: #{@algorithm_calculator.presentation}"
+        .card-tools
+          = edit_link(@algorithm_calculator)
+          = back_link(algorithm_calculators_path)
+
+      .card-body
+        %dl.row
+          %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:customer_category)
+          %dd.col-md-8= @algorithm_calculator.customer_category.name
+          %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:presentation)
+          %dd.col-md-8= @algorithm_calculator.presentation
+          %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:name)
+          %dd.col-md-8= @algorithm_calculator.name
+          %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:value)
+          %dd.col-md-8= @algorithm_calculator.value
+

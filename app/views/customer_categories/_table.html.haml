@@ -1,0 +1,22 @@
+%table.table.table-striped.table-bordered.table-hover.margin-none.data-table{data: {order: '[[1, "desc"], [3, "asc"]]'}}
+  %thead
+    %tr
+      %th= CustomerCategory.human_attribute_name(:name)
+      %th= CustomerCategory.human_attribute_name(:field_name)
+      %th= CustomerCategory.human_attribute_name(:field_operator)
+      %th= CustomerCategory.human_attribute_name(:value)
+      %th= CustomerCategory.human_attribute_name(:count)
+      %th{data: {orderable: "false"}}
+  %tbody
+    - customer_categories.each do |customer_category|
+      %tr
+        %td= customer_category.name
+        %td= customer_category.field_name
+        %td= customer_category.field_operator
+        %td= customer_category.value
+        %td= "#{customer_category.query_result.count} / #{@all_customers}"
+        %td.md-1.text-center{nowrap: true}
+          - if can? :manage, CustomerCategory
+            = edit_link(customer_category)
+            = show_link(customer_category)
+            = delete_link(customer_category)

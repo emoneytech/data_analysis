@@ -1,0 +1,20 @@
+%table.table.table-striped.table-bordered.table-hover.margin-none.data-table
+  %thead
+    %tr
+      %th= AlgorithmCalculator.human_attribute_name(:customer_category)
+      %th= AlgorithmCalculator.human_attribute_name(:presentation)
+      %th= AlgorithmCalculator.human_attribute_name(:name)
+      %th= AlgorithmCalculator.human_attribute_name(:value)
+      %th{data: {orderable: "false"}}
+  %tbody
+    - algorithm_calculators.each do |algorithm_calculator|
+      %tr
+        %td= algorithm_calculator.customer_category
+        %td= algorithm_calculator.presentation
+        %td= algorithm_calculator.name
+        %td= algorithm_calculator.value
+        %td.md-1.text-center{nowrap: true}
+          - if can? :manage, AlgorithmCalculator
+            = edit_link(algorithm_calculator)
+            = show_link(algorithm_calculator)
+            = delete_link(algorithm_calculator)

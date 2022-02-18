@@ -1,0 +1,26 @@
+.card.card-primary.card-outline
+  .card-header
+    .card-title
+      = fa_icon AlgorithmCalculator.icon
+      = t(:listing_resource, resource: AlgorithmCalculator.model_name.human(:count => 2))
+    - if can? :create, AlgorithmCalculator
+      .card-tools= link_to(t(:add_resource, resource: AlgorithmCalculator.model_name.human), new_algorithm_factor_path, class: "btn btn-xs btn-success") 
+  .card-body
+    %table.table.table-striped.table-bordered.table-hover.margin-none.data-table
+      %thead
+        %tr
+          %th= AlgorithmCalculator.human_attribute_name(:name)
+          %th= AlgorithmCalculator.human_attribute_name(:presentation)
+          %th= AlgorithmCalculator.human_attribute_name(:level)
+          %th{data: {orderable: "false"}}
+      %tbody
+        - @algorithm_factors.each do |algorithm_factor|
+          %tr
+            %td= link_to algorithm_factor.name, algorithm_factor
+            %td= algorithm_factor.presentation
+            %td= algorithm_factor.var_type
+            %td
+              - if can? :manage, AlgorithmCalculator
+                = link_to fa_icon("edit"), [:edit, algorithm_factor], class: "btn btn-xs btn-warning" if can? :edit, algorithm_factor
+
+    

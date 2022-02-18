@@ -193,6 +193,46 @@ ALTER SEQUENCE public.activity_logs_id_seq OWNED BY public.activity_logs.id;
 
 
 --
+-- Name: algorithm_calculators; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.algorithm_calculators (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    presentation character varying NOT NULL,
+    result_type character varying NOT NULL,
+    value character varying NOT NULL,
+    multidimension boolean DEFAULT false NOT NULL,
+    abscissa character varying NOT NULL,
+    abscissa_min double precision NOT NULL,
+    abscissa_max double precision NOT NULL,
+    abscissa_intervall double precision NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    customer_category_id bigint NOT NULL
+);
+
+
+--
+-- Name: algorithm_calculators_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.algorithm_calculators_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: algorithm_calculators_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.algorithm_calculators_id_seq OWNED BY public.algorithm_calculators.id;
+
+
+--
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -311,6 +351,41 @@ CREATE SEQUENCE public.configurables_id_seq
 --
 
 ALTER SEQUENCE public.configurables_id_seq OWNED BY public.configurables.id;
+
+
+--
+-- Name: customer_categories; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.customer_categories (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    field_name character varying NOT NULL,
+    field_type character varying NOT NULL,
+    value character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    field_operator character varying NOT NULL
+);
+
+
+--
+-- Name: customer_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.customer_categories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: customer_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.customer_categories_id_seq OWNED BY public.customer_categories.id;
 
 
 --
@@ -1076,6 +1151,13 @@ ALTER TABLE ONLY public.activity_logs ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: algorithm_calculators id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.algorithm_calculators ALTER COLUMN id SET DEFAULT nextval('public.algorithm_calculators_id_seq'::regclass);
+
+
+--
 -- Name: audits id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1094,6 +1176,13 @@ ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.com
 --
 
 ALTER TABLE ONLY public.configurables ALTER COLUMN id SET DEFAULT nextval('public.configurables_id_seq'::regclass);
+
+
+--
+-- Name: customer_categories id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.customer_categories ALTER COLUMN id SET DEFAULT nextval('public.customer_categories_id_seq'::regclass);
 
 
 --
@@ -1234,6 +1323,14 @@ ALTER TABLE ONLY public.activity_logs
 
 
 --
+-- Name: algorithm_calculators algorithm_calculators_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.algorithm_calculators
+    ADD CONSTRAINT algorithm_calculators_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1263,6 +1360,14 @@ ALTER TABLE ONLY public.comments
 
 ALTER TABLE ONLY public.configurables
     ADD CONSTRAINT configurables_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: customer_categories customer_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.customer_categories
+    ADD CONSTRAINT customer_categories_pkey PRIMARY KEY (id);
 
 
 --
@@ -1487,6 +1592,20 @@ CREATE INDEX index_activity_logs_on_user_id ON public.activity_logs USING btree 
 
 
 --
+-- Name: index_algorithm_calculators_on_customer_category_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_algorithm_calculators_on_customer_category_id ON public.algorithm_calculators USING btree (customer_category_id);
+
+
+--
+-- Name: index_algorithm_calculators_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_algorithm_calculators_on_name ON public.algorithm_calculators USING btree (name);
+
+
+--
 -- Name: index_audits_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1533,6 +1652,13 @@ CREATE INDEX index_comments_on_user_id ON public.comments USING btree (user_id);
 --
 
 CREATE INDEX index_configurables_on_name ON public.configurables USING btree (name);
+
+
+--
+-- Name: index_customer_categories_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_customer_categories_on_name ON public.customer_categories USING btree (name);
 
 
 --
@@ -2219,6 +2345,14 @@ ALTER TABLE ONLY public.active_storage_variant_records
 
 
 --
+-- Name: algorithm_calculators fk_rails_b301e25c1c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.algorithm_calculators
+    ADD CONSTRAINT fk_rails_b301e25c1c FOREIGN KEY (customer_category_id) REFERENCES public.customer_categories(id);
+
+
+--
 -- Name: active_storage_attachments fk_rails_c3b3935057; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2298,6 +2432,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220107092727'),
 ('20220108104927'),
 ('20220111093821'),
-('20220111160041');
+('20220111160041'),
+('20220218090654'),
+('20220218105812'),
+('20220218110057'),
+('20220218111015');
 
 
