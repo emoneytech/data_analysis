@@ -34,10 +34,6 @@
     return product_factor
   }
 
-  window.addEventListener('resize', function(event) {
-    setTimeout(plot_product(), 500)
-  }, true)
-
   document.getElementById('product_factor_form').onsubmit = function (event) {
     plot_product()
     event.preventDefault()

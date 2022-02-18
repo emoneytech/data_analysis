@@ -46,10 +46,6 @@
     return country_factor
   }
 
-  window.addEventListener('resize', function(event) {
-    setTimeout(plot_country(),500)
-  }, true);
-
   document.getElementById('country_factor_form').onsubmit = function (event) {
     plot_country()
     event.preventDefault()

@@ -34,10 +34,6 @@
     return amount_factor
   }
 
-  window.addEventListener('resize', function(event) {
-    setTimeout(plot_amount(), 500)
-  }, true)
-  
   document.getElementById('amount_factor_form').onsubmit = function (event) {
     plot_amount()
     event.preventDefault()

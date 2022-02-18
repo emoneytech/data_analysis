@@ -34,10 +34,6 @@
     return recursion_factor
   }
 
-  window.addEventListener('resize', function(event) {
-    setTimeout(plot_recursion(), 500)
-  }, true)
-  
   document.getElementById('recursion_factor_form').onsubmit = function (event) {
     plot_recursion()
     event.preventDefault()
