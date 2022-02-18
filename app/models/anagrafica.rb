@@ -298,7 +298,7 @@ class Anagrafica < ApplicationCoreRecord
             .where('anagrafiche.tipo' => Tipo.alive.pluck(:id))
             .where
             .not('anagrafiche.IdUtente' => %w[70 75 34221])
-            .where('anagrafiche.Attivo' => [1,4])
+            .where('anagrafiche.Attivo' => [1])
             .where
             .not('anagrafiche.created' => nil)
         }
@@ -420,6 +420,8 @@ class Anagrafica < ApplicationCoreRecord
         ->(value) { where('anagrafiche.base_risk <= ?', value) }
   scope :filter_by_min_base_risk_calc,
         ->(value) { where('anagrafiche.base_risk_calc >= ?', value) }
+  scope :filter_by_status,
+        ->(value) { where('anagrafiche.Attivo = ?', value) }
 
   def self.icon
     'user'

@@ -13,7 +13,7 @@ class Stato < ApplicationCoreRecord
   alias_attribute :id, "idstato"
   alias_attribute :name, "stato"
 
-  has_many :conti, primary_key: "idstato", foreign_key: "ProductState", class_name: "Conto"
+  has_many :anagrafiche, primary_key: "idstato", foreign_key: "Attivo", class_name: "Anagrafica"
 
   def to_s
     "#{stato}"
