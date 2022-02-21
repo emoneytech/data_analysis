@@ -1,0 +1,9 @@
+.card.card-primary.card-outline
+  .card-header
+    .card-title
+      = fa_icon ConditionItem.icon
+      = t(:listing_resource, resource: ConditionItem.model_name.human(:count => 2))
+  .card-body
+    = render 'config/condition_items/table', condition_items: condition_items
+
+    

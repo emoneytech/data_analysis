@@ -1,4 +1,4 @@
-class CustomerCategoriesController < ManagerController
+class Config::CustomerCategoriesController < ManagerController
   add_breadcrumb helpers.raw(
                   "#{helpers.fa_icon(CustomerCategory.icon)} #{CustomerCategory.model_name.human(count: 2)}",
                 ),

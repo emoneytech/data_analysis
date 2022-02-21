@@ -1,0 +1,9 @@
+.card-body.nested-fields.border.m-1.p-2
+  .form-row
+    .col-md-3= f.input :var_name, wrapper_html: {class: 'form-floating'}
+    .col-md-3= f.input :field_name, as: :select, collection: Anagrafica.column_names, input_html: {class: "select2", style: "width: 100%;"}
+    .col-md-3= f.input :field_type, as: :select, collection: ConditionalVar.field_types
+    .col-md-3
+      = f.input :default_value
+  .form-row
+    .col-12.text-right= link_to_remove_association "Remove", f, class: 'btn btn-danger btn-sm'

@@ -193,6 +193,38 @@ ALTER SEQUENCE public.activity_logs_id_seq OWNED BY public.activity_logs.id;
 
 
 --
+-- Name: algorithm_calculator_conditional_vars; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.algorithm_calculator_conditional_vars (
+    id bigint NOT NULL,
+    algorithm_calculator_id bigint NOT NULL,
+    conditional_var_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: algorithm_calculator_conditional_vars_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.algorithm_calculator_conditional_vars_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: algorithm_calculator_conditional_vars_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.algorithm_calculator_conditional_vars_id_seq OWNED BY public.algorithm_calculator_conditional_vars.id;
+
+
+--
 -- Name: algorithm_calculators; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -203,13 +235,13 @@ CREATE TABLE public.algorithm_calculators (
     result_type character varying NOT NULL,
     value character varying NOT NULL,
     multidimension boolean DEFAULT false NOT NULL,
+    conditional boolean DEFAULT false NOT NULL,
     abscissa character varying NOT NULL,
     abscissa_min double precision NOT NULL,
     abscissa_max double precision NOT NULL,
     abscissa_intervall double precision NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    customer_category_id bigint NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -319,6 +351,75 @@ CREATE SEQUENCE public.comments_id_seq
 --
 
 ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
+
+
+--
+-- Name: condition_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.condition_items (
+    id bigint NOT NULL,
+    conditional_var_id bigint NOT NULL,
+    field_operator character varying NOT NULL,
+    field_value character varying NOT NULL,
+    eq character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: condition_items_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.condition_items_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: condition_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.condition_items_id_seq OWNED BY public.condition_items.id;
+
+
+--
+-- Name: conditional_vars; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.conditional_vars (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    description character varying NOT NULL,
+    field_source_name character varying NOT NULL,
+    field_type character varying NOT NULL,
+    default_value character varying DEFAULT '1'::character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: conditional_vars_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.conditional_vars_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: conditional_vars_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.conditional_vars_id_seq OWNED BY public.conditional_vars.id;
 
 
 --
@@ -1151,6 +1252,13 @@ ALTER TABLE ONLY public.activity_logs ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: algorithm_calculator_conditional_vars id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.algorithm_calculator_conditional_vars ALTER COLUMN id SET DEFAULT nextval('public.algorithm_calculator_conditional_vars_id_seq'::regclass);
+
+
+--
 -- Name: algorithm_calculators id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1169,6 +1277,20 @@ ALTER TABLE ONLY public.audits ALTER COLUMN id SET DEFAULT nextval('public.audit
 --
 
 ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.comments_id_seq'::regclass);
+
+
+--
+-- Name: condition_items id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.condition_items ALTER COLUMN id SET DEFAULT nextval('public.condition_items_id_seq'::regclass);
+
+
+--
+-- Name: conditional_vars id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.conditional_vars ALTER COLUMN id SET DEFAULT nextval('public.conditional_vars_id_seq'::regclass);
 
 
 --
@@ -1323,6 +1445,14 @@ ALTER TABLE ONLY public.activity_logs
 
 
 --
+-- Name: algorithm_calculator_conditional_vars algorithm_calculator_conditional_vars_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.algorithm_calculator_conditional_vars
+    ADD CONSTRAINT algorithm_calculator_conditional_vars_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: algorithm_calculators algorithm_calculators_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1352,6 +1482,22 @@ ALTER TABLE ONLY public.audits
 
 ALTER TABLE ONLY public.comments
     ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: condition_items condition_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.condition_items
+    ADD CONSTRAINT condition_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: conditional_vars conditional_vars_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.conditional_vars
+    ADD CONSTRAINT conditional_vars_pkey PRIMARY KEY (id);
 
 
 --
@@ -1515,6 +1661,13 @@ ALTER TABLE ONLY public.webpush_subscriptions
 
 
 --
+-- Name: algorithm_calculator_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX algorithm_calculator_index ON public.algorithm_calculator_conditional_vars USING btree (algorithm_calculator_id);
+
+
+--
 -- Name: associated_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1533,6 +1686,13 @@ CREATE UNIQUE INDEX attention_factor_for_month_index ON public.eval_customers US
 --
 
 CREATE INDEX auditable_index ON public.audits USING btree (auditable_type, auditable_id, version);
+
+
+--
+-- Name: conditional_var_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX conditional_var_index ON public.algorithm_calculator_conditional_vars USING btree (conditional_var_id);
 
 
 --
@@ -1592,13 +1752,6 @@ CREATE INDEX index_activity_logs_on_user_id ON public.activity_logs USING btree 
 
 
 --
--- Name: index_algorithm_calculators_on_customer_category_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_algorithm_calculators_on_customer_category_id ON public.algorithm_calculators USING btree (customer_category_id);
-
-
---
 -- Name: index_algorithm_calculators_on_name; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1645,6 +1798,20 @@ CREATE INDEX index_comments_on_subject ON public.comments USING btree (subject);
 --
 
 CREATE INDEX index_comments_on_user_id ON public.comments USING btree (user_id);
+
+
+--
+-- Name: index_condition_items_on_conditional_var_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_condition_items_on_conditional_var_id ON public.condition_items USING btree (conditional_var_id);
+
+
+--
+-- Name: index_conditional_vars_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_conditional_vars_on_name ON public.conditional_vars USING btree (name);
 
 
 --
@@ -2329,6 +2496,22 @@ ALTER TABLE ONLY public.comments
 
 
 --
+-- Name: algorithm_calculator_conditional_vars fk_rails_36283ca121; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.algorithm_calculator_conditional_vars
+    ADD CONSTRAINT fk_rails_36283ca121 FOREIGN KEY (algorithm_calculator_id) REFERENCES public.algorithm_calculators(id);
+
+
+--
+-- Name: algorithm_calculator_conditional_vars fk_rails_5839626e26; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.algorithm_calculator_conditional_vars
+    ADD CONSTRAINT fk_rails_5839626e26 FOREIGN KEY (conditional_var_id) REFERENCES public.conditional_vars(id);
+
+
+--
 -- Name: webpush_subscriptions fk_rails_90c23a43b6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2342,14 +2525,6 @@ ALTER TABLE ONLY public.webpush_subscriptions
 
 ALTER TABLE ONLY public.active_storage_variant_records
     ADD CONSTRAINT fk_rails_993965df05 FOREIGN KEY (blob_id) REFERENCES public.active_storage_blobs(id);
-
-
---
--- Name: algorithm_calculators fk_rails_b301e25c1c; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.algorithm_calculators
-    ADD CONSTRAINT fk_rails_b301e25c1c FOREIGN KEY (customer_category_id) REFERENCES public.customer_categories(id);
 
 
 --
@@ -2374,6 +2549,14 @@ ALTER TABLE ONLY public.activity_logs
 
 ALTER TABLE ONLY public.sanction_list_items
     ADD CONSTRAINT fk_rails_dd2a218e4b FOREIGN KEY (sanction_list_id) REFERENCES public.sanction_lists(id);
+
+
+--
+-- Name: condition_items fk_rails_e58c616e7f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.condition_items
+    ADD CONSTRAINT fk_rails_e58c616e7f FOREIGN KEY (conditional_var_id) REFERENCES public.conditional_vars(id);
 
 
 --
@@ -2435,7 +2618,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220111160041'),
 ('20220218090654'),
 ('20220218105812'),
-('20220218110057'),
-('20220218111015');
+('20220218111015'),
+('20220219090004'),
+('20220219115141'),
+('20220221073704');
 
 

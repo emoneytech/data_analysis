@@ -1,0 +1,15 @@
+.form-row
+  .col-md-4= f.input :name
+  .col-md-8= f.input :description
+.form-row
+  .col-md-4= f.input :field_source_name, as: :select, collection: Anagrafica.column_names, input_html: {class: "select2", style: "width: 100%;"}
+  .col-md-4= f.input :field_type, as: :select, collection: ConditionalVar.field_types
+  .col-md-4= f.input :default_value
+
+#condition_items.card.card-info
+  .card-header.p-1.pl-2
+    Conditions
+  = f.simple_fields_for :condition_items do |condition_item|
+    = render 'condition_item_fields', f: condition_item
+  .card-footer.links.text-right
+    = link_to_add_association 'Add condition', f, :condition_items, class: 'btn btn-success btn-sm'

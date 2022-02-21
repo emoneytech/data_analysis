@@ -175,9 +175,19 @@ Rails
     authenticate :user, lambda { |u| u.include_role?('admin') } do
       mount Sidekiq::Web => '/sidekiq'
     end
-    
-    resources :algorithm_calculators 
-    resources :customer_categories
-
+    namespace :config do
+      resources :conditional_vars do
+        resources :condition_items
+        member do
+          get :duplicate
+        end
+      end
+      resources :algorithm_calculators do
+        member do
+          get :duplicate
+        end
+      end
+      resources :customer_categories
+    end
     # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   end

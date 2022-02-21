@@ -298,7 +298,7 @@ class Anagrafica < ApplicationCoreRecord
             .where('anagrafiche.tipo' => Tipo.alive.pluck(:id))
             .where
             .not('anagrafiche.IdUtente' => %w[70 75 34221])
-            .where('anagrafiche.Attivo' => [1])
+            .where('anagrafiche.Attivo' => [1, 4])
             .where
             .not('anagrafiche.created' => nil)
         }

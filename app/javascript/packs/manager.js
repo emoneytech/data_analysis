@@ -20,7 +20,7 @@ import "../plugins/index.js"
 
 require("jquery")
 require('select2')
-
+require("@nathanvda/cocoon")
 
 require('./plugins/duallistbox.js')
 require('./plugins/daterangepicker.js')
@@ -59,6 +59,7 @@ window.tables = tables
 
 document.addEventListener("turbolinks:load", () => {
   $('[data-toggle="tooltip"]').tooltip()
+  $('[data-toggle="popover"]').popover()
   $('.select2').select2({ theme: 'bootstrap4' })
 
   setTimeout(function () {

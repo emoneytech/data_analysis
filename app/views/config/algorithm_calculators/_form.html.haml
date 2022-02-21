@@ -1,0 +1,30 @@
+.form-row
+  .col-md-6= f.input :presentation
+  .col-md-3
+    %label.mb-3> Multidimension?
+    = f.input :multidimension, label: 'Yes'
+  .col-md-3
+    %label.mb-3> Conditional?
+    = f.input :conditional, label: 'Yes'
+.form-row
+  .col-md-3= f.input :name
+  .col-md-3= f.input :result_type, as: :select, collection: AlgorithmCalculator.result_types
+  .col-md-6= f.input :value, hint: 'es: x ** 4'
+.form-row 
+  .col-md-6
+    .card.card-info
+      .card-header.p-1.pl-2
+        Conditional vars
+      .card-body.pb-0.pt-0
+        = f.input :conditional_var_ids, label: false, as: :select, collection: ConditionalVar.all, include_blank: false, input_html: {class: 'duallistbox', multiple: "multiple"}
+  .col-md-6
+    .card.card-info
+      .card-header.p-1.pl-2
+        Graphics
+      .card-body
+        .form-row
+          .col-md-6= f.input :abscissa, hint: 'es: x', input_html: {class: 'form-control-sm'} 
+          .col-md-6= f.input :abscissa_min, input_html: {class: 'form-control-sm'} 
+        .form-row
+          .col-md-6= f.input :abscissa_max, input_html: {class: 'form-control-sm'} 
+          .col-md-6= f.input :abscissa_intervall, input_html: {class: 'form-control-sm'} 

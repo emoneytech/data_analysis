@@ -1,0 +1,22 @@
+%table.table.table-striped.table-bordered.table-hover.margin-none.data-table{data: {order: '[[1, "desc"], [3, "asc"]]'}}
+  %thead
+    %tr
+      %th= ConditionalVar.human_attribute_name(:name)
+      %th= ConditionalVar.human_attribute_name(:description)
+      %th= ConditionalVar.human_attribute_name(:field_source_name)
+      %th= ConditionalVar.human_attribute_name(:field_type)
+      %th= ConditionalVar.human_attribute_name(:default_value)
+      %th{data: {orderable: "false"}}
+  %tbody
+    - conditional_vars.each do |item|
+      %tr
+        %td= item.name
+        %td= item.description
+        %td= item.field_source_name
+        %td= item.field_type
+        %td= item.default_value
+        %td.md-1.text-center{nowrap: true}
+          - if can? :manage, ConditionalVar
+            = link_to fa_icon("copy"), [:duplicate, :config, item], class: "btn btn-xs btn-success", data: {toggle: "tooltip", title: t(:duplicate_resource, resource: item.model_name.human)}
+
+            = config_links(item)

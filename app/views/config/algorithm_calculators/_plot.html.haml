@@ -1,0 +1,66 @@
+.card.card-info.card-outline.mb-0
+  .card-header
+    .card-title
+      %i.fa.fa-chart-bar
+      = algorithm_calculator.presentation
+    .card-tools
+      %span.algorithm_calculator.btn.btn-info.btn-sm
+        0.00
+  .card-body
+    = simple_form_for :algorithm, html: {id: 'algorithm_calculator_form'}, remote: false do |f|
+      .form-row 
+        - algorithm_calculator.conditional_vars.each do |conditional_var|
+          .col-md-4
+            = f.input conditional_var.name, collection: conditional_var.values,  |
+              as: :select, |
+              input_html: {class: "select2 conditional_items", style: "width: 100%;", name: conditional_var.name}, include_blank: false
+
+      .form-row
+        .col-4
+          = f.input :input, label: false, input_html: {value: "1"}
+        .col-8.pl-0
+          .input-group
+            %input#algorithm_calculator_eq.form-control{type: "text", value: ""}
+            %span.input-group-append
+              %input.btn.btn-success.btn-flat{type: "submit", value: 'Plot'}>
+    #plot_algorithm_calculator
+
+:javascript
+  function algorithm_eq() {
+    let str = "#{algorithm_calculator.value}"
+    $('.conditional_items').each(function(i, obj) {
+      str = str.replace(obj.name, $(obj).find('option:selected').text())
+    })
+    $("input#algorithm_calculator_eq").val(str)
+    return str
+  }
+  function plot() {
+    const eq = algorithm_eq()
+    draw(eq, 'plot_algorithm_calculator', ["#{algorithm_calculator.abscissa_min}", "#{algorithm_calculator.abscissa_max}", "#{algorithm_calculator.abscissa_intervall}"])
+    calculateFactor()
+  }
+
+  function calculateFactor() {
+    let amount_eq = algorithm_eq().replace("**", "^")
+    let opts = {
+      x: parseFloat($('input#algorithm_input').val()),
+    }
+    console.log(opts)
+    const algorithm_calculator = calculateExpression(amount_eq, opts)
+    $('span.algorithm_calculator').html(formatFactor(algorithm_calculator))
+    return algorithm_calculator
+  }
+
+  document.getElementById('algorithm_calculator_form').onsubmit = function (event) {
+    plot()
+    event.preventDefault()
+  }
+  
+  $('input#algorithm_input').on('keyup change paste', function(){
+    calculateFactor()
+  })
+  $('.conditional_items').on('change', function(){
+    plot()
+  })
+  plot()
+

@@ -1,0 +1,19 @@
+.card.card-primary.card-outline
+  .card-header
+    .card-title
+      = fa_icon 'database'
+      = "#{ConditionalVar.human_attribute_name(:field_props)}: #{conditional_var.field_source_name}"
+  .card-body
+    %table.table.table-striped.table-bordered.table-hover.margin-none.text-center
+      %thead
+        %tr
+          %th= ConditionalVar.human_attribute_name(:value)
+          %th= ConditionalVar.human_attribute_name(:count)
+      %tbody
+        - conditional_var.field_props.count.each do |item|
+          %tr
+            %td= item[0]
+            %td= item[1]
+.callout.callout-danger
+  %h5 Query
+  %p=conditional_var.field_props.to_sql

@@ -243,6 +243,7 @@ it:
   show_resource: "Visualizza %{resource}"
   download_resource: "Scarica %{resource}"
   update_resource: "Aggiorna %{resource}"
+  duplicate_resource: "Duplica %{resource}"
   details: Dettagli
   load_time: Tempo di caricamento
   seconds: secondi

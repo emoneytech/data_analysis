@@ -14,6 +14,7 @@ en:
   update_resource: "Update %{resource}"
   download_resource: "Download %{resource}"
   show_resource: Show %{resource}
+  duplicate_resource: Duplicate %{resource}
   hint:
     birth_fields_required: "Fiscal code, Birth Date, Birth Place"
     data_fields_required: "Address, City"

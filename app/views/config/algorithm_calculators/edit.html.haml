@@ -1,0 +1,15 @@
+.row
+  .col-md-12
+    = simple_form_for [:config, @algorithm_calculator] do |f|
+      .card.card-warning.card-outline
+        .card-header
+          .card-title
+            = fa_icon AlgorithmCalculator.icon
+            = t(:edit_resource, resource: AlgorithmCalculator.model_name.human)
+          .card-tools= back_link(config_algorithm_calculators_path)
+        .card-body
+          = render 'form', f: f
+        .card-footer.clearfix.text-right
+          = link_to t(:cancel, default: "Cancel"), config_algorithm_calculators_path, class: "btn btn-warning"
+          = f.submit class: "btn btn-success"
+

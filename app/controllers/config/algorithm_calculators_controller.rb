@@ -1,8 +1,8 @@
-class AlgorithmCalculatorsController < ManagerController
+class Config::AlgorithmCalculatorsController < ManagerController
   add_breadcrumb helpers.raw(
                   "#{helpers.fa_icon(AlgorithmCalculator.icon)} #{AlgorithmCalculator.model_name.human(count: 2)}",
                 ),
-                :algorithm_calculators
+                [:config, :algorithm_calculators]
 
   def index
   end
@@ -15,11 +15,20 @@ class AlgorithmCalculatorsController < ManagerController
 
   # GET /algorithm_calculators/new
   def new
+    add_breadcrumb 'New', [:config, :algorithm_calculator]
     @algorithm_calculator = AlgorithmCalculator.new
+  end
+
+  def duplicate
+    @algorithm_calculator = @algorithm_calculator.amoeba_dup
+    render :new
   end
 
   # GET /algorithm_calculators/1/edit
   def edit
+    add_breadcrumb @algorithm_calculator.presentation, [:config, :algorithm_calculator]
+    add_breadcrumb I18n.t(:edit_resource, resource: AlgorithmCalculator.model_name.human), [:edit, :config, :algorithm_calculator]
+
   end
 
   # POST /algorithm_calculators
@@ -29,7 +38,7 @@ class AlgorithmCalculatorsController < ManagerController
 
     respond_to do |format|
       if @algorithm_calculator.save
-        format.html { redirect_to @algorithm_calculator, notice: 'AlgorithmCalculator was successfully created.' }
+        format.html { redirect_to [:config, @algorithm_calculator], notice: 'AlgorithmCalculator was successfully created.' }
         format.json { render :show, status: :created, location: @algorithm_calculator }
       else
         format.html { render :new }
@@ -43,7 +52,7 @@ class AlgorithmCalculatorsController < ManagerController
   def update
     respond_to do |format|
       if @algorithm_calculator.update(algorithm_calculator_params)
-        format.html { redirect_to @algorithm_calculator, notice: 'AlgorithmCalculator was successfully updated.' }
+        format.html { redirect_to [:config, @algorithm_calculator], notice: 'AlgorithmCalculator was successfully updated.' }
         format.json { render :show, status: :ok, location: @algorithm_calculator }
       else
         format.html { render :edit }
@@ -57,7 +66,7 @@ class AlgorithmCalculatorsController < ManagerController
   def destroy
     @algorithm_calculator.destroy
     respond_to do |format|
-      format.html { redirect_to algorithm_calculators_url, notice: 'AlgorithmCalculator was successfully destroyed.' }
+      format.html { redirect_to config_algorithm_calculators_url, notice: 'AlgorithmCalculator was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -72,14 +81,16 @@ class AlgorithmCalculatorsController < ManagerController
     def algorithm_calculator_params
       params.require(:algorithm_calculator).permit(
         :name,
+        :multidimension,
+        :conditional,
         :result_type,
         :value, 
-        :customer_category_id,
         :presentation,
         :abscissa,
         :abscissa_min,
         :abscissa_max,
-        :abscissa_intervall
+        :abscissa_intervall,
+        conditional_var_ids: []
       )
     end
 end

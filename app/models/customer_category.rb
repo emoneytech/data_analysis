@@ -7,17 +7,17 @@ class CustomerCategory < CorePgRecord
   validates :field_type, presence: true
   validates :value, presence: true
 
-  FIELD_OPERATORS = %w(between equal major major_or_equal minor minor_or_equal different like)
   FIELD_TYPES = %w(string number)
-
+  
   def to_s
     "#{self.name}"
   end
-
+  
   def self.icon
     'user-group'
   end
-
+  
+  FIELD_OPERATORS = %w(between equal major major_or_equal minor minor_or_equal different like)
   def self.field_operators
     FIELD_OPERATORS
   end

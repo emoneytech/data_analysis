@@ -1,0 +1,17 @@
+.card.card-primary.card-outline
+  .card-header
+    %h3.card-title= raw "#{fa_icon(ConditionalVar.icon)} #{ConditionalVar.model_name.human}: #{conditional_var.name}"
+    .card-tools
+      = link_to fa_icon("edit"), [:edit, :config, conditional_var], class: "btn btn-xs btn-warning", data: {toggle: "tooltip", title: t(:edit_resource, resource: conditional_var.model_name.human)}
+      = back_link([:config, :conditional_vars])
+
+  .card-body
+    %dl.row
+      %dt.col-4.text-right= ConditionalVar.human_attribute_name(:name)
+      %dd.col-md-8= conditional_var.name
+      %dt.col-4.text-right= ConditionalVar.human_attribute_name(:field_source_name)
+      %dd.col-md-8= conditional_var.field_source_name
+      %dt.col-4.text-right= ConditionalVar.human_attribute_name(:field_type)
+      %dd.col-md-8= conditional_var.field_type
+      %dt.col-4.text-right= ConditionalVar.human_attribute_name(:default_value)
+      %dd.col-md-8= conditional_var.default_value

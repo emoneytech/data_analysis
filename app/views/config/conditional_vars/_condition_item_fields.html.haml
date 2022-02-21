@@ -1,0 +1,7 @@
+.card-body.nested-fields.border.m-1.p-2
+  .form-row
+    .col-md-3= f.input :field_operator, as: :select, collection: ConditionItem.field_operators
+    .col-md-3= f.input :field_value
+    .col-md-6= f.input :eq
+  .form-row
+    .col-12.text-right= link_to_remove_association "remove condition", f

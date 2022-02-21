@@ -6,6 +6,7 @@ class CreateAlgorithmCalculators < ActiveRecord::Migration[6.1]
       t.string :result_type, null: false
       t.string :value, null: false
       t.boolean :multidimension, null: false, default: false
+      t.boolean :conditional, null: false, default: false
 
       t.string :abscissa, null: false
       t.float :abscissa_min, null: false
