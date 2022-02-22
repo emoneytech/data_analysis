@@ -103,6 +103,11 @@ class Servizio < ApplicationCoreRecord
       status: [3, 5, 8, 10]
     )
   }
+  scope :billeds, -> {
+    where( 
+      status: 8
+    )
+  }
   scope :grouped_by_month, -> (time_lapse) {
     where(
       "DATE_FORMAT(servizi.lastupdate , '%Y-%m-%d') between ? and ?", time_lapse[0], time_lapse[1]

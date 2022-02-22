@@ -22,4 +22,4 @@
               %td= Prodotto.find_by_idprodotto(item.product_id).nome
               %td.text-center
                 - daterange = "#{"#{service[0]}-01".to_date.to_date.strftime('%d/%m/%Y')} - #{"#{service[0]}-01".to_date.at_end_of_month.strftime('%d/%m/%Y')}"
-                = link_to fa_icon('eye'), data_analysis_servizi_path(params: {filter: {vendor: @vendor.id, product_id: item.product_id, daterange: daterange}}), class: "btn btn-xs btn-primary"
+                = link_to fa_icon('eye'), data_analysis_servizi_path(params: {filter: {status: "8", vendor: @vendor.id, product_id: item.product_id, daterange: daterange}}), class: "btn btn-xs btn-primary"
