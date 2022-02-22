@@ -69,15 +69,31 @@ document.addEventListener("turbolinks:load", () => {
   if (tables.length === 0 && $('.data-table').length !== 0) {
     tables.push(
       $('.data-table').each((_, element) => {
-        $(element).DataTable({
-          dom: 'Blfrtip',
-          paging: false,
-          info: false,
-          lengthChange: false,
-          autoWidth: false,
-          responsive: true,
-          buttons: ["copy", "colvis", 'createState', 'savedStates']
-        }).buttons().container().appendTo('#' + element.id + '_wrapper .col-md-6:eq(0)')
+        $(element)
+          .DataTable({
+            dom: 'Blfrtip',
+            stateSave: true,
+            stateSaveCallback: function (settings, data) {
+              localStorage.setItem(
+                'DataTables_' + settings.sInstance,
+                JSON.stringify(data)
+              )
+            },
+            stateLoadCallback: function (settings) {
+              return JSON.parse(
+                localStorage.getItem('DataTables_' + settings.sInstance)
+              )
+            },
+            paging: false,
+            info: false,
+            lengthChange: false,
+            autoWidth: false,
+            responsive: true,
+            buttons: ['copy', 'colvis', 'createState', 'savedStates'],
+          })
+          .buttons()
+          .container()
+          .appendTo('#' + element.id + '_wrapper .col-md-6:eq(0)')
         const dataSource = $(element).data('report-source')
         const reportPath = $(element).data('report-path')
         if (dataSource && reportPath) {
