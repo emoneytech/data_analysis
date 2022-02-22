@@ -5,6 +5,7 @@
       %th= AlgorithmCalculator.human_attribute_name(:name)
       %th= AlgorithmCalculator.human_attribute_name(:value)
       %th= AlgorithmCalculator.human_attribute_name(:conditional)
+      %th= AlgorithmCalculator.human_attribute_name(:multidimension)
       %th{data: {orderable: "false"}}
   %tbody
     - algorithm_calculators.each do |item|
@@ -13,6 +14,7 @@
         %td= item.name
         %td= item.value
         %td= item.conditional
+        %td= item.multidimension
         %td.md-1.text-center{nowrap: true}
           - if can? :manage, AlgorithmCalculator
             = link_to fa_icon("copy"), [:duplicate, :config, item], class: "btn btn-xs btn-success", data: {toggle: "tooltip", title: t(:duplicate_resource, resource: item.model_name.human)}
