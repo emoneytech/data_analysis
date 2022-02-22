@@ -6,7 +6,7 @@
     .card-tools
       = link_to "#{fa_icon('user')} #{iban.anagrafica}".html_safe, [:customers, iban.anagrafica], class: "btn btn-xs btn-info"
   .card-body
-    %dl.row
+    %dl.form-row
       - for attribute in iban.attributes.keys
         %dt.col-md-4.text-right= attribute.humanize
         %dd.col-md-8= iban.attributes[attribute] && iban.attributes[attribute] != '' && iban.attributes[attribute] != '""'? iban.attributes[attribute].to_s : ' - '

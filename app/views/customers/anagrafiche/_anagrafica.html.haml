@@ -9,7 +9,7 @@
         \- Referral:
         = link_to anagrafica.referral, customers_anagrafica_path(anagrafica.Padre) 
   .card-body.scrollable{style: 'max-height: 400px'}
-    %dl.row
+    %dl.form-row
       - for attribute in anagrafica.attributes.keys
         - unless %w(Password DataPassword).include?(attribute)
           %dt.col-md-4.text-right= attribute.humanize

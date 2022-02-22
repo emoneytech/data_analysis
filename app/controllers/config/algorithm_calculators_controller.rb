@@ -81,16 +81,16 @@ class Config::AlgorithmCalculatorsController < ManagerController
     def algorithm_calculator_params
       params.require(:algorithm_calculator).permit(
         :name,
-        :multidimension,
-        :conditional,
         :result_type,
-        :value, 
+        :value,
+        :default_input_value,
         :presentation,
         :abscissa,
         :abscissa_min,
         :abscissa_max,
         :abscissa_intervall,
-        conditional_var_ids: []
+        conditional_var_ids: [],
+        dimension_ids: []
       )
     end
 end

@@ -5,7 +5,7 @@
     .card-title
       Info
   .card-body
-    %dl.row
+    %dl.form-row
       %dt.col-md-4.text-right= CustomerEvaluation.human_attribute_name(:evaluated_movements)
       %dd.col-md-8
         - if customer_evaluation.nr_movements.to_i > 0

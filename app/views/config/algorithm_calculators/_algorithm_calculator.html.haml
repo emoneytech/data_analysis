@@ -5,17 +5,21 @@
       = config_edit_link(algorithm_calculator)
       = back_link(config_algorithm_calculators_path)
   .card-body
-    %dl.row
+    %dl.form-row
       %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:presentation)
-      %dd.col-md-8= algorithm_calculator.presentation
+      %dd.col-8= algorithm_calculator.presentation
       %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:name)
-      %dd.col-md-8= algorithm_calculator.name
+      %dd.col-8= algorithm_calculator.name
       %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:value)
-      %dd.col-md-8= algorithm_calculator.value
-      %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:multidimension)
-      %dd.col-md-8= algorithm_calculator.multidimension
-      %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:conditional)
-      %dd.col-md-8= algorithm_calculator.conditional
-      %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:conditional_vars)
-      %dd.col-md-8= algorithm_calculator.conditional_vars.to_sentence
+      %dd.col-8= algorithm_calculator.value
+      - if algorithm_calculator.dimensions.any?
+        %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:multidimension)
+        %dd.col-8= algorithm_calculator.multidimension
+        %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:dimensions)
+        %dd.col-8= algorithm_calculator.dimensions.to_sentence
+      - if algorithm_calculator.conditional_vars.any?
+        %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:conditional)
+        %dd.col-8= algorithm_calculator.conditional
+        %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:conditional_vars)
+        %dd.col-8= algorithm_calculator.conditional_vars.to_sentence
 

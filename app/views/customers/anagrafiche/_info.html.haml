@@ -7,7 +7,7 @@
       = link_to 'Observer', customer.observer, class: "btn btn-xs btn-danger" if customer.observer
       = link_to 'Open on Management', "https://management.emoneyplc.biz/Mod_Anagrafica.aspx?op=upd&IdUtente=#{customer.id}", target: '_management', class: "btn btn-xs btn-success"
   .card-body.p-3
-    %dl.row
+    %dl.form-row
       %dt.col-8= Anagrafica.human_attribute_name(:IdUtente)
       %dd.col-4.text-right= customer.id
       %dt.col-8= Anagrafica.human_attribute_name(:broker)

@@ -5,7 +5,7 @@
       #{Mandato.model_name.human} #{@mandato.id}
     .spacer
   .card-body
-    %dl.row
+    %dl.form-row
       - for attribute in mandato.attributes.keys
         %dt.col-md-4.text-right= attribute.humanize
         %dd.col-md-8= mandato.attributes[attribute] && mandato.attributes[attribute] != '' && mandato.attributes[attribute] != '""'? mandato.attributes[attribute].to_s : ' - '

@@ -5,7 +5,7 @@
       = fa_icon ActivityLog.icon 
       #{ActivityLog.model_name.human} #{activity_log.id}
   .card-body
-    %dl.row
+    %dl.form-row
       - for attribute in activity_log.attributes.keys
         %dt.col-md-4.text-right= attribute.humanize
         %dd.col-md-8= activity_log.attributes[attribute] && activity_log.attributes[attribute] != '' && activity_log.attributes[attribute] != '""'? activity_log.attributes[attribute].to_s : ' - '

@@ -6,7 +6,7 @@
     .card-tools
       = link_to fa_icon('edit'), [:edit, :data_analysis, related_country], class: "btn btn-xs btn-warning", data:{toggle: "tooltip"}, title: 'Edit'
   .card-body
-    %dl.row
+    %dl.form-row
       - for attribute in related_country.attributes.keys
         %dt.col-md-4.text-right= attribute.humanize
         %dd.col-md-8= related_country.attributes[attribute]

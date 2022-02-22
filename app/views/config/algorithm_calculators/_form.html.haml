@@ -1,15 +1,11 @@
 .form-row
   .col-md-6= f.input :presentation
-  .col-md-3
-    %label.mb-3> Multidimension?
-    = f.input :multidimension, label: 'Yes'
-  .col-md-3
-    %label.mb-3> Conditional?
-    = f.input :conditional, label: 'Yes'
-.form-row
   .col-md-3= f.input :name
   .col-md-3= f.input :result_type, as: :select, collection: AlgorithmCalculator.result_types
-  .col-md-6= f.input :value, hint: 'es: x ** 4'
+
+.form-row
+  .col-md-8= f.input :value, hint: 'es: x ** 4'
+  .col-md-4= f.input :default_input_value, hint: 'Expected value for abscissa. Es.: 1000 for amount'
 .form-row 
   .col-md-6
     .card.card-info
@@ -17,6 +13,12 @@
         Conditional vars
       .card-body.pb-0.pt-0
         = f.input :conditional_var_ids, label: false, as: :select, collection: ConditionalVar.all, include_blank: false, input_html: {class: 'duallistbox', multiple: "multiple"}
+  .col-md-6
+    .card.card-info
+      .card-header.p-1.pl-2
+        Dimensions
+      .card-body.pb-0.pt-0
+        = f.input :dimension_ids, label: false, as: :select, collection: f.object.siblings, include_blank: false, input_html: {class: 'duallistbox', multiple: "multiple"}
   .col-md-6
     .card.card-info
       .card-header.p-1.pl-2

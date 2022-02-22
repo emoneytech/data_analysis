@@ -7,7 +7,7 @@
       \- #{Date::MONTHNAMES[eval_customer.eval_month]} #{eval_customer.eval_year}
     .card-tools
   .card-body
-    %dl.row
+    %dl.form-row
       %dt.col-md-4.text-right= EvalCustomer.human_attribute_name(:nr_movements)
       %dd.col-md-8
         - if eval_customer.nr_movements.to_i > 0

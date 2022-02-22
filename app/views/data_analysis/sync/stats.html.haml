@@ -6,7 +6,7 @@
         .card-header
           %h3.card-title= "#{item}"
         .card-body
-          %dl.row
+          %dl.form-row
             %dt.col-md-6.text-right= "Last id"
             %dd.col-md-6= item.classify.constantize.last_id
             - result.columns.each_with_index do |column, index|

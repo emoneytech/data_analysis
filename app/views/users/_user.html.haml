@@ -7,7 +7,7 @@
       .card-tools
         = link_to t(:edit_resource, resource: User.model_name.human), edit_user_path(user), class: "btn btn-success btn-xs"
   .card-body
-    %dl.row
+    %dl.form-row
       %dt.col-4.text-right= User.human_attribute_name(:role)
       %dd.col-md-8= user.role
       %dt.col-4.text-right= User.human_attribute_name(:full_name)

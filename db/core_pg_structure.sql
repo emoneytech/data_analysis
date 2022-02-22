@@ -234,14 +234,13 @@ CREATE TABLE public.algorithm_calculators (
     presentation character varying NOT NULL,
     result_type character varying NOT NULL,
     value character varying NOT NULL,
-    multidimension boolean DEFAULT false NOT NULL,
-    conditional boolean DEFAULT false NOT NULL,
     abscissa character varying NOT NULL,
     abscissa_min double precision NOT NULL,
     abscissa_max double precision NOT NULL,
     abscissa_intervall double precision NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    default_input_value double precision DEFAULT 1.01 NOT NULL
 );
 
 
@@ -674,6 +673,38 @@ CREATE TABLE public.messages (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
+
+
+--
+-- Name: multi_dimensions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.multi_dimensions (
+    id bigint NOT NULL,
+    parent_id bigint NOT NULL,
+    dimension_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: multi_dimensions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.multi_dimensions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: multi_dimensions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.multi_dimensions_id_seq OWNED BY public.multi_dimensions.id;
 
 
 --
@@ -1336,6 +1367,13 @@ ALTER TABLE ONLY public.evaluated_movements ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
+-- Name: multi_dimensions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.multi_dimensions ALTER COLUMN id SET DEFAULT nextval('public.multi_dimensions_id_seq'::regclass);
+
+
+--
 -- Name: notifications id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1557,6 +1595,14 @@ ALTER TABLE ONLY public.messages
 
 
 --
+-- Name: multi_dimensions multi_dimensions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.multi_dimensions
+    ADD CONSTRAINT multi_dimensions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: notifications notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1665,6 +1711,13 @@ ALTER TABLE ONLY public.webpush_subscriptions
 --
 
 CREATE INDEX algorithm_calculator_index ON public.algorithm_calculator_conditional_vars USING btree (algorithm_calculator_id);
+
+
+--
+-- Name: algorithm_dimension_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX algorithm_dimension_index ON public.multi_dimensions USING btree (dimension_id, parent_id);
 
 
 --
@@ -2621,6 +2674,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220218111015'),
 ('20220219090004'),
 ('20220219115141'),
-('20220221073704');
+('20220221073704'),
+('20220222101220'),
+('20220222121025'),
+('20220222121811'),
+('20220222121834');
 
 

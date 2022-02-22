@@ -15,7 +15,7 @@
           = " - #{tuple_to_html(@current_tuple)}"
       .card-body
         #inner-content-div
-          %dl.row
+          %dl.form-row
             - start_date.upto end_date do |day|
               %dt.col-md-4.text-right= l(day, format: :compact)
               %dd.col-md-8
