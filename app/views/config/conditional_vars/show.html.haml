@@ -1,6 +1,4 @@
 .row
   .col-md-8
     = render 'conditional_var', conditional_var: @conditional_var, conditional_var: @conditional_var
-    = render '/config/condition_items/condition_items', condition_items: @conditional_var.condition_items
-  .col-md-4
-    = render 'field_props', conditional_var: @conditional_var
+    = render '/config/customer_category_conditional_vars/customer_category_conditional_vars', customer_category_conditional_vars: @conditional_var.customer_category_conditional_vars

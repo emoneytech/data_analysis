@@ -2,14 +2,11 @@
 #
 # Table name: customer_categories
 #
-#  id             :bigint           not null, primary key
-#  field_name     :string           not null
-#  field_operator :string           not null
-#  field_type     :string           not null
-#  name           :string           not null
-#  value          :string           not null
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id         :bigint           not null, primary key
+#  base_risk  :float            not null
+#  name       :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 # Indexes
 #

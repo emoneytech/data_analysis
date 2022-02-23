@@ -1,0 +1,16 @@
+%table.table.table-striped.table-bordered.table-hover.margin-none.data-table{data: {order: '[[1, "asc"]]'}}
+  %thead
+    %tr
+      %th= CustomerCategory.human_attribute_name(:name)
+      %th= CustomerCategory.human_attribute_name(:base_risk)
+      %th= CustomerCategory.human_attribute_name(:count)
+      %th{data: {orderable: "false"}}
+  %tbody
+    - customer_categories.each do |customer_category|
+      %tr
+        %td= customer_category.name
+        %td= customer_category.base_risk
+        %td= "#{customer_category.query_result.count} / #{@all_customers}"
+        %td.md-1.text-center{nowrap: true}
+          - if can? :manage, CustomerCategory
+            = config_links(customer_category)

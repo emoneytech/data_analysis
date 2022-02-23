@@ -1,0 +1,13 @@
+%table.table.table-striped.table-bordered.table-hover.margin-none.data-table{data: {order: [['2', 'asc']]}}
+  %thead
+    %tr
+      %th= CustomerCategoryConditionalVar.human_attribute_name(:customer_category)
+      %th= CustomerCategoryConditionalVar.human_attribute_name(:value)
+      %th= CustomerCategory.human_attribute_name(:result_count)
+  %tbody
+    - customer_category_conditional_vars.each do |item|
+      %tr
+        %td= item.customer_category
+        %td= item.value
+        %td
+          %a{href: "javascript:void(0)", data: {toggle: "popover", title: "SQL", content: "#{item.customer_category.query_result.to_sql}"}}=item.customer_category.query_result.count

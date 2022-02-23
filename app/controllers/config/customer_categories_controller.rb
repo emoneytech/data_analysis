@@ -2,7 +2,7 @@ class Config::CustomerCategoriesController < ManagerController
   add_breadcrumb helpers.raw(
                   "#{helpers.fa_icon(CustomerCategory.icon)} #{CustomerCategory.model_name.human(count: 2)}",
                 ),
-                :customer_categories
+                [:config, :customer_categories]
 
   def index
     @all_customers = Anagrafica.alive.count
@@ -11,7 +11,7 @@ class Config::CustomerCategoriesController < ManagerController
   # GET /customer_categories/1
   # GET /customer_categories/1.json
   def show
-    add_breadcrumb @customer_category.name, :customer_category
+    add_breadcrumb @customer_category.name, [:config, :customer_category]
   end
 
   # GET /customer_categories/new
@@ -30,8 +30,8 @@ class Config::CustomerCategoriesController < ManagerController
 
     respond_to do |format|
       if @customer_category.save
-        format.html { redirect_to @customer_category, notice: 'CustomerCategory was successfully created.' }
-        format.json { render :show, status: :created, location: @customer_category }
+        format.html { redirect_to [:config, @customer_category], notice: 'CustomerCategory was successfully created.' }
+        format.json { render :show, status: :created, location: [:config, @customer_category] }
       else
         format.html { render :new }
         format.json { render json: @customer_category.errors, status: :unprocessable_entity }
@@ -44,8 +44,8 @@ class Config::CustomerCategoriesController < ManagerController
   def update
     respond_to do |format|
       if @customer_category.update(customer_category_params)
-        format.html { redirect_to @customer_category, notice: 'CustomerCategory was successfully updated.' }
-        format.json { render :show, status: :ok, location: @customer_category }
+        format.html { redirect_to [:config, @customer_category], notice: 'CustomerCategory was successfully updated.' }
+        format.json { render :show, status: :ok, location: [:config, @customer_category] }
       else
         format.html { render :edit }
         format.json { render json: @customer_category.errors, status: :unprocessable_entity }
@@ -58,7 +58,7 @@ class Config::CustomerCategoriesController < ManagerController
   def destroy
     @customer_category.destroy
     respond_to do |format|
-      format.html { redirect_to customer_categories_url, notice: 'CustomerCategory was successfully destroyed.' }
+      format.html { redirect_to config_customer_categories_url, notice: 'CustomerCategory was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -71,7 +71,7 @@ class Config::CustomerCategoriesController < ManagerController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def customer_category_params
-      params.require(:customer_category).permit(:name, :field_type, :field_operator, :field_name, :value)
+      params.require(:customer_category).permit(:name, :base_risk)
     end
 end
 

@@ -1,13 +1,12 @@
 class CustomerCategory < CorePgRecord
-  
-  has_one :algorithm_calculator, dependent: :destroy
 
-  validates :field_name, presence: true
-  validates :field_operator, presence: true
-  validates :field_type, presence: true
-  validates :value, presence: true
+  has_many :customer_category_conditional_vars, dependent: :destroy
+  has_many :conditional_vars, through: :customer_category_conditional_vars
 
-  FIELD_TYPES = %w(string number)
+  validates :name, presence: true, uniqueness: true
+  validates :base_risk, presence: true, uniqueness: true
+
+
   
   def to_s
     "#{self.name}"
@@ -16,42 +15,13 @@ class CustomerCategory < CorePgRecord
   def self.icon
     'user-group'
   end
-  
-  FIELD_OPERATORS = %w(between equal major major_or_equal minor minor_or_equal different like)
-  def self.field_operators
-    FIELD_OPERATORS
+
+  def self.field_props
+    Anagrafica.alive.group(:base_risk)
   end
 
-  def self.field_types
-    FIELD_TYPES
-  end
-
-  def field_props
-    Anagrafica.alive.group("#{field_name}")
-  end
-  
   def query_result
-    sql = Anagrafica.alive
-    case self.field_operator
-    when 'between'
-      min, max = self.value.split(',') 
-      sql = sql.where(self.field_name.to_sym => min..max)
-    when 'equal'
-      sql = sql.where("#{self.field_name} = ?", self.value)
-    when 'major'
-      sql = sql.where("#{self.field_name} > ?", self.value)
-    when 'major_or_equal'
-      sql = sql.where("#{self.field_name} >= ?", self.value)
-    when 'minor'
-      sql = sql.where("#{self.field_name} < ?", self.value)
-    when 'minor_or_equal'
-      sql = sql.where("#{self.field_name} <= ?", self.value)
-    when  'different'
-      sql = sql.where("#{self.field_name} != ?", self.value)
-    when 'like'
-      sql = sql.where("#{self.field_name} like ?", "%#{self.value}")
-    end
-    return sql
+    sql = Anagrafica.alive.where("anagrafiche.base_risk = ?", self.base_risk)
   end
 
 end
@@ -60,14 +30,11 @@ end
 #
 # Table name: customer_categories
 #
-#  id             :bigint           not null, primary key
-#  field_name     :string           not null
-#  field_operator :string           not null
-#  field_type     :string           not null
-#  name           :string           not null
-#  value          :string           not null
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id         :bigint           not null, primary key
+#  base_risk  :float            not null
+#  name       :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 # Indexes
 #

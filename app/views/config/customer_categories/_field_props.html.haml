@@ -1,0 +1,16 @@
+.card.card-primary.card-outline
+  .card-header
+    .card-title
+      = fa_icon 'database'
+      = "#{Anagrafica.human_attribute_name(:base_risk)}"
+  .card-body.p-1
+    %table.table.table-striped.table-bordered.table-hover.margin-none.text-center
+      %thead
+        %tr
+          %th= Anagrafica.human_attribute_name(:base_risk)
+          %th= CustomerCategory.human_attribute_name(:count)
+      %tbody
+        - CustomerCategory.field_props.count.each do |item|
+          %tr
+            %td= item[0]
+            %td= item[1]

@@ -3,8 +3,6 @@
     %tr
       %th= ConditionalVar.human_attribute_name(:name)
       %th= ConditionalVar.human_attribute_name(:description)
-      %th= ConditionalVar.human_attribute_name(:field_source_name)
-      %th= ConditionalVar.human_attribute_name(:field_type)
       %th= ConditionalVar.human_attribute_name(:default_value)
       %th{data: {orderable: "false"}}
   %tbody
@@ -12,8 +10,6 @@
       %tr
         %td= item.name
         %td= item.description
-        %td= item.field_source_name
-        %td= item.field_type
         %td= item.default_value
         %td.md-1.text-center{nowrap: true}
           - if can? :manage, ConditionalVar

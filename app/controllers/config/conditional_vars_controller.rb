@@ -14,8 +14,11 @@ class Config::ConditionalVarsController < ManagerController
 
   # GET /conditional_vars/new
   def new
+    add_breadcrumb "new", [:new, :config, :conditional_var]
     @conditional_var = ConditionalVar.new
-    3.times {@conditional_var.condition_items.build}
+    CustomerCategory.all.each do |customer_category|
+      @conditional_var.customer_category_conditional_vars.build(customer_category_id: customer_category.id)
+    end
   end
 
   def duplicate
@@ -77,16 +80,19 @@ class Config::ConditionalVarsController < ManagerController
         :default_value,
         :description,
         :name,
-        :field_source_name,
-        :field_type,
-        condition_items_attributes: [
-          :conditional_var_id,
+        customer_category_conditional_vars_attributes: [
           :id,
-          :eq,
-          :field_operator,
-          :field_value,
+          :conditional_var_id,
+          :customer_category_id,
+          :value,
           :_destroy
         ]
       )
     end
 end
+#  id                   :bigint           not null, primary key
+#  value                :float            not null
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  conditional_var_id   :bigint           not null
+#  customer_category_id :bigint           not null

@@ -187,7 +187,9 @@ Rails
           get :duplicate
         end
       end
-      resources :customer_categories
+      resources :customer_categories do
+        get :duplicate
+      end
     end
     # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   end

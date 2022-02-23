@@ -1,0 +1,15 @@
+.row
+  .col-md-8
+    .card.card-primary.card-outline
+      .card-header
+        .card-title
+          = fa_icon CustomerCategory.icon
+          = t(:listing_resource, resource: CustomerCategory.model_name.human(:count => 2))
+        - if can? :create, CustomerCategory
+          .card-tools= link_to(t(:add_resource, resource: CustomerCategory.model_name.human), [:new, :config, :customer_category], class: "btn btn-xs btn-success") 
+      .card-body
+        = render 'table', customer_categories: @customer_categories
+  .col-md-4
+    = render 'field_props'
+
+        

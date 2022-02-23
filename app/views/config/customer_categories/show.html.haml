@@ -1,0 +1,23 @@
+.row
+  .col-md-8
+    .card.card-primary.card-outline
+      .card-header
+        %h3.card-title= raw "#{fa_icon(CustomerCategory.icon)} #{CustomerCategory.model_name.human}: #{@customer_category.name}"
+        .card-tools
+          = config_edit_link(@customer_category)
+          = back_link(config_customer_categories_path)
+
+      .card-body
+        %dl.row
+          %dt.col-4.text-right= CustomerCategory.human_attribute_name(:name)
+          %dd.col-md-8= @customer_category.name
+          %dt.col-4.text-right= CustomerCategory.human_attribute_name(:base_risk)
+          %dd.col-md-8= @customer_category.base_risk
+          %dt.col-4.text-right= CustomerCategory.human_attribute_name(:count)
+          %dd.col-md-8= @customer_category.query_result.count
+          %dt.col-4.text-right= CustomerCategory.human_attribute_name(:sql)
+          %dd.col-md-8= @customer_category.query_result.to_sql
+          %dt.col-4.text-right= CustomerCategory.human_attribute_name(:all_customers)
+          %dd.col-md-8= Anagrafica.alive.count
+  .col-md-4
+    = render 'field_props'

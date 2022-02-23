@@ -1,0 +1,15 @@
+.row
+  .col-md-12
+    = simple_form_for [:config, @customer_category] do |f|
+      .card.card-success.card-outline
+        .card-header
+          %h3.card-title
+            %i.fa.fa-key
+            = t(:add_resource, resource: CustomerCategory.model_name.human)
+          .card-tools= back_link(config_customer_categories_path)
+        .card-body
+          = render 'form', f: f
+        .card-footer.clearfix.text-right
+          = link_to t(:cancel, default: "Cancel"), config_customer_categories_path, class: "btn btn-warning"
+          = f.submit class: "btn btn-success"
+

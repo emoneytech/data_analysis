@@ -1,0 +1,9 @@
+.card.card-primary.card-outline
+  .card-header
+    .card-title
+      = fa_icon CustomerCategory.icon
+      = t(:listing_resource, resource: CustomerCategoryConditionalVar.model_name.human(:count => 2))
+  .card-body
+    = render 'config/customer_category_conditional_vars/table', customer_category_conditional_vars: customer_category_conditional_vars
+
+    

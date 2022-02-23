@@ -1,0 +1,6 @@
+.card-body.nested-fields.border.m-1.p-2
+  .form-row
+    .col-md-8= f.input :customer_category_id, as: :select, collection: CustomerCategory.all, input_html: {class: "select2", style: "width: 100%;"}
+    .col-md-4= f.input :value
+  .form-row
+    .col-12.text-right= link_to_remove_association "Remove", f, class: 'btn btn-danger btn-sm'

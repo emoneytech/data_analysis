@@ -394,8 +394,6 @@ CREATE TABLE public.conditional_vars (
     id bigint NOT NULL,
     name character varying NOT NULL,
     description character varying NOT NULL,
-    field_source_name character varying NOT NULL,
-    field_type character varying NOT NULL,
     default_value character varying DEFAULT '1'::character varying NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
@@ -460,12 +458,9 @@ ALTER SEQUENCE public.configurables_id_seq OWNED BY public.configurables.id;
 CREATE TABLE public.customer_categories (
     id bigint NOT NULL,
     name character varying NOT NULL,
-    field_name character varying NOT NULL,
-    field_type character varying NOT NULL,
-    value character varying NOT NULL,
+    base_risk double precision NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    field_operator character varying NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -486,6 +481,39 @@ CREATE SEQUENCE public.customer_categories_id_seq
 --
 
 ALTER SEQUENCE public.customer_categories_id_seq OWNED BY public.customer_categories.id;
+
+
+--
+-- Name: customer_category_conditional_vars; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.customer_category_conditional_vars (
+    id bigint NOT NULL,
+    customer_category_id bigint NOT NULL,
+    conditional_var_id bigint NOT NULL,
+    value double precision NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: customer_category_conditional_vars_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.customer_category_conditional_vars_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: customer_category_conditional_vars_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.customer_category_conditional_vars_id_seq OWNED BY public.customer_category_conditional_vars.id;
 
 
 --
@@ -1339,6 +1367,13 @@ ALTER TABLE ONLY public.customer_categories ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
+-- Name: customer_category_conditional_vars id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.customer_category_conditional_vars ALTER COLUMN id SET DEFAULT nextval('public.customer_category_conditional_vars_id_seq'::regclass);
+
+
+--
 -- Name: customer_evaluations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1555,6 +1590,14 @@ ALTER TABLE ONLY public.customer_categories
 
 
 --
+-- Name: customer_category_conditional_vars customer_category_conditional_vars_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.customer_category_conditional_vars
+    ADD CONSTRAINT customer_category_conditional_vars_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: customer_evaluations customer_evaluations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1746,6 +1789,20 @@ CREATE INDEX auditable_index ON public.audits USING btree (auditable_type, audit
 --
 
 CREATE INDEX conditional_var_index ON public.algorithm_calculator_conditional_vars USING btree (conditional_var_id);
+
+
+--
+-- Name: conditional_var_on_var_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX conditional_var_on_var_index ON public.customer_category_conditional_vars USING btree (conditional_var_id);
+
+
+--
+-- Name: customer_category_on_var_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX customer_category_on_var_index ON public.customer_category_conditional_vars USING btree (customer_category_id);
 
 
 --
@@ -2549,6 +2606,14 @@ ALTER TABLE ONLY public.comments
 
 
 --
+-- Name: customer_category_conditional_vars fk_rails_35151783a2; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.customer_category_conditional_vars
+    ADD CONSTRAINT fk_rails_35151783a2 FOREIGN KEY (conditional_var_id) REFERENCES public.conditional_vars(id);
+
+
+--
 -- Name: algorithm_calculator_conditional_vars fk_rails_36283ca121; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2602,6 +2667,14 @@ ALTER TABLE ONLY public.activity_logs
 
 ALTER TABLE ONLY public.sanction_list_items
     ADD CONSTRAINT fk_rails_dd2a218e4b FOREIGN KEY (sanction_list_id) REFERENCES public.sanction_lists(id);
+
+
+--
+-- Name: customer_category_conditional_vars fk_rails_de9b64a6b4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.customer_category_conditional_vars
+    ADD CONSTRAINT fk_rails_de9b64a6b4 FOREIGN KEY (customer_category_id) REFERENCES public.customer_categories(id);
 
 
 --
@@ -2678,6 +2751,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220222101220'),
 ('20220222121025'),
 ('20220222121811'),
-('20220222121834');
+('20220222121834'),
+('20220223090512'),
+('20220223094802');
 
 
