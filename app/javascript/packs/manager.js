@@ -72,18 +72,6 @@ document.addEventListener("turbolinks:load", () => {
         $(element)
           .DataTable({
             dom: 'Blfrtip',
-            stateSave: true,
-            stateSaveCallback: function (settings, data) {
-              localStorage.setItem(
-                'DataTables_' + settings.sInstance,
-                JSON.stringify(data)
-              )
-            },
-            stateLoadCallback: function (settings) {
-              return JSON.parse(
-                localStorage.getItem('DataTables_' + settings.sInstance)
-              )
-            },
             paging: false,
             info: false,
             lengthChange: false,
