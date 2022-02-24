@@ -42,7 +42,8 @@
   },
   "version": "0.1.0",
   "devDependencies": {
-    "node-sass": "^7.0.1",
+    "node-sass": "4.14.1",
+    "sass-loader": "8.x",
     "webpack-dev-server": "^4.6.0"
   },
   "resolutions": {
