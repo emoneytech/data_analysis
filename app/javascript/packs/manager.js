@@ -13,7 +13,7 @@ import 'bootstrap'
 import './plugins/bootstrap-switch/js/bootstrap-switch'
 import './plugins/bootstrap-switch/css/bootstrap4/bootstrap-switch.min.css'
 
-import '../stylesheets/application'
+require('../stylesheets/application.scss')
 import "@fortawesome/fontawesome-free/js/all"
 import "chartkick/chart.js"
 import "../plugins/index.js"
@@ -57,15 +57,10 @@ window.$ = $
 const tables = []
 window.tables = tables
 
-document.addEventListener("turbolinks:load", () => {
-  $('[data-toggle="tooltip"]').tooltip()
-  $('[data-toggle="popover"]').popover()
-  $('.select2').select2({ theme: 'bootstrap4' })
-
-  setTimeout(function () {
-    $(window).trigger('resize')
-  }, 10)
-
+function initMyTables() {
+  while (tables.length !== 0) {
+    tables.pop().remove()
+  }
   if (tables.length === 0 && $('.data-table').length !== 0) {
     tables.push(
       $('.data-table').each((_, element) => {
@@ -124,10 +119,19 @@ document.addEventListener("turbolinks:load", () => {
       })
     )
   }
+}
+
+document.addEventListener("turbolinks:load", () => {
+  $('[data-toggle="tooltip"]').tooltip()
+  $('[data-toggle="popover"]').popover()
+  $('.select2').select2({ theme: 'bootstrap4' })
+  setTimeout(function () {
+    $(window).trigger('resize')
+    initMyTables()
+  }, 10)
+
 })
 
 document.addEventListener("turbolinks:before-cache", () => {
-  while (tables.length !== 0) {
-    tables.pop().remove()
-  }
+
 })
