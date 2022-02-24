@@ -8,15 +8,16 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 require('admin-lte')
+require('../stylesheets/application.scss')
 
 import 'bootstrap'
 import './plugins/bootstrap-switch/js/bootstrap-switch'
 import './plugins/bootstrap-switch/css/bootstrap4/bootstrap-switch.min.css'
 
-require('../stylesheets/application.scss')
+
 import "@fortawesome/fontawesome-free/js/all"
 import "chartkick/chart.js"
-import "../plugins/index.js"
+
 
 require("jquery")
 require('select2')
