@@ -31,7 +31,7 @@ class ConditionalVar < CorePgRecord
   end
   
   def values
-    self.customer_categories.map{|item| item.base_risk }
+    self.customer_category_conditional_vars.map{|item| item.value }
   end
 
   private

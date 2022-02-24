@@ -2,3 +2,20 @@
   .col-md-8
     = render 'conditional_var', conditional_var: @conditional_var, conditional_var: @conditional_var
     = render '/config/customer_category_conditional_vars/customer_category_conditional_vars', customer_category_conditional_vars: @conditional_var.customer_category_conditional_vars
+  .col-md-4
+    .card.card-primary.card-outline
+      .card-header
+        .card-title
+          = fa_icon AlgorithmCalculator.icon
+          = AlgorithmCalculator.model_name.human
+      .card-body.p-1
+        %table.table.table-striped.table-bordered.table-hover.margin-none
+          %thead
+            %tr
+              %th= AlgorithmCalculator.human_attribute_name(:presentation)
+              %th= AlgorithmCalculator.human_attribute_name(:value)
+          %tbody
+            - @conditional_var.algorithm_calculators.each do |item|
+              %tr
+                %td= link_to item.presentation, [:config, item]
+                %td= item.value

@@ -8,13 +8,6 @@
         0.00
   .card-body
     = simple_form_for :algorithm, html: {id: "algorithm_calculator_form_#{algorithm_calculator.name}", class: "#{algorithm_calculator.name}"}, remote: false do |f|
-      - if algorithm_calculator.conditional_vars.any?
-        .form-row 
-          - algorithm_calculator.conditional_vars.each do |conditional_var|
-            .col-md-4
-              = f.input conditional_var.name, collection: conditional_var.values,  |
-                as: :select, |
-                input_html: {class: "select2 conditional_items #{algorithm_calculator.name}", style: "width: 100%;", name: conditional_var.name}, include_blank: false
       .form-row
         .col-4
           = f.input :input, as: algorithm_calculator.result_type, label: false, input_html: {value: "#{algorithm_calculator.default_input_value}", class: "#{algorithm_calculator.name}"}
@@ -28,11 +21,7 @@
 :javascript
 
   function algorithm_eq_#{algorithm_calculator.name}() {
-    let str = "#{algorithm_calculator.value}"
-    console.log(str)
-    $('.conditional_items').each(function(i, obj) {
-      str = str.replace(obj.name, $(obj).find('option:selected').text())
-    })
+    let str = "#{algorithm_calculator.default_eq}"
     $("input#algorithm_calculator_eq.#{algorithm_calculator.name}").val(str)
     return str
   }

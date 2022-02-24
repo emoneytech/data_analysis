@@ -41,16 +41,22 @@ class AlgorithmCalculator < CorePgRecord
     RESULT_TYPES
   end
 
+=begin
+  def default_value
+    eq = self.value
+    names = self.dimensions.pluck(:name)
+    "1"
+  end
+
+  def calculate_factor(eq, opts)
+    calculator = Keisan::Calculator.new
+    calculator.evaluate(eq, opts)
+  end
+=end
   def default_eq
     eq = self.value
-    if self.conditional
-      el = self.value.split
-      names = ConditionalVar.all.pluck(:name)
-      ary = el.intersection(names)
-      ary.each do |name|
-        val = ConditionalVar.default_value(name)
-        eq.gsub!(name, val)
-      end
+    self.conditional_vars.each do |v|
+      eq.gsub!(v.name, v.default_value)
     end
     return eq
   end
