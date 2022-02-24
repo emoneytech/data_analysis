@@ -15,6 +15,6 @@
               = link_to fa_icon('exchange-alt'), data_analysis_movimenticonti_path(params: opts), class: "btn btn-xs btn-success"
               = link_to fa_icon('microchip'), data_analysis_servizi_path(params: opts), class: "btn btn-xs btn-success"
               = link_to fa_icon('search-dollar'), data_analysis_evaluated_movements_path(params: opts), class: "btn btn-xs btn-success"
-              = link_to fa_icon('file-excel'), reports_data_analysis_servizi_path(params: opts), class: "btn btn-xs btn-success"
+              = link_to fa_icon('file-excel'), reports_data_analysis_servizi_path(params: {filter: {customer_id: @anagrafica.id, daterange: year_to_daterange(year.year), status: 8}}), class: "btn btn-xs btn-success"
               =# render 'form_report', daterange: daterange
 

@@ -288,7 +288,7 @@ class Anagrafica < ApplicationCoreRecord
             "(`anagrafiche`.`Attivo` <> 6) AND (`anagrafiche`.`IdTipo` in (3, 9, 2)) AND (`anagrafiche`.`Codicefiscale` <> '')",
           )
         }
-  scope :active, -> { where.not('anagrafiche.IdUtente' => %w[70 75 34221]) }
+  # scope :active, -> { where.not('anagrafiche.IdUtente' => %w[70 75 34221]) }
 
   ######################## da verificare
   scope :alive,
@@ -299,6 +299,16 @@ class Anagrafica < ApplicationCoreRecord
             .where
             .not('anagrafiche.IdUtente' => %w[70 75 34221])
             .where('anagrafiche.Attivo' => [1, 4])
+            .where
+            .not('anagrafiche.created' => nil)
+        }
+  scope :active,
+        -> {
+          joins(:conti)
+            .distinct
+            .where('anagrafiche.tipo' => Tipo.alive.pluck(:id))
+            .where
+            .not('anagrafiche.IdUtente' => %w[70 75 34221])
             .where
             .not('anagrafiche.created' => nil)
         }

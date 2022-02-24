@@ -5,19 +5,9 @@ module Customers
 
     def index
       @anagrafiche = Anagrafica.filter(filtering_params)
-      @anagrafiche = @anagrafiche.alive.active.order(DataLastUpdate: :desc).page(params[:page]).per(params[:per])
+      @anagrafiche = @anagrafiche.active.order(DataLastUpdate: :desc).page(params[:page]).per(params[:per])
     end
-=begin
-    def index
-      @anagrafiche = []
-      respond_to do |format|
-        format.html
-        format.json { 
-          render json: AnagraficaDatatable.new(params, view_context: view_context)
-        }
-      end
-    end
-=end
+
     def show
       @current_tuple = eval "[#{Date.today.year}, #{Date.today.month}]"
       @anagrafica.set_current_place unless @anagrafica.current_place
