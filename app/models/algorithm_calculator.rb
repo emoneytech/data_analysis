@@ -1,10 +1,10 @@
 class AlgorithmCalculator < CorePgRecord
   
+  has_many :algorithm_algorithm_calculators, dependent: :destroy
+  has_many :algorithms, through: :algorithm_algorithm_calculators
+
   has_many :algorithm_calculator_conditional_vars, dependent: :destroy
   has_many :conditional_vars, through: :algorithm_calculator_conditional_vars
-
-  has_many :multi_dimensions, dependent: :destroy, foreign_key: :parent_id
-  has_many :dimensions, through: :multi_dimensions, source: :dimension
 
   amoeba do
     enable
@@ -41,18 +41,14 @@ class AlgorithmCalculator < CorePgRecord
     RESULT_TYPES
   end
 
-=begin
   def default_value
-    eq = self.value
-    names = self.dimensions.pluck(:name)
-    "1"
+    opts = self.conditional_vars.map{|v| ["#{v.name}", v.default_value.to_f]}.to_h
+    opts[self.abscissa] = self.default_input_value.to_f
+    calculator = Keisan::Calculator.new
+    calculator.evaluate(self.value, opts)
   end
 
-  def calculate_factor(eq, opts)
-    calculator = Keisan::Calculator.new
-    calculator.evaluate(eq, opts)
-  end
-=end
+
   def default_eq
     eq = self.value
     self.conditional_vars.each do |v|
@@ -61,13 +57,10 @@ class AlgorithmCalculator < CorePgRecord
     return eq
   end
 
-  def multidimension
-    dimensions.any?
-  end
-
   def conditional
     conditional_vars.any?
   end
+  
 end
 
 # == Schema Information

@@ -182,6 +182,11 @@ Rails
           get :duplicate
         end
       end
+      resources :algorithms do
+        member do
+          get :duplicate
+        end
+      end
       resources :algorithm_calculators do
         member do
           get :duplicate

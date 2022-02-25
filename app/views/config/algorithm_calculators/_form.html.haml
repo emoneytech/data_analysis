@@ -16,12 +16,6 @@
   .col-md-6
     .card.card-info
       .card-header.p-1.pl-2
-        Dimensions
-      .card-body.pb-0.pt-0
-        = f.input :dimension_ids, label: false, as: :select, collection: f.object.siblings, include_blank: false, input_html: {class: 'duallistbox', multiple: "multiple"}
-  .col-md-6
-    .card.card-info
-      .card-header.p-1.pl-2
         Graphics
       .card-body
         .form-row

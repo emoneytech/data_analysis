@@ -90,9 +90,3 @@ class Config::ConditionalVarsController < ManagerController
       )
     end
 end
-#  id                   :bigint           not null, primary key
-#  value                :float            not null
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  conditional_var_id   :bigint           not null
-#  customer_category_id :bigint           not null

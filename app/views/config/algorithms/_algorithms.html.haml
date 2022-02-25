@@ -1,0 +1,10 @@
+.card.card-primary.card-outline
+  .card-header
+    .card-title
+      = fa_icon Algorithm.icon
+      = t(:listing_resource, resource: Algorithm.model_name.human(:count => 2))
+    - if can? :create, Algorithm
+      .card-tools= link_to(t(:add_resource, resource: Algorithm.model_name.human), [:new, :config, :algorithm], class: "btn btn-xs btn-success") 
+  .card-body
+    = render 'config/algorithms/table', algorithms: algorithms
+    

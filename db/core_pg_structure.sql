@@ -193,6 +193,39 @@ ALTER SEQUENCE public.activity_logs_id_seq OWNED BY public.activity_logs.id;
 
 
 --
+-- Name: algorithm_algorithm_calculators; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.algorithm_algorithm_calculators (
+    id bigint NOT NULL,
+    algorithm_id bigint NOT NULL,
+    algorithm_calculator_id bigint NOT NULL,
+    abscissa boolean DEFAULT false NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: algorithm_algorithm_calculators_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.algorithm_algorithm_calculators_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: algorithm_algorithm_calculators_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.algorithm_algorithm_calculators_id_seq OWNED BY public.algorithm_algorithm_calculators.id;
+
+
+--
 -- Name: algorithm_calculator_conditional_vars; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -261,6 +294,40 @@ CREATE SEQUENCE public.algorithm_calculators_id_seq
 --
 
 ALTER SEQUENCE public.algorithm_calculators_id_seq OWNED BY public.algorithm_calculators.id;
+
+
+--
+-- Name: algorithms; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.algorithms (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    presentation character varying NOT NULL,
+    eq character varying NOT NULL,
+    "default" boolean DEFAULT false NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: algorithms_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.algorithms_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: algorithms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.algorithms_id_seq OWNED BY public.algorithms.id;
 
 
 --
@@ -701,38 +768,6 @@ CREATE TABLE public.messages (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
-
-
---
--- Name: multi_dimensions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.multi_dimensions (
-    id bigint NOT NULL,
-    parent_id bigint NOT NULL,
-    dimension_id bigint NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
--- Name: multi_dimensions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.multi_dimensions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: multi_dimensions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.multi_dimensions_id_seq OWNED BY public.multi_dimensions.id;
 
 
 --
@@ -1311,6 +1346,13 @@ ALTER TABLE ONLY public.activity_logs ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: algorithm_algorithm_calculators id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.algorithm_algorithm_calculators ALTER COLUMN id SET DEFAULT nextval('public.algorithm_algorithm_calculators_id_seq'::regclass);
+
+
+--
 -- Name: algorithm_calculator_conditional_vars id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1322,6 +1364,13 @@ ALTER TABLE ONLY public.algorithm_calculator_conditional_vars ALTER COLUMN id SE
 --
 
 ALTER TABLE ONLY public.algorithm_calculators ALTER COLUMN id SET DEFAULT nextval('public.algorithm_calculators_id_seq'::regclass);
+
+
+--
+-- Name: algorithms id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.algorithms ALTER COLUMN id SET DEFAULT nextval('public.algorithms_id_seq'::regclass);
 
 
 --
@@ -1399,13 +1448,6 @@ ALTER TABLE ONLY public.eval_customers ALTER COLUMN id SET DEFAULT nextval('publ
 --
 
 ALTER TABLE ONLY public.evaluated_movements ALTER COLUMN id SET DEFAULT nextval('public.evaluated_movements_id_seq'::regclass);
-
-
---
--- Name: multi_dimensions id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.multi_dimensions ALTER COLUMN id SET DEFAULT nextval('public.multi_dimensions_id_seq'::regclass);
 
 
 --
@@ -1518,6 +1560,14 @@ ALTER TABLE ONLY public.activity_logs
 
 
 --
+-- Name: algorithm_algorithm_calculators algorithm_algorithm_calculators_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.algorithm_algorithm_calculators
+    ADD CONSTRAINT algorithm_algorithm_calculators_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: algorithm_calculator_conditional_vars algorithm_calculator_conditional_vars_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1531,6 +1581,14 @@ ALTER TABLE ONLY public.algorithm_calculator_conditional_vars
 
 ALTER TABLE ONLY public.algorithm_calculators
     ADD CONSTRAINT algorithm_calculators_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: algorithms algorithms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.algorithms
+    ADD CONSTRAINT algorithms_pkey PRIMARY KEY (id);
 
 
 --
@@ -1638,14 +1696,6 @@ ALTER TABLE ONLY public.messages
 
 
 --
--- Name: multi_dimensions multi_dimensions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.multi_dimensions
-    ADD CONSTRAINT multi_dimensions_pkey PRIMARY KEY (id);
-
-
---
 -- Name: notifications notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1750,6 +1800,13 @@ ALTER TABLE ONLY public.webpush_subscriptions
 
 
 --
+-- Name: algorithm_calc_references_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX algorithm_calc_references_index ON public.algorithm_algorithm_calculators USING btree (algorithm_calculator_id);
+
+
+--
 -- Name: algorithm_calculator_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1757,10 +1814,10 @@ CREATE INDEX algorithm_calculator_index ON public.algorithm_calculator_condition
 
 
 --
--- Name: algorithm_dimension_index; Type: INDEX; Schema: public; Owner: -
+-- Name: algorithm_references_index; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX algorithm_dimension_index ON public.multi_dimensions USING btree (dimension_id, parent_id);
+CREATE INDEX algorithm_references_index ON public.algorithm_algorithm_calculators USING btree (algorithm_id);
 
 
 --
@@ -1782,6 +1839,13 @@ CREATE UNIQUE INDEX attention_factor_for_month_index ON public.eval_customers US
 --
 
 CREATE INDEX auditable_index ON public.audits USING btree (auditable_type, auditable_id, version);
+
+
+--
+-- Name: calculator_algorithm_unique_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX calculator_algorithm_unique_index ON public.algorithm_algorithm_calculators USING btree (algorithm_id, algorithm_calculator_id);
 
 
 --
@@ -1862,10 +1926,31 @@ CREATE INDEX index_activity_logs_on_user_id ON public.activity_logs USING btree 
 
 
 --
+-- Name: index_algorithm_algorithm_calculators_on_abscissa; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_algorithm_algorithm_calculators_on_abscissa ON public.algorithm_algorithm_calculators USING btree (abscissa);
+
+
+--
 -- Name: index_algorithm_calculators_on_name; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_algorithm_calculators_on_name ON public.algorithm_calculators USING btree (name);
+
+
+--
+-- Name: index_algorithms_on_default; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_algorithms_on_default ON public.algorithms USING btree ("default");
+
+
+--
+-- Name: index_algorithms_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_algorithms_on_name ON public.algorithms USING btree (name);
 
 
 --
@@ -2598,6 +2683,14 @@ ALTER TABLE ONLY public.comments
 
 
 --
+-- Name: algorithm_algorithm_calculators fk_rails_0aed5b6bab; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.algorithm_algorithm_calculators
+    ADD CONSTRAINT fk_rails_0aed5b6bab FOREIGN KEY (algorithm_calculator_id) REFERENCES public.algorithm_calculators(id);
+
+
+--
 -- Name: comments fk_rails_1464654aa4; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2627,6 +2720,14 @@ ALTER TABLE ONLY public.algorithm_calculator_conditional_vars
 
 ALTER TABLE ONLY public.algorithm_calculator_conditional_vars
     ADD CONSTRAINT fk_rails_5839626e26 FOREIGN KEY (conditional_var_id) REFERENCES public.conditional_vars(id);
+
+
+--
+-- Name: algorithm_algorithm_calculators fk_rails_6e9842020a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.algorithm_algorithm_calculators
+    ADD CONSTRAINT fk_rails_6e9842020a FOREIGN KEY (algorithm_id) REFERENCES public.algorithms(id);
 
 
 --
@@ -2748,11 +2849,12 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220219090004'),
 ('20220219115141'),
 ('20220221073704'),
-('20220222101220'),
 ('20220222121025'),
 ('20220222121811'),
 ('20220222121834'),
 ('20220223090512'),
-('20220223094802');
+('20220223094802'),
+('20220225071705'),
+('20220225072048');
 
 

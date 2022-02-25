@@ -1,0 +1,15 @@
+= errors_for(f.object)
+.form-row
+  .col-md-2= f.input :presentation
+  .col-md-2= f.input :name
+  .col-md-6= f.input :eq, hint: 'es: (alpha_factor ** beta_factor) * delta_factor'
+  .col-md-2= f.input :default, as: :select
+
+#algorithm_algorithm_calculators.card.card-info
+  .card-header.p-1.pl-2
+    .cadr-title=AlgorithmCalculator.model_name.human(count: 2)
+  = f.simple_fields_for :algorithm_algorithm_calculators do |algorithm_algorithm_calculator|
+    = render 'algorithm_algorithm_calculator_fields', f: algorithm_algorithm_calculator
+  .card-footer.links.text-right
+    = link_to_add_association "Add #{AlgorithmCalculator.model_name.human}", f, :algorithm_algorithm_calculators, class: 'btn btn-success btn-sm'
+

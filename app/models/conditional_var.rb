@@ -3,6 +3,8 @@ class ConditionalVar < CorePgRecord
   has_many :algorithm_calculator_conditional_vars, dependent: :destroy
   has_many :algorithm_calculators, through: :algorithm_calculator_conditional_vars
   
+  before_destroy :check_algorithm_calculators_presence
+
   has_many :customer_category_conditional_vars, dependent: :destroy
   accepts_nested_attributes_for :customer_category_conditional_vars, reject_if: :all_blank, allow_destroy: true
   
@@ -40,6 +42,10 @@ class ConditionalVar < CorePgRecord
     if self.customer_category_conditional_vars.size != CustomerCategory.count
       errors.add(:customer_categories, "Insert a value for all categories")
     end
+  end
+
+  def check_algorithm_calculators_presence
+    return false if self.algorithm_calculators.any?
   end
 
 end

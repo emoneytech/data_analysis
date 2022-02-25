@@ -2,7 +2,4 @@
   .col-md-12
     = render 'algorithm_calculator', algorithm_calculator: @algorithm_calculator
   .col-md-12
-    - if @algorithm_calculator.multidimension 
-      = render 'plot_dimensions', algorithm_calculator: @algorithm_calculator
-    - else
-      = render 'plot', algorithm_calculator: @algorithm_calculator
+    = render 'plot', algorithm_calculator: @algorithm_calculator

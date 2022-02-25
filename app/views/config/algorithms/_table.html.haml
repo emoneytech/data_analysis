@@ -1,19 +1,17 @@
 %table.table.table-striped.table-bordered.table-hover.margin-none.data-table
   %thead
     %tr
-      %th= AlgorithmCalculator.human_attribute_name(:presentation)
-      %th= AlgorithmCalculator.human_attribute_name(:name)
-      %th= AlgorithmCalculator.human_attribute_name(:value)
-      %th= AlgorithmCalculator.human_attribute_name(:conditional)
+      %th= Algorithm.human_attribute_name(:presentation)
+      %th= Algorithm.human_attribute_name(:name)
+      %th= Algorithm.human_attribute_name(:eq)
       %th{data: {orderable: "false"}}
   %tbody
-    - algorithm_calculators.each do |item|
+    - algorithms.each do |item|
       %tr
         %td= item.presentation
         %td= item.name
-        %td= item.value
-        %td= item.conditional
+        %td= item.eq
         %td.md-1.text-center{nowrap: true}
-          - if can? :manage, AlgorithmCalculator
+          - if can? :manage, Algorithm
             = link_to fa_icon("copy"), [:duplicate, :config, item], class: "btn btn-xs btn-success", data: {toggle: "tooltip", title: t(:duplicate_resource, resource: item.model_name.human)}
             = config_links(item)

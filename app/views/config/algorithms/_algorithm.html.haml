@@ -1,0 +1,17 @@
+.card.card-primary.card-outline
+  .card-header
+    %h3.card-title= raw "#{fa_icon(Algorithm.icon)} #{Algorithm.model_name.human}: #{algorithm.presentation}"
+    .card-tools
+      = config_edit_link(algorithm)
+      = back_link(config_algorithm_calculators_path)
+  .card-body
+    %dl.form-row
+      %dt.col-4.text-right= Algorithm.human_attribute_name(:presentation)
+      %dd.col-8= algorithm.presentation
+      %dt.col-4.text-right= Algorithm.human_attribute_name(:name)
+      %dd.col-8= algorithm.name
+      %dt.col-4.text-right= Algorithm.human_attribute_name(:eq)
+      %dd.col-8= algorithm.eq
+      %dt.col-4.text-right= Algorithm.human_attribute_name(:value)
+      %dd.col-8= algorithm.value
+
