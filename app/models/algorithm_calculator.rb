@@ -5,6 +5,7 @@ class AlgorithmCalculator < CorePgRecord
 
   has_many :algorithm_calculator_conditional_vars, dependent: :destroy
   has_many :conditional_vars, through: :algorithm_calculator_conditional_vars
+  has_many :customer_categories, ->{distinct}, through: :conditional_vars
 
   amoeba do
     enable

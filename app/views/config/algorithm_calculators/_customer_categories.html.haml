@@ -1,0 +1,10 @@
+.card.card-primary.card-outline.mb-2
+  .card-header
+    .card-title
+      = fa_icon CustomerCategory.icon
+      = CustomerCategory.model_name.human(:count => 2)
+  .card-body.p-1
+    = simple_form_for :customer_category, method: :get, html: {id: "customer_category_#{algorithm_calculator.name}", class: "#{algorithm_calculator.name}"}, remote: false do |f|
+      - if algorithm_calculator.conditional_vars.any?
+        = f.input :customer_category, as: :select, label: false, collection: customer_categories, input_html: {class: "select2", style: "width: 100%;"}, wrapper_html: {class: "m-0"}, include_blank: false
+

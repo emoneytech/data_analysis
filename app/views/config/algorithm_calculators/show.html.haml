@@ -1,5 +1,8 @@
-.row
-  .col-md-12
+.form-row
+  .col-md-8
     = render 'algorithm_calculator', algorithm_calculator: @algorithm_calculator
+  .col-md-4
+    = render 'customer_categories', customer_categories: @algorithm_calculator.customer_categories, algorithm_calculator: @algorithm_calculator
+    = render 'conditional_vars', conditional_vars: @algorithm_calculator.conditional_vars
   .col-md-12
     = render 'plot', algorithm_calculator: @algorithm_calculator
