@@ -1,6 +1,6 @@
 .card-body.nested-fields.border.m-1.p-2
   .form-row
-    .col-md-8= f.input :algorithm_calculator_id, as: :select, collection: AlgorithmCalculator.all, input_html: {class: "select2", style: "width: 100%;"}
-    .col-md-4= f.input :abscissa, as: :select
+    .col-md-8= f.input :algorithm_calculator_id, as: :select, collection: AlgorithmCalculator.all, input_html: {class: "select2", style: "width: 100%;"}, include_blank: false
+    .col-md-4= f.input :abscissa, as: :select, input_html: {class: "select2", style: "width: 100%;"}, include_blank: false
   .form-row
     .col-12.text-right= link_to_remove_association "Remove", f, class: 'btn btn-danger btn-sm'

@@ -5,9 +5,20 @@
       = ConditionalVar.model_name.human(:count => 2)
   .card-body.p-1
     %table.table.table-striped.table-bordered.table-hover.margin-none
+      %thead
+        %tr
+          %th= AlgorithmCalculator.human_attribute_name(:conditional_vars)
+          %th= AlgorithmCalculator.human_attribute_name(:default_value)
+          - algorithm_calculator.customer_categories.each do |v|
+            %th= v.name
       %tbody
         - conditional_vars.each do |item|
           %tr
-            %td= item.name
+            %td
+              = config_edit_link(item)
+              = config_show_link(item)
+              = item.name
             %td= item.default_value
+            - algorithm_calculator.customer_categories.each do |customer_category|
+              %td= item.customer_category_conditional_vars.find_by_customer_category_id(customer_category.id).try(:value)
     

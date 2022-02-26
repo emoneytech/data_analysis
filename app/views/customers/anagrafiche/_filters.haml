@@ -8,12 +8,12 @@
         %i.fas{class: " #{ params[:filter] ? 'fa-minus' : 'fa-plus'}" }
   .card-body
     = simple_form_for :filter, method: :get, remote: false do |f|
-      .row
+      .form-row
         .col-md-3= f.input :customer_id, label: 'Cusomer ID', required: false, input_html: {value: "#{params[:filter][:customer_id] if params[:filter]}"}
         .col-md-3= f.input :full_name, required: false, input_html: {value: "#{params[:filter][:full_name] if params[:filter]}"}
         .col-md-3= f.input :vendor, required: false, input_html: {value: "#{params[:filter][:vendor] if params[:filter]}"}
         .col-md-3= f.input :fiscal_code, required: false, input_html: {value: "#{params[:filter][:fiscal_code] if params[:filter]}"}
-      .row
+      .form-row
         .col-md-3= f.input :status, as: :select, collection: Stato.all, required: false, input_html: {value: "#{params[:filter][:status] if params[:status]}"}
         .col-md-3= f.input :min_base_risk, required: false, input_html: {value: "#{params[:filter][:min_base_risk] if params[:filter]}"}
         .col-md-3= f.input :max_base_risk, required: false, input_html: {value: "#{params[:filter][:max_base_risk] if params[:filter]}"}

@@ -11,7 +11,7 @@
         %dt.col-md-4.text-right= attribute.humanize
         %dd.col-md-8= related_country.attributes[attribute]
   .card-footer
-    .row
+    .form-row
       .col-md-6
         = link_to 'Prev', [:data_analysis, @prev] unless @prev.blank?
       .col-md-6.text-right

@@ -1,4 +1,4 @@
-.row
+.form-row
   .col-md-12
     .card
       .card-header
@@ -10,4 +10,4 @@
           = f.input :q, label: 'Full Name', html_input: {value: params[:q]}
           = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-success'
 
-#relazioni_anagrafiche_items.row= render "relazioni_anagrafiche", relazioni_anagrafiche: @relazioni_anagrafiche
+#relazioni_anagrafiche_items.form-row= render "relazioni_anagrafiche", relazioni_anagrafiche: @relazioni_anagrafiche

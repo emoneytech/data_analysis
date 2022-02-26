@@ -9,7 +9,7 @@
       %button{type: "button", class: "btn btn-tool", "data-card-widget" => "collapse"}
         %i.fas.fa-minus
   .card-body
-    .row
+    .form-row
       .col-md-12.text-right
         .btn-group
           = link_to_function 'All 7', "getRecursions('all_7')", class: "btn-recursions btn btn-info btn-sm active", id:'all_7'
@@ -19,6 +19,6 @@
         
       .col-md-12
         = column_chart chart_data_analysis_recursions_path(key: 'all_7'), remote: true, stacked: true, legend: false, id: 'recursions-chart', height: '500px'
-    .row
+    .form-row
       .col-md-12.p-3
         = render 'table'

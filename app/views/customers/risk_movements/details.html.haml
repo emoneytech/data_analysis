@@ -5,7 +5,7 @@
 - danger_movements_to_html = @anagrafica.danger_movements_to_html(@current_tuple)
 - danger_movement_ids = @anagrafica.danger_movement_ids(@current_tuple)
 - risk_for_month = {}
-.row
+.form-row
   .col-md-12
     .card.card-primary
       .card-header
@@ -52,4 +52,4 @@
               - risk_for_month[day] = risk_at_begin
 
       .panel-footer.text-right= "Load time: #{Time.now-@start_time} seconds"
-    #risk_movements_items.row= render "risk_movements", current_tuple: @current_tuple, risk_movements: @risk_movements
+    #risk_movements_items.form-row= render "risk_movements", current_tuple: @current_tuple, risk_movements: @risk_movements

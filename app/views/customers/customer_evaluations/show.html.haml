@@ -1,10 +1,10 @@
-.row
+.form-row
   .col-md-6= render "chart_attention_factor", customer_evaluation: @customer_evaluation
   .col-md-6
     - month = Date.new(@customer_evaluation.eval_year, @customer_evaluation.eval_month, 1) 
     - opts = {group_by_day: 1, filter: {customer_id: @anagrafica.id, daterange: "#{month.strftime("%d/%m/%Y")} - #{month.at_end_of_month.strftime("%d/%m/%Y")}", in_out: 'ALL'}}
     = render "customers/charts/evaluated_movements", customer: @anagrafica, opts: opts
-.row
+.form-row
   .col-md-6
     = render 'customers/customer_evaluations/movements_info', customer_evaluation: @customer_evaluation
   #note.col-md-6
@@ -14,7 +14,7 @@
       .card
         .card-body
           = link_to(t(:add_resource, resource: Note.model_name.human), [:new, :customers, @anagrafica, :note], class: "btn btn-success btn-sm btn-block") if can? :create, Note
-.row
+.form-row
   .col-md-12
     = render "customer_evaluation", customer_evaluation: @customer_evaluation
 

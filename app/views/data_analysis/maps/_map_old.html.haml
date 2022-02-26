@@ -5,7 +5,7 @@
       #{EvaluatedMovement.model_name.human(count: 2)}: 
       %span#places_count= @places.count
   .card-body
-    .row.mb-1
+    .form-row.mb-1
       .col-md-12
         %p
           Query params: bbox:
@@ -29,7 +29,7 @@
               %span.input-group-text
                 %i.far.fa-clock
             %input#showtime.form-control.float-right{type: "text"}
-    .row
+    .form-row
       .col-md-12
         #map_movements{ style: "height: 830px;" }
 :javascript

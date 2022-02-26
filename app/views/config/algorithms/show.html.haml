@@ -1,5 +1,10 @@
-.row
-  .col-md-12
+.form-row
+  .col-md-8
     = render 'algorithm', algorithm: @algorithm
-  .col-md-12
-    = render 'plot', algorithm: @algorithm
+  .col-md-4
+    = render 'customer_categories', customer_categories: @algorithm.customer_categories
+
+.form-row
+  - @algorithm.algorithm_calculators.each do |algorithm_calculator|
+    .col-md-6 
+      = render 'config/algorithm_calculators/algorithm_calculator', algorithm_calculator: algorithm_calculator

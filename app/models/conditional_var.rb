@@ -11,10 +11,10 @@ class ConditionalVar < CorePgRecord
   has_many :customer_categories, through: :customer_category_conditional_vars
 
   validates :name, presence: true, uniqueness: true
-  validates :default_value, presence: true
 
   validate :check_categories
 
+  
   amoeba do
     enable
     include_association :condition_items
@@ -36,6 +36,10 @@ class ConditionalVar < CorePgRecord
     self.customer_category_conditional_vars.map{|item| item.value }
   end
 
+  def default_value
+    self.customer_category_conditional_vars.default.first.try(:value)
+  end
+
   private
 
   def check_categories
@@ -54,12 +58,11 @@ end
 #
 # Table name: conditional_vars
 #
-#  id            :bigint           not null, primary key
-#  default_value :string           default("1"), not null
-#  description   :string           not null
-#  name          :string           not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id          :bigint           not null, primary key
+#  description :string           not null
+#  name        :string           not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 # Indexes
 #

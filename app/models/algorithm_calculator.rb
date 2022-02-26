@@ -53,7 +53,7 @@ class AlgorithmCalculator < CorePgRecord
   def default_eq
     eq = self.value
     self.conditional_vars.each do |v|
-      eq.gsub!(v.name, v.default_value)
+      eq.gsub!("#{v.name}", "#{v.default_value}")
     end
     return eq
   end

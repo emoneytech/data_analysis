@@ -3,11 +3,16 @@
     %h3.card-title= raw "#{fa_icon(ConditionalVar.icon)} #{ConditionalVar.model_name.human}: #{conditional_var.name}"
     .card-tools
       = link_to fa_icon("edit"), [:edit, :config, conditional_var], class: "btn btn-xs btn-warning", data: {toggle: "tooltip", title: t(:edit_resource, resource: conditional_var.model_name.human)}
-      = back_link([:config, :conditional_vars])
-
-  .card-body
-    %dl.form-row
-      %dt.col-4.text-right= ConditionalVar.human_attribute_name(:name)
-      %dd.col-md-8= conditional_var.name
-      %dt.col-4.text-right= ConditionalVar.human_attribute_name(:default_value)
-      %dd.col-md-8= conditional_var.default_value
+  .card-body.p-1
+    %table.table.table-striped.table-bordered.table-hover.margin-none
+      %thead
+        %tr
+          %th= AlgorithmCalculator.human_attribute_name(:default_value)
+          - conditional_var.customer_category_conditional_vars.each do |customer_category_conditional_var|
+            %th.text-center= customer_category_conditional_var.customer_category
+      %tbody
+        %tr
+          %td= conditional_var.default_value
+          - conditional_var.customer_category_conditional_vars.each do |customer_category_conditional_var|
+            %td.text-center{class: "#{'text-success' if customer_category_conditional_var.default}"}= customer_category_conditional_var.try(:value)
+    

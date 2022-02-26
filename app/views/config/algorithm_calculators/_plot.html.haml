@@ -4,18 +4,8 @@
       %i.fa.fa-chart-bar
       = algorithm_calculator.presentation
     .card-tools
-      %span.algorithm_calculator.btn.btn-info.btn-sm{class: "#{algorithm_calculator.name}"}
-        0.00
+      
   .card-body
-    = simple_form_for :algorithm, html: {id: "algorithm_calculator_form_#{algorithm_calculator.name}", class: "#{algorithm_calculator.name}"}, remote: false do |f|
-      .form-row
-        .col-4
-          = f.input :input, as: algorithm_calculator.result_type, label: false, input_html: {value: "#{algorithm_calculator.default_input_value}", class: "#{algorithm_calculator.name}"}
-        .col-8.pl-0
-          .input-group
-            %input#algorithm_calculator_eq.form-control{type: "text", value: "", class: "#{algorithm_calculator.name}"}
-            %span.input-group-append
-              %input.btn.btn-success.btn-flat{type: "submit", value: 'Plot'}>
     %div{id: "plot_#{algorithm_calculator.name}"}
 
 :javascript

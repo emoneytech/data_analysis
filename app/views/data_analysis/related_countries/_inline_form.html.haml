@@ -1,4 +1,4 @@
 = simple_form_for [:data_analysis, related_country], remote: true do |f|
-  .row
+  .form-row
     .col-md-8= f.input :score, label: false,  input_html: {class: "form-control-sm", step: 0.1}
     .col-md-4= f.submit t(:update, default: "Update"), class: "btn btn-sm btn-success"

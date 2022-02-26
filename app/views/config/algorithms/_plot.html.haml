@@ -1,3 +1,3 @@
 .form-row
-  - @algorithm.algorithm_calculators.each do |algorithm_calculator|
+  - algorithm.algorithm_calculators.each do |algorithm_calculator|
     .col-md-6= render 'config/algorithm_calculators/plot', algorithm_calculator: algorithm_calculator

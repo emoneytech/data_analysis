@@ -26,7 +26,7 @@
       - if GruppiAnagrafica.where("codice_fiscale like ?", customer.codice_fiscale).count >= 1
         %dt.col-8= Anagrafica.human_attribute_name(:group)
         %dd.col-4.text-right= link_to Anagrafica.human_attribute_name(:group), [:customers, Anagrafica, filter: {fiscal_code: "#{customer.codice_fiscale}"}], class: "btn btn-warning btn-xs", data:{toggle: "tooltip"}, title: Anagrafica.human_attribute_name(:group)
-    %dl#tollerance.row
+    %dl#tollerance.form-row
       = render 'customers/customer_settings/dl_tollerance', customer: customer
     #customer_settings
 

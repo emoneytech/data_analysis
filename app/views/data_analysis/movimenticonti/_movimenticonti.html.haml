@@ -7,7 +7,7 @@
     .card-body
       = render "data_analysis/movimenticonti/table", movimenticonti: movimenticonti
     .card-footer.clearfix
-      .row
+      .form-row
         .col-md-6
           = link_to_next_page movimenticonti, t(:prev_page, default: "Prev"), theme: 'twitter-bootstrap-4'
         .col-md-6.text-right

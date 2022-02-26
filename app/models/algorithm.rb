@@ -4,7 +4,11 @@ class Algorithm < CorePgRecord
   accepts_nested_attributes_for :algorithm_algorithm_calculators, reject_if: :all_blank, allow_destroy: true
 
   has_many :algorithm_calculators, through: :algorithm_algorithm_calculators
+  has_many :customer_categories, -> { distinct }, through: :algorithm_calculators
 
+  validates :default, uniqueness: true, presence: true, if: :default
+
+  before_validation :check_abscissa
 
   amoeba do
     enable
@@ -20,12 +24,25 @@ class Algorithm < CorePgRecord
     calculator.evaluate(self.eq, opts)
   end
 
+  def abscissa
+    self.algorithm_algorithm_calculators.default_abscissa.first.try(:algorithm_calculator).try(:name)
+  end
+
   private
 
   def calculate_factor(eq, opts)
     calculator = Keisan::Calculator.new
     calculator.evaluate(eq, opts)
   end
+
+  def check_abscissa
+    count = 0
+    self.algorithm_algorithm_calculators.each do |ac|
+      count += 1 if ac.abscissa
+    end
+    errors.add(:algorithm_algorithm_calculators, "Select a value for abscissa") if count != 1
+  end
+
 
 end
 

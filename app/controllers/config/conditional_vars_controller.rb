@@ -77,13 +77,13 @@ class Config::ConditionalVarsController < ManagerController
     # Never trust parameters from the scary internet, only allow the white list through.
     def conditional_var_params
       params.require(:conditional_var).permit(
-        :default_value,
         :description,
         :name,
         customer_category_conditional_vars_attributes: [
           :id,
           :conditional_var_id,
           :customer_category_id,
+          :default,
           :value,
           :_destroy
         ]

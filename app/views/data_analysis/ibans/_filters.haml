@@ -8,7 +8,7 @@
         %i.fas{class: " #{ params[:filter] ? 'fa-minus' : 'fa-plus'}" }
   .card-body
     = simple_form_for :filter, method: :get, remote: false do |f|
-      .row
+      .form-row
         .col-md-3= f.input :customer_id, label: "Customer ID", required: false, input_html: {value: "#{params[:filter][:customer_id] if params[:filter]}"}
         .col-md-3= f.input :conto, required: false, input_html: {value: "#{params[:filter][:conto] if params[:filter]}"}
         .col-md-3= f.input :iban, required: false, input_html: {value: "#{params[:filter][:iban] if params[:filter]}"}

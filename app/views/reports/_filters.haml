@@ -8,6 +8,6 @@
         %i.fas{class: " #{ params[:filter] ? 'fa-minus' : 'fa-plus'}" }
   .card-body
     = simple_form_for :filter, method: :get, remote: false do |f|
-      .row
+      .form-row
         .col-md-3= f.input :name, required: false, input_html: {value: "#{params[:filter][:name] if params[:filter]}"}
       = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-success'

@@ -1,6 +1,6 @@
 - details_operations = eval("#{@eval_riskiness.details_operations}")
 
-.row
+.form-row
   .col-md-12
     .card.card-primary
       .card-header
@@ -17,7 +17,7 @@
                 %dd.col-8.text-right= raw details_operations["#{k}"]
 
       .card-footer
-        .row
+        .form-row
           .col-md-8= "#{t(:load_time, default: "Load time")}: #{(Time.now-@start_time).round(5)} #{t(:seconds, default: "Seconds")}"
           .col-md-4.text-right= link_to t(:details, default: "Details"), details_customers_anagrafica_risk_movements_path(@anagrafica, t: @current_tuple), class: "btn btn-sm btn-success"
 

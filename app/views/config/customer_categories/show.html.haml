@@ -1,4 +1,4 @@
-.row
+.form-row
   .col-md-8
     .card.card-primary.card-outline
       .card-header
@@ -8,7 +8,7 @@
           = back_link(config_customer_categories_path)
 
       .card-body
-        %dl.row
+        %dl.form-row
           %dt.col-4.text-right= CustomerCategory.human_attribute_name(:name)
           %dd.col-md-8= @customer_category.name
           %dt.col-4.text-right= CustomerCategory.human_attribute_name(:base_risk)

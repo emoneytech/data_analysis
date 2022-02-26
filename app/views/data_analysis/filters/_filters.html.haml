@@ -1,4 +1,4 @@
-.row
+.form-row
   .col-md-12
     .card
       .card-header
@@ -11,4 +11,4 @@
           =# f.input :idcausale, as: :select, collection: ViewReason.all.collect {|item| [ "#{item.idcausale}", "#{item.idcausale}" ] }, include_blank: true, input_html: {class: 'duallistbox'}
           = f.input :daterange, label: 'Date range', input_html: { class: 'daterange' }
           = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-success'
-.row
+.form-row

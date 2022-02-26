@@ -8,16 +8,16 @@
         %i.fas{class: " #{ params[:filter] ? 'fa-minus' : 'fa-plus'}" }
   .card-body
     = simple_form_for :filter, method: :get, remote: false do |f|
-      .row
+      .form-row
         .col-md-3
           = f.input :in_out, as: :select, collection: %w[IN OUT], required: false, input_html: {class: "select2"}, selected: "#{params[:filter][:in_out] if params[:filter]}", include_blank: true
         .col-md-3= f.input :daterange, label: 'Date range', input_html: { class: 'local-daterange' }, required: false
-      .row
+      .form-row
         .col-md-3= f.input :service_id, label: 'Service ID', required: false, input_html: {value: "#{params[:filter][:service_id] if params[:filter]}"}
         .col-md-3= f.input :customer_id, label: "Customer ID", required: false, input_html: {value: "#{params[:filter][:customer_id] if params[:filter]}"}
         .col-md-3= f.input :technical_movement_id, label: "Technical Movement ID", required: false, input_html: {value: "#{params[:filter][:technical_movement_id] if params[:filter]}"}
         .col-md-3= f.input :validation_movement_id, label: "Validtion Movement ID", required: false, input_html: {value: "#{params[:filter][:validation_movement_id] if params[:filter]}"}
-      .row
+      .form-row
         .col-md-3= f.input :ordinante, label: 'Ordinante (partial)', required: false, input_html: {value: "#{params[:filter][:ordinante] if params[:filter]}"}
         .col-md-3= f.input :iban, label: 'Iban', required: false, input_html: {value: "#{params[:filter][:iban] if params[:filter]}"}
  

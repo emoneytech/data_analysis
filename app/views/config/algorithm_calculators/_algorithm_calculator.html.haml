@@ -3,18 +3,29 @@
     %h3.card-title= raw "#{fa_icon(AlgorithmCalculator.icon)} #{AlgorithmCalculator.model_name.human}: #{algorithm_calculator.presentation}"
     .card-tools
       = config_edit_link(algorithm_calculator)
-      = back_link(config_algorithm_calculators_path)
   .card-body
-    %dl.form-row
-      %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:presentation)
-      %dd.col-8= algorithm_calculator.presentation
-      %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:name)
-      %dd.col-8= algorithm_calculator.name
-      %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:value)
-      %dd.col-8= algorithm_calculator.value
-      - if algorithm_calculator.conditional_vars.any?
-        %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:conditional)
-        %dd.col-8= algorithm_calculator.conditional
-        %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:conditional_vars)
-        %dd.col-8= algorithm_calculator.conditional_vars.to_sentence
+    = simple_form_for :algorithm, html: {id: "algorithm_calculator_form_#{algorithm_calculator.name}", class: "#{algorithm_calculator.name}"}, remote: false do |f|
+      %dl.form-row
+        %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:presentation)
+        %dd.col-8= algorithm_calculator.presentation
+        %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:name)
+        %dd.col-8= algorithm_calculator.name
 
+        %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:default_eq)
+        %dd.col-8
+          .input-group.input-group-sm
+            %input#algorithm_calculator_eq.form-control{type: "text", value: "", class: "#{algorithm_calculator.name}"}
+            %span.input-group-append
+              %input.btn.btn-success.btn-flat{type: "submit", value: 'Plot'}>
+        %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:input)
+        %dd.col-8
+          = f.input :input, as: algorithm_calculator.result_type, label: false, input_html: {value: "#{algorithm_calculator.default_input_value}", class: "#{algorithm_calculator.name} form-control-sm"}
+        %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:result)
+        %dd.col-8
+          %span.algorithm_calculator.btn.btn-info.btn-xs{class: "#{algorithm_calculator.name}"}
+            0.00
+
+
+    - algorithm_calculator.conditional_vars.each do |conditional_var|
+      = render 'config/conditional_vars/conditional_var', conditional_var: conditional_var
+    = render 'config/algorithm_calculators/plot', algorithm_calculator: algorithm_calculator

@@ -1,8 +1,8 @@
-.row
-  .col-md-8
+.form-row
+  .col-md-6
     = render 'conditional_var', conditional_var: @conditional_var, conditional_var: @conditional_var
     = render '/config/customer_category_conditional_vars/customer_category_conditional_vars', customer_category_conditional_vars: @conditional_var.customer_category_conditional_vars
-  .col-md-4
+  .col-md-6
     .card.card-primary.card-outline
       .card-header
         .card-title

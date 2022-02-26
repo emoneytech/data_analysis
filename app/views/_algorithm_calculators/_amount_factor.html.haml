@@ -8,7 +8,7 @@
         0.00
   .card-body
     = simple_form_for :amount_factor, method: :get, html: {id: 'amount_factor_form'}, remote: false do |f|
-      .row
+      .form-row
         .col-4
           = f.input :amount, label: false, input_html: {value: "100.00"}
         .col-8.pl-0

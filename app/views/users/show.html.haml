@@ -1,7 +1,7 @@
-.row
+.form-row
   .col-md-6= render @user
   .col-md-6= render 'reports/reports', reports: @user.reports.latest, pagination: false
 
-.row
+.form-row
   .col-md-6= render 'webpush_subscriptions/webpush_subscriptions', webpush_subscriptions: @user.webpush_subscriptions.page(0)
   .col-md-6= render 'users/activity_logs', activity_logs: @user.activity_logs.latest

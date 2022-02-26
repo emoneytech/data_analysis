@@ -43,7 +43,7 @@
               = link_to for_day_customers_anagrafica_evaluated_movements_path(@anagrafica, key), class: "btn btn-xs btn-info", title: 'Open popup', remote: true do
                 %i.fa.fa-exchange-alt
   .card-footer
-    .row
+    .form-row
       .col-md-6
         = link_to 'Prev', customers_anagrafica_eval_customer_path(@anagrafica, @prev) unless @prev.blank?
       .col-md-6.text-right

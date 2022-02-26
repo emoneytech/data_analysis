@@ -15,7 +15,7 @@
         %span.username= note.user
         %span.text-muted.float-right= note.created_at.to_s
   .card-footer
-    .row
+    .form-row
       .col-md-6
         = link_to 'Prev', customers_anagrafica_note_path(@anagrafica, note.previous), remote: true unless note.previous.blank?
       .col-md-6.text-right

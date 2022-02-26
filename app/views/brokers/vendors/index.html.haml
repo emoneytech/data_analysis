@@ -1,4 +1,4 @@
-.row
+.form-row
   .col-md-12
     .card
       .card-header
@@ -10,4 +10,4 @@
           = f.input :ragione_sociale, html_input: {value: params[:ragione_sociale]}
           = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-success'
 
-#vendors_items.row= render "vendors", vendors: @vendors
+#vendors_items.form-row= render "vendors", vendors: @vendors

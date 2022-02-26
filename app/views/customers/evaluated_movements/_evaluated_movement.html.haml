@@ -7,7 +7,7 @@
   .card-body.p-1
     = render 'data_analysis/evaluated_movements/table_item', evaluated_movement: evaluated_movement
   .card-footer
-    .row
+    .form-row
       .col-md-6
         = link_to 'Prev', customers_anagrafica_evaluated_movement_path(@anagrafica, @prev) unless @prev.blank?
       .col-md-6.text-right

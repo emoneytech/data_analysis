@@ -30,7 +30,7 @@
             - if customer_evaluation.eval_days[key]["details"]["nr_movements"] > 0
               = link_to fa_icon(EvaluatedMovement.icon), for_day_customers_anagrafica_evaluated_movements_path(@anagrafica, key), class: "btn btn-xs btn-info", title: 'Open popup', remote: true
   .card-footer
-    .row
+    .form-row
       .col-md-6
         = link_to 'Prev', customers_anagrafica_customer_evaluation_path(@anagrafica, @prev) unless @prev.blank?
       .col-md-6.text-right

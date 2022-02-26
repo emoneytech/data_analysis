@@ -1,9 +1,9 @@
 - if can? :manage, User
-  .row
+  .form-row
     .col-md-12
       
 
-.row
+.form-row
   .col-md-12
     .card.card-primary.card-outline
       .card-header
@@ -37,7 +37,7 @@
                     = edit_link(user)
                     = delete_link(user)
       .card-footer.clearfix
-        .row
+        .form-row
           .col-md-6
             = page_entries_info @users
           .col-md-6.text-right

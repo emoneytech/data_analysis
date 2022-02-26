@@ -1,15 +1,15 @@
-.row
+.form-row
   .col-md-12
     - opts = {filter: {daterange: "#{(Date.today - 1.year).strftime("%d/%m/%Y")} - #{(Date.today).strftime("%d/%m/%Y")}"}}
     = render 'data_analysis/charts/evaluated_movements', opts: opts
-.row
+.form-row
   .col-md-8
     = render 'data_analysis/charts/origin_countries', opts: opts
     = render 'data_analysis/charts/destination_countries', opts: opts
   .col-md-4
     = render 'data_analysis/charts/products', opts: opts
 
-.row
+.form-row
   .col-md-12
     = simple_form_for :filter, method: :get, remote: true do |f|
       .card.card-info.card-outline
@@ -18,10 +18,10 @@
             %i.fa.fa-search
             = t(:filters, default: "Filters")
         .card-body
-          .row
+          .form-row
             .col-md-6= f.input :q, label: Anagrafica.human_attribute_name(:full_name), required: false, input_html: {value: @current_full_name, class: "form-control-sm"}
             .col-md-6= f.input :tipo, label: Anagrafica.human_attribute_name(:tipo), as: :select, collection: Tipo.alive.collect {|tipo| [ tipo.name, tipo.id ] }, required: false, input_html: {value: @current_type, class: "form-control-sm"}
         .card-footer.text-right
           = f.submit "#{t(:search)}", class: "btn btn-info btn-sm"
 
-#customer_evaluations_items.row= render "data_analysis/customer_evaluations/customer_evaluations", customer_evaluations: @customer_evaluations
+#customer_evaluations_items.form-row= render "data_analysis/customer_evaluations/customer_evaluations", customer_evaluations: @customer_evaluations

@@ -1,6 +1,11 @@
 class AlgorithmAlgorithmCalculator < CorePgRecord
   belongs_to :algorithm
   belongs_to :algorithm_calculator
+
+  validates :algorithm_calculator_id, uniqueness: {scope: :algorithm_id }
+  # validates :abscissa, uniqueness: {scope: :algorithm_id }, if: :abscissa
+
+  scope :default_abscissa, -> { where(abscissa: true) }
 end
 
 # == Schema Information

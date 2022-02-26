@@ -461,7 +461,6 @@ CREATE TABLE public.conditional_vars (
     id bigint NOT NULL,
     name character varying NOT NULL,
     description character varying NOT NULL,
-    default_value character varying DEFAULT '1'::character varying NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -560,7 +559,8 @@ CREATE TABLE public.customer_category_conditional_vars (
     conditional_var_id bigint NOT NULL,
     value double precision NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    "default" boolean DEFAULT false NOT NULL
 );
 
 
@@ -2024,6 +2024,13 @@ CREATE INDEX index_customer_categories_on_name ON public.customer_categories USI
 
 
 --
+-- Name: index_customer_category_conditional_vars_on_default; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_customer_category_conditional_vars_on_default ON public.customer_category_conditional_vars USING btree ("default");
+
+
+--
 -- Name: index_customer_evaluations_on_anagrafica_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2855,6 +2862,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220223090512'),
 ('20220223094802'),
 ('20220225071705'),
-('20220225072048');
+('20220225072048'),
+('20220226082853'),
+('20220226083104');
 
 

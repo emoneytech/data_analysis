@@ -1,4 +1,4 @@
-.row
+.form-row
   .col-md-6
     .card.card-outline.card-primary
       .card-header
@@ -10,7 +10,7 @@
       .card-body.p-1
         = render 'notifications/table_item', notification: @notification
       .card-footer
-        .row
+        .form-row
           .col-md-6
             = link_to 'Prev', [current_user, @notification.previous] if @notification.previous
           .col-md-6.text-right
@@ -25,7 +25,7 @@
       .card-body.p-1
         = render 'observed_elements/table_item', observed_element: @notification.params[:observer], evaluated_movement: @notification.params[:evaluated_movement] if @notification.params[:observer]
 
-.row
+.form-row
   .col-md-12
     = render 'data_analysis/evaluated_movements/evaluated_movement', evaluated_movement: @notification.params[:evaluated_movement] if @notification.params[:evaluated_movement] 
 

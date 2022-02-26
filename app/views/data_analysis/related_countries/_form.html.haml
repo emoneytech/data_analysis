@@ -1,27 +1,27 @@
-.row
+.form-row
   .col-md-4= f.input :name, readonly: true
   .col-md-4= f.input :gray_or_black_list, as: :select, collection: [['None', 0], ['Grey list', 1], ['Black list', 2]]
   .col-md-4= f.input :attention_factor, readonly: true
 
-.row
+.form-row
   .col-md-4= f.input :kyc_score
   .col-md-4= f.input :basel_score
   .col-md-4= f.input :corruption_perception
 
-.row
+.form-row
   .col-md-12= f.input :audit_comment
 
-.row
+.form-row
   .col-md-4= f.input :eval_kyc_score, readonly: true
   .col-md-4= f.input :eval_basel_score, readonly: true
   .col-md-4= f.input :eval_corruption_perception, readonly: true
 
-.row
+.form-row
   .col-md-4= f.input :continent, readonly: true
   .col-md-4= f.input :region, readonly: true
   .col-md-4= f.input :subregion, readonly: true
 = f.input :unofficial_names, readonly: true
-.row
+.form-row
   .col-md-3= f.input :gec, readonly: true
   .col-md-3= f.input :alpha2, readonly: true
   .col-md-3= f.input :alpha3, readonly: true

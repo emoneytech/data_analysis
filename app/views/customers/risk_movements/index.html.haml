@@ -1,4 +1,4 @@
-.row
+.form-row
   .col-md-6
     .card.card-danger
       .card-header
@@ -21,7 +21,7 @@
   #day_report.col-md-6= render "day_report", current_tuple: @current_tuple, all_risk_movements: @all_risk_movements, anagrafica: @anagrafica
 
 
-#risk_movements_items.row= render "risk_movements", current_tuple: @current_tuple, risk_movements: @risk_movements
+#risk_movements_items.form-row= render "risk_movements", current_tuple: @current_tuple, risk_movements: @risk_movements
 
 
 :javascript

@@ -8,7 +8,7 @@
         %i.fas{class: " #{ params[:filter] ? 'fa-minus' : 'fa-plus'}" }
   .card-body
     = simple_form_for :filter, url: [:data_analysis, :time_lapse_factors], method: :get, remote: false do |f|
-      .row
+      .form-row
         .col-md-3= f.input :anagrafica_id, label: 'Customer ID', required: false, input_html: {value: "#{params[:filter][:anagrafica_id] if params[:filter]}"}
         .col-md-3= f.input :min_time_lapse_factor, required: false, input_html: {value: "#{params[:filter][:min_time_lapse_factor] if params[:filter]}"}
         .col-md-3= f.input :max_time_lapse_factor, required: false, input_html: {value: "#{params[:filter][:max_time_lapse_factor] if params[:filter]}"}

@@ -1,5 +1,5 @@
 <%- if current_user.has_role?('superadmin') %>
-  <%- ary = %w(roles users list_types sync configurables excluded_products customer_categories algorithm_calculators conditional_vars) %>
+  <%- ary = %w(roles users list_types sync configurables excluded_products customer_categories algorithm_calculators conditional_vars algorithms) %>
   <li class="nav-item <%= ' menu-open menu-is-opening' if ary.include?(controller_name)%>" style="background-color: rgba(255,255,255,.05);;">
     <a href="#" class="nav-link">
       <i class="nav-icon fa fa-cogs"></i>
@@ -50,6 +50,15 @@
           <i class="nav-icon fas fa-clock"></i>
           <p>
             <%= t(:async_processor, default: "Async Processor") %>
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="<%= config_algorithms_path %>"
+          class="nav-link <%= ' active' if controller_name == 'algorithms' %>">
+          <i class="nav-icon fas fa-<%= Algorithm.icon %>"></i>
+          <p>
+            <%= Algorithm.model_name.human(count: 2) %>
           </p>
         </a>
       </li>

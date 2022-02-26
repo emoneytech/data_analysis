@@ -1,4 +1,4 @@
-.row
+.form-row
   .col-md-12
     .card.card-primary.card-outline
       .card-header
@@ -11,7 +11,7 @@
         = render 'observed_elements/table_item', observed_element: @observed_element
       .card-footer
         = simple_form_for @observed_element, method: :delete, html: {class: 'form-horizontal'}, wrapper: :horizontal_form do |f|
-          .row
+          .form-row
             .col-md-11.pr-0.mr-0
               = f.input :audit_comment
             .col-md-1.pl-1
