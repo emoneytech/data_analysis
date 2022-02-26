@@ -13,6 +13,8 @@
           %dd.col-md-8= @customer_category.name
           %dt.col-4.text-right= CustomerCategory.human_attribute_name(:base_risk)
           %dd.col-md-8= @customer_category.base_risk
+          %dt.col-4.text-right= CustomerCategory.human_attribute_name(:default)
+          %dd.col-md-8= @customer_category.default
           %dt.col-4.text-right= CustomerCategory.human_attribute_name(:count)
           %dd.col-md-8= @customer_category.query_result.count
           %dt.col-4.text-right= CustomerCategory.human_attribute_name(:sql)

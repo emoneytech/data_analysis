@@ -526,7 +526,8 @@ CREATE TABLE public.customer_categories (
     name character varying NOT NULL,
     base_risk double precision NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    "default" boolean DEFAULT false NOT NULL
 );
 
 
@@ -2017,6 +2018,13 @@ CREATE INDEX index_configurables_on_name ON public.configurables USING btree (na
 
 
 --
+-- Name: index_customer_categories_on_default; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_customer_categories_on_default ON public.customer_categories USING btree ("default");
+
+
+--
 -- Name: index_customer_categories_on_name; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2864,6 +2872,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220225071705'),
 ('20220225072048'),
 ('20220226082853'),
-('20220226083104');
+('20220226083104'),
+('20220226104640');
 
 

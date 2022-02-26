@@ -71,7 +71,7 @@ class Config::CustomerCategoriesController < ManagerController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def customer_category_params
-      params.require(:customer_category).permit(:name, :base_risk)
+      params.require(:customer_category).permit(:name, :base_risk, :default)
     end
 end
 

@@ -6,6 +6,7 @@ class CustomerCategory < CorePgRecord
   validates :name, presence: true, uniqueness: true
   validates :base_risk, presence: true, uniqueness: true
 
+  validates :default, uniqueness: true, if: :default
 
   
   def to_s
@@ -32,11 +33,13 @@ end
 #
 #  id         :bigint           not null, primary key
 #  base_risk  :float            not null
+#  default    :boolean          default(FALSE), not null
 #  name       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 # Indexes
 #
-#  index_customer_categories_on_name  (name)
+#  index_customer_categories_on_default  (default)
+#  index_customer_categories_on_name     (name)
 #
