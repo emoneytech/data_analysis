@@ -8,6 +8,7 @@ class CustomerCategory < CorePgRecord
 
   validates :default, uniqueness: true, if: :default
 
+  before_validation :unset_default, if: :default
   
   def to_s
     "#{self.name}"
@@ -23,6 +24,12 @@ class CustomerCategory < CorePgRecord
 
   def query_result
     sql = Anagrafica.alive.where("anagrafiche.base_risk = ?", self.base_risk)
+  end
+
+  private 
+ 
+  def unset_default
+    CustomerCategory.update_all(default: false)
   end
 
 end
