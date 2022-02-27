@@ -3,6 +3,9 @@ module EvaluatedMovementFilters
 
   included do
     # filters
+    scope :filter_by_first_digit,
+          ->(first_digit) { where('SUBSTR(CAST(amount_cents as CHAR), 1, 1) = ?', "#{first_digit}") }
+
     scope :filter_by_customer_id,
           ->(customer_id) { where(customer_id: customer_id) }
     scope :filter_by_service_id,
@@ -75,11 +78,11 @@ module EvaluatedMovementFilters
           ->(country) { where('destination_country ilike ?', "#{country}") }
 
     scope :filter_by_amount,
-          ->(amount_cents) { where('amount_cents  = ?', amount_cents) }
+          ->(amount) { where('amount_cents  = ?', (amount.to_f * 100)) }
     scope :filter_by_min_amount,
-          ->(amount_cents) { where('amount_cents >= ?', amount_cents) }
+          ->(amount) { where('amount_cents >= ?', (amount.to_f * 100)) }
     scope :filter_by_max_amount,
-          ->(amount_cents) { where('amount_cents <= ?', amount_cents) }
+          ->(amount) { where('amount_cents <= ?', (amount.to_f * 100)) }
 
     scope :filter_by_recursion_all_7,
           ->(recursion_all_7) { where('recursion_all_7  = ?', recursion_all_7) }

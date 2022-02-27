@@ -9,6 +9,11 @@
   .card-body
     = simple_form_for :filter, url: [:data_analysis, :evaluated_movements], method: :get, html: {id: 'filter_form'}, remote: false do |f|
       .form-row
+        .col-md-3= f.input :amount, as: :float, label: "Importo esatto", required: false, input_html: {value: "#{params[:filter][:amount] if params[:filter]}"}
+        .col-md-3= f.input :min_amount, as: :float, label: "Importo minimo", required: false, input_html: {value: "#{params[:filter][:min_amount] if params[:filter]}"}
+        .col-md-3= f.input :max_amount, as: :float, label: "Importo massimo", required: false, input_html: {value: "#{params[:filter][:max_amount] if params[:filter]}"}
+        .col-md-3= f.input :first_digit, label: "Berford's Law", as: :select, collection: 1..9, required: false, input_html: {class: "select2", style: "width: 100%;"}, selected: "#{params[:filter][:first_digit] if params[:filter]}", include_blank: true
+      .form-row
         .col-md-3= f.input :in_out, as: :select, collection: %w[IN OUT], required: false, input_html: {class: "select2", style: "width: 100%;"}, selected: "#{params[:filter][:in_out] if params[:filter]}", include_blank: true
         .col-md-3= f.input :internal, as: :select, collection: [true, false], required: false, input_html: {class: "select2", style: "width: 100%;"}, selected: "#{params[:filter][:internal] if params[:filter]}", include_blank: true
         .col-md-3= f.input :service_id, label: 'Service ID', required: false, input_html: {value: "#{params[:filter][:service_id] if params[:filter]}"}

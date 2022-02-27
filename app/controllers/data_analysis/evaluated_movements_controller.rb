@@ -100,6 +100,9 @@ module DataAnalysis
     def filtering_params
       if params[:filter]
         params[:filter].slice(
+          :min_amount,
+          :max_amount,
+          :first_digit,
           :beneficiary,
           :beneficiary_card,
           :beneficiary_iban,

@@ -16,6 +16,8 @@
         = EvaluatedMovement.human_attribute_name(:movement_created_at)
       %th{data: { priority: '1' }}
         = EvaluatedMovement.human_attribute_name(:customer)
+      %th{data: { priority: '2' }}
+        = EvaluatedMovement.human_attribute_name(:amount)
       %th{data: { priority: '1' }}
         = EvaluatedMovement.human_attribute_name(:payer)
       %th{data: { priority: '2' }}
@@ -38,8 +40,6 @@
         = EvaluatedMovement.human_attribute_name(:evaluated_factor7)
       %th{data: { priority: '3' }}
         = EvaluatedMovement.human_attribute_name(:evaluated_factor30)
-      %th{data: { priority: '4' }}
-        = EvaluatedMovement.human_attribute_name(:amount)
       %th{data: { priority: '12' }}
         = EvaluatedMovement.human_attribute_name(:destination_lonlat)
       %th{data: { priority: '10' }}
@@ -57,6 +57,7 @@
         %td= item.movement_created_at
         %td
           = link_to item.customer.full_name, customers_anagrafica_path(item.customer_id)
+        %td.text-center= humanized_money_with_symbol item.amount
         %td= item.payer
         %td= item.payer_other
         %td= item.reason
@@ -78,7 +79,6 @@
           = link_to item.recursion_customer_30, [:recursive, :data_analysis, item, params: {q: 'customer', days: 30}]
         %td.text-center= number_with_precision item.evaluated_factor7
         %td.text-center= number_with_precision item.evaluated_factor30
-        %td.text-center= humanized_money_with_symbol item.amount
         %td= item.destination_lonlat
         %td.text-center= item.internal
         %td.text-center= item.origin_country
