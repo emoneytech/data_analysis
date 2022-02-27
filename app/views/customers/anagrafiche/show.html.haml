@@ -12,8 +12,10 @@
     = render "products_chart", customer: @anagrafica
     = render "map", anagrafica: @anagrafica
   .col-md-8
-    - opts = {filter: {customer_id: @anagrafica.id, daterange: "#{(Date.today - 1.year).strftime("%d/%m/%Y")} - #{(Date.today).strftime("%d/%m/%Y")}", in_out: 'IN'}}
-    = render "customers/charts/evaluated_movements", customer: @anagrafica, opts: opts
+    - opts = {filter: {customer_id: @anagrafica.id, daterange: "#{(Date.today - 1.year).strftime("%d/%m/%Y")} - #{(Date.today).strftime("%d/%m/%Y")}", in_out: 'ALL'}}
+    .form-row
+      .col-md-8= render "data_analysis/charts/evaluated_movements", opts: opts
+      .col-md-4= render "data_analysis/charts/benfords_law", opts: opts
     = render "customers/charts/latest_customer_evaluations", customer: @anagrafica
     = render "conti", customer: @anagrafica
     = render "customers/anagrafiche/ibans", ibans: @anagrafica.ibans.page(params[:page_ibans]).per(5)

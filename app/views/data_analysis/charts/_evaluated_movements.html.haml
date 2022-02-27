@@ -25,6 +25,7 @@
     setGraphicsClass('#card-evaluated-movements', this.value)
     const url = "/data_analysis/charts/evaluated_movements?filter[in_out]=" + this.value +
       "&group_by_day=#{opts[:group_by_day]}" +
+      "&filter[customer_id]=#{opts[:filter][:customer_id]}" +
       "&filter[daterange]=#{opts[:filter][:daterange]}"
     refreshChart('latest-evaluated-movements', url)
   })

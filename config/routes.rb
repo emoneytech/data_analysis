@@ -31,7 +31,6 @@ Rails
 
         resources :charts do
           collection do
-            get :benfords_law
             get :latest_customer_evaluations
             get :latest_evaluated_movements
             get :evaluated_movements

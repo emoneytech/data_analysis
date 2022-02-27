@@ -21,7 +21,7 @@
   $('input[type=radio][name=directions]').change(function() {
     setGraphicsClass('#card-benfords-law', this.value)
     const url = "/data_analysis/charts/benfords_law?filter[in_out]=" + this.value +
-      "&group_by_day=#{opts[:group_by_day]}" +
+      "&filter[customer_id]=#{opts[:filter][:customer_id]}" +
       "&filter[daterange]=#{opts[:filter][:daterange]}"
     refreshChart('benfords-law', url)
   })
