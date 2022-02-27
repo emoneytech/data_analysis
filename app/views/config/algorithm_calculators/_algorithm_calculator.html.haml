@@ -16,7 +16,7 @@
         %dd.col-8
           - if algorithm_calculator.conditional_vars.any?
             - algorithm_calculator.conditional_vars.each do |conditional_var|
-              %a{href: "javascript:void(0)", data: {html: "true", toggle: "popover", title: "#{conditional_var.description}",  content: "#{render 'config/conditional_vars/conditional_var_popover', conditional_var: conditional_var}"}}= conditional_var.name 
+              %a{href: "javascript:void(0)", data: {html: "true", toggle: "popover", trigger: "focus", title: "#{conditional_var.description}",  content: "#{render 'config/conditional_vars/conditional_var_popover', conditional_var: conditional_var}"}}= conditional_var.name 
           - else
             = algorithm_calculator.conditional
         %dt.col-4.text-right= AlgorithmCalculator.human_attribute_name(:default_eq)
