@@ -1,12 +1,4 @@
-.card.card-info.card-outline
-  .card-header
-    .card-title
-      %i.fa.fa-chart-bar
-      = algorithm_calculator.presentation
-    .card-tools
-      
-  .card-body
-    %div{id: "plot_#{algorithm_calculator.name}"}
+%div{id: "plot_#{algorithm_calculator.name}"}
 
 :javascript
 
@@ -35,9 +27,6 @@
   }
   
   $('input#algorithm_input').on('keyup change paste', function(){
-    calculateFactor_#{algorithm_calculator.name}()
-  })
-  $(".conditional_items.#{algorithm_calculator.name}").on('change', function(){
     calculateFactor_#{algorithm_calculator.name}()
   })
   calculateFactor_#{algorithm_calculator.name}()
