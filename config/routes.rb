@@ -31,6 +31,7 @@ Rails
 
         resources :charts do
           collection do
+            get :benfords_law
             get :latest_customer_evaluations
             get :latest_evaluated_movements
             get :evaluated_movements
@@ -79,6 +80,7 @@ Rails
       resources :charts do
         collection do
           get :all_risk_movements
+          get :benfords_law
           get :count_evaluated_movements
           get :amount_evaluated_movements
           get :sum_evaluated_movements

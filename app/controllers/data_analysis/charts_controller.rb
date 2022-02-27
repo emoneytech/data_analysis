@@ -67,6 +67,15 @@ module DataAnalysis
       end
     end
   
+    def benfords_law
+      if evaluated_movements_filtering_params["in_out"] == "ALL"
+        result = EvaluatedMovement.filter(evaluated_movements_filtering_params.except("in_out"))
+      else
+        result = EvaluatedMovement.filter(evaluated_movements_filtering_params)
+      end
+      render json: result.group("SUBSTR(CAST(amount_cents as CHAR), 1, 1)").count.chart_json
+    end
+
     def map_destination_countries
       result =  EvaluatedMovement.group(:destination_country).count
       render json: result.as_json
