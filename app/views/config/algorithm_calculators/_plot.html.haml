@@ -8,7 +8,6 @@
   function plot_#{algorithm_calculator.name}() {
     draw($("input#algorithm_calculator_eq.#{algorithm_calculator.name}").val(), "plot_#{algorithm_calculator.name}", ["#{algorithm_calculator.abscissa_min}", "#{algorithm_calculator.abscissa_max}", "#{algorithm_calculator.abscissa_intervall}"])
   }
-
   function calculateFactor_#{algorithm_calculator.name}() {
     let amount_eq = algorithm_eq_#{algorithm_calculator.name}().replace("**", "^")
     let opts = {
@@ -31,7 +30,6 @@
   var handleResize_#{algorithm_calculator.name} = () => {
     if ( resized_#{algorithm_calculator.name}++ >= 1 ) return
     setTimeout(() => {
-      console.log('resized')
       resized_#{algorithm_calculator.name} = 0
       plot_#{algorithm_calculator.name}()
     }, 500)
@@ -39,7 +37,6 @@
   window.addEventListener('resize', handleResize_#{algorithm_calculator.name}, true)
   $(document).on("page:before-change turbolinks:before-visit", function() {
     if (true) {
-      console.log("about to clear event listeners prior to leaving page")
       window.removeEventListener('resize', handleResize_#{algorithm_calculator.name}, true)
     }
   });
