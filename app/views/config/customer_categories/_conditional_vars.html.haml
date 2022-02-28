@@ -1,0 +1,14 @@
+.card.card-primary.card-outline
+  .card-body.p-0
+    %table.table.table-striped.table-hover.margin-none
+      %thead
+        %tr
+          %th
+            = fa_icon ConditionalVar.icon
+            = ConditionalVar.model_name.human(:count => 2)
+          %th= ConditionalVar.human_attribute_name(:value)
+      %tbody
+        - customer_category.customer_category_conditional_vars.each do |item|
+          %tr
+            %td= item.conditional_var
+            %td= item.value

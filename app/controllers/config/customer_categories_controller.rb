@@ -21,6 +21,9 @@ class Config::CustomerCategoriesController < ManagerController
 
   # GET /customer_categories/1/edit
   def edit
+    add_breadcrumb @customer_category.name, [:config, :customer_category]
+    add_breadcrumb I18n.t(:edit, default: 'Edit'), [:edit, :config, :customer_category]
+
   end
 
   # POST /customer_categories

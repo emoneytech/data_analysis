@@ -10,4 +10,4 @@
         %td= item.customer_category
         %td= item.value
         %td
-          %a{href: "javascript:void(0)", data: {toggle: "popover", trigger: "focus", title: "SQL", content: "#{item.customer_category.query_result.to_sql}"}}=item.customer_category.query_result.count
+          %a{href: "javascript:void(0)", data: {toggle: "popover", title: "SQL", content: "#{item.customer_category.query_result.to_sql}"}}=item.customer_category.query_result.count

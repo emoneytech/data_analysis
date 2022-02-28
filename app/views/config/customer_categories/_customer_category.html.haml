@@ -1,0 +1,24 @@
+.form-row
+  .col-md-8
+    .card.card-primary.card-outline
+      .card-header
+        %h3.card-title= raw "#{fa_icon(CustomerCategory.icon)} #{CustomerCategory.model_name.human}: #{customer_category.name}"
+        .card-tools
+          = config_edit_link(customer_category)
+          = back_link(config_customer_categories_path)
+
+      .card-body
+        %dl.form-row.m-0
+          %dt.col-6.text-right= CustomerCategory.human_attribute_name(:name)
+          %dd.col-md-6= customer_category.name
+          %dt.col-6.text-right= CustomerCategory.human_attribute_name(:base_risk)
+          %dd.col-md-6= customer_category.base_risk
+          %dt.col-6.text-right= CustomerCategory.human_attribute_name(:default)
+          %dd.col-md-6= customer_category.default
+          %dt.col-6.text-right= CustomerCategory.human_attribute_name(:count)
+          %dd.col-md-6= customer_category.query_result.count
+          %dt.col-6.text-right= CustomerCategory.human_attribute_name(:all_customers)
+          %dd.col-md-6= Anagrafica.alive.count
+  .col-md-4
+    = render 'config/customer_categories/conditional_vars', customer_category: customer_category
+    = render 'config/customer_categories/algorithm_calculators', customer_category: customer_category

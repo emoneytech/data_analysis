@@ -2,6 +2,8 @@ class CustomerCategory < CorePgRecord
 
   has_many :customer_category_conditional_vars, dependent: :destroy
   has_many :conditional_vars, through: :customer_category_conditional_vars
+  has_many :algorithm_calculators, -> { distinct }, through: :conditional_vars
+  has_many :algorithms, -> { distinct }, through: :algorithm_calculators
 
   validates :name, presence: true, uniqueness: true
   validates :base_risk, presence: true, uniqueness: true
@@ -24,6 +26,10 @@ class CustomerCategory < CorePgRecord
 
   def query_result
     sql = Anagrafica.alive.where("anagrafiche.base_risk = ?", self.base_risk)
+  end
+  
+  def hash_values
+    self.customer_category_conditional_vars.map{|item| [item.conditional_var.name, item.value] }.to_h
   end
 
   private 

@@ -1,0 +1,16 @@
+.card.card-primary.card-outline
+  .card-body.p-0
+    %table.table.table-striped.table-hover.margin-none
+      %thead
+        %tr
+          %th{colspan: 2}
+            = fa_icon AlgorithmCalculator.icon
+            = AlgorithmCalculator.model_name.human(:count => 2)
+            for
+            = "\"#{customer_category}\""
+      %tbody
+        - customer_category.algorithm_calculators.each do |item|
+          %tr
+            %td= item.name
+            %td= item.eq_for(customer_category.id)
+

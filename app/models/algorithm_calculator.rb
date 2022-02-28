@@ -49,6 +49,14 @@ class AlgorithmCalculator < CorePgRecord
     calculator.evaluate(self.value, opts)
   end
 
+  def eq_for(customer_category_id)
+    eq = self.value
+    values = self.customer_categories.find(customer_category_id).try(:hash_values)
+    values.each do |key, value|
+      eq.gsub!("#{key}", "#{value}")
+    end
+    return eq
+  end
 
   def default_eq
     eq = self.value

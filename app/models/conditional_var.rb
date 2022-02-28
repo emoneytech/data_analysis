@@ -2,6 +2,7 @@ class ConditionalVar < CorePgRecord
   
   has_many :algorithm_calculator_conditional_vars, dependent: :destroy
   has_many :algorithm_calculators, through: :algorithm_calculator_conditional_vars
+  has_many :algorithms, -> { distinct }, through: :algorithm_calculators
   
   before_destroy :check_algorithm_calculators_presence
 

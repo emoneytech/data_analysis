@@ -4,8 +4,8 @@
       = fa_icon ConditionalVar.icon
       = t(:listing_resource, resource: ConditionalVar.model_name.human(:count => 2))
     - if can? :create, ConditionalVar
-      .card-tools= link_to(t(:add_resource, resource: ConditionalVar.model_name.human), [:new, :config, algorithm_calculator, :conditional_var], class: "btn btn-xs btn-success") 
+      .card-tools= link_to(t(:add_resource, resource: ConditionalVar.model_name.human), [:new, :config, :conditional_var], class: "btn btn-xs btn-success") 
   .card-body
-    = render 'table', conditional_vars: conditional_vars
+    = render 'config/conditional_vars/table', conditional_vars: conditional_vars
 
     
