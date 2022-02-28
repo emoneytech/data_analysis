@@ -7,4 +7,3 @@
       .card-tools= link_to(t(:add_resource, resource: AlgorithmCalculator.model_name.human), [:new, :config, :algorithm_calculator], class: "btn btn-xs btn-success") 
   .card-body
     = render 'config/algorithm_calculators/table', algorithm_calculators: algorithm_calculators
-    

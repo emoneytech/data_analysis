@@ -1,4 +1,4 @@
-.card.card-primary.card-outline
+.card.card-primary.card-outline{id: "container_#{algorithm_calculator.name}"}
   .card-header
     .card-title= raw "#{fa_icon(AlgorithmCalculator.icon)} #{algorithm_calculator.presentation}"
     .card-tools
@@ -32,8 +32,6 @@
         %dd.col-8
           %span.algorithm_calculator.btn.btn-info.btn-xs{class: "#{algorithm_calculator.name}"}
             0.00
+  %hr.m-0
+  = render 'config/algorithm_calculators/plot', algorithm_calculator: algorithm_calculator
 
-    .border
-      = render 'config/algorithm_calculators/plot', algorithm_calculator: algorithm_calculator
-
-      

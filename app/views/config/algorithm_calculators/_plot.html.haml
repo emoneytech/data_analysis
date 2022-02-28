@@ -1,7 +1,5 @@
 %div{id: "plot_#{algorithm_calculator.name}"}
-
 :javascript
-
   function algorithm_eq_#{algorithm_calculator.name}() {
     let str = "#{algorithm_calculator.default_eq}"
     $("input#algorithm_calculator_eq.#{algorithm_calculator.name}").val(str)
@@ -20,15 +18,28 @@
     $("span.algorithm_calculator.#{algorithm_calculator.name}").html(formatFactor(algorithm_calculator))
     return algorithm_calculator
   }
-
   document.getElementById("algorithm_calculator_form_#{algorithm_calculator.name}").onsubmit = function (event) {
     plot_#{algorithm_calculator.name}()
     event.preventDefault()
   }
-  
   $('input#algorithm_input').on('keyup change paste', function(){
     calculateFactor_#{algorithm_calculator.name}()
   })
   calculateFactor_#{algorithm_calculator.name}()
   plot_#{algorithm_calculator.name}()
-
+  var resized_#{algorithm_calculator.name} = 0
+  var handleResize_#{algorithm_calculator.name} = () => {
+    if ( resized_#{algorithm_calculator.name}++ >= 1 ) return
+    setTimeout(() => {
+      console.log('resized')
+      resized_#{algorithm_calculator.name} = 0
+      plot_#{algorithm_calculator.name}()
+    }, 500)
+  }
+  window.addEventListener('resize', handleResize_#{algorithm_calculator.name}, true)
+  $(document).on("page:before-change turbolinks:before-visit", function() {
+    if (true) {
+      console.log("about to clear event listeners prior to leaving page")
+      window.removeEventListener('resize', handleResize_#{algorithm_calculator.name}, true)
+    }
+  });
