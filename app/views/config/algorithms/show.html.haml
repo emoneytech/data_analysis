@@ -1,6 +1,7 @@
 .form-row
   .col-md-8
     = render 'algorithm', algorithm: @algorithm
+    = render 'simulator', algorithm: @algorithm
   .col-md-4
     = render 'customer_categories', customer_categories: @algorithm.customer_categories
 

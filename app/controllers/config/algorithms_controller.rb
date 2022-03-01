@@ -19,9 +19,18 @@ class Config::AlgorithmsController < ManagerController
     @algorithm = Algorithm.new
   end
 
+
+  # GET /algorithms/1/duplicate
+  # GET /algorithms/1/duplicate.json
   def duplicate
     @algorithm = @algorithm.amoeba_dup
     render :new
+  end
+
+  # POST /algorithms/1/calculate
+  # POST /algorithms/1/calculate.json
+  def calculate
+    binding.pry
   end
 
   # GET /algorithms/1/edit

@@ -240,6 +240,9 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
+    kaminari-i18n (0.5.0)
+      kaminari
+      rails
     keisan (0.9.1)
       cmath (~> 1.0)
     launchy (2.5.0)
@@ -548,6 +551,7 @@ DEPENDENCIES
   iban-tools
   jbuilder (~> 2.7)
   kaminari
+  kaminari-i18n
   keisan
   letter_opener
   listen (~> 3.3)

@@ -93,6 +93,7 @@ gem 'paranoia'
 gem 'paranoia_uniqueness_validator', '3.3.0'
 
 gem 'kaminari'
+gem 'kaminari-i18n'
 gem 'bootstrap4-kaminari-views'
 gem 'ransack'
 gem 'cocoon'

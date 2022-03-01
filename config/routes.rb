@@ -186,6 +186,7 @@ Rails
       resources :algorithms do
         member do
           get :duplicate
+          post :calculate
         end
       end
       resources :algorithm_calculators do

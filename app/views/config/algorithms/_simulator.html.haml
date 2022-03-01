@@ -1,0 +1,9 @@
+.card.card-primary.card-outline.mb-2
+  .card-header
+    .card-title
+      = fa_icon Algorithm.icon
+      = t(:simulator, default: 'Simulator')
+  .card-body.p-1
+    = simple_form_for [:calculate, :config, algorithm], html: {id: "customer_categories", class: "customer_categories"}, remote: true do |f|
+      = f.input :customer_category, as: :select, label: false, collection: algorithm.customer_categories, input_html: {class: "select2", style: "width: 100%;"}, wrapper_html: {class: "m-0"}, include_blank: false
+
