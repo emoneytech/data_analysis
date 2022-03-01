@@ -8,9 +8,10 @@ class ImportCsvSanctionListWorker
   # PARAMS
   # sanction_list_id, file
 
-  def perform(sanction_list_id, file)
+  def perform(sanction_list_id)
     sanction_list = SanctionList.find(sanction_list_id) rescue nil
     return unless sanction_list
-    sanction_list.import(file)
+    sanction_list.import
+    sanction_list.update(state: "completed")
   end
 end

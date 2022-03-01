@@ -1196,9 +1196,10 @@ ALTER SEQUENCE public.sanction_list_items_id_seq OWNED BY public.sanction_list_i
 CREATE TABLE public.sanction_lists (
     id bigint NOT NULL,
     name character varying,
-    sanction_list_items_count integer,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    state character varying DEFAULT 'new'::character varying NOT NULL,
+    remote_url character varying
 );
 
 
@@ -2557,6 +2558,13 @@ CREATE INDEX index_sanction_list_items_on_sanction_list_id ON public.sanction_li
 
 
 --
+-- Name: index_sanction_lists_on_state; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sanction_lists_on_state ON public.sanction_lists USING btree (state);
+
+
+--
 -- Name: index_triggerable_on_customer; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2873,6 +2881,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220225072048'),
 ('20220226082853'),
 ('20220226083104'),
-('20220226104640');
+('20220226104640'),
+('20220301105411'),
+('20220301111844');
 
 

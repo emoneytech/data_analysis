@@ -52,17 +52,11 @@ module ComplianceCheck
       end
     end
 
-
-    def import
-      ImportCsvSanctionListWorker.perform_async(@sanction_list.id, params[:file])
-      redirect_to [:compliance_check, @sanction_list]
-    end
-
   private
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def sanction_list_params
-      params.require(:sanction_list).permit(:name)
+      params.require(:sanction_list).permit(:name, :main_csv)
     end
 
     def filtering_params
