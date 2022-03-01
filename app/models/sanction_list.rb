@@ -66,7 +66,7 @@ class SanctionList < CorePgRecord
   end
 
   def start_import_worker
-    ImportCsvSanctionListWorker.perform_async(self.id) if self.main_csv.changed?
+    ImportCsvSanctionListWorker.perform_async(self.id) if self.new_record? || self.main_csv.changed?
   end
 
 
