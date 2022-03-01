@@ -141,7 +141,7 @@
 class SanctionListItem < CorePgRecord
   acts_as_copy_target
   
-  belongs_to :sanction_list, :counter_cache => true
+  belongs_to :sanction_list
   
   include PgSearch::Model
   pg_search_scope :name_similar,
