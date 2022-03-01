@@ -130,7 +130,7 @@ module DataAnalysis
           :recursion_all_7,
           :service_id,
           :reason,
-        ).permit!
+        ).delete_if { |k, v| k == 'in_out' && v == 'ALL' }.permit!
       else
         {}
       end
