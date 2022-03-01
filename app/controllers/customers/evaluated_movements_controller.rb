@@ -86,42 +86,44 @@ class Customers::EvaluatedMovementsController < CustomersController
   end
 
   private
-
-  def filtering_params
-    if params[:filter]
-      params[:filter].slice(
-        :beneficiary,
-        :beneficiary_card,
-        :beneficiary_iban,
-        :beneficiary_other,
-        :payer,
-        :payer_card,
-        :payer_iban,
-        :payer_other,
-        :customer_id,
-        :customer_full_name,
-        :daterange,
-        :destination_country,
-        :in_out,
-        :internal,
-        :min_recursion_all_7,
-        :min_recursion_all_30,
-        :min_recursion_customer_7,
-        :min_recursion_customer_30,
-        :movement_id,
-        :origin_country,
-        :payer,
-        :payer_iban,
-        :product_id,
-        :product_name,
-        :recursion_all_7,
-        :service_id,
-        :reason,
-      ).delete_if { |k, v| k == 'in_out' && v == 'ALL' }.permit!
-    else
-      {}
+    def filtering_params
+      if params[:filter]
+        params[:filter].slice(
+          :min_amount,
+          :max_amount,
+          :first_digit,
+          :beneficiary,
+          :beneficiary_card,
+          :beneficiary_iban,
+          :beneficiary_other,
+          :payer,
+          :payer_card,
+          :payer_iban,
+          :payer_other,
+          :customer_id,
+          :customer_full_name,
+          :daterange,
+          :destination_country,
+          :in_out,
+          :internal,
+          :min_recursion_all_7,
+          :min_recursion_all_30,
+          :min_recursion_customer_7,
+          :min_recursion_customer_30,
+          :movement_id,
+          :origin_country,
+          :payer,
+          :payer_iban,
+          :product_id,
+          :product_name,
+          :recursion_all_7,
+          :service_id,
+          :reason,
+        ).delete_if { |k, v| k == 'in_out' && v == 'ALL' }.permit!
+      else
+        {}
+      end
     end
-  end
 
   def local_breadcrumb
     add_breadcrumb helpers.raw(

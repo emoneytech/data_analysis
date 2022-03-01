@@ -11,6 +11,9 @@
 require 'csv'
 class SanctionList < CorePgRecord
 
+  has_one_attached :main_csv
+  validate :acceptable_csv
+
   has_many :sanction_list_items, dependent: :destroy
 
   def self.fieldnames
@@ -34,5 +37,19 @@ class SanctionList < CorePgRecord
       i.save
     end
   end
+
+  def acceptable_csv
+    return unless main_csv.attached?
+
+    unless main_csv.byte_size <= 50.megabyte
+      errors.add(:main_csv, "is too big")
+    end
+
+    acceptable_types = ["text/csv"]
+    unless acceptable_types.include?(main_csv.content_type)
+      errors.add(:main_csv, "must be a CSV File")
+    end
+  end
+
 
 end
