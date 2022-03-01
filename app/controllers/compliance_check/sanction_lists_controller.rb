@@ -54,7 +54,7 @@ module ComplianceCheck
 
 
     def import
-      @sanction_list.import(params[:file])
+      ImportCsvSanctionListWorker.perform_async(@sanction_list.id, params[:file])
       redirect_to [:compliance_check, @sanction_list]
     end
 
