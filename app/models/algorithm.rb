@@ -24,6 +24,16 @@ class Algorithm < CorePgRecord
     calculator.evaluate(self.eq, opts)
   end
 
+  def calculate(customer_category_id, amount, recursion, country, product)
+    # opts = self.algorithm_calculators.map{|v| ["#{v.name}", v.value_for(customer_category_id,eval("#{v.name}".gsub!("_factor","")).to_f).to_f]}.to_h
+    calculator = Keisan::Calculator.new
+    calculator.evaluate(self.eq, self.opts(customer_category_id, amount, recursion, country, product))
+  end
+
+  def opts(customer_category_id, amount, recursion, country, product)
+    self.algorithm_calculators.map{|v| ["#{v.name}", v.value_for(customer_category_id,eval("#{v.name}".gsub!("_factor","")).to_f).to_f]}.to_h
+  end
+
   def abscissa
     self.algorithm_algorithm_calculators.default_abscissa.first.try(:algorithm_calculator).try(:name)
   end

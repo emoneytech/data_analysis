@@ -1,9 +1,24 @@
-.card.card-primary.card-outline.mb-2
-  .card-header
-    .card-title
-      = fa_icon Algorithm.icon
-      = t(:simulator, default: 'Simulator')
-  .card-body.p-1
-    = simple_form_for "test", url: [:calculate, :config, algorithm], html: {id: "customer_categories", class: "customer_categories"}, remote: true do |f|
-      = f.input :customer_category, as: :select, label: false, collection: algorithm.customer_categories, input_html: {class: "select2", style: "width: 100%;"}, wrapper_html: {class: "m-0"}, include_blank: false
-
+.form-row
+  .col-md-8
+    .card.card-primary.card-outline.mb-2
+      = simple_form_for :simulator, url: [:calculate, :config, algorithm], html: {id: "customer_categories", class: "customer_categories"}, remote: true do |f|
+        .card-header
+          .card-title
+            = fa_icon Algorithm.icon
+            = t(:simulator, default: 'Simulator')
+        .card-body
+          .form-row
+            .col-md-6= f.input :customer_category_id, as: :select, collection: algorithm.customer_categories, input_html: {class: "select2", style: "width: 100%;"}, include_blank: false
+            .col-md-3= f.input :amount, as: :float, input_html: {value: 1000}
+            .col-md-3= f.input :recursion, as: :integer, input_html: {value: 1}
+          .form-row
+            .col-md-6
+              = f.input :country, as: :select, |
+                collection: RelatedCountry.order(:name).map{|item| ["#{number_with_precision item.attention_factor} | #{Country[item.alpha2].emoji_flag} #{item.name}", number_with_precision(item.attention_factor)]}, |
+                input_html: {class: "select2", style: "width: 100%;"}, |
+                selected: "#{params[:simulator] && params[:simulator][:country] ? params[:simulator][:country] : 1.252}", include_blank: true
+            .col-md-6= f.input :product, as: :float, input_html: {value: 1.01}
+        .card-footer.text-right
+          = f.submit 'calculate', class: "btn btn-sm btn-success" 
+  #results.col-md-4 
+    = render 'results'

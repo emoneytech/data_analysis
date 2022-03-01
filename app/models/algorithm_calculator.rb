@@ -51,11 +51,16 @@ class AlgorithmCalculator < CorePgRecord
 
   def eq_for(customer_category_id)
     eq = self.value
-    values = self.customer_categories.find(customer_category_id).try(:hash_values)
+    values = CustomerCategory.find(customer_category_id).try(:hash_values)
     values.each do |key, value|
       eq.gsub!("#{key}", "#{value}")
     end
     return eq
+  end
+
+  def value_for(customer_category_id, input_value)
+    calculator = Keisan::Calculator.new
+    calculator.evaluate(self.eq_for(customer_category_id), {x: input_value.to_f})
   end
 
   def default_eq

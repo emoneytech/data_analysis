@@ -30,7 +30,8 @@ class Config::AlgorithmsController < ManagerController
   # POST /algorithms/1/calculate
   # POST /algorithms/1/calculate.json
   def calculate
-    binding.pry
+    @result = @algorithm.calculate(simulator_params[:customer_category_id], simulator_params[:amount], simulator_params[:recursion], simulator_params[:country], simulator_params[:product])
+    @opts = @algorithm.opts(simulator_params[:customer_category_id], simulator_params[:amount], simulator_params[:recursion], simulator_params[:country], simulator_params[:product])
   end
 
   # GET /algorithms/1/edit
@@ -100,6 +101,16 @@ class Config::AlgorithmsController < ManagerController
           :algorithm_id,
           :_destroy
         ]
+      )
+    end
+    
+    def simulator_params
+      params.require(:simulator).permit(
+        :customer_category_id,
+        :amount,
+        :recursion,
+        :country,
+        :product
       )
     end
 end
