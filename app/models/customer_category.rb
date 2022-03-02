@@ -5,12 +5,18 @@ class CustomerCategory < CorePgRecord
   has_many :algorithm_calculators, -> { distinct }, through: :conditional_vars
   has_many :algorithms, -> { distinct }, through: :algorithm_calculators
 
+  # has_one :default_algorithm, -> { where('algorithms.default = ?', true) }, class_name: 'Algorithm', through: :algorithm_calculators
+
   validates :name, presence: true, uniqueness: true
   validates :base_risk, presence: true, uniqueness: true
 
   validates :default, uniqueness: true, if: :default
 
   before_validation :unset_default, if: :default
+  
+  def default_algorithm
+    self.algorithms.includes(:algorithm_calculators).where(default: true).first
+  end
   
   def to_s
     "#{self.name}"

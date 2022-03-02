@@ -6,8 +6,9 @@ class Algorithm < CorePgRecord
   has_many :algorithm_calculators, through: :algorithm_algorithm_calculators
   has_many :customer_categories, -> { distinct }, through: :algorithm_calculators
 
+  # scope :default, -> { where(default: true).first }
+  
   validates :default, uniqueness: true, presence: true, if: :default
-
   before_validation :check_abscissa
 
   amoeba do

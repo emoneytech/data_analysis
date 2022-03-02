@@ -95,7 +95,9 @@ class EvaluatedMovement < CorePgRecord
              class_name: 'Anagrafica',
              foreign_key: 'customer_id',
              primary_key: 'IdUtente'
-
+  delegate :customer_category, to: :customer
+  delegate :default_algorithm, to: :customer_category
+  alias_attribute :algorithm, :default_algorithm
   # movement
   belongs_to :movement,
              class_name: 'Movimentoconto',
@@ -463,20 +465,6 @@ class EvaluatedMovement < CorePgRecord
 
   def recursions_customer
     "#{self.recursion_customer_7} / #{self.recursion_customer_30}"
-  end
-
-  def all_previous
-    EvaluatedMovement
-      .where('movement_created_at < ? ', self.movement_created_at)
-      .order(movement_created_at: :desc)
-      .first
-  end
-
-  def all_next
-    EvaluatedMovement
-      .where('movement_created_at > ?', self.movement_created_at)
-      .order(movement_created_at: :asc)
-      .first
   end
 
   def self.export_attributes

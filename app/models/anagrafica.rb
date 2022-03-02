@@ -437,6 +437,13 @@ class Anagrafica < ApplicationCoreRecord
     'user'
   end
   
+  def customer_category
+    customer_category = CustomerCategory.find_by_base_risk(self.base_risk) rescue nil
+    customer_category = CustomerCategory.where('algorithms.base_risk >= ?', self.base_risk).order(base_risk: :asc).first rescue nil unless customer_category
+    customer_category = CustomerCategory.where('algorithms.base_risk <= ?', self.base_risk).order(base_risk: :desc).first rescue nil unless customer_category
+    return customer_category
+  end
+
   def tollerance
     if customer_settings.global.any?
       customer_settings.global.first.tollerance
