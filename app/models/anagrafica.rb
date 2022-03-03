@@ -604,8 +604,6 @@ class Anagrafica < ApplicationCoreRecord
     max_base_risk = Configurable.max_base_risk.to_f
     min_base_risk = self.try(:base_risk).to_f || Configurable.min_base_risk.to_f
     tlf = Configurable.time_lapse_factor.to_f
-    amount_f = Configurable.amount_f.to_f
-    amount_d = Configurable.amount_d.to_f
     years_of_activity = self.years_of_activity
     tuples = self.tuple_activities
     years_of_activity.each do |eval_year|

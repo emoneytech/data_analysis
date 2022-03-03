@@ -1,0 +1,13 @@
+.form-row
+  .col-md-12
+    .card.card-outline.card-primary
+      = render 'card_header'
+      .card-body
+        .form-row
+          .col-md-12
+            = render "map"
+.form-row
+  .col-md-12
+    %p="Period #{@period}"
+    %p="Day #{@day}"
+    = render 'graphics', period: @period, day: @day

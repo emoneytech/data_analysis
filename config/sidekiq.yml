@@ -11,13 +11,13 @@
   massive: 25
   default: 10
   mailers: 3
-  critical: 1
-  serial: 1
+  critical: 14
+  serial: 10
 
 :process_limits:
   massive: 25
   critical: 14
-  serial: 1
+  serial: 10
 
 :schedule:
   trigger_worker:

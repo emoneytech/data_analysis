@@ -114,6 +114,13 @@ Rails
       end
       resources :eval_riskinesses
       resources :ibans
+      resources :mandati do
+        member { post :update_evaluated_movements }
+        collection do
+          get :map
+          get :reports
+        end
+      end
       resources :matviews
       resources :maps
       resources :movimenticonti
@@ -131,13 +138,7 @@ Rails
           get :reports
         end
       end
-      resources :mandati do
-        member { post :update_evaluated_movements }
-        collection do
-          get :map
-          get :reports
-        end
-      end
+      resources :stats
       resources :sync, only: :index
       resources :time_lapse_factors
     end

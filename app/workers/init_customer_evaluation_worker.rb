@@ -6,7 +6,7 @@ class InitCustomerEvaluationWorker
   sidekiq_options queue: 'massive', retry: false, backtrace: true
 
   # PARAMS
-  # customer_id, default_risk, amount_d, amount_f, max_base_risk
+  # customer_id
 
   def perform(customer_id)
     customer = Anagrafica.includes(:time_lapse_factor).find customer_id

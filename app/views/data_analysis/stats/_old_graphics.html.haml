@@ -1,0 +1,43 @@
+.form-row.mt-3
+  .col-md-12 
+    .card.card-outline.card-success
+      .card-header
+        .card-title
+          %i.fas.fa-file-import
+          IN
+      .card-body.p-3
+        .form-row 
+          .col-md-12
+            .card
+              .card-body
+                = line_chart count_evaluated_movements_data_analysis_charts_path(day: day, period: period, in_out: 'IN'), remote: true, thousands: "'"
+        .form-row
+          .col-md-6
+            .card
+              .card-body
+                = column_chart sum_evaluated_movements_data_analysis_charts_path(day: day, period: period, in_out: 'IN'), remote: true, stacked: true, thousands: "'", prefix: "€", id: 'period-chart'
+          .col-md-6
+            .card
+              .card-body
+                = bar_chart sum_evaluated_movements_data_analysis_charts_path(day: day, period: sub_period(period), in_out: 'IN'), remote: true, thousands: "'", prefix: "€", id: 'updatable-chart-in'
+  .col-md-12 
+    .card.card-outline.card-danger
+      .card-header
+        .card-title
+          %i.fas.fa-file-export
+          OUT
+      .card-body.p-3
+        .form-row 
+          .col-md-12
+            .card
+              .card-body
+                = line_chart count_evaluated_movements_data_analysis_charts_path(day: day, period: period, in_out: 'OUT'), remote: true, thousands: "'"
+        .form-row
+          .col-md-6
+            .card
+              .card-body
+                = column_chart sum_evaluated_movements_data_analysis_charts_path(day: day, period: period, in_out: 'OUT'), remote: true, stacked: true, thousands: "'", prefix: "€"
+          .col-md-6
+            .card
+              .card-body
+                = bar_chart sum_evaluated_movements_data_analysis_charts_path(day: day, period: sub_period(period), in_out: 'OUT'), remote: true, thousands: "'", prefix: "€", id: 'updatable-chart-out'

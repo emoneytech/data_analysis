@@ -1,0 +1,16 @@
+- day_end = day.at_end_of_month > Date.today ? Date.today : day.at_end_of_month
+- daterange = "#{day.at_beginning_of_month.strftime("%d/%m/%Y")} - #{day_end.strftime("%d/%m/%Y")}"
+- details_daterange = "#{day.at_beginning_of_month.strftime("%d/%m/%Y")} - #{day.at_beginning_of_month.strftime("%d/%m/%Y")}"
+- default_in_out = 'ALL'
+.form-row.mt-3
+  .col-md-12
+    - opts = {group_by_day: 1, pariod: period, filter: {daterange: daterange, in_out: default_in_out}}
+    = render 'data_analysis/charts/evaluated_movements', opts: opts
+.form-row
+  .col-md-6
+    - opts = {period: period, filter: {daterange: daterange, in_out: default_in_out}}
+    = render 'data_analysis/charts/amount_evaluated_movements', opts: opts
+  .col-md-6
+    - opts = {period: sub_period(period), day: day.at_beginning_of_month, filter: {daterange: details_daterange, in_out: default_in_out}}
+    = render 'data_analysis/charts/details_amount_evaluated_movements', opts: opts 
+    

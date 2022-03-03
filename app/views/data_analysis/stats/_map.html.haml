@@ -1,0 +1,24 @@
+.form-row
+  .col-md-12
+    #map_movements{ style: "height: 860px;" }
+:javascript
+  var current_date = moment("#{@day}")
+  initMap('map_movements')
+  setProps()
+  getMovements()
+  // console.log(this.start_query_date)
+  setDateRange()
+  initTimeControl(this.props)
+  pickerInit(datepicker, 'month')
+  $('select#query_limit').change(function() {
+    console.log('Clicked option value => ' + $(this).val())
+    getMovements()
+  })
+  
+  /*
+  setSelector()
+  setBbox(current_date)
+  initTimeControl(this.props)
+  */
+  
+
