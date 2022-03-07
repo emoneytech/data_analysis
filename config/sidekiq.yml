@@ -8,15 +8,15 @@
   - serial
 
 :limits:
-  massive: 25
+  massive: 5
   default: 10
   mailers: 3
-  critical: 14
+  critical: 35
   serial: 1
 
 :process_limits:
-  massive: 25
-  critical: 14
+  massive: 5
+  critical: 35
   serial: 1
 
 ##### SET FOR INIT

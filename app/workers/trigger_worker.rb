@@ -8,7 +8,9 @@ class TriggerWorker
 
   def perform()
     QueueMovement.order(last_update: :asc).each do |queue|
-      queue.destroy if TriggerMovementWorker.perform_async(queue.movement_id)
+      movement_to_trigger = Movimentoconto.to_trigger.find(queue.movement_id) rescue nil
+      TriggerMovementWorker.perform_async(queue.movement_id) if movement_to_trigger
+      queue.destroy
     end
   end
 
