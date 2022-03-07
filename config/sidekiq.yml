@@ -19,13 +19,14 @@
   critical: 14
   serial: 1
 
-:schedule:
-  trigger_worker:
-    every: '1m'
-    class: TriggerWorker
-  trigger_customer_worker:
-    every: '5m'
-    class: TriggerCustomerWorker
-  daily_worker:
-    cron: '00 01 * * *'
-    class: DailyWorker
+##### SET FOR INIT
+#:schedule:
+#  trigger_worker:
+#    every: '1m'
+#    class: TriggerWorker
+#  trigger_customer_worker:
+#    every: '5m'
+#    class: TriggerCustomerWorker
+#  daily_worker:
+#    cron: '00 01 * * *'
+#    class: DailyWorker
