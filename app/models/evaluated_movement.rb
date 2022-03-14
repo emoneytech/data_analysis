@@ -118,13 +118,13 @@ class EvaluatedMovement < CorePgRecord
 
   before_save :finalize_movement
   ##### SET FOR INIT
-  # after_create :send_notification, :send_enhanced_notification
+  after_create :send_notification, :send_enhanced_notification
 
   #================================================================
   # dopo che il movimento viene valutato salvo l'id del cliente
   # per aggiornare il fattore di attenzione
   ##### SET FOR INIT
-  # after_save :set_queue_customer
+  after_save :set_queue_customer
 
   #=========================
 
