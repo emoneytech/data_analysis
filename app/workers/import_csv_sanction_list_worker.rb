@@ -21,5 +21,6 @@ class ImportCsvSanctionListWorker
       n = SmarterCSV.process(file.path, {chunk_size: 2000, key_mapping: opts, file_encoding: 'bom|utf-8', col_sep: ";"}) do |chunk|
         sanction_list.sanction_list_items.create( chunk )
       end
+    end
   end
 end
