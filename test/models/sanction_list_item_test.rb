@@ -133,10 +133,6 @@
 #  index_sanction_list_items_on_name_alias_whole_name   (name_alias_whole_name) USING gin
 #  index_sanction_list_items_on_sanction_list_id        (sanction_list_id)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (sanction_list_id => sanction_lists.id)
-#
 require "test_helper"
 
 class SanctionListItemTest < ActiveSupport::TestCase

@@ -2786,14 +2786,6 @@ ALTER TABLE ONLY public.activity_logs
 
 
 --
--- Name: sanction_list_items fk_rails_dd2a218e4b; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.sanction_list_items
-    ADD CONSTRAINT fk_rails_dd2a218e4b FOREIGN KEY (sanction_list_id) REFERENCES public.sanction_lists(id);
-
-
---
 -- Name: customer_category_conditional_vars fk_rails_de9b64a6b4; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2884,6 +2876,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220226104640'),
 ('20220301105411'),
 ('20220301111844'),
-('20220316091726');
+('20220316091726'),
+('20220316111507');
 
 
