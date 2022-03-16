@@ -21,6 +21,8 @@ class SanctionList < CorePgRecord
   validate :acceptable_csv
 
   has_many :sanction_list_items, dependent: :nullify_then_purge
+  accepts_nested_attributes_for :sanction_list_items, allow_destroy: true
+
   after_create :start_import_worker
 
   def self.fieldnames
@@ -53,14 +55,17 @@ class SanctionList < CorePgRecord
   end
 
   def csv_smarter
-    options = {
-      chunk_size: 200,
-      file_encoding: "UTF-8",
-      col_sep: ";"
-    }
+    underscore_converter = lambda { |header| header.underscore }
     self.main_csv.open do |file|
-      n = SmarterCSV.process(file, options) do |chunk|
-        self.sanction_list_items.collection.insert( chunk )
+      headers = CSV.open(file, encoding: 'bom|utf-8', &:readline)
+      ary = headers[0].split(";")
+      opts = {}
+      ary.each do |h|
+        opts[h.downcase.to_sym] = h.underscore.to_sym
+      end
+      n = SmarterCSV.process(file.path, {chunk_size: 200, key_mapping: opts, file_encoding: 'bom|utf-8', col_sep: ";"}) do |chunk|
+        self.sanction_list_items.build( chunk )
+        self.save
       end
     end
     return n
