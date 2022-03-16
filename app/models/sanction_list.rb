@@ -52,6 +52,19 @@ class SanctionList < CorePgRecord
     end
   end
 
+  def csv_to_data
+    fields = SanctionList.fieldnames
+    data = {}
+    self.main_csv.open do |file|
+      CSV.foreach(file, headers: true, col_sep: ";") do |row|
+        fields.each do |field|
+          data[field.underscore] = row["#{field}"]
+        end 
+      end
+    end
+    return data
+  end
+
   def acceptable_csv
     return unless main_csv.attached?
 
