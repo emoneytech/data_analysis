@@ -55,7 +55,6 @@ class SanctionList < CorePgRecord
   end
 
   def csv_smarter
-    underscore_converter = lambda { |header| header.underscore }
     self.main_csv.open do |file|
       headers = CSV.open(file, encoding: 'bom|utf-8', &:readline)
       ary = headers[0].split(";")
@@ -63,7 +62,7 @@ class SanctionList < CorePgRecord
       ary.each do |h|
         opts[h.downcase.to_sym] = h.underscore.to_sym
       end
-      n = SmarterCSV.process(file.path, {chunk_size: 200, key_mapping: opts, file_encoding: 'bom|utf-8', col_sep: ";"}) do |chunk|
+      n = SmarterCSV.process(file.path, {chunk_size: 2000, key_mapping: opts, file_encoding: 'bom|utf-8', col_sep: ";"}) do |chunk|
         self.sanction_list_items.build( chunk )
         self.save
       end
