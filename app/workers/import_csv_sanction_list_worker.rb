@@ -11,7 +11,7 @@ class ImportCsvSanctionListWorker
   def perform(sanction_list_id)
     sanction_list = SanctionList.find(sanction_list_id) rescue nil
     return unless sanction_list
-    sanction_list.import
-    # sanction_list.update(state: "completed")
+    n = sanction_list.csv_smarter
+    sanction_list.update(state: "completed") if n.to_i > 0
   end
 end

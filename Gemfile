@@ -148,3 +148,6 @@ gem 'caxlsx'
 gem 'keisan'
 gem 'amoeba'
 gem 'postgres-copy'
+
+
+gem 'smarter_csv'

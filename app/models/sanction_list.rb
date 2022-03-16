@@ -52,17 +52,18 @@ class SanctionList < CorePgRecord
     end
   end
 
-  def csv_to_data
-    fields = SanctionList.fieldnames
-    data = {}
+  def csv_smarter
+    options = {
+      chunk_size: 200,
+      file_encoding: "UTF-8",
+      col_sep: ";"
+    }
     self.main_csv.open do |file|
-      CSV.foreach(file, headers: true, col_sep: ";") do |row|
-        fields.each do |field|
-          data[field.underscore] = row["#{field}"]
-        end 
+      n = SmarterCSV.process(file, options) do |chunk|
+        self.sanction_list_items.collection.insert( chunk )
       end
     end
-    return data
+    return n
   end
 
   def acceptable_csv
