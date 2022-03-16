@@ -3,7 +3,7 @@ class ImportCsvSanctionListWorker
   include Sidekiq::Status::Worker
 
   # sidekiq_options queue: 'critical', retry: false, backtrace: true
-  sidekiq_options queue: 'massive', retry: false, backtrace: true
+  sidekiq_options queue: 'massive', retry: true, backtrace: true
 
   # PARAMS
   # sanction_list_id, file
