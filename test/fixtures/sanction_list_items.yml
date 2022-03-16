@@ -123,7 +123,7 @@
 #  entity_united_nation_id                         :string
 #  identification_logical_id                       :string
 #  name_alias_logical_id                           :string
-#  sanction_list_id                                :bigint           not null
+#  sanction_list_id                                :bigint
 #
 # Indexes
 #

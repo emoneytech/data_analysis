@@ -151,3 +151,4 @@ gem 'postgres-copy'
 
 
 gem 'smarter_csv'
+gem 'miss_hannigan'

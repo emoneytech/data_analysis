@@ -123,7 +123,7 @@
 #  entity_united_nation_id                         :string
 #  identification_logical_id                       :string
 #  name_alias_logical_id                           :string
-#  sanction_list_id                                :bigint           not null
+#  sanction_list_id                                :bigint
 #
 # Indexes
 #
@@ -141,7 +141,7 @@
 class SanctionListItem < CorePgRecord
   acts_as_copy_target
   
-  belongs_to :sanction_list
+  belongs_to :sanction_list, optional: true
   
   include PgSearch::Model
   pg_search_scope :name_similar,

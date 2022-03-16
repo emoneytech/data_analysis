@@ -1046,7 +1046,7 @@ CREATE TABLE public.row_counts (
 
 CREATE TABLE public.sanction_list_items (
     id bigint NOT NULL,
-    sanction_list_id bigint NOT NULL,
+    sanction_list_id bigint,
     file_generation_date character varying,
     entity_logical_id character varying,
     entity_eu_reference_number character varying,
@@ -2883,6 +2883,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220226083104'),
 ('20220226104640'),
 ('20220301105411'),
-('20220301111844');
+('20220301111844'),
+('20220316091726');
 
 

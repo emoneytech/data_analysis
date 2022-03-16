@@ -20,7 +20,7 @@ class SanctionList < CorePgRecord
   validates :main_csv, presence: true
   validate :acceptable_csv
 
-  has_many :sanction_list_items, dependent: :destroy
+  has_many :sanction_list_items, dependent: :nullify_then_purge
   after_create :start_import_worker
 
   def self.fieldnames
