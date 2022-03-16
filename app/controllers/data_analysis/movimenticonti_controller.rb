@@ -24,8 +24,9 @@ module DataAnalysis
       params[:filter] ? params[:filter].slice(
         :customer_id,
         :daterange,
-        :min_amount,
         :max_amount,
+        :min_amount,
+        :movement_id,
         :in,
         :out,
         :service_id,

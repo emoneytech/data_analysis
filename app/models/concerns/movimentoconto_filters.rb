@@ -12,6 +12,7 @@ module MovimentocontoFilters
   
     scope :with_service, -> { where('movimenticonti.idtransazione IS NOT NULL AND movimenticonti.idtransazione != ?',0) }
 
+    scope :filter_by_movement_id, -> (movement_id) { where(idmovimenticonti: movement_id) }
     scope :filter_by_customer_id, -> (customer_id) { where(numeroConto: Conto.where(IdUtente: customer_id).pluck(:Pan)) }
     scope :filter_by_service_id, -> (service_id) { where(idtransazione: service_id)}
     
