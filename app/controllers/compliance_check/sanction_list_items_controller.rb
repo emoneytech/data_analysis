@@ -2,7 +2,7 @@ class ComplianceCheck::SanctionListItemsController < ComplianceCheckController
   add_breadcrumb helpers.raw("#{helpers.fa_icon('user-check')} #{SanctionListItem.model_name.human(count: 2)}"), [:compliance_check, :sanction_list, :sanction_list_items]
 
   def index
-    @sanction_list_items = @sanction_list.sanction_list_items.page(params[:page])
+    @sanction_list_items = @sanction_list.sanction_list_items.order(name_alias_whole_name: :asc).page(params[:page])
   end
 
   def show
