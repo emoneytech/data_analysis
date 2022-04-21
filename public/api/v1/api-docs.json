@@ -1,6 +1,7 @@
 {
   "apiVersion": "1.0",
   "swaggerVersion": "1.2",
+  "swagger": "2.0",
   "basePath": "https://data-analysis.emoney.tech:8443/api",
   "apis": [
     {

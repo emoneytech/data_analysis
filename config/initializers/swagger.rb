@@ -22,12 +22,3 @@ Swagger::Docs::Config.register_apis({
     }
   }
 })
-=begin
-class Swagger::Docs::Config
-  def self.transform_path(path, api_version)
-    # Make a distinction between the APIs and API documentation paths.
-    "apidocs/#{path}"
-  end
-end
-
-=end
