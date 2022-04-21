@@ -469,6 +469,9 @@ GEM
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     stackprof (0.2.18)
+    swagger-docs (0.2.9)
+      activesupport (>= 3)
+      rails (>= 3)
     temple (0.8.2)
     thor (1.2.1)
     thwait (0.2.0)
@@ -599,6 +602,7 @@ DEPENDENCIES
   spring
   sqlite3 (~> 1.4)
   stackprof
+  swagger-docs
   turbolinks (~> 5)
   tzinfo-data
   watir
