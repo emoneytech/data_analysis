@@ -48,5 +48,3 @@ yarn-debug.log*
 *.env
 appunti*
 
-## Ignore Swagger JSON files.
-/public/api/
