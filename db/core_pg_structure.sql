@@ -331,6 +331,45 @@ ALTER SEQUENCE public.algorithms_id_seq OWNED BY public.algorithms.id;
 
 
 --
+-- Name: api_users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.api_users (
+    id bigint NOT NULL,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    username character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    failed_attempts integer DEFAULT 0 NOT NULL,
+    unlock_token character varying,
+    locked_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: api_users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.api_users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: api_users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.api_users_id_seq OWNED BY public.api_users.id;
+
+
+--
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1376,6 +1415,13 @@ ALTER TABLE ONLY public.algorithms ALTER COLUMN id SET DEFAULT nextval('public.a
 
 
 --
+-- Name: api_users id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.api_users ALTER COLUMN id SET DEFAULT nextval('public.api_users_id_seq'::regclass);
+
+
+--
 -- Name: audits id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1591,6 +1637,14 @@ ALTER TABLE ONLY public.algorithm_calculators
 
 ALTER TABLE ONLY public.algorithms
     ADD CONSTRAINT algorithms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: api_users api_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.api_users
+    ADD CONSTRAINT api_users_pkey PRIMARY KEY (id);
 
 
 --
@@ -1953,6 +2007,34 @@ CREATE INDEX index_algorithms_on_default ON public.algorithms USING btree ("defa
 --
 
 CREATE UNIQUE INDEX index_algorithms_on_name ON public.algorithms USING btree (name);
+
+
+--
+-- Name: index_api_users_on_email; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_api_users_on_email ON public.api_users USING btree (email);
+
+
+--
+-- Name: index_api_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_api_users_on_reset_password_token ON public.api_users USING btree (reset_password_token);
+
+
+--
+-- Name: index_api_users_on_unlock_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_api_users_on_unlock_token ON public.api_users USING btree (unlock_token);
+
+
+--
+-- Name: index_api_users_on_username; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_api_users_on_username ON public.api_users USING btree (username);
 
 
 --
@@ -2877,6 +2959,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220301105411'),
 ('20220301111844'),
 ('20220316091726'),
-('20220316111507');
+('20220316111507'),
+('20220420084929');
 
 

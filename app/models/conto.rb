@@ -23,9 +23,11 @@
 #  Visualizza                                                                    :integer          default(0)
 #  Webpin(Webpin generato dal cliente)                                           :string(6)        default("999999"), not null
 #  alias                                                                         :string(50)
+#  contoFee                                                                      :string(45)       default("")
 #  datanumerica(Data dell'ultimo addebito in conto in formato numerico unsigned) :integer          unsigned
 #  datascadenzaservizi                                                           :date
 #  family(Tipo di conto (Tesoreria (TES)o Tecnico(TEC)))                         :integer          default(4), not null
+#  fee                                                                           :decimal(10, 2)   default(0.75)
 #  fido                                                                          :boolean          default(FALSE)
 #  idConti(Contatore)                                                            :integer          not null
 #  idpoint                                                                       :bigint           default(0), not null

@@ -1,0 +1,10 @@
+json.(
+  item,
+    :name_alias_first_name,
+    :name_alias_last_name,
+    :name_alias_middle_name,
+    :name_alias_whole_name,
+    :name_alias_name_language,
+    :identification_country_iso2_code,
+    :pg_search_rank
+)

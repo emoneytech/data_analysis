@@ -172,8 +172,10 @@
 #
 #  Codicefiscale           (Codicefiscale)
 #  IdUtente_UNIQUE         (IdUtente) UNIQUE
+#  Skipdatecompliance      (Skipdatecompliance)
 #  Tipo                    (IdTipo)
 #  agente                  (Agente)
+#  attivazione             (DataAttivazione)
 #  idx_anagrafiche_Citta   (Citta)
 #  idx_anagrafiche_Vendor  (Vendor)
 #  kyc                     (TipoKYC)

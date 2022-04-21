@@ -200,4 +200,19 @@ Rails
       end
     end
     # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
+    namespace :api, defaults: { format: :json } do
+      namespace :v1 do
+        devise_for :api_users, controllers: { sessions: :sessions }, path_names: { sign_in: :login }
+        resource :api_user, only: [:show, :update]
+        
+        resources :sanction_lists, only: [:index, :show] do
+          collection do
+            post :search
+          end
+        end
+
+      end
+    end
+
   end
