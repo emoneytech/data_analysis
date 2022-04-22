@@ -121,7 +121,7 @@ module ApplicationHelper
 
   def obfuscator(str)
     return str unless @obfuscator
-    return Base64.encode64(str.to_s)
+    return "[obfuscated]"
   end
 
 end

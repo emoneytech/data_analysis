@@ -11,5 +11,5 @@
     attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
   }).addTo(map);
   L.marker([#{anagrafica.current_place.latitude}, #{anagrafica.current_place.longitude}]).addTo(map)
-    .bindPopup('#{anagrafica.full_name}.<br> #{anagrafica.TelefonoAzienda}')
+    .bindPopup('#{obfuscator(anagrafica.full_name)}.<br> #{anagrafica.TelefonoAzienda}')
     .openPopup();

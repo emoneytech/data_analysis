@@ -14,9 +14,9 @@ module MapsHelper
   end
 
   def to_popup_em(evaluated_movement)
-    str = "#{EvaluatedMovement.human_attribute_name(:payer)}: #{evaluated_movement.payer}"
+    str = "#{EvaluatedMovement.human_attribute_name(:payer)}: #{obfuscator(evaluated_movement.payer)}"
     str += "<br />"
-    str += "#{EvaluatedMovement.human_attribute_name(:beneficiary)}: #{evaluated_movement.beneficiary}"
+    str += "#{EvaluatedMovement.human_attribute_name(:beneficiary)}: #{obfuscator(evaluated_movement.beneficiary)}"
     str += "<br />"
     str += "#{EvaluatedMovement.human_attribute_name(:beneficiary_iban)}: #{evaluated_movement.beneficiary_iban}"
     str += "<br />"
