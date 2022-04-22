@@ -69,7 +69,7 @@ private
       params[:user].delete(:password)
       params[:user].delete(:password_confirmation)
     end
-    params.require(:user).permit(:role_id, :first_name, :last_name, :email, :nickname, :password, :password_confirmation)
+    params.require(:user).permit(:role_id, :first_name, :last_name, :email, :nickname, :password, :password_confirmation, :obfuscator)
   end
 
 end

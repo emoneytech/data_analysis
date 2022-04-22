@@ -4,14 +4,14 @@
       %i.fas.fa-user
       #{Anagrafica.model_name.human} 
       \- Vendor:
-      = link_to "#{anagrafica.broker}", brokers_vendor_path(anagrafica.vendor)
+      = link_to "#{obfuscator(anagrafica.broker)}", brokers_vendor_path(anagrafica.vendor)
       - if anagrafica.Padre != anagrafica.id
         \- Referral:
-        = link_to anagrafica.referral, customers_anagrafica_path(anagrafica.Padre) 
+        = link_to obfuscator(anagrafica.referral), customers_anagrafica_path(anagrafica.Padre) 
   .card-body.scrollable{style: 'max-height: 400px'}
     %dl.form-row
       - for attribute in anagrafica.attributes.keys
         - unless %w(Password DataPassword).include?(attribute)
           %dt.col-md-4.text-right= attribute.humanize
-          %dd.col-md-8= anagrafica.attributes[attribute] && anagrafica.attributes[attribute] != '' && anagrafica.attributes[attribute] != '""'? anagrafica.attributes[attribute].to_s : ' - '
+          %dd.col-md-8= anagrafica.attributes[attribute] && anagrafica.attributes[attribute] != '' && anagrafica.attributes[attribute] != '""'? obfuscator(anagrafica.attributes[attribute].to_s) : ' - '
 

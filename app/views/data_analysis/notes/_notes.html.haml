@@ -3,7 +3,7 @@
     .card.card-primary
       .card-header
         %h3.card-title
-          %i.fa{class: "fa-#{notes.fa_icon}"}
+          %i.fa{class: "fa-#{notes.icon}"}
           = t(:listing_resource, resource: Note.model_name.human(:count => 2))
         .card-tools.pull-right= link_to(t(:new_resource, resource: Note.model_name.human), [:new, :customers, anagrafica, :note], class: "btn btn-success btn-xs", remote: true) if can? :create, notes
 

@@ -482,7 +482,64 @@ class Anagrafica < ApplicationCoreRecord
   def time_lapse_factor
     super || TimeLapseFactor.where(anagrafica_id: id).first_or_create
   end
+################################################################
+  def eval_score(tuple=nil)
+    if tuple
+      risk = eval_riskinesses.where(eval_month: "#{tuple}").first.try(:eval_score)
+    else
+      risk = eval_riskinesses.order(created_at: :desc).first.try(:eval_score)
+    end
+    return risk
+  end
 
+  def risk_base(tuple=nil)
+    if tuple
+      last_id = eval_riskinesses.where(eval_month: "#{tuple}").last.try(:id)
+      if last_id
+        base = eval_riskinesses.where("id < ?", last_id).order(id: :desc).first.try(:eval_score)
+      end
+    end
+    return base || base_risk
+  end
+
+
+  def danger_movements(tuple=nil)
+    unless tuple
+      risk_movements.group("CONCAT(IFNULL(product_net_id, 'Prodotto non individuabile'), '|||', IFNULL(beneficiary, 'Beneficiario non individuabile'))").having("count(*) > 1").count
+    else
+      risk_movements.for_month(tuple).group("CONCAT(IFNULL(product_net_id, 'Prodotto non individuabile'), '|||', IFNULL(beneficiary, 'Beneficiario non individuabile'))").having("count(*) > 1").count
+    end
+  end
+
+  def danger_movement_ids(tuple=nil)
+    ids = []
+    current_movements = tuple ? risk_movements.for_month(tuple) : risk_movements
+    danger_movements(tuple).keys.each do |k|
+      if k
+        p, b = k.split("|||")
+        ids << current_movements.where(product_net_id: p, beneficiary: b).pluck(:movement_id)
+      else
+        ids << current_movements.where(product_net_id: nil, beneficiary: nil).pluck(:movement_id)
+      end
+    end
+    return ids.flatten
+  end
+
+  def danger_movements_to_html(tuple=nil)
+    dm_to_html = {}
+    name_products = {}
+    danger_movements(tuple).each do |key, value|
+      if key
+        idprodotto,v = key.split("|||")
+        nome = hash_name_products(name_products, idprodotto)
+      else
+        nome = "Prodotto non individuabile"
+      end
+      dm_to_html["#{nome}"] = value
+    end
+    return dm_to_html
+  end
+################################################################################################################################
   def self.vendors
     self.select(:vendor).distinct
   end

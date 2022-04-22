@@ -118,4 +118,10 @@ module ApplicationHelper
       observed_element.content
     end
   end
+
+  def obfuscator(str)
+    return str unless @obfuscator
+    return Base64.encode64(str.to_s)
+  end
+
 end

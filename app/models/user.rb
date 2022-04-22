@@ -18,6 +18,7 @@
 #  last_sign_in_ip        :string(255)
 #  locked_at              :datetime
 #  nickname               :string(255)
+#  obfuscator             :boolean          default(TRUE), not null
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string(255)

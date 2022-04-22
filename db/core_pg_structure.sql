@@ -1299,7 +1299,8 @@ CREATE TABLE public.users (
     locked_at timestamp without time zone,
     last_name character varying(255) DEFAULT NULL::character varying,
     first_name character varying(255) DEFAULT NULL::character varying,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    obfuscator boolean DEFAULT true NOT NULL
 );
 
 
@@ -2960,6 +2961,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220301111844'),
 ('20220316091726'),
 ('20220316111507'),
-('20220420084929');
+('20220420084929'),
+('20220422094141');
 
 

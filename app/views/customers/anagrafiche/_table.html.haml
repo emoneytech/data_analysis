@@ -13,8 +13,8 @@
   %tbody
     - anagrafiche.each do |item|
       %tr
-        %td= item.id
-        %td= item.full_name
+        %td= obfuscator item.id
+        %td= obfuscator(item.full_name)
         %td= item.Attivo
         %td= item.vendor
         %td= item.base_risk

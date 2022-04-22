@@ -11,7 +11,7 @@ module Customers
     def show
       @current_tuple = eval "[#{Date.today.year}, #{Date.today.month}]"
       @anagrafica.set_current_place unless @anagrafica.current_place
-      add_breadcrumb helpers.raw("#{helpers.fa_icon('user')} #{@anagrafica.full_name}"), @anagrafica
+      add_breadcrumb helpers.raw("#{helpers.fa_icon('user')} #{helpers.obfuscator(@anagrafica.full_name)}"), @anagrafica
     end
 
 

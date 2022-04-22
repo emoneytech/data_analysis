@@ -60,6 +60,16 @@ max_base_risk:
   default: 20.0
   type: float
 
+factor_for_amount:
+  name: Default factor for amount ((((((product_base_risk.percentage_of(1)) - 100) * nr_of_recursive_operations) * (factor_for_amount * amount/divisor_amount_for_factor)) + 100) / 100)
+  default: 1.5
+  type: float
+
+divisor_amount_for_factor:
+  name: Default divisor per amount for factor
+  default: 1000
+  type: integer
+
 threshold_factor_for_sanction_list:
   name: Default thresold factor for minimum rank into search result
   default: 0.3

@@ -24,11 +24,11 @@
                   - current_day_movements.each do |rm|
                     = "#{rm.try(:product_name)} - "
                     = humanized_money_with_symbol Money.new(rm.try(:movement_amount) * 100, "EUR")
-                    - amount_f = Configurable.amount_f.to_f
-                    - amount_d = Configurable.amount_d.to_f
+                    - factor_for_amount = Configurable.factor_for_amount.to_f
+                    - divisor_amount_for_factor = Configurable.divisor_amount_for_factor.to_f
                     - unless danger_movement_ids.include?(rm.id)
-                      - current_factor = ((((((rm.product_base_risk.percentage_of(1)) - 100) * rm.product_base_risk) * (amount_f * (rm.movement_amount/amount_d))) + 100) / 100).to_f
-                      / / rm.product_base_risk * (amount_f * (rm.movement_amount/amount_d))) + 100) / 100).to_f
+                      - current_factor = ((((((rm.product_base_risk.percentage_of(1)) - 100) * rm.product_base_risk) * (factor_for_amount * (rm.movement_amount/divisor_amount_for_factor))) + 100) / 100).to_f
+                      / / rm.product_base_risk * (factor_for_amount * (rm.movement_amount/divisor_amount_for_factor))) + 100) / 100).to_f
                       - risk_at_begin = (risk_at_begin * current_factor).to_f
                       - risk_at_begin = 20.0 if risk_at_begin > 20.0
                       %span.text-warning= " - Evaluate risk: #{risk_at_begin} - Factor: #{current_factor}"
@@ -36,7 +36,7 @@
                       - this_factor = danger_movements_to_html["#{rm.product_name}"]
                       - # current_factor = ((((((rm.product_base_risk.percentage_of(1)) - 100) * this_factor) * 1.5) + 100) / 100).to_f
 
-                      - current_factor = ((((((rm.product_base_risk.percentage_of(1)) - 100) * this_factor) * (amount_f * (rm.movement_amount/amount_d))) + 100) / 100).to_f
+                      - current_factor = ((((((rm.product_base_risk.percentage_of(1)) - 100) * this_factor) * (factor_for_amount * (rm.movement_amount/divisor_amount_for_factor))) + 100) / 100).to_f
                       = "Calcola per duplicati - Nr: #{this_factor} - Factor: #{current_factor}"
                       %br
                       -# risk_at_begin = (risk_at_begin * current_factor).to_f

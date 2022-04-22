@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
+  before_action :get_obfuscator
   before_action :record_activity
   before_action :get_module_name
   before_action :get_notifications
@@ -13,7 +14,13 @@ class ApplicationController < ActionController::Base
   end
 
 
+
 private
+
+  def get_obfuscator
+    @obfuscator = current_user.obfuscator
+  end
+
   def get_notifications
     @unread_notifications = current_user.notifications.unread if user_signed_in?
   end
