@@ -56,16 +56,16 @@
         %td= link_to item.triggerable_id, [:data_analysis, item.triggerable]
         %td= item.movement_created_at
         %td
-          = link_to item.customer.full_name, customers_anagrafica_path(item.customer_id)
+          = link_to obfuscator(item.customer.full_name), customers_anagrafica_path(item.customer_id)
         %td.text-center= humanized_money_with_symbol item.amount
-        %td= item.payer
-        %td= item.payer_other
-        %td= item.reason
+        %td= obfuscator item.payer
+        %td= obfuscator item.payer_other
+        %td= obfuscator item.reason
         %td= item.product_name
         %td
           = link_to item.product_id, data_analysis_prodotto_path(item.product_id) if item.product_id
         %td
-          = item.beneficiary
+          = obfuscator item.beneficiary
           %br/
           = item.beneficiary_iban
         %td= item.product_base_risk
