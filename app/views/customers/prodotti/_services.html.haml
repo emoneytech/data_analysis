@@ -4,7 +4,7 @@
       .card-header
         %h3.card-title
           %i.fas.fa-microchip
-          = "#{Anagrafica.model_name.human}: #{@anagrafica.full_name} - "
+          = "#{Anagrafica.model_name.human}: #{obfuscator(@anagrafica.full_name)} - "
           = "#{Prodotto.model_name.human}: #{@prodotto.nome} - "
           = Servizio.model_name.human(:count => 2)
       .card-body

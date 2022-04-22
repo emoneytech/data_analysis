@@ -3,7 +3,7 @@
     .card-header
       %h3.card-title
         %i.fas.fa-users
-        = "#{@anagrafica.full_name} - "
+        = "#{obfuscator(@anagrafica.full_name)} - "
         = t(:listing_resource, resource: CustomerSetting.model_name.human(:count => 2))
       .card-tools
         = link_to(t(:add_resource, resource: CustomerSetting.model_name.human), [:new, :customers, @anagrafica, :customer_setting], class: "btn btn-success") if can? :create, Role

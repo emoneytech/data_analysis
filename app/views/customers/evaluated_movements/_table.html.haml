@@ -37,15 +37,15 @@
         %td= item.id
         %td= link_to item.triggerable_id, [:data_analysis, item.triggerable]
         %td= item.movement_created_at
-        %td= item.payer
+        %td= obfuscator item.payer
         %td= item.payer_other
-        %td= item.reason
+        %td= obfuscator item.reason
         %td= item.product_name
         %td= link_to item.product_id, data_analysis_prodotto_path(item.product_id) if item.product_id
         %td
-          = item.beneficiary
+          = obfuscator item.beneficiary
           %br
-          = item.beneficiary_iban
+          = obfuscator item.beneficiary_iban
         %td= item.product_base_risk
         %td.text-center
           = link_to item.recursion_all_7, [:recursive, :data_analysis, item, params: {q: 'all', days: 7}]

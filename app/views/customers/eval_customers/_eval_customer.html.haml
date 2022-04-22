@@ -2,7 +2,7 @@
   .card-header
     .card-title
       = fa_icon EvalCustomer.icon
-      #{@anagrafica.full_name} - 
+      #{obfuscator(@anagrafica.full_name)} - 
       = t(:listing_resource, resource: EvalCustomer.model_name.human(:count => 2))
       \- #{Date::MONTHNAMES[eval_customer.eval_month]} #{eval_customer.eval_year}
     .card-tools

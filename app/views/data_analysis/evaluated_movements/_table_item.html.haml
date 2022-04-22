@@ -19,13 +19,13 @@
     %td= evaluated_movement.movement_created_at
   %tr
     %th= EvaluatedMovement.human_attribute_name(:customer)
-    %td= link_to evaluated_movement.customer, [:customers, evaluated_movement.customer]
+    %td= link_to obfuscator(evaluated_movement.customer), [:customers, evaluated_movement.customer]
   %tr
     %th= EvaluatedMovement.human_attribute_name(:reason)
-    %td= evaluated_movement.reason
+    %td= obfuscator evaluated_movement.reason
   %tr
     %th= EvaluatedMovement.human_attribute_name(:beneficiary)
-    %td= evaluated_movement.beneficiary
+    %td= obfuscator evaluated_movement.beneficiary
   %tr
     %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:beneficiary_iban)
     %td= link_to evaluated_movement.beneficiary_iban, data_analysis_check_ibans_path(filter: {iban: evaluated_movement.beneficiary_iban})
@@ -37,7 +37,7 @@
     %td= evaluated_movement.beneficiary_other
   %tr
     %th= EvaluatedMovement.human_attribute_name(:payer)
-    %td= evaluated_movement.payer
+    %td= obfuscator evaluated_movement.payer
   %tr
     %th{nowrap: true}= EvaluatedMovement.human_attribute_name(:payer_iban)
     %td= evaluated_movement.payer_iban

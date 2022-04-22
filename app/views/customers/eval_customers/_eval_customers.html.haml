@@ -3,7 +3,7 @@
     .card-header
       %h3.card-title
         = fa_icon EvalCustomer.icon 
-        = "#{@anagrafica.full_name} - "
+        = "#{obfuscator(@anagrafica.full_name)} - "
         = t(:listing_resource, resource: EvalCustomer.model_name.human(:count => 2))
     .card-body
       = render "table", eval_customers: @eval_customers

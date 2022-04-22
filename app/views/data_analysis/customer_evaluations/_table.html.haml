@@ -12,7 +12,7 @@
   %tbody
     - customer_evaluations.each do |item|
       %tr.text-center
-        %td= link_to item.anagrafica, [:customers, item.anagrafica]
+        %td= link_to obfuscator(item.anagrafica), [:customers, item.anagrafica]
         %td= number_with_precision item.last_attention_factor7
         %td= number_with_precision item.last_attention_factor30
         %td= item.nr_movements

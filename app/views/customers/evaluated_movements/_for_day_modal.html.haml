@@ -3,7 +3,7 @@
     .modal-header.bg-primary
       .modal-title
         %i.fas.fa-exchange-alt
-        = "#{@anagrafica.full_name} - "
+        = "#{obfuscator(@anagrafica.full_name)} - "
         = t(:listing_resource, resource: EvaluatedMovement.model_name.human(:count => 2))
       %button.close{type: "button", "data-dismiss" => "modal", "aria-label" => "Close"}
         %span{"aria-hidden" => "true"}

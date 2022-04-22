@@ -4,6 +4,6 @@ class CustomersController < DataAnalysisController
   before_action :set_breadcrumb
 
   def set_breadcrumb
-    add_breadcrumb helpers.raw("#{helpers.fa_icon('user')} #{@anagrafica.full_name}"), [:customers, @anagrafica]
+    add_breadcrumb helpers.raw("#{helpers.fa_icon('user')} #{obfuscator(@anagrafica.full_name)}"), [:customers, @anagrafica]
   end
 end

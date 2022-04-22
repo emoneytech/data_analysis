@@ -2,7 +2,7 @@
   .card-header{style: "background-color: #{evaluated_movement.observers.count > 0 ? '#fc0' : ''}"}
     .card-title
       %i.fas.fa-search-dollar
-      #{@anagrafica.full_name} - 
+      #{obfuscator(@anagrafica.full_name)} - 
       = t(:show_resource, resource: EvaluatedMovement.model_name.human)
   .card-body.p-1
     = render 'data_analysis/evaluated_movements/table_item', evaluated_movement: evaluated_movement
