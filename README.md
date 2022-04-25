@@ -22,3 +22,12 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+Nella piattaforma del rischio è stata introdotta una nuova funzione che serve ad offuscare i dati sensibili agli occhi indiscreti.
+
+Le impostazioni di questa funzione sono disponibili nel profilo utente.
+
+Per disabilarla basta andare sul proprio profilo, accessibile dal collegamento in alto a destra, nella barra di intestazione dell'applicazione e 
+modificare la preferenza.
+
+NB: Se non desideri cambiare la password, assicurati di pulire i campi relativi.

@@ -4,7 +4,6 @@
       = fa_icon Report.icon
       = t(:show_resource, resource: report.name)
     .card-tools
-      = link_to fa_icon("edit"), [:edit, @user, report], data: {toggle: "tooltip", title: t(:edit_resource, resource: report.model_name.human)}, class: "btn btn-xs btn-warning"
       = link_to fa_icon("trash"), [@user, report], data: {toggle: "tooltip", confirm: t(:are_you_sure, default: 'Are you sure?'), title: t(:delete_resource, resource: report.model_name.human), commit: t(:sure, default: 'Sure!'), cancel: t(:cancel, default: 'Cancel')}, :method => :delete, class: "btn btn-xs btn-danger"
   .card-body
     %dl.form-row

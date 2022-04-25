@@ -1,4 +1,8 @@
-= f.input :name
-= f.simple_fields_for :opts do |option|#, as: :hidden
-  - f.object.opts.each do |k,v|
-    = option.input k.to_sym, input_html: {value: v}
+.form-row
+  .col-md-6= f.input :name, input_html: { value: Time.now}
+.form-row
+  = f.simple_fields_for :opts do |option|
+    .col-md-6
+      = option.input :dataSource, as: :select, collection: %w[Anagrafica]
+      = option.simple_fields_for :filter do |filter|
+        = filter.input :year_and_min_evaluated_risk, input_html: { value: "#{Date.today.year - 1 } - 16.0"}

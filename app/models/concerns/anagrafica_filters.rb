@@ -36,6 +36,16 @@ module AnagraficaFilters
         "DATE_FORMAT(movimenticonti.dataMovimento , '%Y-%m-%d') between ? and ?", "#{value}-01-01", "#{value}-12-31"
       ).references(:movimenticonti)
     }
-  # details_operations.select{|key, hash| hash > 4 }
+  scope :filter_by_year_and_min_evaluated_risk,
+    ->(value) { 
+      includes(:rischi).where(
+        "DATE_FORMAT(rischio.Data , '%Y-%m-%d') between ? and ?
+          AND Rischio >= ?",
+        "#{value.split(' - ')[0]}-01-01",
+        "#{value.split(' - ')[0]}-12-31",
+        value.split(' - ')[1].to_f
+      ).references(:rischi)
+    }
+      # details_operations.select{|key, hash| hash > 4 }
   end
 end

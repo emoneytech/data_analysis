@@ -3,6 +3,8 @@
     .card-title
       = fa_icon Report.icon
       = t(:listing_resource, resource: Report.model_name.human(:count => 2))
+    .card-tools
+      = link_to(t(:new_resource, resource: Report.model_name.human), new_user_report_path(@user), class: "btn btn-success btn-xs") if can? :create, Report
   .card-body.p-1
     = render "/reports/table", reports: reports
   - if pagination

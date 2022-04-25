@@ -408,6 +408,13 @@ class Anagrafica < ApplicationCoreRecord
   # scope :for_evaluation, -> { includes(:rischio_corrente).references(:rischio_corrente).order('rischio.Rischio desc')}
   has_one :observer, -> { where(category_element: 'customer_id', deleted_at: nil) }, primary_key: 'IdUtente', foreign_key: :content, class_name: 'ObservedElement'
 
+  def self.export_attributes
+    %w[
+      IdUtente
+      Attivo
+      full_name
+    ]
+  end
 
   def self.icon
     'user'
