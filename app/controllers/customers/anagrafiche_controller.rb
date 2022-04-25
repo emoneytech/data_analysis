@@ -21,7 +21,7 @@ module Customers
 
     def filtering_params
       params[:filter] ? params[:filter].slice(
-        # :solar_year_movings,
+        :year_and_min_evaluated_risk,
         :customer_id,
         :status,
         :fiscal_code,

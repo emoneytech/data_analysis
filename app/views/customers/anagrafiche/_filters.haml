@@ -18,6 +18,6 @@
         .col-md-3= f.input :min_base_risk, required: false, input_html: {value: "#{params[:filter][:min_base_risk] if params[:filter]}"}
         .col-md-3= f.input :max_base_risk, required: false, input_html: {value: "#{params[:filter][:max_base_risk] if params[:filter]}"}
         .col-md-3
-          =# f.input :solar_year_movings, as: :select, collection: (2013..Date.today.year).to_a, required: false
+          = f.input :year_and_min_evaluated_risk, input_html: {value: "#{params[:filter][:year_and_min_evaluated_risk] if params[:filter]}"}, required: false, hint: "Es: 2021 - 16.0"
           
       = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-success'
