@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 private
 
   def get_obfuscator
-    @obfuscator = current_user.obfuscator
+    @obfuscator = current_user ? current_user.obfuscator : true
   end
 
   def get_notifications

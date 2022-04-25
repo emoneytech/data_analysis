@@ -1,4 +1,4 @@
-.card.card-primary.card-outline{class: "#{ 'collapsed-card' unless params[:filter]}" }
+.card.card-primary.card-outline
   .card-header
     %h3.card-title
       %i.fa.fa-chart-bar
@@ -17,5 +17,7 @@
         .col-md-3= f.input :status, as: :select, collection: Stato.all, required: false, input_html: {value: "#{params[:filter][:status] if params[:status]}"}
         .col-md-3= f.input :min_base_risk, required: false, input_html: {value: "#{params[:filter][:min_base_risk] if params[:filter]}"}
         .col-md-3= f.input :max_base_risk, required: false, input_html: {value: "#{params[:filter][:max_base_risk] if params[:filter]}"}
-
+        .col-md-3
+          =# f.input :solar_year_movings, as: :select, collection: (2013..Date.today.year).to_a, required: false
+          
       = f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-success'

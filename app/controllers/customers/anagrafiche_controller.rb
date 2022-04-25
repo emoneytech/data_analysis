@@ -5,7 +5,9 @@ module Customers
 
     def index
       @anagrafiche = Anagrafica.filter(filtering_params)
+      # binding.pry
       @anagrafiche = @anagrafiche.active.order(DataLastUpdate: :desc).page(params[:page]).per(params[:per])
+      # @anagrafiche = @anagrafiche.page(params[:page]).per(params[:per])
     end
 
     def show
@@ -19,6 +21,7 @@ module Customers
 
     def filtering_params
       params[:filter] ? params[:filter].slice(
+        # :solar_year_movings,
         :customer_id,
         :status,
         :fiscal_code,

@@ -24,6 +24,8 @@
 #
 
 class EvalRiskiness < RiskRecord
+  
+  # serialize :details_operations, JSON
 
   belongs_to :eval_evaluable, polymorphic: true
 
