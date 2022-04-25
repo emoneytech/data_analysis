@@ -3,7 +3,7 @@
     .card-title
       %i.fa.fa-user
       #{User.model_name.human} #{user.full_name}
-    - if can? :manage, user
+    - if can? :update, user
       .card-tools
         = link_to t(:edit_resource, resource: User.model_name.human), edit_user_path(user), class: "btn btn-success btn-xs"
   .card-body

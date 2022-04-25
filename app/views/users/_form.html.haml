@@ -1,15 +1,22 @@
-.form-row
-  .col-md-6
-    = f.input :role_id, as: :select, collection: Role.all
-  .col-md-6
-    = f.input :nickname
-.form-row
-  .col-md-6= f.input :first_name
-  .col-md-6= f.input :last_name
-.form-row
-  .col-md-6= f.input :email, required: true
-  .col-md-6= f.input :obfuscator, as: :select, required: true
-.form-row
-  .col-md-6= f.input :password
-  .col-md-6= f.input :password_confirmation
+- if can? :manage, f.object
+  .form-row
+    .col-md-6
+      = f.input :role_id, as: :select, collection: Role.all
+    .col-md-6
+      = f.input :nickname
+  .form-row
+    .col-md-6= f.input :first_name
+    .col-md-6= f.input :last_name
+  .form-row
+    .col-md-6= f.input :email, required: true
+    .col-md-6= f.input :obfuscator, as: :select, required: true
+  .form-row
+    .col-md-6= f.input :password
+    .col-md-6= f.input :password_confirmation
 
+- elsif can? :update, f.object
+  .form-row
+    .col-md-6= f.input :obfuscator, as: :select, required: true
+  .form-row
+    .col-md-6= f.input :password
+    .col-md-6= f.input :password_confirmation

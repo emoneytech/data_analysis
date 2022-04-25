@@ -25,6 +25,7 @@ class Ability
       cannot :manage, Configurable
       cannot :manage, Role
       can :read, User, id: user.id
+      can [:edit, :update], User, id: user.id
       can :manage, Notification, recipient_type: 'User', recipient_id: user.id
       cannot :destroy, Notification, recipient_type: 'User', recipient_id: user.id, read_at: nil
       can :manage, ActivityLog, user_id: user.id
