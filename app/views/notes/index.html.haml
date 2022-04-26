@@ -1,0 +1,45 @@
+- if current_user.include_role?('superadmin')
+  .form-row
+    .col-md-12
+      
+
+.form-row
+  .col-md-12
+    .card.card-primary.card-outline
+      .card-header
+        %h3.card-title
+          %i.fa.fa-users
+          = t(:listing_resource, resource: User.model_name.human(:count => 2))
+        .card-tools
+          = link_to(t(:new_resource, resource: User.model_name.human), new_user_path(@user), class: "btn btn-success btn-xs") if can? :create, User
+          .btn-group{role: "group", "aria-label" => "Filter Sope"}
+            = link_to t(:all), users_path, class: "btn btn-xs btn-info#{' active' unless @current_role }"
+            - Role.active.each do |role|
+              = link_to t(role.presentation, default: role.presentation).capitalize, users_path(filter: {role: role.name} ), class: "btn btn-xs btn-info#{' active' if @current_role == role.name.to_s }"
+      .card-body
+        %table.table.table-striped.table-bordered.table-hover.margin-none.data-table
+          %thead
+            %tr
+              %th= User.human_attribute_name(:full_name)
+              - if can? :manage, User
+                %th= User.human_attribute_name(:nickname)
+                %th= User.human_attribute_name(:role)
+              %th.col-md-1{data: {orderable: "false"}, nowrap: true}
+          %tbody
+            - @users.each do |user|
+              %tr
+                %td= link_to user.full_name, user_path(user)
+                - if can? :manage, User
+                  %td= user.nickname
+                  %td= user.role
+                - if can? :manage, User
+                  %td.col-md-1{nowrap: true}
+                    = edit_link(user)
+                    = delete_link(user)
+      .card-footer.clearfix
+        .form-row
+          .col-md-6
+            = page_entries_info @users
+          .col-md-6.text-right
+            = paginate @users
+
