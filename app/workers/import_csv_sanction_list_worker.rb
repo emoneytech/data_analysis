@@ -22,5 +22,6 @@ class ImportCsvSanctionListWorker
         sanction_list.sanction_list_items.create( chunk )
       end
     end
+    NotifyRoomChannelWorker.perform_async(sanction_list.data_notification)
   end
 end
