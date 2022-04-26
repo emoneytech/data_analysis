@@ -97,9 +97,9 @@ class SanctionList < CorePgRecord
     url = "/compliance_check/sanction_lists/#{self.id}/sanction_list_items/search?filter[name]=Vladimir+Putin"
     hsh = {
       type: 'info',
-      icon: self.icon,
+      icon: SanctionList.icon,
       title: 'Process progress',
-      content: "<p>#{I18n.t(:sanction_list_imported)}.<br><a href=\"#{url}\" class=\"btn btn-block btn-xs btn-success\">Download</a></p>",
+      content: "<p>#{I18n.t(:sanction_list_imported)}.<br><a href=\"#{url}\" class=\"btn btn-block btn-xs btn-success\">#{I18n.t(:search)}</a></p>",
       subtitle: 'Ready'
     }
     return hsh
