@@ -23,7 +23,7 @@ class SanctionList < CorePgRecord
   has_many :sanction_list_items, dependent: :nullify_then_purge
   accepts_nested_attributes_for :sanction_list_items, allow_destroy: true
   
-  after_touch :start_import_worker
+  #after_touch :start_import_worker
 
   # after_create :start_import_worker
   
