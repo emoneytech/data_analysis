@@ -10,9 +10,14 @@ consumer.subscriptions.create(
     },
     received(data) {
       // Called when there's incoming data on the websocket for this channel
-      console.log("Recieving:")
-      toastr["success"](data.content)
-      console.log(data.content)
+      console.log("Recieving: ", data)
+      $(document).Toasts('create', {
+        class: 'bg-' + data.type,
+        body: data.content,
+        title: data.title,
+        subtitle: data.subtitle,
+        icon: 'fas fa-lg fa-' + data.icon,
+      })
     }
   }
 )

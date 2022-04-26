@@ -46,4 +46,15 @@ class Report < CorePgRecord
   def generate_xlsx
     CreateReportXlsxWorker.perform_async(self.id)
   end
+  
+  
+  def data_notification
+    {
+      type: 'info',
+      icon: 'file-excel',
+      title: 'Process progress',
+      content: '<p>Il report è stato creato ed è pronto per il download.<br><a href="/users/' + user_id + '/reports/' + self.id +'/download" class="btn btn-block btn-xs btn-success">Download</a></p>',
+      subtitle: 'Ready'
+    }
+  end
 end
