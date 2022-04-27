@@ -154,3 +154,4 @@ gem 'smarter_csv'
 gem 'miss_hannigan'
 
 gem 'swagger-docs'
+gem 'letter_avatar'

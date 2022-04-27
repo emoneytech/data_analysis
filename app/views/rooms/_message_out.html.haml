@@ -1,0 +1,7 @@
+.direct-chat-msg.right
+  .direct-chat-infos.clearfix
+    %span.direct-chat-name.float-right=  current_user.nickname
+    %span.direct-chat-timestamp.float-left=l Time.now 
+  %img.direct-chat-img{src: "#{current_user.avatar_url(200)}", alt: "#{current_user.nickname}"}
+  .direct-chat-text
+    Is this template really for free? That's unbelievable!

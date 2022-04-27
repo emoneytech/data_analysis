@@ -1,0 +1,20 @@
+.card.card-danger.direct-chat.direct-chat-danger
+  .card-header
+    %h3.card-title Direct Chat
+    .card-tools
+      %span.badge.badge-light{data: {toggle: "tooltip"}, title: "3 New Messages"} 3
+      %button.btn.btn-tool{type: "button",  "data-card-widget" => "collapse"}
+        %i.fas.fa-minus
+      %button.btn.btn-tool{type: "button", data: {toggle: "tooltip", widget: "chat-pane-toggle"}, title: "Contacts"}
+        %i.fas.fa-comments
+      %button.btn.btn-tool{type: "button",  "data-card-widget" => "remove"}
+        %i.fas.fa-times
+  .card-body
+    = render 'conversation'
+    = render 'contacts'
+  .card-footer
+    = form_for Message.new, remote: true do |f|
+      .input-group
+        = f.text_field :content, placeholder: "Type Message ...", class: "form-control"
+        %span.input-group-append
+          = f.submit t(:send), class:"btn btn-primary"

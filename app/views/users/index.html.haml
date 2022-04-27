@@ -24,6 +24,7 @@
               - if can? :manage, User
                 %th= User.human_attribute_name(:nickname)
                 %th= User.human_attribute_name(:role)
+                %th= User.human_attribute_name(:active)
               %th.col-md-1{data: {orderable: "false"}, nowrap: true}
           %tbody
             - @users.each do |user|
@@ -32,6 +33,7 @@
                 - if can? :manage, User
                   %td= user.nickname
                   %td= user.role
+                  %td= user.active
                 - if can? :manage, User
                   %td.col-md-1{nowrap: true}
                     = edit_link(user)

@@ -3,6 +3,7 @@
 # Table name: users
 #
 #  id                     :integer          not null, primary key
+#  active                 :boolean          default(TRUE), not null
 #  confirmation_sent_at   :datetime
 #  confirmation_token     :string(255)
 #  confirmed_at           :datetime
@@ -31,6 +32,7 @@
 #
 # Indexes
 #
+#  index_users_on_active                   (active)
 #  public_users_deleted_at7_idx            (deleted_at)
 #  public_users_email0_idx                 (email) UNIQUE
 #  public_users_first_name5_idx            (first_name)
@@ -44,9 +46,11 @@
 #
 #  users_role_id_fkey  (role_id => roles.id) ON DELETE => restrict ON UPDATE => restrict
 #
+require 'letter_avatar/has_avatar'
 
 class User < CorePgRecord
-
+  include LetterAvatar::HasAvatar
+  
   acts_as_paranoid
   
   has_many :notifications, as: :recipient, dependent: :destroy
@@ -65,6 +69,9 @@ class User < CorePgRecord
 
   validates_presence_of :first_name, :last_name
   validates :nickname, presence: true, uniqueness: {case_sensitive: false}
+
+  scope :alive, -> { where(active: true) }
+  scope :all_except, ->(user) { alive.where.not(id: user) }
 
   before_save :assign_role
 

@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include LetterAvatar::AvatarHelper
 
   def ui_translations(section)
     translations = {current: I18n.t('.')[:vue][section]}

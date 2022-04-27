@@ -12,7 +12,9 @@ Rails
     resources :configurables
 
     match '/forbidden', to: 'pages#forbidden', via: :get, as: :forbidden
-
+    match '/chat', to: 'rooms#index', via: :get, as: :chat
+    resources :rooms
+    
     namespace :compliance_check do
       resources :sanction_lists do
         member { post :import }

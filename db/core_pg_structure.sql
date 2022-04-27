@@ -806,7 +806,9 @@ CREATE TABLE public.messages (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     content text NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    user_id bigint NOT NULL,
+    readed_at timestamp without time zone
 );
 
 
@@ -1070,6 +1072,38 @@ ALTER SEQUENCE public.roles_id_seq OWNED BY public.roles.id;
 
 
 --
+-- Name: rooms; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.rooms (
+    id bigint NOT NULL,
+    name character varying,
+    is_private boolean DEFAULT false,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: rooms_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.rooms_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: rooms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.rooms_id_seq OWNED BY public.rooms.id;
+
+
+--
 -- Name: row_counts; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1300,7 +1334,8 @@ CREATE TABLE public.users (
     last_name character varying(255) DEFAULT NULL::character varying,
     first_name character varying(255) DEFAULT NULL::character varying,
     deleted_at timestamp without time zone,
-    obfuscator boolean DEFAULT true NOT NULL
+    obfuscator boolean DEFAULT true NOT NULL,
+    active boolean DEFAULT true NOT NULL
 );
 
 
@@ -1546,6 +1581,13 @@ ALTER TABLE ONLY public.reports ALTER COLUMN id SET DEFAULT nextval('public.repo
 --
 
 ALTER TABLE ONLY public.roles ALTER COLUMN id SET DEFAULT nextval('public.roles_id_seq'::regclass);
+
+
+--
+-- Name: rooms id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.rooms ALTER COLUMN id SET DEFAULT nextval('public.rooms_id_seq'::regclass);
 
 
 --
@@ -1806,6 +1848,14 @@ ALTER TABLE ONLY public.reports
 
 ALTER TABLE ONLY public.roles
     ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: rooms rooms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.rooms
+    ADD CONSTRAINT rooms_pkey PRIMARY KEY (id);
 
 
 --
@@ -2375,6 +2425,20 @@ CREATE INDEX index_evaluated_movements_on_recursion_customer_7 ON public.evaluat
 
 
 --
+-- Name: index_messages_on_readed_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_messages_on_readed_at ON public.messages USING btree (readed_at);
+
+
+--
+-- Name: index_messages_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_messages_on_user_id ON public.messages USING btree (user_id);
+
+
+--
 -- Name: index_notifications_on_deleted_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2606,6 +2670,13 @@ CREATE INDEX index_reports_on_user_id ON public.reports USING btree (user_id);
 
 
 --
+-- Name: index_rooms_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_rooms_on_name ON public.rooms USING btree (name);
+
+
+--
 -- Name: index_sanction_list_items_on_name_alias_first_name; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2659,6 +2730,13 @@ CREATE UNIQUE INDEX index_triggerable_on_customer ON public.evaluated_movements 
 --
 
 CREATE INDEX index_triggerable_on_evaluated_movements ON public.evaluated_movements USING btree (triggerable_type, triggerable_id);
+
+
+--
+-- Name: index_users_on_active; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_users_on_active ON public.users USING btree (active);
 
 
 --
@@ -2802,6 +2880,14 @@ ALTER TABLE ONLY public.algorithm_algorithm_calculators
 
 ALTER TABLE ONLY public.comments
     ADD CONSTRAINT fk_rails_1464654aa4 FOREIGN KEY (related_country_id) REFERENCES public.related_countries(id);
+
+
+--
+-- Name: messages fk_rails_273a25a7a6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.messages
+    ADD CONSTRAINT fk_rails_273a25a7a6 FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -2962,6 +3048,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220316091726'),
 ('20220316111507'),
 ('20220420084929'),
-('20220422094141');
+('20220422094141'),
+('20220427091458'),
+('20220427091831'),
+('20220427093627'),
+('20220427100047');
 
 

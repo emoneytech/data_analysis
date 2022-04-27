@@ -5,12 +5,11 @@ class MessagesController < ApplicationController
   end
   
   def create
-    @message = Message.create(msg_params)
+    @message = current_user.messeges.build(msg_params)
     if @message.save
-      ActionCable.server.broadcast "RoomChannel", content: @message.content      
-    else
-      
+      ActionCable.server.broadcast "room_channel", {type: 'success', icon: 'message', title: 'Common message', content: @message.content}      
     end
+    
   end 
   
   private

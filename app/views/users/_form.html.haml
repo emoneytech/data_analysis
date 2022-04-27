@@ -1,9 +1,8 @@
 - if can? :manage, f.object
   .form-row
-    .col-md-6
-      = f.input :role_id, as: :select, collection: Role.all
-    .col-md-6
-      = f.input :nickname
+    .col-md-4= f.input :role_id, as: :select, collection: Role.all
+    .col-md-4= f.input :active, as: :select
+    .col-md-4= f.input :nickname
   .form-row
     .col-md-6= f.input :first_name
     .col-md-6= f.input :last_name
