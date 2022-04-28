@@ -164,6 +164,14 @@ Rails
         end
       end
 
+      resources :messages, except: :create do
+        collection do
+          post :mark_all_as_readed
+          post :delete_readed
+          post :delete_all
+        end
+      end
+
       resources :webpush_subscriptions, except: :create
     end
 

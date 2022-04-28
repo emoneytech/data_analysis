@@ -2,30 +2,33 @@
 import consumer from "./consumer"
 
 consumer.subscriptions.create(
-  "RoomChannel",
+  "PrivateChannel",
   {
     connected() {
       // Called when the subscription is ready for use on the server
-      console.log("Connected to the room 1!");
+      console.log("Connected to the private channel!");
     },
     received(data) {
       // Called when there's incoming data on the websocket for this channel
       console.log("Recieving: ", data)
-      let rooms = $('#rooms') 
-      if (rooms.length) {
-        rooms.append('<div class="room"><a href="/rooms/' + data.id + '">' + data.name + '</a></div>')
+      
+      let private_messages = $('.private_messages') 
+      if (private_messages.length) {
+        private_messages.append(
+          '<div class="message">' +
+            data.content +
+            '</a></div>'
+        )
       }
-      /*
       else {
         $(document).Toasts('create', {
-          class: 'bg-' + data.type,
+          class: 'bg-' + data.widget_type,
           body: data.content,
           title: data.title,
           subtitle: data.subtitle,
           icon: 'fas fa-lg fa-' + data.icon,
         })
       }
-      */
     }
   }
 )

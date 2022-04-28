@@ -1,5 +1,9 @@
 class MessagesController < ApplicationController
 
+  def index
+    @messages = current_user.messages.latest.page(params[:page])
+  end
+
   def new
     @message = Message.new
   end

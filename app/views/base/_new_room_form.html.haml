@@ -1,0 +1,6 @@
+= form_for [:chat, @room], remote: true do |f|
+  .input-group
+    = f.text_field :name, placeholder: "Type Room Name ...", class: "form-control"
+    %span.input-group-append
+      = f.submit t(:send), class:"btn btn-success"
+

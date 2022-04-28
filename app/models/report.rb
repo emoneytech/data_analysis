@@ -48,9 +48,10 @@ class Report < CorePgRecord
   end
   
   
-  def data_notification
+  def data_message
     {
-      type: 'info',
+      user_id: self.user_id,
+      widget_type: 'info',
       icon: 'file-excel',
       title: 'Process progress',
       content: "<p>Il report è stato creato ed è pronto per il download.<br><a href=\"/users/#{self.user_id}/reports/#{self.id.to_s}/download\" class=\"btn btn-block btn-xs btn-success\">Download</a></p>",

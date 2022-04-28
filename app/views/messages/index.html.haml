@@ -1,0 +1,5 @@
+.card
+  .card-body
+    #messages.private_messages
+      - @messages.each do |message|
+        = render message

@@ -326,4 +326,5 @@ it:
   stable: Stabile
   activity_calendar: "Calendario Attività"
   sanction_list_imported: "La lista è stata importata correttamente. Puoi fare un test di ricerca."
+  report_created: "Il report è stato creato ed è pronto per il download."
   send: Invia

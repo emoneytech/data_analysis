@@ -270,5 +270,6 @@ en:
   risk_for_month: "Risk for month"
   no_recursive_movements: "No recursive movement in the selected period"
   settings: Settings
-  sanction_list_imported: "The list was imported successfully. You can do a research test."
+  sanction_list_imported: "The list was successfully imported. You can do a research test."
+  report_created: "The Report was successfully created and ready for download."
   send: Send

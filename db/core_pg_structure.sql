@@ -808,7 +808,11 @@ CREATE TABLE public.messages (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     user_id bigint NOT NULL,
-    readed_at timestamp without time zone
+    readed_at timestamp without time zone,
+    icon character varying DEFAULT 'message'::character varying NOT NULL,
+    title character varying DEFAULT 'System Message'::character varying NOT NULL,
+    subtitle character varying DEFAULT ''::character varying NOT NULL,
+    widget_type character varying DEFAULT 'info'::character varying NOT NULL
 );
 
 
@@ -1069,38 +1073,6 @@ CREATE SEQUENCE public.roles_id_seq
 --
 
 ALTER SEQUENCE public.roles_id_seq OWNED BY public.roles.id;
-
-
---
--- Name: rooms; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.rooms (
-    id bigint NOT NULL,
-    name character varying,
-    is_private boolean DEFAULT false,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
--- Name: rooms_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.rooms_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: rooms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.rooms_id_seq OWNED BY public.rooms.id;
 
 
 --
@@ -1584,13 +1556,6 @@ ALTER TABLE ONLY public.roles ALTER COLUMN id SET DEFAULT nextval('public.roles_
 
 
 --
--- Name: rooms id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.rooms ALTER COLUMN id SET DEFAULT nextval('public.rooms_id_seq'::regclass);
-
-
---
 -- Name: sanction_list_items id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1848,14 +1813,6 @@ ALTER TABLE ONLY public.reports
 
 ALTER TABLE ONLY public.roles
     ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
-
-
---
--- Name: rooms rooms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.rooms
-    ADD CONSTRAINT rooms_pkey PRIMARY KEY (id);
 
 
 --
@@ -2670,13 +2627,6 @@ CREATE INDEX index_reports_on_user_id ON public.reports USING btree (user_id);
 
 
 --
--- Name: index_rooms_on_name; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_rooms_on_name ON public.rooms USING btree (name);
-
-
---
 -- Name: index_sanction_list_items_on_name_alias_first_name; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3051,7 +3001,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220422094141'),
 ('20220427091458'),
 ('20220427091831'),
-('20220427093627'),
-('20220427100047');
+('20220427100047'),
+('20220428084207');
 
 

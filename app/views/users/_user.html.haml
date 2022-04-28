@@ -1,24 +1,2 @@
-.card.card-primary.card-outline
-  .card-header
-    .card-title
-      %i.fa.fa-user
-      #{User.model_name.human} #{user.full_name}
-    - if can? :update, user
-      .card-tools
-        = link_to t(:edit_resource, resource: User.model_name.human), edit_user_path(user), class: "btn btn-success btn-xs"
-  .card-body
-    %dl.form-row
-      %dt.col-4.text-right= User.human_attribute_name(:role)
-      %dd.col-md-8= user.role
-      %dt.col-4.text-right= User.human_attribute_name(:full_name)
-      %dd.col-8= user.full_name
-      %dt.col-4.text-right= User.human_attribute_name(:email)
-      %dd.col-md-8= user.email
-      %dt.col-4.text-right= User.human_attribute_name(:sign_in_count)
-      %dd.col-md-8= user.sign_in_count
-      %dt.col-4.text-right= User.human_attribute_name(:current_sign_in_at)
-      %dd.col-md-8= user.current_sign_in_at
-      %dt.col-4.text-right= User.human_attribute_name(:last_sign_in_at)
-      %dd.col-md-8= user.last_sign_in_at
-      %dt.col-4.text-right= User.human_attribute_name(:obfuscator)
-      %dd.col-md-8= user.obfuscator
+.row
+  .col-12= link_to user.nickname, user

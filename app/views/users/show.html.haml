@@ -1,5 +1,5 @@
 .form-row
-  .col-md-6= render @user
+  .col-md-6= render 'user_info', user: @user
   .col-md-6= render 'reports/reports', reports: @user.reports.latest, pagination: false
 
 .form-row

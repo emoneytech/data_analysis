@@ -55,6 +55,8 @@ class User < CorePgRecord
   
   has_many :notifications, as: :recipient, dependent: :destroy
 
+  has_many :messages
+  
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
@@ -76,6 +78,8 @@ class User < CorePgRecord
   before_save :assign_role
 
   scope :recipients, -> { includes(:role).where('roles.policy <= ?', 5).references(:role) }
+  
+  after_create_commit { broadcast_append_to "users" }
 
   def self.icon
     "book-reader"
@@ -120,6 +124,10 @@ class User < CorePgRecord
     role.name
   end
 
+  def private_channel
+    Base64.strict_encode64(self.nickname)
+  end
+  
 private
   def assign_role
     self.role = Role.find_by name: "observer" if self.role.nil?

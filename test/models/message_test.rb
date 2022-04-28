@@ -2,12 +2,16 @@
 #
 # Table name: messages
 #
-#  id         :uuid             not null, primary key
-#  content    :text             not null
-#  readed_at  :datetime
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  user_id    :bigint           not null
+#  id          :uuid             not null, primary key
+#  content     :text             not null
+#  icon        :string           default("message"), not null
+#  readed_at   :datetime
+#  subtitle    :string           default(""), not null
+#  title       :string           default("System Message"), not null
+#  widget_type :string           default("info"), not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  user_id     :bigint           not null
 #
 # Indexes
 #
