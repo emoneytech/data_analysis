@@ -788,6 +788,10 @@ class Anagrafica < ApplicationCoreRecord
   def recalculate
     self.customer_evaluations.destroy_all
     self.initialize_evaluation
+    self.evaluated_movements.destroy_all
+    self.movimenticonti.each do |movement|
+      movement.trigger! if movement.to_trigger?
+    end
   end
 
   def current_evaluation
