@@ -33,6 +33,7 @@ consumer.subscriptions.create(
   }
 )
 
+
 let submit_messages;$(document).on('turbolinks:load', function () {
   submit_messages()
 })
