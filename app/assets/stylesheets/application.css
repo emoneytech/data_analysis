@@ -18,19 +18,3 @@ img.flags {
   height: 27px;
   width: 27px;
 }
-
-.msg-form {
-  position: fixed;
-  bottom: 0;
-  width: 90%
-}
-
-.col-md-10 {
-  height: 100vh;
-  overflow: scroll;
-}
-
-.msg-content {
-  width: 80%;
-  margin-right: 5px;
-}
