@@ -39,6 +39,7 @@ class Algorithm < CorePgRecord
     self.algorithm_algorithm_calculators.default_abscissa.first.try(:algorithm_calculator).try(:name)
   end
 
+
   private
 
   def calculate_factor(eq, opts)

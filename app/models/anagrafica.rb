@@ -785,6 +785,11 @@ class Anagrafica < ApplicationCoreRecord
     return ce
   end
 
+  def recalculate
+    self.customer_evaluations.destroy_all
+    self.initialize_evaluation
+  end
+
   def current_evaluation
     super || initialize_evaluation
   end

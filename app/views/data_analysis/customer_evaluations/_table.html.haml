@@ -17,7 +17,9 @@
         %td= number_with_precision item.last_attention_factor30
         %td= item.nr_movements
         %td
-          = number_with_precision(item.anagrafica.current_evaluation.last_attention_factor30 * item.anagrafica.tollerance)
+          - sent = item.anagrafica.current_evaluation.last_attention_factor30 * item.anagrafica.tollerance
+          - sent = item.anagrafica.base_risk if sent < item.anagrafica.base_risk
+          = number_with_precision(sent)
         %td
           = item.anagrafica.tollerance
         %td.text-center= trend_helper(item.trend)
