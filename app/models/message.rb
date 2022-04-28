@@ -20,7 +20,7 @@ class Message < CorePgRecord
 
 end
 
-# == Schema Information
+# == Schema Informations
 #
 # Table name: messages
 #
