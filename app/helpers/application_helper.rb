@@ -122,7 +122,7 @@ module ApplicationHelper
 
   def obfuscator(str)
     return str unless @obfuscator
-    return "[obfuscated]"
+    return "[obfuscated demo]"
   end
 
 end
