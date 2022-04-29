@@ -1,1 +1,6 @@
 $('#customer_evaluations_items').html("<%=j render "data_analysis/customer_evaluations/customer_evaluations", customer_evaluations: @customer_evaluations %>")
+setTimeout(function () {
+  $(window).trigger('resize')
+  initMyTables()
+  scrollTo('customer_evaluations_items')
+}, 10)
