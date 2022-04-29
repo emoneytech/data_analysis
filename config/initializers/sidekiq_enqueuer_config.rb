@@ -12,7 +12,8 @@ Sidekiq::Enqueuer.configure do |config|
     TriggerInitWorker,
     RecalculatePositionsWorker,
     RecalculateRecursionsWorker,
-    ImportCsvSanctionListWorker
+    ImportCsvSanctionListWorker,
+    RefreshCustomerEvaluationsWorker
   ]
 end
 
