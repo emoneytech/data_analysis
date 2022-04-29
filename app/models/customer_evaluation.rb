@@ -223,7 +223,7 @@ private
   def set_sent
     tollerance = self.customer_setting.try(:tollerance) || 1 
     self.sent = self.last_attention_factor30 * tollerance
-    self.sent = item.anagrafica.base_risk if self.sent < self.anagrafica.base_risk
+    self.sent = self.anagrafica.base_risk if self.sent < self.anagrafica.base_risk
   end
 
   def set_nr_movements
