@@ -9,6 +9,7 @@
 #  last_attention_factor30 :float
 #  last_attention_factor7  :float
 #  nr_movements            :integer          default(0), not null
+#  sent                    :float
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  anagrafica_id           :integer          not null
@@ -21,6 +22,7 @@
 #  index_customer_evaluations_on_eval_year_and_eval_month  (eval_year,eval_month)
 #  index_customer_evaluations_on_last_attention_factor30   (last_attention_factor30)
 #  index_customer_evaluations_on_last_attention_factor7    (last_attention_factor7)
+#  index_customer_evaluations_on_sent                      (sent)
 #
 
 # This model initially had no columns defined. If you add columns to the

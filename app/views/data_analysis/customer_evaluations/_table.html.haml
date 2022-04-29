@@ -17,7 +17,8 @@
         %td= number_with_precision item.last_attention_factor30
         %td= item.nr_movements
         %td
-          - sent = item.anagrafica.current_evaluation.last_attention_factor30 * item.anagrafica.tollerance
+          - tollerance = item.customer_setting.try(:tollerance) || 1 
+          - sent = item.last_attention_factor30 * tollerance
           - sent = item.anagrafica.base_risk if sent < item.anagrafica.base_risk
           = number_with_precision(sent)
         %td

@@ -24,7 +24,7 @@ class DataAnalysis::DashboardController < ApplicationController
       @customer_evaluations = CustomerEvaluation.includes({anagrafica: [:siblings, :customer_settings]}).where(eval_year: @current_tuple[0], eval_month: @current_tuple[1]).where(anagrafica_id: @anagrafiche.pluck(:id)).order(last_attention_factor7: :desc, last_attention_factor7: :desc, nr_movements: :asc).page(params[:page]).per(50)
     else
       @customer_evaluations = CustomerEvaluation.includes(
-          {anagrafica: :siblings}
+          {anagrafica: :siblings}, :customer_setting
         ).where(
           eval_year: @current_tuple[0],
           eval_month: @current_tuple[1]

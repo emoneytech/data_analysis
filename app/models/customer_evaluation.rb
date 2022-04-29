@@ -7,6 +7,8 @@ class CustomerEvaluation < CorePgRecord
   scope :updated_today, -> (day=Date.today.to_s) { where("(eval_days->?) is not null", day.to_s) }
   scope :outdated, -> (day=Date.today) { for_month([day.year.to_s, day.month.to_s]).where("(eval_days->?) is null", day.to_s) }
 
+  has_one :customer_setting, -> { where(active: true, product_id: 0).order(created_at: :desc) }, primary_key: :anagrafica_id, foreign_key: :customer_id
+
   def self.icon
     'user-shield'
   end
@@ -64,6 +66,7 @@ class CustomerEvaluation < CorePgRecord
   def set_last_values
     set_nr_movements
     set_last_attention_factor
+    set_sent
   end
 
   def to_hsh
@@ -217,6 +220,12 @@ private
     self.last_attention_factor30 = self.eval_days.values.last.symbolize_keys[:details].symbolize_keys[:attention_factor_decreased].symbolize_keys[:day_30] || self.eval_days.values.last.symbolize_keys[:details].symbolize_keys[:attention_factor].symbolize_keys[:day_30]
   end
 
+  def set_sent
+    tollerance = self.customer_setting.try(:tollerance) || 1 
+    self.sent = self.last_attention_factor30 * tollerance
+    self.sent = item.anagrafica.base_risk if self.sent < self.anagrafica.base_risk
+  end
+
   def set_nr_movements
     unless self.eval_days.kind_of?(Hash)
       self.nr_movements = 0
@@ -240,6 +249,7 @@ end
 #  last_attention_factor30 :float
 #  last_attention_factor7  :float
 #  nr_movements            :integer          default(0), not null
+#  sent                    :float
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  anagrafica_id           :integer          not null
@@ -252,4 +262,5 @@ end
 #  index_customer_evaluations_on_eval_year_and_eval_month  (eval_year,eval_month)
 #  index_customer_evaluations_on_last_attention_factor30   (last_attention_factor30)
 #  index_customer_evaluations_on_last_attention_factor7    (last_attention_factor7)
+#  index_customer_evaluations_on_sent                      (sent)
 #

@@ -637,7 +637,8 @@ CREATE TABLE public.customer_evaluations (
     last_attention_factor30 double precision,
     eval_days jsonb DEFAULT '"{}"'::jsonb NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    sent double precision
 );
 
 
@@ -2165,6 +2166,13 @@ CREATE INDEX index_customer_evaluations_on_last_attention_factor7 ON public.cust
 
 
 --
+-- Name: index_customer_evaluations_on_sent; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_customer_evaluations_on_sent ON public.customer_evaluations USING btree (sent);
+
+
+--
 -- Name: index_customer_settings_on_active; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3002,6 +3010,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220427091458'),
 ('20220427091831'),
 ('20220427100047'),
-('20220428084207');
+('20220428084207'),
+('20220429103210');
 
 
