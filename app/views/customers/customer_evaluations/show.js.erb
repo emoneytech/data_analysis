@@ -1,0 +1,6 @@
+$("#customer_evaluation").html("<%=j render "customers/customer_evaluations/customer_evaluation" %>");
+setTimeout(function () {
+  $(window).trigger('resize')
+  initMyTables()
+  scrollTo('evaluated_movements')
+}, 10)

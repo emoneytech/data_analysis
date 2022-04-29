@@ -3,7 +3,7 @@ module MovimentocontoFilters
 
   included do
     # filters
-    scope :for_month, -> (month) { where("MONTH(datamovimento) = ?", month) }
+    scope :for_month, -> (year=Date.today.year, month) { where("YEAR(datamovimento) = ? AND MONTH(datamovimento) = ?", year, month) }
 
     scope :order_asc, -> {order(idmovimenticonti: :asc)}
     scope :fast_service, -> {includes(:servizio, :mandato, :product => :codicetabella).references(:servizio).order_asc}

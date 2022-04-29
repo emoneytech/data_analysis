@@ -19,6 +19,14 @@ class CustomerEvaluation < CorePgRecord
     CustomerEvaluation.where("anagrafica_id = ? AND ((eval_year = ? AND eval_month > ?) OR (eval_year = ? AND eval_month = 1))", self.anagrafica_id, self.eval_year, self.eval_month, self.eval_year + 1).order(eval_year: :asc, eval_month: :asc).first
   end
 
+  def movements
+    anagrafica.movimenticonti.for_month(self.eval_year,self.eval_month)
+  end
+
+  def evaluated_movements
+    anagrafica.evaluated_movements.with_all_for_year(self.eval_year).with_all_for_month(self.eval_month)
+  end
+
   def last_evaluated_day
     self.eval_days.try(:keys).try(:last)
   end

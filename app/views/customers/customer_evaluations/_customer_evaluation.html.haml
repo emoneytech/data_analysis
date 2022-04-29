@@ -1,38 +1,58 @@
-.card.card-outline.card-primary
-  .card-header
-    .card-title
-      = fa_icon CustomerEvaluation.icon
-      #{obfuscator(@anagrafica.full_name)} - 
-      = t(:listing_resource, resource: CustomerEvaluation.model_name.human(:count => 2))
-      \- #{Date::MONTHNAMES[customer_evaluation.eval_month]} #{customer_evaluation.eval_year}
-    .card-tools
-      = link_to "#{fa_icon('redo-alt')} Recalculate".html_safe, [:recalculate, :customers, @anagrafica, customer_evaluation], class: "btn btn-xs btn-danger"
-  .card-body
-    %table.table.table-striped.table-bordered.table-hover.text-center.data-table{id: 'table_customer_evaluation', data: {order: '[0, "desc"]'}}
-      %thead
-        %tr
-          %th= CustomerEvaluation.human_attribute_name(:eval_day)
-          - customer_evaluation.eval_days[customer_evaluation.eval_days.keys.first]["details"].keys.each do |key2|
-            %th= CustomerEvaluation.human_attribute_name(key2)
-          %th.action
-      - customer_evaluation.eval_days.keys.each do |key|
-        %tr
-          %td= "#{key}"
-          - customer_evaluation.eval_days[key]["details"].keys.each do |key2|
-            %td
-              - unless customer_evaluation.eval_days[key]["details"][key2].kind_of?(Hash)
-                = "#{customer_evaluation.eval_days[key]["details"][key2]}"
-              - else
-                - customer_evaluation.eval_days[key]["details"][key2].each do |key3, value|
-                  = "#{key3.humanize}: <strong>#{number_with_precision value}</strong>".html_safe
-                  = " - " unless key3 == customer_evaluation.eval_days[key]["details"][key2].keys.last
-          %td.action
-            - if customer_evaluation.eval_days[key]["details"]["nr_movements"] > 0
-              = link_to fa_icon(EvaluatedMovement.icon), for_day_customers_anagrafica_evaluated_movements_path(@anagrafica, key), class: "btn btn-xs btn-info", title: 'Open popup', remote: true
-  .card-footer
-    .form-row
-      .col-md-6
-        = link_to 'Prev', customers_anagrafica_customer_evaluation_path(@anagrafica, @prev) unless @prev.blank?
-      .col-md-6.text-right
-        = link_to 'Next', customers_anagrafica_customer_evaluation_path(@anagrafica, @next) unless @next.blank?
+.form-row
+  .col-md-6= render "chart_attention_factor", customer_evaluation: @customer_evaluation
+  .col-md-6
+    - month = Date.new(@customer_evaluation.eval_year, @customer_evaluation.eval_month, 1) 
+    - opts = {group_by_day: 1, filter: {customer_id: @anagrafica.id, daterange: "#{month.strftime("%d/%m/%Y")} - #{month.at_end_of_month.strftime("%d/%m/%Y")}", in_out: 'ALL'}}
+    = render "customers/charts/evaluated_movements", customer: @anagrafica, opts: opts
+.form-row
+  .col-md-6
+    = render 'customers/customer_evaluations/movements_info', customer_evaluation: @customer_evaluation
+  #note.col-md-6
+    - if @anagrafica.notes.any?
+      = render 'customers/notes/note', note: @anagrafica.notes.last
+    - else
+      .card
+        .card-body
+          = link_to(t(:add_resource, resource: Note.model_name.human), [:new, :customers, @anagrafica, :note], class: "btn btn-success btn-sm btn-block") if can? :create, Note
+#evaluated_movements.form-row
+  = render "customers/evaluated_movements/evaluated_movements", evaluated_movements: @evaluated_movements
+.form-row
+  .col-md-12
+    .card.card-outline.card-primary
+      .card-header
+        .card-title
+          = fa_icon CustomerEvaluation.icon
+          #{obfuscator(@anagrafica.full_name)} - 
+          = t(:listing_resource, resource: CustomerEvaluation.model_name.human(:count => 2))
+          \- #{Date::MONTHNAMES[@customer_evaluation.eval_month]} #{@customer_evaluation.eval_year}
+        .card-tools
+          = link_to "#{fa_icon('redo-alt')} Recalculate".html_safe, [:recalculate, :customers, @anagrafica, @customer_evaluation], class: "btn btn-xs btn-danger"
+      .card-body
+        %table.table.table-striped.table-bordered.table-hover.text-center.data-table{id: 'table_customer_evaluation', data: {order: '[0, "desc"]'}}
+          %thead
+            %tr
+              %th= CustomerEvaluation.human_attribute_name(:eval_day)
+              - @customer_evaluation.eval_days[@customer_evaluation.eval_days.keys.first]["details"].keys.each do |key2|
+                %th= CustomerEvaluation.human_attribute_name(key2)
+              %th.action
+          - @customer_evaluation.eval_days.keys.each do |key|
+            %tr
+              %td= "#{key}"
+              - @customer_evaluation.eval_days[key]["details"].keys.each do |key2|
+                %td
+                  - unless @customer_evaluation.eval_days[key]["details"][key2].kind_of?(Hash)
+                    = "#{@customer_evaluation.eval_days[key]["details"][key2]}"
+                  - else
+                    - @customer_evaluation.eval_days[key]["details"][key2].each do |key3, value|
+                      = "#{key3.humanize}: <strong>#{number_with_precision value}</strong>".html_safe
+                      = " - " unless key3 == @customer_evaluation.eval_days[key]["details"][key2].keys.last
+              %td.action
+                - if @customer_evaluation.eval_days[key]["details"]["nr_movements"] > 0
+                  = link_to fa_icon(EvaluatedMovement.icon), for_day_customers_anagrafica_evaluated_movements_path(@anagrafica, key), class: "btn btn-xs btn-info", title: 'Open popup', remote: true
+      .card-footer
+        .form-row
+          .col-md-6
+            = link_to 'Prev', customers_anagrafica_customer_evaluation_path(@anagrafica, @prev) unless @prev.blank?
+          .col-md-6.text-right
+            = link_to 'Next', customers_anagrafica_customer_evaluation_path(@anagrafica, @next) unless @next.blank?
 

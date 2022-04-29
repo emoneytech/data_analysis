@@ -9,9 +9,14 @@ module Customers
 
     def show
       @customer_evaluation = @anagrafica.customer_evaluations.find(params[:id])
+      @evaluated_movements = @customer_evaluation.evaluated_movements.page(params[:page]).per(params[:per])
       add_breadcrumb "#{I18n.t(:listing_resource, resource: CustomerEvaluation.model_name.human(:count => 2))} - #{Date::MONTHNAMES[@customer_evaluation.eval_month]} #{@customer_evaluation.eval_year}", [:customers, @anagrafica, @customer_evaluation]
       @prev = @customer_evaluation.previous
       @next = @customer_evaluation.next
+      respond_to do |format|
+        format.html
+        format.js
+      end
     end
 
     def recalculate

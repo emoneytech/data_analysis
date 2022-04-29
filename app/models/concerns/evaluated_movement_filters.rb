@@ -67,6 +67,7 @@ module EvaluatedMovementFilters
     scope :with_all_for_month,
           ->(month) {
             where('EXTRACT(MONTH FROM movement_created_at) = ?', month)
+            .order('movement_created_at DESC')
           }
 
     scope :with_all_for_year,
