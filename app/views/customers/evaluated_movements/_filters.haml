@@ -7,7 +7,7 @@
       %button{type: "button", class: "btn btn-tool", "data-card-widget" => "collapse"}
         %i.fas{class: " #{ params[:filter] ? 'fa-minus' : 'fa-plus'}" }
   .card-body
-    = simple_form_for :filter, url: [:customers, @anagrafica, :evaluated_movements], method: :get, html: {id: :filter_form}, remote: false do |f|
+    = simple_form_for :filter, url: [:customers, @anagrafica, :evaluated_movements], method: :get, html: {id: :filter_form}, remote: true do |f|
       .form-row
         .col-md-3= f.input :amount, as: :float, label: "Importo esatto", required: false, input_html: {value: "#{params[:filter][:amount] if params[:filter]}"}
         .col-md-3= f.input :min_amount, as: :float, label: "Importo minimo", required: false, input_html: {value: "#{params[:filter][:min_amount] if params[:filter]}"}
