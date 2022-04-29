@@ -1,0 +1,6 @@
+$("#evaluated_movements_items").html("<%=j render "data_analysis/evaluated_movements/evaluated_movements", evaluated_movements: @evaluated_movements %>");
+setTimeout(function () {
+  $(window).trigger('resize')
+  initMyTables()
+  scrollTo('evaluated_movements_items')
+}, 10)
