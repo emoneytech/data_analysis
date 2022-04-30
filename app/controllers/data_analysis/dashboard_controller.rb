@@ -31,8 +31,7 @@ class DataAnalysis::DashboardController < ApplicationController
         ).where.not(
           anagrafica_id: %w[70 75 34221]
         ).order(
-          last_attention_factor7: :desc,
-          last_attention_factor30: :desc,
+          sent: :desc,
           nr_movements: :asc
         ).page(params[:page]).per(50)
         # (item.anagrafica.current_evaluation.last_attention_factor30 * item.anagrafica.tollerance)

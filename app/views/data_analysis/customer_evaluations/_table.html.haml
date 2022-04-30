@@ -1,11 +1,11 @@
-%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_movements', data: {order: '[[1, "desc"], [2, "desc"]]'}}
+%table.table.table-striped.table-bordered.table-hover.data-table{id: 'table_movements', data: {order: '[[3, "desc"], [4, "asc"]]'}}
   %thead
     %tr
       %th= CustomerEvaluation.human_attribute_name(:customer)
       %th= CustomerEvaluation.human_attribute_name(:last_attention_factor7)
       %th= CustomerEvaluation.human_attribute_name(:last_attention_factor30)
-      %th= CustomerEvaluation.human_attribute_name(:nr_movements)
       %th= CustomerEvaluation.human_attribute_name(:sent)
+      %th= CustomerEvaluation.human_attribute_name(:nr_movements)
       %th= CustomerEvaluation.human_attribute_name(:tollerance)
       %th{data: {orderable: "false"}}= CustomerEvaluation.human_attribute_name(:trend)
       %th{data: {priority: "1", orderable: "false"}}
@@ -15,12 +15,8 @@
         %td= link_to obfuscator(item.anagrafica), [:customers, item.anagrafica]
         %td= number_with_precision item.last_attention_factor7
         %td= number_with_precision item.last_attention_factor30
+        %td= number_with_precision item.sent
         %td= item.nr_movements
-        %td
-          - tollerance = item.customer_setting.try(:tollerance) || 1 
-          - sent = item.last_attention_factor30 * tollerance
-          - sent = item.anagrafica.base_risk if sent < item.anagrafica.base_risk
-          = number_with_precision(sent)
         %td
           = item.anagrafica.tollerance
         %td.text-center= trend_helper(item.trend)
