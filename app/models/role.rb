@@ -30,6 +30,10 @@ class Role < CorePgRecord
 
   scope :active, -> { where(active: true).order(level: :asc) }
 
+  def self.icon
+    "key"
+  end
+  
   def to_s
     "#{presentation}"
   end

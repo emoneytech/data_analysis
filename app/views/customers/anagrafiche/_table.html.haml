@@ -18,9 +18,9 @@
         %td= item.Attivo
         %td= item.vendor
         %td= item.base_risk
-        %td= item.current_attention_factor7
+        %td= number_with_precision item.current_attention_factor7
         %td=l item.created
-        %td= item.DataLastUpdate
+        %td=l item.DataLastUpdate
         
         %td.text-center{nowrap: true}
           = link_to fa_icon('eye'), customers_anagrafica_path(item), class: "btn btn-xs btn-primary"

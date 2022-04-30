@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
+  before_action :check_for_active
   before_action :get_obfuscator
   before_action :record_activity
   before_action :get_module_name
@@ -16,6 +17,11 @@ class ApplicationController < ActionController::Base
 
 
 private
+  def check_for_active
+    unless current_user.active
+      redirect_to root_path, :alert => "Access denied."
+    end
+  end
 
   def get_obfuscator
     @obfuscator = current_user ? current_user.obfuscator : true

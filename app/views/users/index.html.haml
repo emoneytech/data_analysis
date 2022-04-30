@@ -40,8 +40,7 @@
                     = delete_link(user)
       .card-footer.clearfix
         .form-row
-          .col-md-6
+          .col-md-4
             = page_entries_info @users
-          .col-md-6.text-right
-            = paginate @users
-
+          .col-md-8.text-right
+            = paginate @users, theme: 'twitter-bootstrap-4', nav_class: "float-right", pagination_class: 'm-0'

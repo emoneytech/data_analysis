@@ -10,7 +10,8 @@ Rails
     root 'data_analysis/dashboard#index'
     devise_for :users
     resources :configurables
-
+    resources :notes, only: [:index, :show]
+    
     match '/forbidden', to: 'pages#forbidden', via: :get, as: :forbidden
     match '/chat', to: 'rooms#index', via: :get, as: :chat
     resources :rooms
