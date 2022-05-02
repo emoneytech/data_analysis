@@ -56,7 +56,7 @@ private
   end
 
   def update_customer_evaluation
-    self.customer.current_evaluation.recalculate
+    self.customer.current_evaluation.save
   end
 
 end
