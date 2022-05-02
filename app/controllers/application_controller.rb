@@ -20,7 +20,7 @@ private
   def check_for_active
     unless current_user.active
       redirect_to root_path, :alert => "Access denied."
-    end
+    end if current_user
   end
 
   def get_obfuscator
