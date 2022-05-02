@@ -38,6 +38,8 @@ class CustomerSetting < CorePgRecord
   validates :product_id, uniqueness: {scope: :customer_id}
 
   scope :global, -> { where(product_id: 0) }
+  after_save :update_customer_evaluation
+
 private
 
   def validate_product
@@ -52,4 +54,9 @@ private
       errors.add(:tollerance, "You're trying to insert a useless record") unless product
     end
   end
+
+  def update_customer_evaluation
+    self.customer.current_evaluation.recalculate
+  end
+
 end
