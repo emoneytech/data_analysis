@@ -1,6 +1,8 @@
 .form-row
   .col-md-8
     = render "statistics", conto: @conto
+  .col-md-4
+    = render "boundary", conto: @conto, boundary: @conto.boundary
 .form-row
   .col-md-12= render "conto", conto: @conto
 - if @movimenticonti

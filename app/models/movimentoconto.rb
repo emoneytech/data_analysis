@@ -32,6 +32,7 @@
 #  fk_numeroconto_idx    (numeroConto)
 #  fk_point_idx          (Point)
 #  fk_tipotransazione    (TipoTransazione)
+#  idmandato             (IdMandato)
 #
 # Foreign Keys
 #

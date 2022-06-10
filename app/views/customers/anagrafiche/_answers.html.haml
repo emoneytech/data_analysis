@@ -1,0 +1,18 @@
+.card.card-outline.card-primary
+  .card-header
+    %h3.card-title
+      = fa_icon AmlRisposta.icon
+      #{AmlRisposta.model_name.human}
+  .card-body
+    %table.table.table-striped.table-bordered.table-hover.data-table
+      %thead
+        %tr
+          %th= AmlRisposta.human_attribute_name(:id)
+          %th= AmlRisposta.human_attribute_name(:question)
+          %th= AmlRisposta.human_attribute_name(:answer)
+      %tbody
+        - answers.each do |item|
+          %tr
+            %td= obfuscator item.id
+            %td= obfuscator item.question.TestoDomanda
+            %td= obfuscator(item.Risposta).html_safe

@@ -50,7 +50,7 @@
 #  DataUltimoSollecito       :datetime
 #  DataVerificaEmail         :date
 #  DataVerificaSms           :date
-#  DateSollecito             :string(250)
+#  DateSollecito             :text(65535)
 #  Datiok                    :string(2)
 #  DisplayOnly               :integer          default(0)
 #  Email                     :string(50)
@@ -407,6 +407,8 @@ class Anagrafica < ApplicationCoreRecord
 
   # scope :for_evaluation, -> { includes(:rischio_corrente).references(:rischio_corrente).order('rischio.Rischio desc')}
   has_one :observer, -> { where(category_element: 'customer_id', deleted_at: nil) }, primary_key: 'IdUtente', foreign_key: :content, class_name: 'ObservedElement'
+
+  has_one :aml_cronologia_questionario, -> { where( stato: 1 ).order(idaml_cronologia_questionario: :desc).limit(1) }, foreign_key: 'IdUtente', class_name: 'AmlCronologiaQuestionario', primary_key: 'IdUtente'
 
   def self.export_attributes
     %w[

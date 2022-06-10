@@ -21,3 +21,4 @@
     = render "customers/anagrafiche/ibans", ibans: @anagrafica.ibans.page(params[:page_ibans]).per(5)
     = render "anagrafica", anagrafica: @anagrafica
     = render "corporate_structure", anagrafica: @anagrafica if @anagrafica.IdTipo == 3
+    = render "answers", answers: @anagrafica.aml_cronologia_questionario.answers

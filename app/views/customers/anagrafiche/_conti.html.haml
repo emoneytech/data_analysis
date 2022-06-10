@@ -2,8 +2,7 @@
   .card-header
     .card-title
       = fa_icon Conto.icon
-      - opts = {filter: {customer_id: @anagrafica.id}}
-      = link_to Conto.model_name.human(count: 2), data_analysis_conti_path(params: opts)
+      = link_to Conto.model_name.human(count: 2), customers_anagrafica_conti_path(customer)
   .card-body.p-0
     %table.table.table-striped.table-bordered.table-hover
       %thead
@@ -16,7 +15,7 @@
       %tbody
         - customer.conti.alive.each do |item|
           %tr.text-center
-            %td= link_to item.Pan, data_analysis_conto_path(item.Pan)
+            %td= link_to item.Pan, customers_anagrafica_conto_path(customer, item.Pan)
             %td= humanized_money_with_symbol item.Saldo
             %td{id: "average-#{item.id}"}= link_to_function 'load', "getAccountInfo('#{customer.id}', 'average-#{item.id}')"
             %td{id: "max_amount-#{item.id}"}= link_to_function 'load', "getAccountInfo('#{customer.id}', 'max_amount-#{item.id}')"

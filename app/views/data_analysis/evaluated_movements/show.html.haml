@@ -4,4 +4,5 @@
   .col-md-4
     = render 'observed_elements/table', observed_elements: @evaluated_movement.observers if @evaluated_movement.observers.any?
     = render 'data_analysis/evaluated_movements/details', evaluated_movement: @evaluated_movement
+    = render 'data_analysis/conti/boundary', boundary: @evaluated_movement.movement.conto.boundary if @evaluated_movement.try(:movement).try(:conto).try(:boundary)
     = render 'data_analysis/evaluated_movements/map', evaluated_movement: @evaluated_movement

@@ -15,6 +15,10 @@
 #   inflect.acronym 'RESTful'
 # end
 ActiveSupport::Inflector.inflections do |inflect|
+  inflect.irregular 'AmlCronologiaQuestionario', 'AmlCronologiaQuestionari'
+  inflect.irregular 'AmlDomanda', 'AmlDomande'
+  inflect.irregular 'AmlQuestionario', 'AmlQuestionari'
+  inflect.irregular 'AmlRisposta', 'AmlRisposte'
   inflect.irregular 'Anagrafica', 'Anagrafiche'
   inflect.irregular 'Assegnovirtuale', 'Assegnivirtuali'
   inflect.irregular 'Bonifico', 'Bonifici'

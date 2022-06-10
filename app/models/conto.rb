@@ -70,6 +70,8 @@ class Conto < ApplicationCoreRecord
 
   delegate :product_name, to: :tipo_conto
   has_many :movimenticonti, primary_key: "Pan", foreign_key: "numeroConto", class_name: 'Movimentoconto'
+  has_one :bound, primary_key: "Pan", foreign_key: "Conto", class_name: 'Boundary'
+
   scope :only_customers, -> { where.not(IdUtente: %w[70 75 34221]) }
   scope :filter_by_customer_id, -> (value) { where(IdUtente: value) }
   scope :filter_by_status_id, -> (value) { where(ProductState: value) }
@@ -87,6 +89,10 @@ class Conto < ApplicationCoreRecord
 
   def self.icon
     'wallet'
+  end
+
+  def boundary
+    bound ? bound : tipo_conto
   end
 
   def self.last_id
