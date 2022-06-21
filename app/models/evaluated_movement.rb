@@ -387,6 +387,7 @@ class EvaluatedMovement < CorePgRecord
         self.beneficiary_other = "#{service.ricarica.action}"
       end
     when 'ricarichecarta'
+      binding.pry
       if service
            .anagrafica
            .conti
