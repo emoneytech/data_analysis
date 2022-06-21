@@ -2,7 +2,7 @@
   .card-header
     %h3.card-title
       = fa_icon Boundary.icon
-      #{Boundary.model_name.human} #{boundary.conto.id}
+      #{Boundary.model_name.human}
   .card-body
     %dl.form-row
       - for attribute in boundary.attributes.keys
