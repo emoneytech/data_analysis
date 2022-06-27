@@ -22,7 +22,7 @@ module ComplianceCheck
       respond_to do |format|
         if @sanction_list.save 
           format.html {
-            ImportCsvSanctionListWorker.perform_in(@sanction_list.id, 10.seconds)
+            ImportCsvSanctionListWorker.perform_in(10.seconds, @sanction_list.id)
             redirect_to [:compliance_check, @sanction_list], notice: 'SanctionList was successfully created.' 
           }
           format.json { render :show, status: :created, location: [:compliance_check, @sanction_list] }
