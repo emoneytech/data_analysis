@@ -774,7 +774,7 @@ class Anagrafica < ApplicationCoreRecord
     tlf = Configurable.time_lapse_factor.to_f
     tuple = [Date.today.year, Date.today.month]
     ce =
-      self.customer_evaluations.build(eval_month: tuple[1], eval_year: tuple[0])
+      self.customer_evaluations.where(eval_month: tuple[1], eval_year: tuple[0]).first_or_initialize
     evaluated_movements_for_date =
       evaluated_movements.select { |h| h['month'] == "#{tuple[0]}-#{tuple[1]}" }
     ce.recalculate(
