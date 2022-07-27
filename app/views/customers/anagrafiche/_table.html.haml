@@ -20,7 +20,7 @@
         %td= item.base_risk
         %td= number_with_precision item.current_attention_factor7
         %td=l item.created
-        %td=l item.DataLastUpdate
+        %td=l item.DataLastUpdate if item.DataLastUpdate
         
         %td.text-center{nowrap: true}
           = link_to fa_icon('eye'), customers_anagrafica_path(item), class: "btn btn-xs btn-primary"
