@@ -1,0 +1,43 @@
+.form-row
+  .col-md-3= f.input :amount, as: :float, label: "Importo esatto", required: false, input_html: {value: "#{params[:filter][:amount] if params[:filter]}"}
+  .col-md-3= f.input :min_amount, as: :float, label: "Importo minimo", required: false, input_html: {value: "#{params[:filter][:min_amount] if params[:filter]}"}
+  .col-md-3= f.input :max_amount, as: :float, label: "Importo massimo", required: false, input_html: {value: "#{params[:filter][:max_amount] if params[:filter]}"}
+  .col-md-3= f.input :first_digit, label: "Berford's Law", as: :select, collection: 1..9, required: false, input_html: {class: "select2", style: "width: 100%;"}, selected: "#{params[:filter][:first_digit] if params[:filter]}", include_blank: true
+.form-row
+  .col-md-3= f.input :in_out, as: :select, collection: %w[IN OUT], required: false, input_html: {class: "select2", style: "width: 100%;"}, selected: "#{params[:filter][:in_out] if params[:filter]}", include_blank: true
+  .col-md-3= f.input :internal, as: :select, collection: [true, false], required: false, include_blank: false, input_html: {class: "select2", style: "width: 100%;"}, selected: "#{params[:filter][:internal] if params[:filter]}", include_blank: true
+  .col-md-3= f.input :service_id, label: 'Service ID', required: false, input_html: {value: "#{params[:filter][:service_id] if params[:filter]}"}
+  .col-md-3= f.input :movement_id, label: 'Movement ID', required: false, input_html: {value: "#{params[:filter][:movement_id] if params[:filter]}"}
+.form-row
+  .col-md-3= f.input :daterange, label: 'Date range', input_html: { class: 'local-daterange', checked: params[:filter] && params[:filter][:daterange] }, required: true
+  .col-md-3= f.input :product_id, label: 'Product ID', required: false, input_html: {value: "#{params[:filter][:product_id] if params[:filter]}"}
+  .col-md-3= f.input :product_name, required: false, input_html: {value: "#{params[:filter][:product_name] if params[:filter]}"}
+  .col-md-3= f.input :reason, required: false, input_html: {value: "#{params[:filter][:reason] if params[:filter]}"}
+.form-row
+  .col-md-3= f.input :customer_full_name, required: false, input_html: {value: "#{params[:filter][:customer_full_name] if params[:filter]}"}
+  .col-md-3
+    = f.input :customer_id, label: "Customer ID", required: false, input_html: {value: "#{params[:filter][:customer_id] if params[:filter]}"}
+  .col-md-3
+    = f.input :origin_country, |
+      as: :select, collection: RelatedCountry.order(name: :asc).map{|c| [c.name, c.alpha2]}, required: false, input_html: {class: "select2", style: "width: 100%;", multiple: true, data: {placeholder: "Select Country"}}
+  .col-md-3
+    = f.input :destination_country, |
+      as: :select, |
+      collection: RelatedCountry.order(name: :asc).map{|c| [c.name, c.alpha2]}, required: false, input_html: {class: "select2", style: "width: 100%;", multiple: true, data: {placeholder: "Select Country"}}
+.form-row
+  .col-md-3= f.input :beneficiary, required: false, input_html: {value: "#{params[:filter][:beneficiary] if params[:filter]}"}
+  .col-md-3= f.input :beneficiary_iban, required: false, input_html: {value: "#{params[:filter][:beneficiary_iban] if params[:filter]}"}
+  .col-md-3= f.input :beneficiary_card, required: false, input_html: {value: "#{params[:filter][:beneficiary_card] if params[:filter]}"}
+  .col-md-3= f.input :beneficiary_other, required: false, input_html: {value: "#{params[:filter][:beneficiary_other] if params[:filter]}"}
+.form-row
+  .col-md-3= f.input :payer, required: false, input_html: {value: "#{params[:filter][:payer] if params[:filter]}"}
+  .col-md-3= f.input :payer_iban, required: false, input_html: {value: "#{params[:filter][:payer_iban] if params[:filter]}"}
+  .col-md-3= f.input :payer_card, required: false, input_html: {value: "#{params[:filter][:payer_card] if params[:filter]}"}
+  .col-md-3= f.input :payer_other, required: false, input_html: {value: "#{params[:filter][:payer_other] if params[:filter]}"}
+.form-row
+  .col-md-3= f.input :min_recursion_all_7, required: false, input_html: {value: "#{params[:filter][:min_recursion_all_7] if params[:filter]}"}
+  .col-md-3= f.input :min_recursion_all_30, required: false, input_html: {value: "#{params[:filter][:min_recursion_all_30] if params[:filter]}"}
+  .col-md-3= f.input :min_recursion_customer_7, required: false, input_html: {value: "#{params[:filter][:min_recursion_customer_7] if params[:filter]}"}
+  .col-md-3= f.input :min_recursion_customer_30, required: false, input_html: {value: "#{params[:filter][:min_recursion_customer_30] if params[:filter]}"}
+
+= f.submit "Submit", disable_with: 'Submiting...', class: 'btn btn-info'

@@ -120,7 +120,11 @@ class Customers::EvaluatedMovementsController < CustomersController
           :recursion_all_7,
           :service_id,
           :reason,
-        ).delete_if { |k, v| k == 'in_out' && v == 'ALL' }.permit!
+        )
+        .delete_if { |k, v| v == '' }
+        .delete_if { |k, v| k == 'in_out' && v == 'ALL' }
+        .delete_if { |k, v| (k == 'origin_country' || k == 'destination_country') && v == [""] }
+        .permit!
       else
         {}
       end
