@@ -1,17 +1,12 @@
 module DataAnalysis
   class EvaluatedMovementsController < DataAnalysisController
+    before_action :default_filters, only: :index
     add_breadcrumb helpers.raw(
                      "#{helpers.fa_icon(EvaluatedMovement.icon)} #{EvaluatedMovement.model_name.human(count: 2)}",
                    ),
                    %i[data_analysis evaluated_movements]
 
     def index
-      unless params[:filter] && params[:filter][:daterange]
-        params[:filter] = {
-          daterange:
-            "#{(Date.today - 1.month).strftime('%d/%m/%Y')} - #{Date.today.strftime('%d/%m/%Y')}",
-        }
-      end
       evaluated_movements =
         EvaluatedMovement
           .filter(filtering_params)
@@ -98,6 +93,16 @@ module DataAnalysis
 
     private
 
+    def default_filters
+      params[:filter] = {} unless params[:filter] 
+     unless params[:filter][:daterange]
+        params[:filter] = {
+          daterange:
+            "#{(Date.today - 1.month).strftime('%d/%m/%Y')} - #{Date.today.strftime('%d/%m/%Y')}",
+        }
+      end
+    end
+
     def filtering_params
       if params[:filter]
         params[:filter].slice(
@@ -131,10 +136,15 @@ module DataAnalysis
           :recursion_all_7,
           :service_id,
           :reason,
-        ).delete_if { |k, v| k == 'in_out' && v == 'ALL' }.permit!
+        )
+        .delete_if { |k, v| v == '' }
+        .delete_if { |k, v| k == 'in_out' && v == 'ALL' }
+        .delete_if { |k, v| (k == 'origin_country' || k == 'destination_country') && v == [""] }
+        .permit!
       else
         {}
       end
+
     end
   end
 end

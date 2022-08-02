@@ -125,7 +125,10 @@ function initMyTables() {
 document.addEventListener("turbolinks:load", () => {
   $('[data-toggle="tooltip"]').tooltip()
   $('[data-toggle="popover"]').popover()
-  $('.select2').select2({ theme: 'bootstrap4' })
+  $('.select2').select2({
+    placeholder: 'Select an option',
+    allowClear: true,
+  })
   setTimeout(function () {
     $(window).trigger('resize')
     initMyTables()

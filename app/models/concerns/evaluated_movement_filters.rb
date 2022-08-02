@@ -74,9 +74,10 @@ module EvaluatedMovementFilters
           ->(year) { where('EXTRACT(YEAR FROM movement_created_at) = ?', year) }
 
     scope :filter_by_origin_country,
-          ->(country) { where('origin_country ilike ?', "#{country}") }
+          ->(country) { where(origin_country: country.reject { |c| c.empty? }) }
+
     scope :filter_by_destination_country,
-          ->(country) { where('destination_country ilike ?', "#{country}") }
+          ->(country) { where(destination_country: country.reject { |c| c.empty? }) }
 
     scope :filter_by_amount,
           ->(amount) { where('amount_cents  = ?', (amount.to_f * 100)) }

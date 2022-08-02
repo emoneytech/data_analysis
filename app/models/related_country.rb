@@ -63,6 +63,7 @@ class RelatedCountry < CorePgRecord
   has_many :comments
 
   scope :filter_by_name, ->(name) { where('name ilike ?', "%#{name}%") }
+  scope :ordered, -> { order(alpha2: :asc, alpha3: :asc) }
 
   def previous
     self.class.unscoped.where('alpha2 < ?', alpha2).order('alpha2 DESC').first
